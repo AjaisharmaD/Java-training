@@ -1,87 +1,135 @@
+/* 
+ * Created a Mini Inventory Management System for the mobile shop
+ * It is used for add update and chek availability of the products which are present in the Mobile Shop
+ * so the shop owner can easily manage the stocks in their shop
+ * version 1.0
+ * @author Ajaisharma D
+ */
+
 import java.util.Scanner;
 
+/*
+ * The mobile shop owner wants add, update and check the Mobile products in their shop.
+ * They can add the products by entering how many products they want to add
+ * They can update the products by entering how many products they want to update
+ * They can check the products Availability by entering the products name 
+ */
 class InventoryManagementSystem {
-    /*
-     * The mobile shop owner wants add, update and check the Mobile products in their shop.
-     * They can add the products by entering how many products they want to add
-     * They can update the products by entering how many products they want to update
-     * They can check the products Availability by entering the products name 
-     */
-    public static void main(String[] args) {
+    public static void main (String[] args) {
 	Scanner getInput = new Scanner(System.in);
 	System.out.println("Enter the no of products to enter:");
-	int no_of_products = getInput.nextInt(); 
-	String[] itemName = new String[no_of_products];
-	int[] itemQuantity = new int[no_of_products];
-	int[] itemId = new int[no_of_products];
-	int[] itemPrice = new int[no_of_products];
-	int[] selledItems = new int[no_of_products];
-	int active = 1;
-	int i;
+	int count = getInput.nextInt(); 
+
+	// Array variables to store each details
+	String[] itemName = new String[count];
+	int[] itemQuantity = new int[count];
+	int[] itemId = new int[count];
+	int[] itemPrice = new int[count];
+	int[] soldItems = new int[count];
+
+	// Commonly used variables
+	boolean active = true;    
+	int index;
+	int id;
+
+	// values of case
+	final int add = 1;
+	final int display = 2;
+	final int sales = 3;
+	final int availability = 4;
+	final int signout = 5;
 	
-	while(active != 0) {
-	    System.out.println("Enter the operation to perform\n 1.Add products\n 2.Add Seles Count of Product\n 3.Check Availability of Product\n 4.Quit from Operations");
+	while(active) {
+	    System.out.println("Enter the operation to perform\n" 
+				+ "1.Add products\n"
+				+ "2.Disply the products\n"
+				+ "3.Add Seles Count of Product\n" 
+				+ "4.Check Availability of Product\n"
+				+ "5.Quit from Operations");
 	    int choice = getInput.nextInt();
 	    switch(choice) {
-	    case 1:										// This case is used add the product details
+	    case add:			
 	        System.out.println("Enter the Product Details ");
 		
-	        for(i=0; i<no_of_products; i++) {
+	        for (index = 0; index < count; index++) {
+		    System.out.println("Enter " + (index+1) + "'st Product's Detail");
 		    System.out.print("Enter the Item's ID: ");
-		    int id = getInput.nextInt();
-		    itemId[i] = id;
+		    id = getInput.nextInt();		
+		    itemId[index] = id;
 		    System.out.print("Enter the Item's Name: ");
 	            getInput.nextLine();
 		    String name = getInput.nextLine();
-		    itemName[i] = name;
+		    itemName[index] = name;
 		    System.out.print("Enter the Item's Count: ");
 		    int quantity = getInput.nextInt();
-		    itemQuantity[i] = quantity;
+		    itemQuantity[index] = quantity;
 		    System.out.print("Enter the Item's Price: ");
 		    int price = getInput.nextInt();
-		    itemPrice[i] = price;	
-		    System.out.println("Item's ID: " + itemId[i] + "\nItem's Name: " + itemName[i] + "\nItem's Quantity " + itemQuantity[i] + "\nItem's Price " + itemPrice[i]);
+		    itemPrice[index] = price;
 	        }
-	        break;  
+	        break; 
+ 
+	    case display:
+		System.out.println("The Products DataBase");
 
-	    case 2:										// this case is used to add the sale count of a product
+		    for (index = 0; index < count; index++) {
+			System.out.println("Details of product Id " + itemId[index] );
+			System.out.println("Item's ID: " + itemId[index] 
+						+ "\nItem's Name: " + itemName[index] 
+						+ "\nItem's Quantity " + itemQuantity[index] 
+						+ "\nItem's Price " + itemPrice[index]);
+		    }
+
+		break;
+
+	    case sales:			 
 		System.out.println("The sales count");
-		System.out.println("Enter the product id to add the sell count");
-		int id = getInput.nextInt();
+		System.out.println("Enter the product id to add the sales count");
+		id = getInput.nextInt();			
 		
-		for (i = 0; i < no_of_products; i++) {
-		    if(itemId[i] == id) { 
-			System.out.println("Enter the number of products selled");
-			selledItems[i] = getInput.nextInt();
-			itemQuantity[i] = itemQuantity[i] - selledItems[i];
-			System.out.println("Number of item selled" + selledItems[i]);
+		for (index = 0; index < count; index++) {
+		    if(itemId[index] == id) { 
+			System.out.println("Enter the number of products sold");
+			soldItems[index] = getInput.nextInt();
+			System.out.println("Number of item sold in" + itemId[index] + " " + soldItems[index]);
+			itemQuantity[index] = itemQuantity[index] - soldItems[index];
 		    }
 		}
 		break;
 
-	    case 3:										// this case used check the availability of a product 
+	    case availability:		 
 		System.out.println("Checking availability");
 		System.out.println("Enter the product's Id to check availability");
 		id = getInput.nextInt();
 		
-		for (i = 0; i< no_of_products; i++) {
-		    if(itemId[i] == id) 
-			System.out.println("Number of item Availabile in " + itemName[i] + " " + itemQuantity[i]);
+		for (index = 0; index < count; index++) {
+		    if(itemId[index] == id) 
+			System.out.println("Number of item Availabile in " 
+						+ itemName[index] + " " 
+						+ itemQuantity[index]);
 		}
 		break;	
 
-	    case 4:										// this case is used to get the confirmation and end the process
-		System.out.println("You entered Quit option \n Are you sure to quite\n 1.yes\n 2.no");
-		int quitOption = getInput.nextInt();
+	    case signout:	
+		System.out.println("You entered Signout\n" 
+					+ "Are you sure to Signout\n" 
+					+ "1.yes\t\t  2.no");
+		int logout = getInput.nextInt();
 		
-		if(quitOption == 1) 
-		    active = 0;
-		else
-		    break;
+		if(logout == 1) {
+		    active = false;
+		}
+		break;
 
 	    default :
-		System.out.println("You have entered a incorrect Choice please enter correct Choice");
-		break;		
+		if(active) {
+		    System.out.println("The process is ended");
+		} else {
+		    System.out.println("You have entered a incorrect" 
+				+ "Choice please enter correct Choice");
+		}
+		break;	
+	
 	    }
         }   	
     }
