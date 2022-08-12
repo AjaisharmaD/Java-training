@@ -1,4 +1,4 @@
-/* 
+/**
  * Created a Mini Inventory Management System for the mobile shop
  * It is used for add update and chek availability of the products which are present in the Mobile Shop
  * so the shop owner can easily manage the stocks in their shop
@@ -8,13 +8,13 @@
 
 import java.util.Scanner;
 
-/*
+/**
  * The mobile shop owner wants add, update and check the Mobile products in their shop.
  * They can add the products by entering how many products they want to add
  * They can update the products by entering how many products they want to update
  * They can check the products Availability by entering the products name 
  */
-class InventoryManagementSystem {
+public class InventoryManagementSystem {
     public static void main (String[] args) {
 	Scanner getInput = new Scanner(System.in);
 	System.out.println("Enter the no of products to enter:");
@@ -33,11 +33,11 @@ class InventoryManagementSystem {
 	int id;
 
 	// values of case
-	final int add = 1;
-	final int display = 2;
-	final int sales = 3;
-	final int availability = 4;
-	final int signout = 5;
+	final static int ADD = 1;
+	final static int DISPLAY = 2;
+	final static int SALES_ORDER = 3;
+	final static int AVAILABILITY = 4;
+	final static int SIGNOUT = 5;
 	
 	while(active) {
 	    System.out.println("Enter the operation to perform\n" 
@@ -48,7 +48,7 @@ class InventoryManagementSystem {
 				+ "5.Quit from Operations");
 	    int choice = getInput.nextInt();
 	    switch(choice) {
-	    case add:			
+	    case ADD:			
 	        System.out.println("Enter the Product Details ");
 		
 	        for (index = 0; index < count; index++) {
@@ -69,7 +69,7 @@ class InventoryManagementSystem {
 	        }
 	        break; 
  
-	    case display:
+	    case DISPLAY:
 		System.out.println("The Products DataBase");
 
 		    for (index = 0; index < count; index++) {
@@ -79,10 +79,9 @@ class InventoryManagementSystem {
 						+ "\nItem's Quantity " + itemQuantity[index] 
 						+ "\nItem's Price " + itemPrice[index]);
 		    }
-
 		break;
 
-	    case sales:			 
+	    case SALES_ORDER:			 
 		System.out.println("The sales count");
 		System.out.println("Enter the product id to add the sales count");
 		id = getInput.nextInt();			
@@ -97,7 +96,7 @@ class InventoryManagementSystem {
 		}
 		break;
 
-	    case availability:		 
+	    case AVAILABILITY:		 
 		System.out.println("Checking availability");
 		System.out.println("Enter the product's Id to check availability");
 		id = getInput.nextInt();
@@ -110,7 +109,7 @@ class InventoryManagementSystem {
 		}
 		break;	
 
-	    case signout:	
+	    case SIGNOUT:	
 		System.out.println("You entered Signout\n" 
 					+ "Are you sure to Signout\n" 
 					+ "1.yes\t\t  2.no");
