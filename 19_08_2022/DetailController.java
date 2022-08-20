@@ -183,7 +183,7 @@ public class DetailController {
 		controller.names = controller.checkExperience(records, count);
 
 		for(index = 0; index < controller.stringIndex;
-								 index++) {
+						       index++) {
 		    System.out.println(controller.names[index]);
 		}
 		break;
