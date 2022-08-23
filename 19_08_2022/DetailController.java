@@ -2,19 +2,18 @@
  * File which is used to Controll the employees details
  * and getting the Employees name 
  * by giving some critaria
- *
- * 
- * @version 1.0  17-06-2022
- * @author Ajaisharma
  */
 
 import java.util.Scanner;
 
 /**
- * Controls of this System goes in here
+ * Detail Controller Controls of this System goes in here
  * getting the input from the user 
  * And printing the Employee's name 
  * regarding the condition which is given by the customer
+ *
+ * @version 1.0  17-06-2022
+ * @author Ajaisharma
  */
 public class DetailController {
     static Scanner scanner = new Scanner(System.in);
@@ -33,7 +32,7 @@ public class DetailController {
     final static int EXPERTS = 6;
     
     /** 
-    * getdetails used to set the values to the POJO class 
+    * sets the values to the POJO class 
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
@@ -62,7 +61,7 @@ public class DetailController {
     }
 
     /** 
-    * checkExperience used to check the employee's name 
+    * checks the employee's name 
     * regarding the experience more then 5 years 
     *
     * @param {@link DetailRecorder} records
@@ -82,7 +81,7 @@ public class DetailController {
     }
 
     /** 
-    * checkSalary used to check the employee's name 
+    * checks the employee's name 
     * regarding the salary more then 1 Lakh 
     *
     * @param {@link DetailRecorder} records
@@ -101,7 +100,7 @@ public class DetailController {
     }
 
     /** 
-    * printExpert used to check the employee's name 
+    * checks the employee's name 
     * regarding the Experience who are having more experience
     *
     * @param {@link DetailRecorder} records
@@ -129,7 +128,7 @@ public class DetailController {
     }    
 
     /** 
-    * printExpert used to check the employee's name 
+    * checks the employee's name 
     * regarding the Salary who are having more experience 
     *
     * @param {@link DetailRecorder} records
@@ -162,18 +161,27 @@ public class DetailController {
 	int count = scanner.nextInt();
 	DetailController controller = new DetailController();
 	DetailRecorder[] records = new DetailRecorder[count];      
-	boolean active = false;
-	do {
-	    System.out.println("====================Enter the number to"
-				    + " process the operations====================\n" 
-				    + " 1.Add Employee Details\n" 
-				    + " 2.Experience over 5 years\n"
-				    + " 3.Salary over 1 Lakh\n"
-				    + " 4.Heighest Paid\n"
-				    + " 5.Heighest Expereince\n" 
-				    + " 6.Top experienced" );
+	boolean isActive = false;
+        
+        StringBuilder choicePrinter = new StringBuilder();
+        choicePrinter.append("====================Enter the number to");
+	             .append(" process the operations====================\n"); 
+	             .append(" 1.Add Employee Details\n"); 
+	             .append(" 2.Experience over 5 years\n");
+	             .append(" 3.Salary over 1 Lakh\n");
+	             .append(" 4.Heighest Paid\n");
+	             .append(" 5.Heighest Expereince\n"); 
+	             .append(" 6.Top experienced"); 
 
+        StringBuilder defaultPrinter = new Stringbuilder();
+        defaultPrinter.append("Do you want to do process?\n")
+                      .append("Press ' 1 ' for YES\n")
+                      .append("press ' 2 ' for NO");
+
+	do {
+	    System.out.println(choicePrinter);
 	    int choice = scanner.nextInt();
+
 	    switch (choice) {
 	    case EMPLOYEE_ADDER:
 		controller.getDetails(records,count);
@@ -183,7 +191,7 @@ public class DetailController {
 		controller.names = controller.checkExperience(records, count);
 
 		for(index = 0; index < controller.stringIndex;
-						       index++) {
+								 index++) {
 		    System.out.println(controller.names[index]);
 		}
 		break;
@@ -217,12 +225,12 @@ public class DetailController {
 		break;
 
 	    default:
-		System.out.println("Do you want to do process?\n Press ' 1 ' for YES\n  press ' 2 ' for NO ");
+		System.out.println(defaultPrinter);
 		int process = scanner.nextInt();
-		active = (process == 1) ? true : false;
+		isActive = (process == 1) ? true : false;
 	    }
 
-	} while(active);
+	} while(isActive);
 	
     }
 }
