@@ -1,5 +1,5 @@
 /*
- * This class is used to set and get the details of the Employees
+ * set and get the details of the Employees
  * 
  * @author AJAISHARMA D
  * version 1.0
@@ -11,41 +11,27 @@ public class DetailRecorder {
     private int experience;
     private float salary;
 
-    public void setEmployeeId(int id) {
-	this.id = id;
+    public DetailRecorder(int id, String name, int experience, float salary) {
+        this.id = id;
+        this.name = name ;
+        this.experience = experience;
+        this.salary = salary;
     }
     
-    public void setname(String name) {
-	this.name = name ;
-    }
-
-    public void setEmployeeExperience(int experience) {
-	this.experience = experience;
-    }
-
-    public void setEmployeeSalary(float salary) {
-	this.salary = salary;
-    }
-
     public int getEmployeeId() {
-	return this.id;
+	return id;
     }
 
     public String getEmployeeName() {
-	return this.name;
+	return name;
     }
 
     public int getEmployeeExperience() {
-	return this.experience;
+	return experience;
     }
 
     public float getEmployeeSalary() {
-	return this.salary;
+	return salary;
     }
     
-    /*		
-    public String toString() {
-	return employeeId + " " + name + " " + employeeExperience + " " + employeeSalary;
-    } 
-    */
 }
