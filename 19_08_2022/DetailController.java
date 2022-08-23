@@ -12,7 +12,7 @@ import java.util.Scanner;
  * And printing the Employee's name 
  * regarding the condition which is given by the customer
  *
- * @version 1.0  17-06-2022
+ * @version 1.1  17-06-2022
  * @author Ajaisharma
  */
 public class DetailController {
@@ -30,6 +30,8 @@ public class DetailController {
     final static int HIGH_EXPERIENCE = 4;
     final static int HIGH_SALARY = 5;
     final static int EXPERTS = 6;
+    final static int DISPLAYER = 7;
+    final static int EXIT = 8;
     
     /** 
     * sets the values to the POJO class 
@@ -41,23 +43,21 @@ public class DetailController {
     public DetailRecorder[] getDetails(DetailRecorder[] records, int count) { 
 
 	for (int index = 0; index < count; index++) {
-	    records[index] = new DetailRecorder();
+	    //records[index] = new DetailRecorder();
 	    System.out.println("==========Enter the Employee " 
 				    + (index+1) + "'s Details==========");
-	    System.out.println("Enter the Employee's ID:");
-	    id = scanner.nextInt();
-	    records[index].setEmployeeId(id);  
-	    scanner.nextLine();
-	    System.out.println("Enter the name:");
-	    name = scanner.nextLine();
-	    records[index].setEmployeeName(name);    
-	    System.out.println("Enter the Employee's Experience:");  
-	    experience = scanner.nextInt();
-	    records[index].setEmployeeExperience(experience);   
-	    System.out.println("Enter the Employee's Salary :");
-	    salary = scanner.nextFloat();
-	    records[index].setEmployeeSalary(salary);     
+            System.out.println("Enter the ID");
+            id = scanner.nextInt();
+            System.out.println("Enter the Name");
+            scanner.nextLine();
+            name = scanner.nextLine();
+            System.out.println("Enter the Experience");
+            experience = scanner.nextInt();
+            System.out.println("Enter the Salary");
+            salary = scanner.nextFloat();
+	    records[index] = new DetailRecorder(id, name, experience, salary);    
 	}
+        return records;
     }
 
     /** 
@@ -90,6 +90,7 @@ public class DetailController {
     */
     public String[] checkSalary(DetailRecorder[] records, int count) {
 	System.out.println("Employee's name Salary Over 1 Lakh");
+        stringIndex = 0;
 	for (int index = 0; index < count; index++) {
 	    if(100000 <= records[index].getEmployeeSalary()) {
 		names[stringIndex] = records[index].getEmployeeName();
@@ -109,6 +110,7 @@ public class DetailController {
     */
     public String[] printExperts(DetailRecorder[] records, int count) {
 	System.out.println("Most experienced Employee's name");
+        stringIndex = 0;
 	for (int index = 0; index < count; index++) {
 	    for (int index_j = index + 1; index_j < count; index_j++) {
 		if (records[index].getEmployeeExperience() 
@@ -120,7 +122,7 @@ public class DetailController {
 	    }
 	}
 	
-	for(int index = 0; index < (count % 2); index++) {
+	for(int index = 0; index < count; index++) {
 	    names[stringIndex] = records[index].getEmployeeName();
 	    stringIndex++;
 	}
@@ -149,6 +151,7 @@ public class DetailController {
 	    }
 	}
 	
+        stringIndex = 0;
 	for(int index = 0; index < 5; index++) {
 	    names[stringIndex] = records[index].getEmployeeName();
 	    stringIndex++;
@@ -161,22 +164,24 @@ public class DetailController {
 	int count = scanner.nextInt();
 	DetailController controller = new DetailController();
 	DetailRecorder[] records = new DetailRecorder[count];      
-	boolean isActive = false;
+	boolean isActive = true;
         
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append("====================Enter the number to");
-	             .append(" process the operations====================\n"); 
-	             .append(" 1.Add Employee Details\n"); 
-	             .append(" 2.Experience over 5 years\n");
-	             .append(" 3.Salary over 1 Lakh\n");
-	             .append(" 4.Heighest Paid\n");
-	             .append(" 5.Heighest Expereince\n"); 
-	             .append(" 6.Top experienced"); 
+        choicePrinter.append("====================Enter the number to")
+	             .append(" process the operations====================\n") 
+	             .append(" 1.Add Employee Details\n")
+	             .append(" 2.Experience over 5 years\n")
+	             .append(" 3.Salary over 1 Lakh\n")
+	             .append(" 4.Heighest Paid\n")
+	             .append(" 5.Heighest Expereince\n") 
+	             .append(" 6.Top experienced\n")
+	             .append(" 7.Show employee Details")
+	             .append(" 8.EXIT Controller"); 
 
-        StringBuilder defaultPrinter = new Stringbuilder();
+        StringBuilder defaultPrinter = new StringBuilder();
         defaultPrinter.append("Do you want to do process?\n")
-                      .append("Press ' 1 ' for YES\n")
-                      .append("press ' 2 ' for NO");
+                      .append("Press \"1\" for \" YES \"\n")
+                      .append("press Any Number for \" NO \"");
 
 	do {
 	    System.out.println(choicePrinter);
@@ -184,13 +189,13 @@ public class DetailController {
 
 	    switch (choice) {
 	    case EMPLOYEE_ADDER:
-		controller.getDetails(records,count);
+		records = controller.getDetails(records,count);
 		break;
 
 	    case EXPERIENCE_CHECKER:
 		controller.names = controller.checkExperience(records, count);
 
-		for(index = 0; index < controller.stringIndex;
+		for(int index = 0; index < controller.stringIndex;
 								 index++) {
 		    System.out.println(controller.names[index]);
 		}
@@ -199,7 +204,7 @@ public class DetailController {
 	    case SALARY_CHECKER:
 		controller.names = controller.checkSalary(records, count);
 
-		for (index = 0; index < controller.stringIndex; 
+		for (int index = 0; index < controller.stringIndex; 
 							index++) {
 		    System.out.println(controller.names[index]);
 		}
@@ -207,18 +212,20 @@ public class DetailController {
 
 	    case HIGH_EXPERIENCE:
 		controller.names = controller.printExperts(records, count);
+
 		System.out.println(controller.names[0]);
                 break;
 
 	    case HIGH_SALARY:
 		controller.names = controller.printHighSalary(records, count);
+                
 		System.out.println(controller.names[0]);
 		break;
 
 	    case EXPERTS:
 		controller.names = controller.printExperts(records, count);
 	
-		for (index = 0; index < controller.stringIndex; 
+		for (int index = 0; index < controller.stringIndex / 2; 
 							index++) {
 		    System.out.println(controller.names[index]);
 		}
