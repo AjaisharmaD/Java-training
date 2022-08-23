@@ -7,7 +7,7 @@
 import java.util.Scanner;
 
 /**
- * Detail Controller Controls of this System goes in here
+ * Controls of this System goes in here
  * getting the input from the user 
  * And printing the Employee's name 
  * regarding the condition which is given by the customer
@@ -36,7 +36,7 @@ public class DetailController {
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
-    * @return noreturn
+    * @return {@link Detailrecorder} returns nothing
     */
     public DetailRecorder[] getDetails(DetailRecorder[] records, int count) { 
 
@@ -66,7 +66,7 @@ public class DetailController {
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
-    * @return list of names
+    * @return {@link String} returns list of names
     */
     public String[] checkExperience(DetailRecorder[] records, int count) {
 	System.out.println("Employee's experience more then 5 years");
@@ -86,7 +86,7 @@ public class DetailController {
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
-    * @return list of names
+    * @return {@link String} returns list of names
     */
     public String[] checkSalary(DetailRecorder[] records, int count) {
 	System.out.println("Employee's name Salary Over 1 Lakh");
@@ -100,12 +100,12 @@ public class DetailController {
     }
 
     /** 
-    * checks the employee's name 
+    * printExpert used to check the employee's name 
     * regarding the Experience who are having more experience
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
-    * @return list of names
+    * @return {@link String} returns list of names
     */
     public String[] printExperts(DetailRecorder[] records, int count) {
 	System.out.println("Most experienced Employee's name");
@@ -128,12 +128,12 @@ public class DetailController {
     }    
 
     /** 
-    * checks the employee's name 
+    * printExpert used to check the employee's name 
     * regarding the Salary who are having more experience 
     *
     * @param {@link DetailRecorder} records
     * @param {@link int} count
-    * @return list of names
+    * @return {@link String} returns list of names
     */
     public String[] printHighSalary(DetailRecorder[] records, int count) {
 	System.out.println("Highest paid Employee's name");
