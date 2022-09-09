@@ -1,5 +1,5 @@
 package com.ideas2it.model;
- 
+
 /**
  * sets and gets the value for the attributes
  *
@@ -14,11 +14,11 @@ public class Lead extends Employee {
     private String companyName;
     private String stage;
 
-    Lead(String id, String name,String emailId, 
+    public Lead(String id, String name, String emailId, 
                     String phoneNumber, String stage, String companyName, 
                     String startDate, String endDate, int dealSize) {
-        this.id = id;
         super(name, emailId, phoneNumber);
+        this.id = id;
         this.stage =  stage;
         this.companyName = companyName;
         this.startDate = startDate;
@@ -73,15 +73,17 @@ public class Lead extends Employee {
     public int getDealSize() {
         return dealSize;
     }
-
+    
+    @Override
     public String toString() {
         String leadResponder = "ID            : " + id
-                              + super.toString() +
-                              + "\nStage         : " + stage
-                              + "\nCompany Name  : " + companyName
-                              + "\nStart Date    : " + startDate
-                              + "\nEnd Date      : " + endDate
-                              + "\nDeal Size     : " + dealSize
-                              + "\n----------------------------------------\n";
+                                + super.toString()
+                                + "\nStage         : " + stage                                            
+                                + "\nCompany Name  : " + companyName
+                                + "\nStart Date    : " + startDate
+                                + "\nEnd Date      : " + endDate
+                                + "\nDeal Size     : " + dealSize
+                                + "\n----------------------------------------\n";
+       return leadResponder;
     }
 }
