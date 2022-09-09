@@ -11,9 +11,9 @@ public class Employee {
     private String name;
     private String phoneNumber;
     private String emailId;
-    private String passsword;
+    //private String passsword;
 
-    Person(String name, String phoneNumber, String emailId) {
+    public Employee(String name, String emailId, String phoneNumber) {
         this.name = name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
@@ -30,11 +30,11 @@ public class Employee {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
-
+    /*
     public void setPassword(String password) {
         this.password = password;
     }
-
+    */
     public String getName() {
         return name;
     }
@@ -46,14 +46,16 @@ public class Employee {
     public String getEmailId() {
         return emailId;
     }
-
+    /*
     public String getPassword() {
         return password;
     }
-
+     */
+    @Override
     public String toString() {
-         String commonResponder = + "\nName          : " + name
-                           + "\nEmail ID      : " + emailId
-                           + "\nPhone Number  : " + phoneNumber
+         String commonResponder = "\nName          : " + name
+                                  + "\nEmail ID      : " + emailId 
+                                  + "\nPhone Number  : " + phoneNumber;
+         return commonResponder;
     }
 }
