@@ -20,19 +20,20 @@ public class SupportController {
 
     public static void main(String[] args) {
 	SupportController supportController = new SupportController();
-	supportController.initialize();
+	supportController.start();
 	
     }
+
     /**
-     * 
+     * initialize  the CRM Tool 
      *
      *
      */
-    void initialize() {
+    void start() {
         boolean isActive = true;
         
         do {
-            switchUserMenu();
+            switchUser();
             byte choice = scanner.nextByte();
             
             switch (choice) {
@@ -45,7 +46,7 @@ public class SupportController {
                  break;
              
             case EXIT:
-                exitPointerMenu();
+                exitMenu();
                 byte logout = scanner.nextByte();
                 isActive = (logout == LOGOUT) ? false : true ; 
                 System.out.println("****** Signing Out From CRM Tool ******");
@@ -60,25 +61,34 @@ public class SupportController {
         } while (isActive);
     }
 
-    void switchUserMenu() {
-        StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> Enter your Choice for ")
-                     .append("following Operations <<<<<\n")
-                     .append("press \" 1 \" for Employee\n")
-                     .append("press \" 2 \" for Manager\n")
-                     .append("press \" 3 \" for EXIT");
-	System.out.println(choicePrinter);
+    /**
+     * switches the user
+     */
+    void printUserMenu() {
+        StringBuilder userMenu = new StringBuilder();
+        userMenu.append(">>>>> Enter your Choice for ")
+                .append("following Operations <<<<<\n")
+                .append("press \" 1 \" for Employee\n")
+                .append("press \" 2 \" for Manager\n")
+                .append("press \" 3 \" for EXIT");
+	System.out.println(userMenu);
     }
 
-    void exitPointerMenu() {
-	StringBuilder exitPrinter = new StringBuilder();
-        exitPrinter.append(">>>>> Are you sure want to Exit? <<<<<\n")
-                   .append("press \" 1 \" for Yes\n")
-                   .append("press \" Any Number \" for No");
-	System.out.println(exitPrinter);
+    /**
+     * Prints the Exit Menu
+     */
+    void printExitMenu() {
+	StringBuilder exitMenu = new StringBuilder();
+        exitMenu.append(">>>>> Are you sure want to Exit? <<<<<\n")
+                .append("press \" 1 \" for Yes\n")
+                .append("press \" Any Number \" for No");
+	System.out.println(exitMenu);
     }
-
-    void defaultPrinterMenu() {
+	
+    /**
+     * Prints the default Statement
+     */
+    void printDefaultMenu() {
         StringBuilder defaultPrinter = new StringBuilder();        
         defaultPrinter.append(">>>>> You have entered wrong Choice <<<<<\n")
                   .append("Please enter any of the")
