@@ -9,8 +9,8 @@ import java.util.Map;
 import com.ideas2it.model.Lead;
 
 /**
- * controls all the operations performed by the employee
- * like adding, updating, searching the leads
+ * Controls all the operations performed by the employee
+ * Like adding, updating, searching the leads
  *
  * @author Ajaisharma D
  * @version 1.0 24-08-2022
@@ -54,35 +54,17 @@ public class EmployeeView {
     private boolean isActive = true;
     private byte choice;
     private String id;
-
+    
+    /**
+     * Employee's operation goes here
+     * @param no parameter
+     */
     public void performEmployeeOperation() {
-        StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append("press \" 1 \" for Add New Lead\n")
-                     .append("press \" 2 \" for View\n")
-                     .append("press \" 3 \" for Search\n")
-                     .append("press \" 4 \" for Update\n")
-                     .append("press \" 5 \" for EXIT\n")
-                     .append("Enter your choice: ");
-        
-        StringBuilder exitPrinter = new StringBuilder();
-        exitPrinter.append("\n>>>>> Are you sure want to Exit? <<<<<\n")
-                   .append("press \" 1 \" for Yes\n")
-                   .append("press \" Any Number \" for No");
-        
-        StringBuilder defaultPrinter = new StringBuilder();        
-        defaultPrinter.append("\n>>>>> You have entered wrong Choice <<<<<\n")
-                      .append("Please enter any of the")
-                      .append("number given Below to proceed\n");
-        
-        StringBuilder welcomePrinter = new StringBuilder();
-        welcomePrinter.append("========================================")
-                      .append("|          WELCOME EMPLOYEE!           |")
-                      .append("========================================");
-        
-        System.out.println(welcomePrinter);
-        
+        EmployeeView employeeView = new EmployeeView();
+        employeeView.printWelcomeMessage();     
+                
         while (isActive) {
-            System.out.print(choicePrinter);
+            employeeView.printChoiceMenu();
             choice = scanner.nextByte();
                    
             switch (choice) {
@@ -114,15 +96,15 @@ public class EmployeeView {
                 break;
                    
             case EXIT:
-                System.out.println(exitPrinter);
+                employeeView.printExitMenu();
                 byte logout = scanner.nextByte();
                 isActive = (logout == LOGOUT) ? false : true ; 
                 System.out.println("Logging Out from Employee ......");
                 break;
                    
             default:
-                System.out.println(defaultPrinter);
-                System.out.println(choicePrinter);
+                employeeView.printDefaultStatement();
+                employeeView.printChoiceMenu();
                 choice = scanner.nextByte();
                 break;
             }        
@@ -130,175 +112,51 @@ public class EmployeeView {
     }
 
     /**
-     * adds the lead detail to the object array
-     *
-     * @param count - count of lead to add
-     * @return no return
+     * Prints the Menu for Employee to do operations
      */
-    public void addLead(int count) {
-
-        for (int index = 0; index < count; index++) {
-            System.out.println("\n======Enter Lead 0"+ (index + 1) + " Details ======\n");
-            leadId = "Lead_0" + (++idCount);
-            System.out.print("Enter the Lead's Name      :  ");
-            scanner.nextLine();
-            leadName = scanner.nextLine();
-            System.out.print("Enter the Lead's Email ID  :  ");
-            leadEmail = scanner.nextLine();
-            System.out.print("Enter the Lead's Phone     :  ");
-            leadPhone = scanner.nextLine();
-            System.out.print("Enter the Lead's Stage     :  ");
-            leadStage = scanner.nextLine();
-            System.out.print("Enter the Lead's Company   :  ");
-            leadCompanyName = scanner.nextLine();
-            System.out.print("Enter the Start-Date       :  ");
-            leadStartDate = scanner.nextLine(); 
-            System.out.print("Enter the End-Date         :  ");
-            leadEndDate = scanner.nextLine();
-            System.out.print("Enter the Deal-Size        :  ");
-            leadDealSize = scanner.nextInt();
-            lead = new Lead(leadId, leadName, leadEmail, 
-                                   leadPhone, leadStage, leadCompanyName,
-                                   leadStartDate, leadEndDate, leadDealSize);
-            leadMap.put(leadId, lead);
-        }
-    }
-
-    /**
-     * prints the lead's details 
-     *
-     * @return returns nothing
-     */
-    public void viewLead() {
-
-        for (Map.Entry<String, Lead> leadEntry : leadMap.entrySet()) {
-            System.out.println(leadEntry.getKey() + "\n" + leadEntry.getValue());
-        }
-    }
-    
-    /**
-     * prints the lead's detail by id 
-     *
-     * @param id - key to search the value
-     * @return returns nothing
-     */
-    public void printLeadById(String id) {
-    
-        if (leadMap.containsKey(id)) {
-            System.out.println(leadMap.get(id));
-        }
-     }
-    
-    /**
-     * updates the lead's details 
-     *
-     * @param id - key to update the Values
-     * @return returns nothing
-     */
-    public void editLead(String id) {
-        boolean isUpdating = true;
-                
+    void printChoiceMenu() {
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> which data you want to Update? <<<<<\n")
-                     .append("\nLead Id can't be changed\n")
-                     .append("\npress \" 1 \" for Name\n")
-                     .append("press \" 2 \" for Email\n")
-                     .append("press \" 3 \" for Phone Number\n")
-                     .append("press \" 4 \" for Stage\n")
-                     .append("press \" 5 \" for Company Name\n")
-                     .append("press \" 6 \" for Start date\n")
-                     .append("press \" 7 \" for End date\n")
-                     .append("press \" 8 \" for Deal Size\n")
-                     .append("press \" 9 \" for Exit\n")
-                     .append("Enter your choice: ");               
-           
+        choicePrinter.append("press \" 1 \" for Add New Lead\n")
+                     .append("press \" 2 \" for View\n")
+                     .append("press \" 3 \" for Search\n")
+                     .append("press \" 4 \" for Update\n")
+                     .append("press \" 5 \" for EXIT\n")
+                     .append("Enter your choice: ");
+        System.out.println(choicePrinter);
+    }
+
+    /**
+     * Prints the choice for Employee to exit
+     */
+    void printExitMenu() {
         StringBuilder exitPrinter = new StringBuilder();
         exitPrinter.append("\n>>>>> Are you sure want to Exit? <<<<<\n")
                    .append("press \" 1 \" for Yes\n")
                    .append("press \" Any Number \" for No");
-            
+        System.out.println(exitPrinter);
+    }
+
+    /**
+     * Prints the Default Statements
+     */
+    void printDefaultStatement() {
         StringBuilder defaultPrinter = new StringBuilder();        
         defaultPrinter.append("\n>>>>> You have entered wrong Choice <<<<<\n")
-                      .append("Please enter any of the ")
+                      .append("Please enter any of the")
                       .append("number given Below to proceed\n");
-            
-        while (isUpdating) {
-            for (Map.Entry<String, Lead> leadEntry : leadMap.entrySet()) {
-                if (leadEntry.getKey().equals(id)) {
-                    System.out.print(choicePrinter);
-                    choice = scanner.nextByte();
-                     
-                    switch (choice) {
-                    case NAME:
-                        System.out.print("Enter the Name: ");
-                        scanner.nextLine();
-                        leadName = scanner.nextLine();
-                        leadMap.get(id).setName(leadName);
-                        break;
-                    
-                    case EMAIL:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadEmail = scanner.nextLine();
-                        leadMap.get(id).setEmailId(leadEmail);
-                        break;
-                         
-                    case PHONE_NUMBER:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadPhone = scanner.nextLine();
-                        leadMap.get(id).setPhoneNumber(leadPhone);
-                        break;
-                           
-                    case STAGE:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadEmail = scanner.nextLine();
-                        leadMap.get(id).setStage(leadStage);
-                        break;
-                           
-                    case COMPANY_NAME:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadCompanyName = scanner.nextLine();
-                        leadMap.get(id).setCompanyName(leadCompanyName);
-                        break;
-                           
-                    case START_DATE:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadStartDate = scanner.nextLine();
-                        leadMap.get(id).setStartDate(leadStartDate);
-                        break;
-                           
-                    case END_DATE:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadEndDate = scanner.nextLine();
-                        leadMap.get(id).setEndDate(leadEndDate);
-                        break;
-                           
-                    case DEAL_SIZE:
-                        System.out.print("Enter the Email: ");
-                        scanner.nextLine();
-                        leadDealSize = scanner.nextInt();
-                        leadMap.get(id).setDealSize(leadDealSize);
-                        break;
-                           
-                    case EXIT_UPDATER:
-                        System.out.println(exitPrinter);
-                        byte logout = scanner.nextByte();
-                        isUpdating = (logout == LOGOUT) ? false : true ; 
-                        System.out.println("Logging Out from Updater......");
-                        break;
-                                  
-                    default:
-                        System.out.println(defaultPrinter);
-                        System.out.println(choicePrinter);
-                        choice = scanner.nextByte();   
-                    }            
-                }         
-            }              
-        }                
-    }                 
+        System.out.println(defaultPrinter);
+    }
+
+    /**
+     * Prints the Welcome Statements
+     */
+    void printWelcomeMessage() {
+        StringBuilder welcomePrinter = new StringBuilder();
+        welcomePrinter.append("========================================")
+                      .append("|          WELCOME EMPLOYEE!           |")
+                      .append("========================================");
+        System.out.println(welcomePrinter);
+    }
+
+    
 }                                          
