@@ -2,7 +2,6 @@ package com.ideas2it.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,28 +15,30 @@ public class EmployeeService {
     
     /**
      * generates the Id for Lead
+     * 
+     * @return returns the generated Id
      */
-     public String generateId() {
-         String prefixId = "Lead_0";
-         return prefixId + (++idCount);
-     }
+    public String generateId() {
+        String prefixId = "Lead_0";
+        return prefixId + (++idCount);
+    }
     
     /**
-     * adds the Lead's detail 
+     * Adds the Lead's detail 
      *
      * @param lead - lead Object to add 
+     * @return returns boolean
      */
-     public boolean addLead(Lead lead) {
-        String leadId =  generateId();
+    public boolean addLead(Lead lead) {
+        String leadId = generateId();
         lead.setId(leadId);
- 
         leadMap.put(leadId, lead);
 
-        if (leadMap.containsKey(leadId)) {
+        if (leadMap.containsKey(leadId)) {     // check crt
             return true;
         }
         return false;
-     }
+    }
 
     /**   
      * Prints all the lead's details  
@@ -56,6 +57,7 @@ public class EmployeeService {
      * Prints the lead's Details by Id
      * 
      * @param id - Lead's Id to search the lead
+     * @return one lead's Details
      */
     public Lead printLeadById(String id) {
         Lead lead = null;
@@ -193,7 +195,7 @@ public class EmployeeService {
      * @param logout - key to logout
      * @return returns exit a boolean value 
      */
-    public boolean closeEmployee(byte logout) {
+    public boolean closeEmployee(byte logout) {  // need to check for optimization
         boolean exit;
         exit = (logout == LOGOUT) ? false : true; 
         return exit;
