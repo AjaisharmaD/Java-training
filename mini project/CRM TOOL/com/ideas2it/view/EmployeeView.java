@@ -28,7 +28,6 @@ private static Scanner scanner = new Scanner(System.in);
         
     /**
      * Employee's operation goes here
-     * @param no parameter
      */
     public void openEmployeeDashboard() {
         String id;
@@ -66,8 +65,6 @@ private static Scanner scanner = new Scanner(System.in);
                    
             default:
                 printDefaultStatement();
-                printOperationMenu();
-                operation = scanner.nextByte();
             }        
         }
     }
@@ -82,10 +79,10 @@ private static Scanner scanner = new Scanner(System.in);
     }
 
     /**
-     * Prints the Lead
+     * Prints the Lead Details
      */
     public void viewLeads() {
-        System.out.println("\n========== LEAD DATA ==========\n");
+        System.out.println("\n========== LEAD DETAILS ==========\n");
         printLeads();
     }
 
@@ -112,7 +109,7 @@ private static Scanner scanner = new Scanner(System.in);
     }
 
     /**
-     * adds the Lead's detail 
+     * Adds the Lead's detail 
      *
      * @param count - count of the lead to add 
      */
@@ -128,7 +125,7 @@ private static Scanner scanner = new Scanner(System.in);
         int leadDealSize = 0;
 
         for (int index = 0; index < count; index++) {
-            System.out.println("\n======Enter Lead 0"+ (index + 1) + " Details ======\n");
+            System.out.println("\n======Enter Lead 0" + (index + 1) + " Details ======\n");
             System.out.print("Enter the Lead's Name      :  ");
             scanner.nextLine();
             leadName = scanner.nextLine();
@@ -153,7 +150,7 @@ private static Scanner scanner = new Scanner(System.in);
             boolean isAdded = employeeController.addLead(lead);
            
             if (isAdded) {
-                System.out.println("\n>>>>>> Lead Details Added Successfully <<<<<<");
+                System.out.println("\n>>>>>> Lead Details Added Successfully <<<<<<\n");
             } else {
                 System.out.println("Error: Details Not Added");
             }
@@ -180,7 +177,7 @@ private static Scanner scanner = new Scanner(System.in);
     }
 
     /**
-     * updates the lead's details 
+     * Updates the lead's details 
      *
      * @param id - key to update the Values
      * @return returns nothing
@@ -232,9 +229,7 @@ private static Scanner scanner = new Scanner(System.in);
                 break;
                                   
             default:
-                printDefaultStatement();
-                printUpdaterMenu();
-                update = scanner.nextByte();   
+                printDefaultStatement();  
             }            
         }         
     }             
@@ -269,7 +264,6 @@ private static Scanner scanner = new Scanner(System.in);
      * @param id - key to update the Phone number
      */
     public void editPhone(String id) {
-         
          System.out.print("Enter the Phone Number: ");
          scanner.nextLine();
          String leadPhone = scanner.nextLine();
@@ -376,9 +370,9 @@ private static Scanner scanner = new Scanner(System.in);
      */
     private void printWelcomeMessage() {
         StringBuilder welcomePrinter = new StringBuilder();
-        welcomePrinter.append("========================================")
+        welcomePrinter.append("\n========================================")
                       .append("|          WELCOME EMPLOYEE!           |")
-                      .append("========================================");
+                      .append("========================================\n");
         System.out.println(welcomePrinter);
     }
 
@@ -387,8 +381,7 @@ private static Scanner scanner = new Scanner(System.in);
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> which data you want to Update? <<<<<\n")
-                     .append("\nLead Id can't be changed\n")
+        choicePrinter.append("\nLead Id can't be changed\n")
                      .append("\npress \" 1 \" for Name\n")
                      .append("press \" 2 \" for Email\n")
                      .append("press \" 3 \" for Phone Number\n")
@@ -398,7 +391,7 @@ private static Scanner scanner = new Scanner(System.in);
                      .append("press \" 7 \" for End date\n")
                      .append("press \" 8 \" for Deal Size\n")
                      .append("press \" 9 \" for Exit\n")
-                     .append("Enter your choice: "); 
+                     .append("Enter your Updater: "); 
         System.out.println(choicePrinter);
     } 
 }                                          
