@@ -7,7 +7,6 @@ package com.ideas2it.model;
  * @version 1.0 24-08-2022
  */
 public class Lead extends User {
-    private String id;
     private int dealSize;
     private String startDate;
     private String endDate;
@@ -24,11 +23,7 @@ public class Lead extends User {
         this.endDate = endDate;
         this.dealSize = dealSize;
     }
-    // setter
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
     public void setStage(String stage) {
         this.stage = stage;
     }
@@ -48,11 +43,7 @@ public class Lead extends User {
     public void setDealSize(int dealSize) {
         this.dealSize = dealSize;
     }
-    // getter
-    public String getId() {
-        return id;
-    }
-
+   
     public String getStage() {
         return stage;
     }
@@ -76,8 +67,7 @@ public class Lead extends User {
     @Override
     public String toString() {
         StringBuilder leadResponder = new StringBuilder();
-        leadResponder.append( "ID            : ").append(id)
-                     .append(super.toString())
+        leadResponder.append(super.toString())                     //.append( "ID            : ").append(id)
                      .append("\nStage         : ").append(stage)                                            
                      .append("\nCompany Name  : ").append(companyName)
                      .append("\nStart Date    : ").append(startDate)
