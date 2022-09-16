@@ -7,7 +7,7 @@ import com.ideas2it.service.EmployeeService;
 
 /**
  * Controls all the operations performed by the employee
- * Like adding, updating, searching the leads
+ * Like Adding, Printing, Searching, Updating the leads
  *
  * @author Ajaisharma D
  * @version 1.0 24-08-2022
@@ -17,9 +17,10 @@ public class EmployeeController {
     private EmployeeService employeeService = new EmployeeService();
        
     /**
-     * adds the Lead's detail 
+     * Adds the Lead's details 
      *
      * @param lead - lead Object to add 
+     * @return boolean
      */
     public boolean addLead (Lead lead) {
         return employeeService.addLead(lead);
@@ -28,7 +29,7 @@ public class EmployeeController {
     /**   
      * Prints all the lead's details  
      *
-     * @return returns nothing
+     * @return returns List of Details
      */
     public List<Lead> printLeads() {
         return employeeService.printLeads();
@@ -38,6 +39,7 @@ public class EmployeeController {
      * Prints the lead's Details by Id
      * 
      * @param id - Lead's Id to search the lead
+     * @return Lead object
      */
     public Lead printLeadById(String id) {
         return employeeService.printLeadById(id);
