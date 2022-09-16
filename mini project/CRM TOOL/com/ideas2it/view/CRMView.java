@@ -3,6 +3,8 @@ package com.ideas2it.view;
 import java.util.Scanner;
 
 import com.ideas2it.view.EmployeeView;
+import com.ideas2it.view.ManagerView;
+//import com.ideas2it.controller.CRMController;
 
 /**
  * Contains the user Dashbord to switch from one user to another
@@ -23,21 +25,24 @@ public class CRMView {
      * and provide the user dashboard  
      */
     public void startCRM() {
-        CRMView crmView = new CRMView();
+        printWelcomeMessage();
         EmployeeView employeeView = new EmployeeView();
+        ManagerView managerView = new ManagerView();
+        //CRMController crmController = new CRMController();
         boolean isActive = true;
         
         do {
             printUserMenu();
-            byte choice = scanner.nextByte();
+            byte user = scanner.nextByte();
             
-            switch (choice) {
+            switch (user) {
             case EMPLOYEE:
-                 employeeView.openEmployeeDashboard();
+                 //loginUser();
+                 employeeView.openEmployeeDashboard();   // create login for Employee with validation
                  break;
                
             case MANAGER:
-                 
+                 managerView.openManagerDashboard();
                  break;
              
             case EXIT:
@@ -48,12 +53,20 @@ public class CRMView {
                  
             default:
                 printDefaultStatement();
-                printUserMenu();
-                choice = scanner.nextByte();
+                
             }  
         } while (isActive);
     } 
+ 
+    /**
+     * Validates the login Details
+    
+    public void loginUser() {
+        String emailId = scanner.nextLine();
+        char[10] password = scanner.next();
 
+        boolean isValidUser = crmController.loginUser(emailID, password);
+    } */
    
     /**
      * Check the user's input to logout from the CRM Tool
@@ -67,16 +80,26 @@ public class CRMView {
     }
 
     /**
+     * Prints the Welcome Statements
+     */
+    private void printWelcomeMessage() {
+        StringBuilder welcomePrinter = new StringBuilder();
+        welcomePrinter.append("\n========================================")
+                      .append("|               CRM TOOL               |")
+                      .append("========================================\n");
+        System.out.println(welcomePrinter);
+    }
+
+    /**
      * Prints the User Menu
      */
     private void printUserMenu() {
         StringBuilder userMenu = new StringBuilder();
-        userMenu.append(">>>>> Enter your Choice for ")
-                .append("following Operations <<<<<\n")
-                .append("press \" 1 \" for Employee\n")
+        userMenu.append("press \" 1 \" for Employee\n")
                 .append("press \" 2 \" for Manager\n")
-                .append("press \" 3 \" for EXIT");
-	System.out.println(userMenu);
+                .append("press \" 3 \" for EXIT\n")
+                .append("Press the Number to Login as: ");
+	System.out.print(userMenu);
     }
 
     /**
@@ -96,7 +119,7 @@ public class CRMView {
     private void printDefaultStatement() {
         StringBuilder defaultPrinter = new StringBuilder();        
         defaultPrinter.append(">>>>> You have entered wrong Choice <<<<<\n")
-                  .append("Please enter any of the")
+                  .append("Please enter any of the ")
                   .append("number given Below to proceed\n");
         System.out.println(defaultPrinter);
     }
