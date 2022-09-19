@@ -1,18 +1,18 @@
 package com.ideas2it.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.ideas2it.model.Lead;
 import com.ideas2it.controller.EmployeeController;
+import com.ideas2it.dao.EmployeeDaoImpl;
+import com.ideas2it.model.Lead;
 
 public class EmployeeService {
-    private final static byte LOGOUT = 1;
-    private int idCount = 0;
-    private Map<String, Lead> leadMap = new HashMap<>();
+    private EmployeeDaoImpl employeeDaoImpl;
     
+    public EmployeeService() {
+        this.employeeDaoImpl = new EmployeeDaoImpl(); 
+    }
+   
     /**
      * generates the Id for Lead
      * 
@@ -30,14 +30,8 @@ public class EmployeeService {
      * @return returns boolean
      */
     public boolean addLead(Lead lead) {
-        String leadId = generateId();
-        lead.setId(leadId);
-        leadMap.put(leadId, lead);
-
-        if (leadMap.containsKey(leadId)) {     // check crt
-            return true;
-        }
-        return false;
+       String id = generateId();
+       return employeeDaoImpl.addLead(id, lead);
     }
 
     /**   
@@ -46,11 +40,7 @@ public class EmployeeService {
      * @return returns nothing
      */
     public List<Lead> printLeads() {
-        List<Lead> leadList = new ArrayList<>();
-        for (Map.Entry<String, Lead> leadEntry : leadMap.entrySet()) {
-            leadList.add(leadEntry.getValue());
-        } 
-        return leadList;
+       return employeeDaoImpl.printLeads();
     }
 
     /**
@@ -60,12 +50,7 @@ public class EmployeeService {
      * @return one lead's Details
      */
     public Lead printLeadById(String id) {
-        Lead lead = null;
-
-        if (leadMap.containsKey(id)) {
-            lead = leadMap.get(id);
-        }
-        return lead;
+       return employeeDaoImpl.printLeadById(id);
     }
 
     /**
@@ -76,11 +61,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editName(String id, String leadName) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setName(leadName);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editName(id, leadName);
      }
 
     /**
@@ -91,11 +72,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editEmail(String id, String leadEmail) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setEmailId(leadEmail);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editEmail(id, leadEmail);
      }
 
     /**
@@ -106,11 +83,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editPhone(String id, String leadPhone) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setPhoneNumber(leadPhone);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editPhone(id, leadPhone);
      }
 
     /**
@@ -121,11 +94,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editStage(String id, String leadStage) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setStage(leadStage);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editEmail(id, leadStage);
      }
 
     /**
@@ -136,11 +105,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editCompanyName(String id, String leadCompanyName) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setCompanyName(leadCompanyName);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editEmail(id, leadCompanyName);
      }
 
     /**
@@ -151,11 +116,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editStartDate(String id, String leadStartDate) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setStartDate(leadStartDate);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editEmail(id, leadStartDate);
      }
 
 
@@ -167,11 +128,7 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editEndDate(String id, String leadEndDate) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setEndDate(leadEndDate);
-             return true;
-         }
-         return false;
+       return employeeDaoImpl.editEmail(id, leadEndDate);
      }
 
     /**
@@ -182,22 +139,16 @@ public class EmployeeService {
      * @return boolean
      */
      public boolean editDealSize(String id, int leadDealSize) {
-         if (leadMap.containsKey(id)) {
-             leadMap.get(id).setDealSize(leadDealSize);
-             return true;
-         }
-         return false;
-     }
+       return employeeDaoImpl.editDealSize(id, leadDealSize);
+     }   
 
     /**
-     * Check the user's input to logout from the CRM Tool
+     * Deletes the Lead by id
      *
-     * @param logout - key to logout
-     * @return returns exit a boolean value 
+     * @param id- key to delete the Lead
+     * @return boolean
      */
-    public boolean closeEmployee(byte logout) {  // need to check for optimization
-        boolean exit;
-        exit = (logout == LOGOUT) ? false : true; 
-        return exit;
-    }         
+    public boolean deleteLeadById(String id) {
+        return employeeDaoImpl.deleteLeadById(id);
+    }
 }
