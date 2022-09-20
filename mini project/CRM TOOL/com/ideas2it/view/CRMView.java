@@ -2,6 +2,7 @@ package com.ideas2it.view;
 
 import java.util.Scanner;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.view.EmployeeView;
 import com.ideas2it.view.ManagerView;
 //import com.ideas2it.controller.CRMController;
@@ -10,25 +11,25 @@ import com.ideas2it.view.ManagerView;
  * Contains the user Dashbord to switch from one user to another
  * 
  * @author AJAISHARMA 
- * @version 1.0 10-09-2022
+ * @version 1.0 
+ * @since 10-09-2022
  */
 public class CRMView {
-    private final static byte EMPLOYEE = 1;
-    private final static byte MANAGER = 2;
-    private final static byte EXIT = 3;
-    private final static byte LOGOUT = 1;
-
     private Scanner scanner = new Scanner(System.in);
+    private EmployeeView employeeView;
+    private ManagerView managerView;
 
+    public CRMView() {
+        this.employeeView = new EmployeeView();
+        this.managerView = new ManagerView();
+    }
+    
     /**
      * Starting the CRM Tool
      * and provide the user dashboard  
      */
     public void startCRM() {
         printWelcomeMessage();
-        EmployeeView employeeView = new EmployeeView();
-        ManagerView managerView = new ManagerView();
-        //CRMController crmController = new CRMController();
         boolean isActive = true;
         
         do {
@@ -36,19 +37,19 @@ public class CRMView {
             byte user = scanner.nextByte();
             
             switch (user) {
-            case EMPLOYEE:
+            case Constants.EMPLOYEE:
                  //loginUser();
-                 employeeView.openEmployeeDashboard();   // create login for Employee with validation
+                 employeeView.openEmployeeDashboard();   // need create login for Employee with validation
                  break;
                
-            case MANAGER:
+            case Constants.MANAGER:
                  managerView.openManagerDashboard();
                  break;
              
-            case EXIT:
+            case Constants.CRM_EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isActive = closeCRM(logout); 
+                isActive = (logout == Constants.LOGOUT) ? false : true;  
                 break;
                  
             default:
@@ -67,17 +68,6 @@ public class CRMView {
 
         boolean isValidUser = crmController.loginUser(emailID, password);
     } */
-   
-    /**
-     * Check the user's input to logout from the CRM Tool
-     *
-     * @param logout - key to logout
-     * @return returns exit a boolean value 
-     */
-    public boolean closeCRM(byte logout) {
-        boolean exit = (logout == LOGOUT) ? false : true ; 
-        return exit;
-    }
 
     /**
      * Prints the Welcome Statements
