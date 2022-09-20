@@ -1,10 +1,13 @@
 package com.ideas2it.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
-import com.ideas2it.dao.ManagerDaoImpl;
+import com.ideas2it.dao.ManagerDao;
+import com.ideas2it.dao.impl.ManagerDaoImpl;
 
 /**
  * controlls all the operation performed by the Manager
@@ -15,10 +18,11 @@ import com.ideas2it.dao.ManagerDaoImpl;
  * @since 19-09-2022
  */
 public class ManagerService {
-    private ManagerDaoImpl managerDaoImpl;
+    private static int idCount = 0;
+    private ManagerDao managerDao;
 
     public ManagerService() {
-        this.managerDaoImpl = new ManagerDaoImpl();
+        this.managerDao = new ManagerDaoImpl();
     }
 
     /**
@@ -26,7 +30,7 @@ public class ManagerService {
      * 
      * @return returns the generated Id
      */
-    public String generateId() {
+    private String generateId() {
          String prefixId = "Employee_0";
          return prefixId + (++idCount);
      }
@@ -36,29 +40,37 @@ public class ManagerService {
      *
      * @param user - user Object to add 
      * @param password - password to login
+     *
      * @return returns boolean
      */
     public boolean addEmployee(User user, String password) {
         String id = generateId();
-        return managerDaoImpl.addEmployee(id, user, password);
+        return managerDao.addEmployee(id, user, password);
     }
 
     /**
-     * Prints the Employee Details 
+     * Gets the Employee Details 
+     *
      * @return List of Employee details
      */
-    public List<User> printEmployee() {
-        return managerDaoImpl.printEmployee();
+    public List<User> getEmployees() {
+        List<User> employeeList = new ArrayList<>();
+
+        for (Map.Entry<String, User> employeeEntry : managerDao.getEmployees().entrySet()) {
+            employeeList.add(employeeEntry.getValue());
+        } 
+        return employeeList;
     }
 
     /**
-     * Prints the Employee's Details by Id
+     * Gets the Employee's Details by Id
      * 
      * @param id - Employee's Id to search the Employee
+     *
      * @return Employee object
      */
-    public User printEmployeeById(String id) {
-        return managerDaoImpl.printEmployeeById(id);
+    public User getEmployeeById(String id) {
+        return managerDao.getEmployeeById(id);
     }
 
     /**
@@ -66,10 +78,11 @@ public class ManagerService {
      *
      * @param id - key to update the name
      * @param employeeName - updated name
+     *
      * @return boolean
      */
-    public boolean editName(String id, String employeeName) {
-        return managerDaoImpl.editName(id, employeeName);
+    public boolean updateName(String id, String employeeName) {
+        return managerDao.updateName(id, employeeName);
     }
 
     /**
@@ -77,10 +90,11 @@ public class ManagerService {
      *
      * @param id - key to update the Email id
      * @param leadEmail - updated mail id
+     *
      * @return boolean
      */
-    public boolean editEmail(String id, String employeeEmail) {
-        return managerDaoImpl.editEmail(id, employeeEmail);
+    public boolean updateEmail(String id, String employeeEmail) {
+        return managerDao.updateEmail(id, employeeEmail);
     }
 
     /**
@@ -88,9 +102,10 @@ public class ManagerService {
      *
      * @param id - key to update the Phone Number
      * @param leadPhone - updated Phone Number
+     *
      * @return boolean
      */
-    public boolean editPhone(String id, String employeePhone) {
-        return managerDaoImpl.editPhone(id, employeePhone);
+    public boolean updatePhone(String id, String employeePhone) {
+        return managerDao.updatePhone(id, employeePhone);
     }
 }
