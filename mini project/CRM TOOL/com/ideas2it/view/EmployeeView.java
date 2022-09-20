@@ -2,30 +2,27 @@ package com.ideas2it.view;
 
 import java.util.Scanner;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.controller.EmployeeController;
 import com.ideas2it.model.Lead;
 
+/**
+ * Contains All the operation performed by the Employee
+ * like Adding Lead, Updating Lead, Viewing Lead, Searching Leads, Delete Lead
+ * 
+ * @author Ajaisharma D
+ * @version 1.0 
+ * @since 16-09-2022
+ */
 public class EmployeeView {
-private static Scanner scanner = new Scanner(System.in);
-    private final static byte ADDER = 1;
-    private final static byte PROJECTOR = 2;
-    private final static byte FINDER = 3;
-    private final static byte EDITOR = 4;
-    private final static byte EXIT = 5;
+    private static Scanner scanner = new Scanner(System.in);
 
-    private final static byte NAME = 1;
-    private final static byte EMAIL = 2;
-    private final static byte PHONE_NUMBER = 3;
-    private final static byte STAGE = 4;
-    private final static byte COMPANY_NAME = 5;
-    private final static byte START_DATE = 6;
-    private final static byte END_DATE = 7;
-    private final static byte DEAL_SIZE = 8;
-    private final static byte EXIT_UPDATER = 9;
-
-
-    private EmployeeController employeeController = new EmployeeController();
+    private EmployeeController employeeController;
         
+    public EmployeeView() {
+        this.employeeController = new EmployeeController();
+    }
+
     /**
      * Employee's operation goes here
      */
@@ -41,26 +38,30 @@ private static Scanner scanner = new Scanner(System.in);
             operation = scanner.nextByte();
                    
             switch (operation) {
-            case ADDER:
-                createLead();
+            case Constants.ADDER:
+                addLead();
                 break;
                  
-            case PROJECTOR:
-                viewLeads();
+            case Constants.PROJECTOR:
+                printLeads();
                 break;
                                                 
-            case FINDER:
-                findLead();
+            case Constants.FINDER:
+                printLeadById();
                 break;
                        
-            case EDITOR:
-                modifyLead();
+            case Constants.UPDATER:
+                updateLead();
                 break;
-                 
-            case EXIT:
+
+            case Constants.DELETOR:
+                deleteLead();
+                break;
+              
+            case Constants.EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isActive = employeeController.closeEmployee(logout); 
+                isActive = (logout == Constants.LOGOUT) ? false : true; 
                 break;
                    
             default:
@@ -70,51 +71,11 @@ private static Scanner scanner = new Scanner(System.in);
     }
     
     /**
-     * Creates the Lead
-     */
-    public void createLead() {
-        System.out.print("\nEnter the lead count to add: ");
-        int count = scanner.nextInt();
-        addLead(count);
-    }
-
-    /**
-     * Prints the Lead Details
-     */
-    public void viewLeads() {
-        System.out.println("\n========== LEAD DETAILS ==========\n");
-        printLeads();
-    }
-
-    /**
-     * Finds the Lead
-     */
-    public void findLead() {
-        System.out.println("\n========== SEARCH LEAD ==========\n");  
-        System.out.print("Enter the lead's Id to Search: ");
-        scanner.nextLine();
-        String id = scanner.nextLine();
-        printLeadById(id);
-    }
-
-    /**
-     * Modifies the Lead
-     */
-    public void modifyLead() {
-        System.out.println("\n========== EDIT LEAD  ==========\n");
-        System.out.print("Enter the lead's Id to Update: ");
-        scanner.nextLine();
-        String id = scanner.nextLine();
-        editLead(id);
-    }
-
-    /**
      * Adds the Lead's detail 
      *
      * @param count - count of the lead to add 
      */
-    public void addLead(int count) {
-        Lead lead;
+    public void addLead() {
         String leadName;
         String leadEmail;
         String leadPhone;
@@ -123,6 +84,9 @@ private static Scanner scanner = new Scanner(System.in);
         String leadStartDate;
         String leadEndDate;
         int leadDealSize = 0;
+
+        System.out.print("\nEnter the lead count to add: ");
+        int count = scanner.nextInt();
 
         for (int index = 0; index < count; index++) {
             System.out.println("\n======Enter Lead 0" + (index + 1) + " Details ======\n");
@@ -144,27 +108,20 @@ private static Scanner scanner = new Scanner(System.in);
             System.out.print("Enter the Deal-Size        :  ");
             leadDealSize = scanner.nextInt();
 
-            lead = new Lead(leadName, leadEmail, 
+            boolean isAdded = employeeController.addLead(new Lead(leadName, leadEmail, 
                                    leadPhone, leadStage, leadCompanyName,
-                                   leadStartDate, leadEndDate, leadDealSize);
-            boolean isAdded = employeeController.addLead(lead);
+                                   leadStartDate, leadEndDate, leadDealSize));
            
-            if (isAdded) {
-                System.out.println("\n>>>>>> Lead Details Added Successfully <<<<<<\n");
-            } else {
-                System.out.println("Error: Details Not Added");
-            }
-           
+            printSuccessMessage(isAdded);
         }
     }
 
     /**   
-     * Prints all the lead's details 
-     *
-     * @return returns nothing
+     * Prints all the lead's details
      */
     public void printLeads() {
-        System.out.println(employeeController.printLeads());
+        System.out.println("\n========== LEAD DETAILS ==========\n");
+        System.out.println(employeeController.getLeads());
     }
    
     /**
@@ -172,8 +129,12 @@ private static Scanner scanner = new Scanner(System.in);
      * 
      * @param id - Lead's Id to search the lead
      */
-    public void printLeadById(String id) {
-        System.out.println(employeeController.printLeadById(id));
+    public void printLeadById() {
+        System.out.println("\n========== SEARCH LEAD ==========\n");  
+        System.out.print("Enter the lead's Id to Search: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();
+        System.out.println(employeeController.getLeadById(id));
     }
 
     /**
@@ -182,50 +143,54 @@ private static Scanner scanner = new Scanner(System.in);
      * @param id - key to update the Values
      * @return returns nothing
      */
-    public void editLead(String id) {      
+    public void updateLead() {  
+        System.out.println("\n========== update LEAD  ==========\n");
+        System.out.print("Enter the lead's Id to Update: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();    
         boolean isUpdating = true;
 
         while (isUpdating) {
             printUpdaterMenu();
-            byte update = scanner.nextByte();
+            byte updator = scanner.nextByte();
                      
-            switch (update) {
-            case NAME:
-                editName(id);
+            switch (updator) {
+            case Constants.NAME:
+                updateName(id);
                 break;
                     
-            case EMAIL:
-                editEmail(id);
+            case Constants.EMAIL:
+                updateEmail(id);
                 break;
                          
-            case PHONE_NUMBER:
-                editPhone(id);
+            case Constants.PHONE_NUMBER:
+                updatePhoneNumber(id);
                 break;
                            
-            case STAGE:
-                editStage(id);
+            case Constants.STAGE:
+                updateStage(id);
                 break;
                            
-            case COMPANY_NAME:
-                editCompanyName(id);
+            case Constants.COMPANY_NAME:
+                updateCompanyName(id);
                 break;
                             
-            case START_DATE:
-                editStartDate(id);
+            case Constants.START_DATE:
+                updateStartDate(id);
                 break;
                            
-            case END_DATE:
-                editEndDate(id);
+            case Constants.END_DATE:
+                updateEndDate(id);
                 break;
                            
-            case DEAL_SIZE:
-                editDealSize(id);
+            case Constants.DEAL_SIZE:
+                updateDealSize(id);
                 break;
                            
-            case EXIT_UPDATER:
+            case Constants.EXIT_EMPLOYEE_UPDATER:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isUpdating = employeeController.closeEmployee(logout); 
+                isUpdating = (logout == Constants.LOGOUT) ? false : true; 
                 break;
                                   
             default:
@@ -239,11 +204,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the name
      */
-    public void editName(String id) {
+    public void updateName(String id) {
         System.out.print("Enter the Name: ");
         scanner.nextLine();
         String leadName = scanner.nextLine();
-        employeeController.editName(id, leadName);
+        employeeController.updateName(id, leadName);
     }
 
     /**
@@ -251,11 +216,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Email id
      */
-    public void editEmail(String id) {
+    public void updateEmail(String id) {
         System.out.print("Enter the Email: ");
         scanner.nextLine();
         String leadEmail = scanner.nextLine();
-        employeeController.editEmail(id, leadEmail);
+        employeeController.updateEmail(id, leadEmail);
     }
 
     /**
@@ -263,11 +228,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Phone number
      */
-    public void editPhone(String id) {
+    public void updatePhoneNumber(String id) {
          System.out.print("Enter the Phone Number: ");
          scanner.nextLine();
          String leadPhone = scanner.nextLine();
-         employeeController.editPhone(id, leadPhone);
+         employeeController.updatePhoneNumber(id, leadPhone);
     }
 
     /**
@@ -275,11 +240,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Stage
      */
-    public void editStage(String id) {
+    public void updateStage(String id) {
         System.out.print("Enter the Stage: ");
         scanner.nextLine();
         String leadStage = scanner.nextLine();
-        employeeController.editStage(id, leadStage);
+        employeeController.updateStage(id, leadStage);
     }
 
     /**
@@ -287,11 +252,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Company Name
      */
-    public void editCompanyName(String id) {
+    public void updateCompanyName(String id) {
         System.out.print("Enter the Company Name: ");
         scanner.nextLine();
         String leadCompanyName = scanner.nextLine();
-        employeeController.editCompanyName(id, leadCompanyName);
+        employeeController.updateCompanyName(id, leadCompanyName);
     } 
     
     /**
@@ -299,11 +264,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Start Date
      */
-    public void editStartDate(String id) {
+    public void updateStartDate(String id) {
         System.out.print("Enter the Start Date: ");
         scanner.nextLine();
         String leadStartDate = scanner.nextLine();
-        employeeController.editStartDate(id, leadStartDate);
+        employeeController.updateStartDate(id, leadStartDate);
     }
 
     /**
@@ -311,11 +276,11 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the End Date
      */
-    public void editEndDate(String id) {
+    public void updateEndDate(String id) {
         System.out.print("Enter the End Date: ");
         scanner.nextLine();
         String leadEndDate = scanner.nextLine();
-        employeeController.editEndDate(id, leadEndDate);
+        employeeController.updateEndDate(id, leadEndDate);
     }
 
     /**
@@ -323,10 +288,35 @@ private static Scanner scanner = new Scanner(System.in);
      *
      * @param id - key to update the Deal Size
      */
-    public void editDealSize(String id) {
+    public void updateDealSize(String id) {
         System.out.print("Enter the Deal Size: ");
         int leadDealSize = scanner.nextInt();
-        employeeController.editDealSize(id, leadDealSize);
+        employeeController.updateDealSize(id, leadDealSize);
+    }
+
+    /**
+     * Deletes the Lead by id
+     *
+     * @param id- key to delete the Lead
+     * @return boolean
+     */
+    public void deleteLead() {
+        System.out.print("Enter the ID to Lead: ");
+        scanner.nextLine();
+        String id = scanner.nextLine();
+        boolean isDeleted = employeeController.deleteLeadById(id);
+        printSuccessMessage(isDeleted);
+    }
+
+    /**
+     * Prints the Success message
+     */
+    public void printSuccessMessage(boolean isSuccess) {
+        if (isSuccess) {
+            System.out.println("Successfully finished the operation......");
+        } else {
+            System.out.println("Error: Please check something went wrong");
+        }
     }
 
     /**
@@ -338,7 +328,8 @@ private static Scanner scanner = new Scanner(System.in);
                      .append("Press \" 2 \" for View\n")
                      .append("Press \" 3 \" for Search\n")
                      .append("Press \" 4 \" for Update\n")
-                     .append("Press \" 5 \" for EXIT\n")
+                     .append("Press \" 5 \" for Delete\n")
+                     .append("Press \" 6 \" for EXIT\n")
                      .append("Enter your Operation: ");
         System.out.print(OperationPrinter);
     }
