@@ -2,30 +2,24 @@ package com.ideas2it.view;
 
 import java.util.Scanner;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.controller.ManagerController;
 import com.ideas2it.model.User;
 
 /**
- * controlls all the operation performed by the Manager
- * like adding employee, updating Employee, viewing lead, searching leads
+ * Contains all the operation performed by the Manager
+ * like Adding Employee, Updating Employee, viewing Employee, searching Employee
  * 
  * @author Ajaisharma D
- * @version 1.0  16-09-2022
+ * @version 1.0  19-09-2022
  */
 public class ManagerView {
     private Scanner scanner = new Scanner(System.in);
-    private final static byte ADDER = 1;
-    private final static byte PROJECTOR = 2;
-    private final static byte FINDER = 3;
-    private final static byte EDITOR = 4;
-    private final static byte EXIT = 5;
+    private ManagerController managerController;
 
-    private final static byte NAME = 1;
-    private final static byte EMAIL = 2;
-    private final static byte PHONE_NUMBER = 3;
-    private final static byte EXIT_UPDATER = 4;
-    
-    private ManagerController managerController = new ManagerController();
+    public ManagerView() {
+        this.managerController = new ManagerController();
+    }
 
     /**
      * Manager's operation goes here
@@ -41,26 +35,26 @@ public class ManagerView {
             operation = scanner.nextByte();
                    
             switch (operation) {
-            case ADDER:
+            case Constants.ADDER:
                 createEmployee();
                 break;
                
-            case PROJECTOR:
-                viewEmployee();
+            case Constants.PROJECTOR:
+                printEmployees();
                 break;
                                                 
-            case FINDER:
-                findEmployee();
+            case Constants.FINDER:
+                printEmployeeById();
                 break;
                        
-            case EDITOR:
-                modifyEmployee();
+            case Constants.UPDATER:
+                updateEmployee();
                 break;
                
-            case EXIT:
+            case Constants.EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isActive = managerController.closeManager(logout); 
+                isActive = (logout == Constants.LOGOUT) ? false : true; 
                 break;
                    
             default:
@@ -103,20 +97,20 @@ public class ManagerView {
     /**
      * Prints the Employee Details 
      */
-    public void viewEmployee() {
+    public void printEmployees() {
         System.out.println("\n========== EMPLOYEE DETAILS ==========\n");
-        System.out.println(managerController.printEmployee());
+        System.out.println(managerController.getEmployees());
     }
 
     /**
      * Finds the Employee by id
      */
-    public void findEmployee() {
+    public void printEmployeeById() {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
         System.out.print("Enter the Employee's Id to Search: ");
         scanner.nextLine();
         String id = scanner.nextLine();
-        System.out.println(managerController.printEmployeeById(id));
+        System.out.println(managerController.getEmployeeById(id));
     }
 
     /**
@@ -125,7 +119,7 @@ public class ManagerView {
      * @param id - key to update the Values
      * @return returns nothing
      */
-    public void modifyEmployee() {
+    public void updateEmployee() {
         System.out.print("Enter the Employee's Id to Update: ");
         scanner.nextLine();
         String id = scanner.nextLine();
@@ -136,22 +130,22 @@ public class ManagerView {
             byte update = scanner.nextByte();
                      
             switch (update) {
-            case NAME:
-                editName(id);
+            case Constants.NAME:
+                updateName(id);
                 break;
                     
-            case EMAIL:
-                editEmail(id);
+            case Constants.EMAIL:
+                updateEmail(id);
                 break;
                          
-            case PHONE_NUMBER:
-                editPhone(id);
+            case Constants.PHONE_NUMBER:
+                updatePhone(id);
                 break;
 
-            case EXIT_UPDATER:
+            case Constants.EXIT_MANAGER_UPDATER:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isUpdating = managerController.closeManager(logout); 
+                isUpdating = (logout == Constants.LOGOUT) ? false : true;
                 break;
                                   
             default:
@@ -165,11 +159,11 @@ public class ManagerView {
      *
      * @param id - key to update the name
      */
-    public void editName(String id) {
+    public void updateName(String id) {
         System.out.print("Enter the Name: ");
         scanner.nextLine();
         String employeeName = scanner.nextLine();
-        managerController.editName(id, employeeName);
+        managerController.updateName(id, employeeName);
     }
 
     /**
@@ -177,11 +171,11 @@ public class ManagerView {
      *
      * @param id - key to update the Email id
      */
-    public void editEmail(String id) {
+    public void updateEmail(String id) {
         System.out.print("Enter the Email: ");
         scanner.nextLine();
         String employeeEmail = scanner.nextLine();
-        managerController.editEmail(id, employeeEmail);
+        managerController.updateEmail(id, employeeEmail);
     }
 
     /**
@@ -189,11 +183,11 @@ public class ManagerView {
      *
      * @param id - key to update the Phone number
      */
-    public void editPhone(String id) {
+    public void updatePhone(String id) {
         System.out.print("Enter the Phone Number: ");
         scanner.nextLine();
         String employeePhone = scanner.nextLine();
-        managerController.editPhone(id, employeePhone);
+        managerController.updatePhone(id, employeePhone);
     }
 
     /**
