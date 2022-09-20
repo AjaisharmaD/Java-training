@@ -14,35 +14,41 @@ import com.ideas2it.service.EmployeeService;
  */
 public class EmployeeController {
     private Lead lead;
-    private EmployeeService employeeService = new EmployeeService();
+    private EmployeeService employeeService;
+
+    public EmployeeController() {
+        this.employeeService = new EmployeeService();
+    }
        
     /**
      * Adds the Lead's details 
      *
      * @param lead - lead Object to add 
+     *
      * @return boolean
      */
-    public boolean addLead (Lead lead) {
+    public boolean addLead(Lead lead) {
         return employeeService.addLead(lead);
     }
 
     /**   
-     * Prints all the lead's details  
+     * Gets all the lead's details  
      *
      * @return returns List of Details
      */
-    public List<Lead> printLeads() {
-        return employeeService.printLeads();
+    public List<Lead> getLeads() {
+        return employeeService.getLeads();
     }    
 
     /**
-     * Prints the lead's Details by Id
+     * Gets the lead's Details by Id
      * 
      * @param id - Lead's Id to search the lead
+     *
      * @return Lead object
      */
-    public Lead printLeadById(String id) {
-        return employeeService.printLeadById(id);
+    public Lead getLeadById(String id) {
+        return employeeService.getLeadById(id);
     }
 
     /**
@@ -50,96 +56,105 @@ public class EmployeeController {
      *
      * @param id - key to update the name
      * @param leadName - updated name
+     *
      * @return boolean
      */
-     public boolean editName(String id, String leadName) {
-         return employeeService.editName(id, leadName);
-     }
+    public boolean updateName(String id, String leadName) {
+        return employeeService.updateName(id, leadName);
+    }
 
     /**
      * Updates the Email id of the Lead
      *
      * @param id - key to update the Email id
      * @param leadEmail - updated mail id
+     *
      * @return boolean
      */
-     public boolean editEmail(String id, String leadEmail) {
-         return employeeService.editEmail(id, leadEmail);
-     }
+    public boolean updateEmail(String id, String leadEmail) {
+        return employeeService.updateEmail(id, leadEmail);
+    }
 
     /**
      * Updates the Phone Number of the Lead
      *
      * @param id - key to update the Phone Number
      * @param leadPhone - updated Phone Number
+     *
      * @return boolean
      */
-     public boolean editPhone(String id, String leadPhone) {
-         return employeeService.editPhone(id, leadPhone);
-     }
+    public boolean updatePhoneNumber(String id, String leadPhone) {
+        return employeeService.updatePhoneNumber(id, leadPhone);
+    }
 
     /**
      * Updates the Stage of the Lead
      *
      * @param id - key to update the Stage
      * @param leadStage - updated Stage
+     *
      * @return boolean
      */
-     public boolean editStage(String id, String leadStage) {
-         return employeeService.editStage(id, leadStage);
-     }
+    public boolean updateStage(String id, String leadStage) {
+        return employeeService.updateStage(id, leadStage);
+    }
 
     /**
      * Updates the Company Name of the Lead
      *
      * @param id - key to update the Company Name
      * @param leadCompanyName - updated Company Name
+     *
      * @return boolean
      */
-     public boolean editCompanyName(String id, String leadCompanyName) {
-         return employeeService.editCompanyName(id, leadCompanyName);
-     }
+    public boolean updateCompanyName(String id, String leadCompanyName) {
+        return employeeService.updateCompanyName(id, leadCompanyName);
+    }
 
     /**
      * Updates the Start Date of the Lead
      *
      * @param id - key to update the Start Date
      * @param leadStartDate - updated Start Date
+     *
      * @return boolean
      */
-     public boolean editStartDate(String id, String leadStartDate) {
-         return employeeService.editStartDate(id, leadStartDate);
-     }
+    public boolean updateStartDate(String id, String leadStartDate) {
+        return employeeService.updateStartDate(id, leadStartDate);
+    }
 
     /**
      * Updates the End Date of the Lead
      *
      * @param id - key to update the End Date
      * @param leadEndDate - updated End Date
+     *
      * @return boolean
      */
-     public boolean editEndDate(String id, String leadEndDate) {
-         return employeeService.editEndDate(id, leadEndDate);
-     }
+    public boolean updateEndDate(String id, String leadEndDate) {
+        return employeeService.updateEndDate(id, leadEndDate);
+    }
 
     /**
      * Updates the Deal Size of the Lead
      *
      * @param id - key to update the Deal Size
      * @param leadDealSize - updated Deal Size
+     *
      * @return boolean
      */
-     public boolean editDealSize(String id, int leadDealSize) {
-         return employeeService.editDealSize(id, leadDealSize);
-     }
+    public boolean updateDealSize(String id, int leadDealSize) {
+        return employeeService.updateDealSize(id, leadDealSize);
+    }
 
     /**
-     * Check the employee's input to logout from the Employee Dashboard
+     * Deletes the Lead by id
      *
-     * @param logout - Key to logout
-     * @return returns exit a boolean value 
+     * @param id- key to delete the Lead
+     *
+     * @return boolean
      */
-    public boolean closeEmployee(byte logout) {
-        return employeeService.closeEmployee(logout);
+    public boolean deleteLeadById(String id) {
+        return employeeService.deleteLeadById(id);
     }
 }
