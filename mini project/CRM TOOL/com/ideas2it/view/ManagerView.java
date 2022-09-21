@@ -139,7 +139,7 @@ public class ManagerView {
                 break;
                          
             case Constants.PHONE_NUMBER:
-                updatePhone(id);
+                updatePhoneNumber(id);
                 break;
 
             case Constants.EXIT_MANAGER_UPDATER:
@@ -183,11 +183,11 @@ public class ManagerView {
      *
      * @param id - key to update the Phone number
      */
-    public void updatePhone(String id) {
+    public void updatePhoneNumber(String id) {
         System.out.print("Enter the Phone Number: ");
         scanner.nextLine();
-        String employeePhone = scanner.nextLine();
-        managerController.updatePhone(id, employeePhone);
+        String employeePhoneNumber = scanner.nextLine();
+        managerController.updatePhoneNumber(id, employeePhoneNumber);
     }
 
     /**
