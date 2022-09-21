@@ -84,7 +84,7 @@ public class ManagerController {
      *
      * @return boolean
      */
-    public boolean updatePhone(String id, String employeePhone) {
-        return managerService.updatePhone(id, employeePhone);
+    public boolean updatePhoneNumber(String id, String employeePhoneNumber) {
+        return managerService.updatePhoneNumber(id, employeePhoneNumber);
     }
 }
