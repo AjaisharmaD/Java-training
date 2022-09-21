@@ -15,7 +15,7 @@ import com.ideas2it.model.Lead;
  * @since 16-09-2022
  */
 public class EmployeeView {
-    private static Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     private EmployeeController employeeController;
         
@@ -24,16 +24,17 @@ public class EmployeeView {
     }
 
     /**
-     * Employee's operation goes here
+     * This will checks the user Input and do the operation according to 
+     * the Input getted from the User
      */
     public void openEmployeeDashboard() {
         String id;
-        boolean isActive = true;
+        boolean isActive = false;
         byte operation;    
 
         printWelcomeMessage();     
                 
-        while (isActive) {
+        while (!isActive) {
             printOperationMenu();
             operation = scanner.nextByte();
                    
@@ -61,7 +62,7 @@ public class EmployeeView {
             case Constants.EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isActive = (logout == Constants.LOGOUT) ? false : true; 
+                isActive = (logout == Constants.LOGOUT) ? true : false; 
                 break;
                    
             default:
@@ -75,7 +76,7 @@ public class EmployeeView {
      *
      * @param count - count of the lead to add 
      */
-    public void addLead() {
+    private void addLead() {
         String leadName;
         String leadEmail;
         String leadPhone;
@@ -83,7 +84,7 @@ public class EmployeeView {
         String leadCompanyName;
         String leadStartDate;
         String leadEndDate;
-        int leadDealSize = 0;
+        Double leadDealSize = 0.0d;
 
         System.out.print("\nEnter the lead count to add: ");
         int count = scanner.nextInt();
@@ -91,24 +92,24 @@ public class EmployeeView {
         for (int index = 0; index < count; index++) {
             System.out.println("\n======Enter Lead 0" + (index + 1) + " Details ======\n");
             System.out.print("Enter the Lead's Name      :  ");
-            scanner.nextLine();
+            scanner.skip("\r\n");
             leadName = scanner.nextLine();
-            System.out.print("Enter the Lead's Email ID  :  ");
+            System.out.print("Enter the Lead's Email ID                      :  ");
             leadEmail = scanner.nextLine();
-            System.out.print("Enter the Lead's Phone     :  ");
+            System.out.print("Enter the Lead's Phone                         :  ");
             leadPhone = scanner.nextLine();
-            System.out.print("Enter the Lead's Stage     :  ");
+            System.out.print("Enter the Lead's Stage                         :  ");
             leadStage = scanner.nextLine();
-            System.out.print("Enter the Lead's Company   :  ");
+            System.out.print("Enter the Lead's Company                       :  ");
             leadCompanyName = scanner.nextLine();
-            System.out.print("Enter the Start-Date       :  ");
+            System.out.print("Enter the Start-Date in this Formate DD-MM-YYYY:  ");
             leadStartDate = scanner.nextLine(); 
-            System.out.print("Enter the End-Date         :  ");
+            System.out.print("Enter the End-Date in this Formate DD-MM-YYYY  :  ");
             leadEndDate = scanner.nextLine();
-            System.out.print("Enter the Deal-Size        :  ");
-            leadDealSize = scanner.nextInt();
+            System.out.print("Enter the Deal-Size                            :  ");
+            leadDealSize = scanner.nextDouble();
 
-            boolean isAdded = employeeController.addLead(new Lead(leadName, leadEmail, 
+            boolean isAdded = employeeController.isLeadAdded(new Lead(leadName, leadEmail, 
                                    leadPhone, leadStage, leadCompanyName,
                                    leadStartDate, leadEndDate, leadDealSize));
            
@@ -117,80 +118,95 @@ public class EmployeeView {
     }
 
     /**   
-     * Prints all the lead's details
+     * Displays all the lead's details
      */
-    public void printLeads() {
+    private void printLeads() {
         System.out.println("\n========== LEAD DETAILS ==========\n");
         System.out.println(employeeController.getLeads());
     }
    
     /**
-     * Prints the lead's Details by Id
-     * 
-     * @param id - Lead's Id to search the lead
+     * Displays the lead's Details by its Id
      */
-    public void printLeadById() {
+    private void printLeadById() {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
         System.out.print("Enter the lead's Id to Search: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println(employeeController.getLeadById(id));
     }
 
     /**
-     * Updates the lead's details 
-     *
-     * @param id - key to update the Values
-     * @return returns nothing
+     * Updates the lead's details by getting the lead id from the user
      */
-    public void updateLead() {  
-        System.out.println("\n========== update LEAD  ==========\n");
-        System.out.print("Enter the lead's Id to Update: ");
-        scanner.nextLine();
-        String id = scanner.nextLine();    
-        boolean isUpdating = true;
+    private void updateLead() {  
+        System.out.println("\n========== UPDATE LEAD  ==========\n");
+        System.out.print("Enter the lead's Id to update: ");
+        scanner.skip("\r\n");
+        String id = scanner.nextLine(); 
+        boolean isUpdated = false;   
+        boolean isUpdating = false;
+        byte updater;
 
-        while (isUpdating) {
+        Lead lead = employeeController.getLeadById(id);
+
+        while (!isUpdating) {
             printUpdaterMenu();
-            byte updator = scanner.nextByte();
+            updater = scanner.nextByte();
                      
-            switch (updator) {
+            switch (updater) {
             case Constants.NAME:
-                updateName(id);
+                lead.setName(getName());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                     
             case Constants.EMAIL:
-                updateEmail(id);
+                lead.setEmailId(getEmail());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                          
             case Constants.PHONE_NUMBER:
-                updatePhoneNumber(id);
+                lead.setPhoneNumber(getPhoneNumber());
+                isUpdated = employeeController.isLeadUpdated(id, lead);    
+                printSuccessMessage(isUpdated);            
                 break;
                            
             case Constants.STAGE:
-                updateStage(id);
+                lead.setStage(getStage());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                            
             case Constants.COMPANY_NAME:
-                updateCompanyName(id);
+                lead.setCompanyName(getCompanyName());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                             
             case Constants.START_DATE:
-                updateStartDate(id);
+                lead.setStartDate(getStartDate());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                            
             case Constants.END_DATE:
-                updateEndDate(id);
+                lead.setEndDate(getEndDate());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                            
             case Constants.DEAL_SIZE:
-                updateDealSize(id);
+                lead.setDealSize(getDealSize());
+                isUpdated = employeeController.isLeadUpdated(id, lead);
+                printSuccessMessage(isUpdated);
                 break;
                            
             case Constants.EXIT_EMPLOYEE_UPDATER:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isUpdating = (logout == Constants.LOGOUT) ? false : true; 
+                isUpdating = (logout == Constants.LOGOUT) ? true : false; 
                 break;
                                   
             default:
@@ -200,118 +216,116 @@ public class EmployeeView {
     }             
 
     /**
-     * Updates the Name of the Lead
-     *
-     * @param id - key to update the name
+     * Gets the Name of the Lead
+     * 
+     * @return leadName - an updated Name
      */
-    public void updateName(String id) {
+    private String getName() {
         System.out.print("Enter the Name: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadName = scanner.nextLine();
-        employeeController.updateName(id, leadName);
+        return leadName;
     }
 
     /**
-     * Updates the Email Id of the Lead
+     * Gets the Email Id of the Lead
      *
-     * @param id - key to update the Email id
+     * @return leadEmail - an updated Email Id
      */
-    public void updateEmail(String id) {
+    private String getEmail() {
         System.out.print("Enter the Email: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadEmail = scanner.nextLine();
-        employeeController.updateEmail(id, leadEmail);
+        return leadEmail;
     }
 
     /**
-     * Updates the Phone Number of the Lead
+     * Gets the Phone Number of the Lead
      *
-     * @param id - key to update the Phone number
+     * @return leadPhoneNumber - an updated Phone number
      */
-    public void updatePhoneNumber(String id) {
-         System.out.print("Enter the Phone Number: ");
-         scanner.nextLine();
-         String leadPhone = scanner.nextLine();
-         employeeController.updatePhoneNumber(id, leadPhone);
+    private String getPhoneNumber() {
+        System.out.print("Enter the Phone Number: ");
+        scanner.skip("\r\n");
+        String leadPhoneNumber = scanner.nextLine();
+        return leadPhoneNumber;
     }
 
     /**
-     * Updates the Stage of the Lead
+     * Gets the Stage of the Lead
      *
-     * @param id - key to update the Stage
+     * @return leadStage - an updated Stage
      */
-    public void updateStage(String id) {
+    private String getStage() {
         System.out.print("Enter the Stage: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadStage = scanner.nextLine();
-        employeeController.updateStage(id, leadStage);
+        return leadStage;
     }
 
     /**
-     * Updates the Company Name of the Lead
+     * Gets the Company Name of the Lead
      *
-     * @param id - key to update the Company Name
+     * @return leadCompanyName - an Updated Company Name
      */
-    public void updateCompanyName(String id) {
+    private String getCompanyName() {
         System.out.print("Enter the Company Name: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadCompanyName = scanner.nextLine();
-        employeeController.updateCompanyName(id, leadCompanyName);
+        return leadCompanyName;
     } 
     
     /**
-     * Updates the Start Date of the Lead
+     * Gets the Start Date of the Lead
      *
-     * @param id - key to update the Start Date
+     * @return leadStartDate - an updated Start Date
      */
-    public void updateStartDate(String id) {
+    private String getStartDate() {
         System.out.print("Enter the Start Date: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadStartDate = scanner.nextLine();
-        employeeController.updateStartDate(id, leadStartDate);
+        return leadStartDate;
     }
 
     /**
-     * Updates the End Date of the Lead
+     * Gets the End Date of the Lead
      *
-     * @param id - key to update the End Date
+     * @return leadEndDate - an updated End Date
      */
-    public void updateEndDate(String id) {
+    private String getEndDate() {
         System.out.print("Enter the End Date: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String leadEndDate = scanner.nextLine();
-        employeeController.updateEndDate(id, leadEndDate);
+        return leadEndDate;
     }
 
     /**
-     * Updates the Deal Size of the Lead
+     * Gets the Deal Size of the Lead
      *
-     * @param id - key to update the Deal Size
+     * @return leadDealSize - an updated Deal Size
      */
-    public void updateDealSize(String id) {
+    private Double getDealSize() {
         System.out.print("Enter the Deal Size: ");
-        int leadDealSize = scanner.nextInt();
-        employeeController.updateDealSize(id, leadDealSize);
+        scanner.skip("\r\n");
+        Double leadDealSize = scanner.nextDouble();
+        return leadDealSize;
     }
 
     /**
      * Deletes the Lead by id
-     *
-     * @param id- key to delete the Lead
-     * @return boolean
      */
-    public void deleteLead() {
+    private void deleteLead() {
         System.out.print("Enter the ID to Lead: ");
-        scanner.nextLine();
+        scanner.skip("\r\n");
         String id = scanner.nextLine();
-        boolean isDeleted = employeeController.deleteLeadById(id);
+        boolean isDeleted = employeeController.isLeadDeletedById(id);
         printSuccessMessage(isDeleted);
     }
 
     /**
      * Prints the Success message
      */
-    public void printSuccessMessage(boolean isSuccess) {
+    private void printSuccessMessage(boolean isSuccess) {
         if (isSuccess) {
             System.out.println("Successfully finished the operation......");
         } else {
@@ -320,14 +334,14 @@ public class EmployeeView {
     }
 
     /**
-     * Prints the Menu for Employee to do operations
+     * Prints the operation Menu for Employee 
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
         OperationPrinter.append("Press \" 1 \" for Add New Lead\n")
                      .append("Press \" 2 \" for View\n")
                      .append("Press \" 3 \" for Search\n")
-                     .append("Press \" 4 \" for Update\n")
+                     .append("Press \" 4 \" for get\n")
                      .append("Press \" 5 \" for Delete\n")
                      .append("Press \" 6 \" for EXIT\n")
                      .append("Enter your Operation: ");
@@ -382,7 +396,7 @@ public class EmployeeView {
                      .append("press \" 7 \" for End date\n")
                      .append("press \" 8 \" for Deal Size\n")
                      .append("press \" 9 \" for Exit\n")
-                     .append("Enter your Updater: "); 
+                     .append("Enter your getr: "); 
         System.out.println(choicePrinter);
     } 
 }                                          
