@@ -19,16 +19,16 @@ public interface EmployeeDao {
      * Adds the Lead's detail 
      *
      * @param leadId - Id of a lead 
-     * @param lead - lead Object to add 
+     * @param lead - lead Details to add 
      *   
-     * @return returns boolean
+     * @return lead detail
      */
-    public boolean addLead(String leadId, Lead lead);
+    public Lead addLead(String leadId, Lead lead);
 
     /**   
      * Gets all the lead's details  
      *
-     * @return returns nothing
+     * @return leads details 
      */
     public Map<String, Lead> getLeads();
 
@@ -42,91 +42,21 @@ public interface EmployeeDao {
     public Lead getLeadById(String id);
 
     /**
-     * Updates the Name of the Lead
+     * Updates the Lead
      *
      * @param id - key to update the name
-     * @param leadName - updated name
+     * @param lead - updated Lead 
      *
      * @return boolean
      */
-     public boolean updateName(String id, String leadName);
+     public Lead updateLead(String id, Lead lead);
 
     /**
-     * Updates the Email id of the Lead
-     *
-     * @param id - key to update the Email id
-     * @param leadEmail - updated mail id to store
-     *
-     * @return boolean
-     */
-     public boolean updateEmail(String id, String leadEmail);
-
-    /**
-     * Updates the PhoneNumber of the Lead
-     *
-     * @param id - key to update the Phone Number 
-     * @param leadPhoneNumber - updated Phone Number to store
-     *
-     * @return boolean
-     */
-     public boolean updatePhoneNumber(String id, String leadPhoneNumber);
-
-    /**
-     * Updates the Stage of the Lead
-     *
-     * @param id - key to update the Stage
-     * @param leadStage - updated Stage
-     *
-     * @return boolean
-     */
-     public boolean updateStage(String id, String leadStage);
-
-    /**
-     * Updates the Company Name of the Lead
-     *
-     * @param id - key to update the Company Name
-     * @param leadCompanyName - updated Company Name
-     *
-     * @return boolean
-     */
-     public boolean updateCompanyName(String id, String leadCompanyName);
-
-    /**
-     * Updates the Start Date of the Lead
-     *
-     * @param id - key to update the Start Date
-     * @param leadStartDate - updated Start Date
-     *
-     * @return boolean
-     */
-     public boolean updateStartDate(String id, String leadStartDate);
-
-    /**
-     * Updates the End Date of the Lead
-     *
-     * @param id - key to update the End Date
-     * @param leadEndDate - updated End Date
-     *
-     * @return boolean
-     */
-     public boolean updateEndDate(String id, String leadEndDate);
-
-    /**
-     * Updates the Deal Size of the Lead
-     *
-     * @param id - key to update the Deal Size
-     * @param leadDealSize - updated Deal Size
-     *
-     * @return boolean
-     */
-     public boolean updateDealSize(String id, int leadDealSize);
-
-    /**
-     * deletes the Lead by id
+     * Deletes the Lead by id
      *
      * @param id- key to delete the Lead
      *
      * @return boolean
      */
-    public boolean deleteLeadById(String id);
+    public Lead deleteLeadById(String id);
 }
