@@ -69,6 +69,6 @@ public interface ManagerDao {
      *
      * @return boolean
      */
-    public boolean updatePhone(String id, String employeePhone);
+    public boolean updatePhoneNumber(String id, String employeePhone);
 
 }
