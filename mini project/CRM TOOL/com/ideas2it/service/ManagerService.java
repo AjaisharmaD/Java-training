@@ -105,7 +105,7 @@ public class ManagerService {
      *
      * @return boolean
      */
-    public boolean updatePhone(String id, String employeePhone) {
-        return managerDao.updatePhone(id, employeePhone);
+    public boolean updatePhoneNumber(String id, String employeePhone) {
+        return managerDao.updatePhoneNumber(id, employeePhone);
     }
 }
