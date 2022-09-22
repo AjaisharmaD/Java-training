@@ -8,8 +8,12 @@ import com.ideas2it.view.ManagerView;
 //import com.ideas2it.controller.CRMController;
 
 /**
- * Contains the user Dashbord to switch from one user to another
- * 
+ * <h1> CRM Tool View </h1>
+ * <p> 
+ * This CRM View class used to provide a dashboard of
+ * Login users as Manager and Employee
+ * </p>
+ *
  * @author AJAISHARMA 
  * @version 1.0 
  * @since 10-09-2022
@@ -25,8 +29,11 @@ public class CRMView {
     }
     
     /**
-     * Starting the CRM Tool
-     * and provide the user dashboard  
+     * <h1> CRM Dashboard </h1>
+     * <p>
+     * This method is used to login
+     * as Employee and Manager 
+     * </p>
      */
     public void startCRM() {
         printWelcomeMessage();
@@ -70,7 +77,10 @@ public class CRMView {
     } */
 
     /**
+     * <h1> Print Welcome message </h1>
+     * <p>
      * Prints the Welcome Statements
+     * </p>
      */
     private void printWelcomeMessage() {
         StringBuilder welcomePrinter = new StringBuilder();
@@ -81,7 +91,10 @@ public class CRMView {
     }
 
     /**
-     * Prints the User Menu
+     * <h1> Print User Menu </h1>
+     * <p>
+     * Prints the User Menu to Login 
+     * </p>
      */
     private void printUserMenu() {
         StringBuilder userMenu = new StringBuilder();
@@ -93,7 +106,10 @@ public class CRMView {
     }
 
     /**
-     * Printes the Exit menu
+     * <h1> Print Exit Menu </h1>
+     * <p>
+     * Prints the choice for User to exit
+     * </p>
      */
     private void printExitMenu() {
 	StringBuilder exitMenu = new StringBuilder();
@@ -104,7 +120,10 @@ public class CRMView {
     }
 
     /**
-     * Printes the Default statement 
+     * <h1> Print Default Statement </h1>
+     * <p>
+     * Prints the Default Statements
+     * </p>
      */
     private void printDefaultStatement() {
         StringBuilder defaultPrinter = new StringBuilder();        
