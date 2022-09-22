@@ -6,69 +6,65 @@ import java.util.Map;
 import com.ideas2it.model.User;
 
 /**
- * Contains all the methods to be Implemented
+ * <h1> Manager DAO </h1>
+ * <p>
+ * This class will get the request and performs the operations
+ * like Adding, Viewing, Updating, Deleting the Details of Employees
+ * by Stores and fetching the data
+ * </p> 
  *
- * @author AJAISHARMA
+ * @author  AJAISHARMA
  * @version 1.0
- * @since 19-09-2022
+ * @since   19-09-2022
  */
 public interface ManagerDao {
 
     /**
-     * Adds the Employee's detail 
+     * <h1> Add Employee </h1>
+     * <p>
+     * Adds the Details of Employees 
+     * <p>
      *
-     * @param employeeId - Id of a employee 
-     * @param user - user Object to add 
+     * @param employeeId - ID of an employee
+     * @param user - user Details to add 
      * @param password - password to login
      *
-     * @return returns boolean
+     * @return Details of an Employee
      */
-    public boolean addEmployee(String employeeId, User user, String password);
+    public User addEmployee(String employeeId, User user, String password);
 
     /**
-     * Gets the Employee Details 
+     * <h1> Get Details of Employees </h1>
+     * <p>
+     * Gets the Details of Employees  
+     * </p>
      *
-     * @return List of Employee details
+     * @return Map - Details of Employees
      */
     public Map<String, User> getEmployees();
 
     /**
-     * Gets the Employee's Details by Id
+     * <h1> Get Details of Employee by Id </h1>
+     * <p>
+     * Gets the Details of Employees by Id
+     * </p>
      * 
-     * @param id - Employee's Id to search the Employee
+     * @param id    - Employee's Id to search the Details of Employee
      *
-     * @return Employee object
+     * @return User - Details of a Single Employee
      */
     public User getEmployeeById(String id);
 
     /**
-     * Updates the Name of the Employee
+     * <h1> Update Details of Employee </h1>
+     * <p>
+     * Updates the Details of Employees 
+     * </p>
      *
-     * @param id - key to update the name
-     * @param employeeName - updated name
+     * @param id    - key to store the Updated Details of Employee
+     * @param user  - updated Details of Employee
      *
-     * @return boolean
+     * @return User - updated Details of Employee
      */
-    public boolean updateName(String id, String employeeName);
-
-    /**
-     * Updates the Email id of the Employee
-     *
-     * @param id - key to update the Email id
-     * @param leadEmail - updated mail id
-     *
-     * @return boolean
-     */
-    public boolean updateEmail(String id, String employeeEmail);
-
-    /**
-     * Updates the Phone Number of the Employee
-     *
-     * @param id - key to update the Phone Number
-     * @param leadPhone - updated Phone Number
-     *
-     * @return boolean
-     */
-    public boolean updatePhoneNumber(String id, String employeePhone);
-
+    public User updateEmployee(String id, User user);
 }
