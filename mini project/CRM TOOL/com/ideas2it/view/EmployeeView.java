@@ -7,12 +7,16 @@ import com.ideas2it.controller.EmployeeController;
 import com.ideas2it.model.Lead;
 
 /**
- * Contains All the operation performed by the Employee
- * like Adding Lead, Updating Lead, Viewing Lead, Searching Leads, Delete Lead
+ * <h1> Employee View </h1>
+ * <p> 
+ * This Employee view class used to Provide Dashboard of operations 
+ * performed by the Employee, like Adding, Updating,
+ * Viewing, Searching, Deleting the Details of Lead
+ * </p>
  * 
- * @author Ajaisharma D
+ * @author  Ajaisharma D
  * @version 1.0 
- * @since 16-09-2022
+ * @since   16-09-2022
  */
 public class EmployeeView {
     private Scanner scanner = new Scanner(System.in);
@@ -24,8 +28,12 @@ public class EmployeeView {
     }
 
     /**
-     * This will checks the user Input and do the operation according to 
-     * the Input getted from the User
+     * <h1> Employee Dashboard </h1>
+     * <p>
+     * This method is used to do Operations 
+     * such as Adding, Printing, Updating, Deleting 
+     * the Details of Lead
+     * </p>
      */
     public void openEmployeeDashboard() {
         String id;
@@ -72,9 +80,11 @@ public class EmployeeView {
     }
     
     /**
-     * Adds the Lead's detail 
-     *
-     * @param count - count of the lead to add 
+     * <h1> Add Lead </h1>
+     * <p>
+     * This method will ask for the Details from the Employee
+     * and passes the Details of Lead to store
+     * </p>
      */
     private void addLead() {
         String leadName;
@@ -118,15 +128,22 @@ public class EmployeeView {
     }
 
     /**   
-     * Displays all the lead's details
+     * <h1> Print Details of lead </h1>
+     * <p>
+     * This method will Display all the Details of Lead
+     * </p>
      */
     private void printLeads() {
         System.out.println("\n========== LEAD DETAILS ==========\n");
         System.out.println(employeeController.getLeads());
     }
    
-    /**
-     * Displays the lead's Details by its Id
+   /**
+     * <h1> Print Single Lead </h1>
+     * <p>
+     * This method is used to serach the Details of Lead by calling the Lead Id
+     * This will print the Details of a Single Lead
+     * </p>
      */
     private void printLeadById() {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
@@ -137,7 +154,11 @@ public class EmployeeView {
     }
 
     /**
-     * Updates the lead's details by getting the lead id from the user
+     * <h1> Update the Lead </h1>
+     * <p>
+     * This method will updates the each fields of the Lead Details 
+     * and Prints the Message that the fields are Updated or not
+     * </p>
      */
     private void updateLead() {  
         System.out.println("\n========== UPDATE LEAD  ==========\n");
@@ -216,8 +237,11 @@ public class EmployeeView {
     }             
 
     /**
-     * Gets the Name of the Lead
-     * 
+     * <h1> Get Name </h1>
+     * <p>
+     * Gets the Name of the Lead to be updated
+     * </p> 
+     *
      * @return leadName - an updated Name
      */
     private String getName() {
@@ -228,7 +252,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the Email Id of the Lead
+     * <h1> Get Email Id </h1>
+     * <p>
+     * Gets the Email Id of the Lead to be updated
+     * </p>
      *
      * @return leadEmail - an updated Email Id
      */
@@ -240,7 +267,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the Phone Number of the Lead
+     * <h1> Get Phone Number </h1>
+     * <p>
+     * Gets the Phone Number of the Lead to be updated
+     * </p>
      *
      * @return leadPhoneNumber - an updated Phone number
      */
@@ -252,7 +282,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the Stage of the Lead
+     * <h1> Get Stage </h1>
+     * <p>
+     * Gets the Stage of the Lead to be updated
+     * </p>
      *
      * @return leadStage - an updated Stage
      */
@@ -264,7 +297,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the Company Name of the Lead
+     * <h1> Get Company Name </h1>
+     * <p>
+     * Gets the Company Name of the Lead to be updated
+     * </p>
      *
      * @return leadCompanyName - an Updated Company Name
      */
@@ -276,7 +312,10 @@ public class EmployeeView {
     } 
     
     /**
-     * Gets the Start Date of the Lead
+     * <h1> Get Start Date </h1>
+     * <p>
+     * Gets the Satrt Date of the Lead to be updated
+     * </p>
      *
      * @return leadStartDate - an updated Start Date
      */
@@ -288,7 +327,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the End Date of the Lead
+     * <h1> Get End Date </h1>
+     * <p>
+     * Gets the End Date of the Lead to be updated
+     * </p>
      *
      * @return leadEndDate - an updated End Date
      */
@@ -300,7 +342,10 @@ public class EmployeeView {
     }
 
     /**
-     * Gets the Deal Size of the Lead
+     * <h1> Get Deal Size </h1>
+     * <p>
+     * Gets the Deal Size of the Lead to be updated
+     * </p>
      *
      * @return leadDealSize - an updated Deal Size
      */
@@ -312,7 +357,11 @@ public class EmployeeView {
     }
 
     /**
-     * Deletes the Lead by id
+     * <h1> Delate the Lead </h1>
+     * <p>
+     * This method will Delete the Details of a Lead 
+     * and Prints the Message that the fields are Deleted or not
+     * </p>
      */
     private void deleteLead() {
         System.out.print("Enter the ID to Lead: ");
@@ -323,7 +372,10 @@ public class EmployeeView {
     }
 
     /**
-     * Prints the Success message
+     * <h1> Print Success Message </h1>
+     * <p>
+     * Prints the Message that the Operation completed Success or not
+     * </p>
      */
     private void printSuccessMessage(boolean isSuccess) {
         if (isSuccess) {
@@ -334,7 +386,10 @@ public class EmployeeView {
     }
 
     /**
-     * Prints the operation Menu for Employee 
+     * <h1> Print Operation Menu </h1>
+     * <p>
+     * Prints the Operation Menu
+     * </p>
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
@@ -349,40 +404,10 @@ public class EmployeeView {
     }
 
     /**
-     * Prints the choice for Employee to exit
-     */
-    private void printExitMenu() {
-        StringBuilder exitPrinter = new StringBuilder();
-        exitPrinter.append("\n>>>>> Are you sure want to Exit? <<<<<\n")
-                   .append("Press \" 1 \" for Yes\n")
-                   .append("Press \" Any Number \" for No");
-        System.out.println(exitPrinter);
-    }
-
-    /**
-     * Prints the Default Statements
-     */
-    private void printDefaultStatement() {
-        StringBuilder defaultPrinter = new StringBuilder();        
-        defaultPrinter.append("\n>>>>> You have entered wrong Choice <<<<<\n")
-                      .append("Please enter any of the ")
-                      .append("number given Below to proceed\n");
-        System.out.println(defaultPrinter);
-    }
-
-    /**
-     * Prints the Welcome Statements
-     */
-    private void printWelcomeMessage() {
-        StringBuilder welcomePrinter = new StringBuilder();
-        welcomePrinter.append("\n========================================")
-                      .append("|          WELCOME EMPLOYEE!           |")
-                      .append("========================================\n");
-        System.out.println(welcomePrinter);
-    }
-
-    /**
-     * Prints the Menu for Employee to do updation
+     * <h1> Print Updation Menu </h1>
+     * <p>
+     * Prints the Menu for Updating the Details of Lead
+     * </p>
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
@@ -399,4 +424,46 @@ public class EmployeeView {
                      .append("Enter your getr: "); 
         System.out.println(choicePrinter);
     } 
+
+    /**
+     * <h1> Print Exit Menu </h1>
+     * <p>
+     * Prints the choice for Employee to exit
+     * </p>
+     */
+    private void printExitMenu() {
+        StringBuilder exitPrinter = new StringBuilder();
+        exitPrinter.append("\n>>>>> Are you sure want to Exit? <<<<<\n")
+                   .append("Press \" 1 \" for Yes\n")
+                   .append("Press \" Any Number \" for No");
+        System.out.println(exitPrinter);
+    }
+
+    /**
+     * <h1> Print Default Statement </h1>
+     * <p>
+     * Prints the Default Statements
+     * </p>
+     */
+    private void printDefaultStatement() {
+        StringBuilder defaultPrinter = new StringBuilder();        
+        defaultPrinter.append("\n>>>>> You have entered wrong Choice <<<<<\n")
+                      .append("Please enter any of the ")
+                      .append("number given Below to proceed\n");
+        System.out.println(defaultPrinter);
+    }
+
+    /**
+     * <h1> Print Welcome message </h1>
+     * <p>
+     * Prints the Welcome Statements
+     * </p>
+     */
+    private void printWelcomeMessage() {
+        StringBuilder welcomePrinter = new StringBuilder();
+        welcomePrinter.append("\n========================================")
+                      .append("|          WELCOME EMPLOYEE!           |")
+                      .append("========================================\n");
+        System.out.println(welcomePrinter);
+    }
 }                                          
