@@ -6,57 +6,76 @@ import java.util.Map;
 import com.ideas2it.model.Lead;
  
 /**
- * Contains all the Abstact methods to be Implemented
- * Stores and fetch the data from the Collection Storage
+ * <h1> Employee DAO </h1>
+ * <p>
+ * This class will get the request and performs the operations
+ * like Adding, Viewing, Updating, Deleting the Details of Leads
+ * by Stores and fetching the data
+ * </p> 
  *
- * @author AJAISHARMA
+ * @author  AJAISHARMA
  * @version 1.0
- * @since 19-09-2022
+ * @since   19-09-2022
  */
 public interface EmployeeDao {
  
     /**
-     * Adds the Lead's detail 
+     * <h1> Add Leads </h1>
+     * <p>
+     * Adds the Details of Leads 
+     * <p>
      *
      * @param leadId - Id of a lead 
-     * @param lead - lead Details to add 
+     * @param lead   - Details of Leads to add 
      *   
-     * @return lead detail
+     * @return Lead  - Details of Leads
      */
     public Lead addLead(String leadId, Lead lead);
 
     /**   
-     * Gets all the lead's details  
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of Lead by Id
+     * </p>  
      *
-     * @return leads details 
+     * @return Map - Details of Leads 
      */
     public Map<String, Lead> getLeads();
 
     /**
-     * Gets the lead's Details by Id
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of Lead by Id
+     * </p>
      * 
-     * @param id - Lead's Id to search the lead
+     * @param id    - Lead's Id to search the lead
      *
-     * @return one lead's Details
+     * @return Lead - Details of single Lead
      */
     public Lead getLeadById(String id);
 
     /**
-     * Updates the Lead
+     * <h1> Update Details of Lead </h1>
+     * <p>
+     * Updates the Details of Lead 
+     * </p>
      *
-     * @param id - key to update the name
-     * @param lead - updated Lead 
+     * @param id    - key to update the Lead
+     * @param lead  - updated Details of Lead
      *
-     * @return boolean
+     * @return Lead -  updated Details of Lead
      */
      public Lead updateLead(String id, Lead lead);
 
     /**
-     * Deletes the Lead by id
+     * <h1> Delete Details of Lead </h1>
+     * <p>
+     * Deletes the Details of Lead 
+     * </p>
      *
-     * @param id- key to delete the Lead
+     * @param id    - key to delete the Details of Leads
      *
-     * @return boolean
+     * @return Lead - Deleted Details of Lead
      */
     public Lead deleteLeadById(String id);
 }
