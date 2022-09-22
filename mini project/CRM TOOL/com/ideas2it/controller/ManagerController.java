@@ -6,12 +6,16 @@ import com.ideas2it.model.User;
 import com.ideas2it.service.ManagerService;
 
 /**
- * Controlls all the operation performed by the Manager
- * like adding employee, updating Employee, viewing lead, searching leads
- * 
- * @author AJAISHARMA
+ * <h1> Manager Controller </h1>
+ * <p>
+ * This class will get request and return the responces
+ * like Adding, Updating, Viewing, Searching, Deleting
+ * the Details of Employee
+ * </p> 
+ *
+ * @author  AJAISHARMA
  * @version 1.0
- * @since 16-09-2022
+ * @since   16-09-2022
  */
 public class ManagerController {
     private ManagerService managerService;
@@ -21,70 +25,58 @@ public class ManagerController {
     }
 
     /**
-     * Adds the Employee's detail 
+     * <h1> Add Employee </h1>
+     * <p>
+     * Adds the Details of Employees 
+     * </p>
      *
-     * @param user - user Object to add 
+     * @param user     - Details of Employee to add 
      * @param password - password to login
      *
-     * @return returns boolean
+     * @return boolean - true if the Details of an employee added otherwise false
      */
-    public boolean addEmployee(User user, String password) {
-        return managerService.addEmployee(user, password);
+    public boolean isEmployeeAdded(User user, String password) {
+        return managerService.isEmployeeAdded(user, password);
     }
 
     /**
-     * Prints the Employee Details 
+     * <h1> Get Details of Employees </h1>
+     * <p>
+     * Gets the Employee Details 
+     * </p>
      *
-     * @return List of Employee details
+     * @return List - Details of Employees
      */
     public List<User> getEmployees() {
         return managerService.getEmployees();
     }
 
     /**
-     * Prints the Employee's Details by Id
-     * 
-     * @param id - Employee's Id to search the Employee
+     * <h1> Get Details of Employees by Id </h1>
+     * <p>
+     * Gets the Details of a Single Employee by Id
+     * </p>
      *
-     * @return Employee object
+     * @param id    - Employee's Id to search the Employee
+     *
+     * @return User - Details of a Single Employee
      */
     public User getEmployeeById(String id) {
         return managerService.getEmployeeById(id);
     }
 
     /**
-     * Updates the Name of the Employee
+     * <h1> Update Details of Employee </h1>
+     * <p>
+     * Updates the Details of a Single Employee
+     * </p>
      *
-     * @param id - key to update the name
-     * @param employeeName - updated name
+     * @param id       - key to update the Details of Employees
+     * @param user     - updated Details of Employees
      *
-     * @return boolean
+     * @return boolean - true if the Details of Employee are updated otherwise false
      */
-    public boolean updateName(String id, String employeeName) {
-        return managerService.updateName(id, employeeName);
-    }
-
-    /**
-     * Updates the Email id of the Employee
-     *
-     * @param id - key to update the Email id
-     * @param employeeEmail - updated mail id
-     *
-     * @return boolean
-     */
-    public boolean updateEmail(String id, String employeeEmail) {
-        return managerService.updateEmail(id, employeeEmail);
-    }
-
-    /**
-     * Updates the Phone Number of the Employee
-     *
-     * @param id - key to update the Phone Number
-     * @param employeePhone - updated Phone Number
-     *
-     * @return boolean
-     */
-    public boolean updatePhoneNumber(String id, String employeePhoneNumber) {
-        return managerService.updatePhoneNumber(id, employeePhoneNumber);
+    public boolean isEmployeeUpdated(String id, User user) {
+        return managerService.isEmployeeUpdated(id, user);
     }
 }
