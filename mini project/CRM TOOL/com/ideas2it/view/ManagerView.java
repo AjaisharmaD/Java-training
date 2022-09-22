@@ -7,11 +7,16 @@ import com.ideas2it.controller.ManagerController;
 import com.ideas2it.model.User;
 
 /**
- * Contains all the operation performed by the Manager
- * like Adding Employee, Updating Employee, viewing Employee, searching Employee
+ * <h1> Manager View </h1>
+ * <p>
+ * This manager View class used to Controll the operation which are 
+ * performed by the Manager, like Adding, Viewing, Editing, Deleting
+ * the details of Employee.
+ * </p> 
  * 
- * @author Ajaisharma D
- * @version 1.0  19-09-2022
+ * @author  Ajaisharma D
+ * @version 1.0  
+ * @since   19-09-2022
  */
 public class ManagerView {
     private Scanner scanner = new Scanner(System.in);
@@ -22,21 +27,26 @@ public class ManagerView {
     }
 
     /**
-     * Manager's operation goes here
+     * <h1> Manager Dashboard </h1>
+     * <p>
+     * This method used to do the operation
+     * such as Adding, Printing, Updating and Deleting
+     * the Details of Employee
+     * </p>
      */
     public void openManagerDashboard() {
-        boolean isActive = true;
+        boolean isActive = false;
         byte operation;
 
         printWelcomeMessage();
 
-        while (isActive) {
+        while (!isActive) {
             printOperationMenu();
             operation = scanner.nextByte();
                    
             switch (operation) {
             case Constants.ADDER:
-                createEmployee();
+                addEmployee();
                 break;
                
             case Constants.PROJECTOR:
@@ -54,7 +64,7 @@ public class ManagerView {
             case Constants.EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isActive = (logout == Constants.LOGOUT) ? false : true; 
+                isActive = (logout == Constants.LOGOUT) ? true : false; 
                 break;
                    
             default:
@@ -64,9 +74,13 @@ public class ManagerView {
     }
 
     /**
-     * Creates the Employee's detail 
+     * <h1> Add Employee </h1>
+     * <p>
+     * This method will ask for the Details from the manager
+     * and passes the Details of Employee to Store
+     * </p>
      */
-    public void createEmployee() {
+    public void addEmployee() {
         User user;
         System.out.print("\nEnter the Employee count to add: ");
         int count = scanner.nextInt();
@@ -88,14 +102,15 @@ public class ManagerView {
             System.out.print("Enter the Password                :  ");
             password = scanner.nextLine();
 
-            user = new User(employeeName, employeeEmailId, employeePhone);
-
-            boolean isAdded = managerController.addEmployee(user, password);
+            boolean isAdded = managerController.isEmployeeAdded(new User(employeeName, employeeEmailId, employeePhone), password);
         }
     }
 
     /**
-     * Prints the Employee Details 
+     * <h1> Print Employee Details </h1>
+     * <p>
+     * This method will Disply the Details of an employee
+     * </p>
      */
     public void printEmployees() {
         System.out.println("\n========== EMPLOYEE DETAILS ==========\n");
@@ -103,7 +118,11 @@ public class ManagerView {
     }
 
     /**
-     * Finds the Employee by id
+     * <h1> Print Single Employee </h1>
+     * <p>
+     * This method is used to serach the employee Details by calling the Employee Id
+     * This will print the Details of a Single Employee
+     * </p>
      */
     public void printEmployeeById() {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
@@ -114,38 +133,45 @@ public class ManagerView {
     }
 
     /**
-     * updates the lead's details 
-     *
-     * @param id - key to update the Values
-     * @return returns nothing
+     * <h1> Update the Employee </h1>
+     * <p>
+     * This method will updates the each fields of the Employee Details 
+     * and Prints the Message that the fields are Updated or not
+     * </p>
      */
     public void updateEmployee() {
         System.out.print("Enter the Employee's Id to Update: ");
         scanner.nextLine();
         String id = scanner.nextLine();
-        boolean isUpdating = true;
+        boolean isUpdated = false;
+        boolean isUpdating = false;
 
-        while (isUpdating) {
+        User user = managerController.getEmployeeById(id);
+
+        while (!isUpdating) {
             printUpdaterMenu();
-            byte update = scanner.nextByte();
+            byte updater = scanner.nextByte();
                      
-            switch (update) {
+            switch (updater) {
             case Constants.NAME:
-                updateName(id);
+                user.setName(getName());
+                isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
                     
             case Constants.EMAIL:
-                updateEmail(id);
+                user.setEmailId(getEmail());
+                isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
                          
             case Constants.PHONE_NUMBER:
-                updatePhoneNumber(id);
+                user.setPhoneNumber(getPhoneNumber());
+                isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
 
             case Constants.EXIT_MANAGER_UPDATER:
                 printExitMenu();
                 byte logout = scanner.nextByte();
-                isUpdating = (logout == Constants.LOGOUT) ? false : true;
+                isUpdating = (logout == Constants.LOGOUT) ? true : false;
                 break;
                                   
             default:
@@ -155,43 +181,55 @@ public class ManagerView {
     }
 
     /**
-     * Updates the Name of the Employee
+     * <h1> Get Name </h1>
+     * <p>
+     * Gets the Name of the Lead to be updated
+     * </p> 
      *
-     * @param id - key to update the name
+     * @return leadName - an updated Name
      */
-    public void updateName(String id) {
+    private String getName() {
         System.out.print("Enter the Name: ");
-        scanner.nextLine();
-        String employeeName = scanner.nextLine();
-        managerController.updateName(id, employeeName);
+        scanner.skip("\r\n");
+        String leadName = scanner.nextLine();
+        return leadName;
     }
 
     /**
-     * Updates the Email Id of the Employee
+     * <h1> Get Email Id </h1>
+     * <p>
+     * Gets the Email Id of the Lead to be updated
+     * </p>
      *
-     * @param id - key to update the Email id
+     * @return leadEmail - an updated Email Id
      */
-    public void updateEmail(String id) {
+    private String getEmail() {
         System.out.print("Enter the Email: ");
-        scanner.nextLine();
-        String employeeEmail = scanner.nextLine();
-        managerController.updateEmail(id, employeeEmail);
+        scanner.skip("\r\n");
+        String leadEmail = scanner.nextLine();
+        return leadEmail;
     }
 
     /**
-     * Updates the Phone Number of the Employee
+     * <h1> Get Phone Number </h1>
+     * <p>
+     * Gets the Phone Number of the Lead to be updated
+     * </p>
      *
-     * @param id - key to update the Phone number
+     * @return leadPhoneNumber - an updated Phone number
      */
-    public void updatePhoneNumber(String id) {
+    private String getPhoneNumber() {
         System.out.print("Enter the Phone Number: ");
-        scanner.nextLine();
-        String employeePhoneNumber = scanner.nextLine();
-        managerController.updatePhoneNumber(id, employeePhoneNumber);
+        scanner.skip("\r\n");
+        String leadPhoneNumber = scanner.nextLine();
+        return leadPhoneNumber;
     }
 
     /**
-     * Prints the Menu for Employee to do operations
+     * <h1> Print Operation Menu </h1>
+     * <p>
+     * Prints the Operation Menu
+     * </p>
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
@@ -205,7 +243,10 @@ public class ManagerView {
     }
 
     /**
-     * Prints the Menu for Employee to do updation
+     * <h1> Print Updation Menu </h1>
+     * <p>
+     * Prints the Menu for Updating the Details of Employee
+     * </p>
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
@@ -219,7 +260,10 @@ public class ManagerView {
     } 
 
     /**
+     * <h1> Print Exit Menu </h1>
+     * <p>
      * Prints the choice for Employee to exit
+     * </p>
      */
     private void printExitMenu() {
         StringBuilder exitPrinter = new StringBuilder();
@@ -230,7 +274,10 @@ public class ManagerView {
     }
 
     /**
+     * <h1> Print Default Statement </h1>
+     * <p>
      * Prints the Default Statements
+     * </p>
      */
     private void printDefaultStatement() {
         StringBuilder defaultPrinter = new StringBuilder();        
@@ -241,7 +288,10 @@ public class ManagerView {
     }
 
     /**
+     * <h1> Print Welcome message </h1>
+     * <p>
      * Prints the Welcome Statements
+     * </p>
      */
     private void printWelcomeMessage() {
         StringBuilder welcomePrinter = new StringBuilder();
