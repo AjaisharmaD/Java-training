@@ -10,16 +10,19 @@ import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
 
 /**
- * Stores and fetch the data from the Collection Storage
- * and the Implementation of abstract Methods goes here
+ * <h1> Manager DAO Impl </h1>
+ * <p>
+ * This class will Implements all the operations
+ * like Adding, Viewing, Updating, Deleting the Details of Employees
+ * by Stores and fetching the data
+ * </p> 
  *
- * @author AJAISHARMA
+ * @author  AJAISHARMA
  * @version 1.0
- * @since 19-09-2022
+ * @since   19-09-2022
  */
 public class ManagerDaoImpl implements ManagerDao {
     private User user;
-    private int idCount = 0;
     private Map<String, String> passwordMap;
     private Map<String, User> employeeMap;
 
@@ -29,42 +32,40 @@ public class ManagerDaoImpl implements ManagerDao {
     }
 
     /**
-     * Adds the Employee's detail 
-     *
-     * @param user - user Object to add 
-     * @param password - password to login
-     *
-     * @return returns boolean
+     * {@inheritDoc}
+     * <p>
+     * This method will store the Details of Employee to employeeMap
+     * </p>
      */
-    public boolean addEmployee(String employeeId, User user, String password) {
+    @Override
+    public User addEmployee(String employeeId, User user, String password) {
         user.setId(employeeId);
         user.setPassword(password);
 
         passwordMap.put(employeeId, password);
         employeeMap.put(employeeId, user);
 
-        if (employeeMap.containsKey(employeeId)) {
-            return true;
-        }
-        return false;
+        return user;
     }
 
     /**
-     * Gets the Employees Details 
-     *
-     * @return List of Employee details
+     * {@inheritDoc}
+     * <p>
+     * This method will fetch the data of Employees from the employeeMap
+     * </p>
      */
+    @Override
     public Map<String, User> getEmployees() {
         return employeeMap;
     }
 
     /**
-     * Gets the Employee's Details by Id
-     * 
-     * @param id - Employee's Id to search the Employee
-     *
-     * @return Employee object
+     * {@inheritDoc}
+     * <p>
+     * This method will fetch the data of Employee from the employeeMap
+     * </p>
      */
+    @Override
     public User getEmployeeById(String id) {
         User user = null;
 
@@ -75,50 +76,17 @@ public class ManagerDaoImpl implements ManagerDao {
     }
 
     /**
-     * Updates the Name of the Employee
-     *
-     * @param id - key to update the name
-     * @param employeeName - updated name
-     *
-     * @return boolean
+     * {@inheritDoc}
+     * <p>
+     * This method will replace the data of Employees in the employeeMap
+     * </p>
      */
-    public boolean updateName(String id, String employeeName) {
+    @Override
+    public User updateEmployee(String id, User user) {
+        User updatedEmployee = null;
         if (employeeMap.containsKey(id)) {
-            employeeMap.get(id).setName(employeeName);
-            return true;
+            updatedEmployee = employeeMap.replace(id, user); 
         }
-        return false;
-    }
-
-    /**
-     * Updates the Email id of the Employee
-     *
-     * @param id - key to update the Email id
-     * @param leadEmail - updated mail id
-     *
-     * @return boolean
-     */
-    public boolean updateEmail(String id, String employeeEmail) {
-        if (employeeMap.containsKey(id)) {
-            employeeMap.get(id).setEmailId(employeeEmail);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Updates the Phone Number of the Employee
-     *
-     * @param id - key to update the Phone Number
-     * @param leadPhoneNumber - updated Phone Number
-     *
-     * @return boolean
-     */
-    public boolean updatePhoneNumber(String id, String employeePhoneNumber) {
-        if (employeeMap.containsKey(id)) {
-            employeeMap.get(id).setPhoneNumber(employeePhoneNumber);
-            return true;
-        }
-        return false;
+        return updatedEmployee;
     }
 }
