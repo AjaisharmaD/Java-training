@@ -10,12 +10,16 @@ import com.ideas2it.dao.ManagerDao;
 import com.ideas2it.dao.impl.ManagerDaoImpl;
 
 /**
- * controlls all the operation performed by the Manager
- * like adding employee, updating Employee, viewing lead, searching leads
+ * <h1> Manager Service </h1>
+ * <p>
+ * This class will get the Request and process the operatioin to be done
+ * like adding, Viewing, Updating, Deleting
+ * the Details of  Employees
+ * </p>
  * 
- * @author Ajaisharma D
+ * @author  Ajaisharma D
  * @version 1.0  
- * @since 19-09-2022
+ * @since   19-09-2022
  */
 public class ManagerService {
     private static int idCount = 0;
@@ -26,9 +30,12 @@ public class ManagerService {
     }
 
     /**
-     * generates the Id for Employee
+     * <h1> Id generator </h1>
+     * <p>
+     * Generates the Id for Employee
+     * </p>
      * 
-     * @return returns the generated Id
+     * @return String - generated Id
      */
     private String generateId() {
          String prefixId = "Employee_0";
@@ -36,22 +43,32 @@ public class ManagerService {
      }
 
     /**
-     * Adds the Employee's detail 
+     * <h1> Add Employee </h1>
+     * <p>
+     * Adds the Details of Employees 
+     * </p>
      *
-     * @param user - user Object to add 
+     * @param user     - Details of Employee to add 
      * @param password - password to login
      *
-     * @return returns boolean
+     * @return boolean - true if the Details of an employee added otherwise false
      */
-    public boolean addEmployee(User user, String password) {
+    public boolean isEmployeeAdded(User user, String password) {
         String id = generateId();
-        return managerDao.addEmployee(id, user, password);
+
+        if (managerDao.addEmployee(id, user, password) != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Gets the Employee Details 
+     * <h1> Get Details of Employees </h1>
+     * <p>
+     * Gets the Details of all Employees
+     * </p>
      *
-     * @return List of Employee details
+     * @return List - Details of employees
      */
     public List<User> getEmployees() {
         List<User> employeeList = new ArrayList<>();
@@ -63,49 +80,34 @@ public class ManagerService {
     }
 
     /**
-     * Gets the Employee's Details by Id
+     * <h1> Get Details of Employee by Id </h1>
+     * <p>
+     * Gets the Details of a Single Employee by Id
+     * </p>
      * 
-     * @param id - Employee's Id to search the Employee
+     * @param id    - Employee's Id to search the Details of Employee
      *
-     * @return Employee object
+     * @return User - Details of a Single Employee
      */
     public User getEmployeeById(String id) {
         return managerDao.getEmployeeById(id);
     }
 
     /**
-     * Updates the Name of the Employee
+     * <h1> Update Details of Employee </h1>
+     * <p>
+     * Updates the Details of a Single Employee
+     * </p>
      *
-     * @param id - key to update the name
-     * @param employeeName - updated name
+     * @param id       - key to update the Details of Employee
+     * @param user     - updated Employee Details
      *
-     * @return boolean
+     * @return boolean - true if the Details of Employee are updated otherwise false
      */
-    public boolean updateName(String id, String employeeName) {
-        return managerDao.updateName(id, employeeName);
-    }
-
-    /**
-     * Updates the Email id of the Employee
-     *
-     * @param id - key to update the Email id
-     * @param leadEmail - updated mail id
-     *
-     * @return boolean
-     */
-    public boolean updateEmail(String id, String employeeEmail) {
-        return managerDao.updateEmail(id, employeeEmail);
-    }
-
-    /**
-     * Updates the Phone Number of the Employee
-     *
-     * @param id - key to update the Phone Number
-     * @param leadPhone - updated Phone Number
-     *
-     * @return boolean
-     */
-    public boolean updatePhoneNumber(String id, String employeePhone) {
-        return managerDao.updatePhoneNumber(id, employeePhone);
+    public boolean isEmployeeUpdated(String id, User user) {
+        if (managerDao.updateEmployee(id, user) != null) {
+            return true;
+        }
+        return false;
     }
 }
