@@ -110,4 +110,21 @@ public class ManagerService {
         }
         return false;
     }
+
+    /**
+     * <h1> Remove Details of Employee </h1>
+     * <p>
+     * Removes the Details of a Single Employee
+     * </p>
+     *
+     * @param id       - key to Remove the Employee
+     *
+     * @return boolean - true if the Details of Employee are Removed otherwise false
+     */
+    public boolean isEmployeeRemovedById(String id) {
+        if (managerDao.removeEmployeeById(id) != null) {
+            return true;
+        }
+        return false;
+    }
 }
