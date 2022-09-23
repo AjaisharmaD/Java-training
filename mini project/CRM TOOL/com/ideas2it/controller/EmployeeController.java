@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ideas2it.model.Lead;
 import com.ideas2it.service.EmployeeService;
+import com.ideas2it.utils.ValidationUtils;
 
 /**
  * <h1> Employee Controller </h1>
@@ -18,11 +19,12 @@ import com.ideas2it.service.EmployeeService;
  * @since 24-08-2022
  */
 public class EmployeeController {
-    private Lead lead;
     private EmployeeService employeeService;
+    private ValidationUtils validationUtils; 
 
     public EmployeeController() {
         this.employeeService = new EmployeeService();
+        this.validationUtils = new ValidationUtils();
     }
        
     /**
@@ -81,16 +83,96 @@ public class EmployeeController {
     }
 
     /**
-     * <h1> Delete Details of Lead by Id</h1>
+     * <h1> Remove Details of Lead by Id</h1>
      * <p>
-     * Deletes the Details of a Single Lead
+     * Removes the Details of a Single Lead
      * </p>
      *
-     * @param id       - key to delete the Lead
+     * @param id       - key to remove the Lead
      *
-     * @return boolean - true if the Details of Lead are Deleted otherwise false
+     * @return boolean - true if the Details of Lead are Removed otherwise false
      */
-    public boolean isLeadDeletedById(String id) {
-        return employeeService.isLeadDeletedById(id);
+    public boolean isLeadRemovedById(String id) {
+        return employeeService.isLeadRemovedById(id);
+    }
+
+    /**
+     * <h1> Valid Name </h1>
+     * <p>
+     * This method will get the Name and checks whether the given Name is valid or not
+     * </p>
+     *
+     * @param name     - Name of Lead given by the Employee  
+     * @return boolean - true if the Name is valid otherwise false
+     */
+    public boolean isValidName(String name) {
+        if (validationUtils.isValidName(name)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Email </h1>
+     * <p>
+     * This method will get the Email and checks whether the given Email is valid or not
+     * </p>
+     *
+     * @param email    - Email of Lead given by the Employee  
+     * @return boolean - true if the Email is valid otherwise false
+     */
+    public boolean isValidEmail(String email) {
+        if (validationUtils.isValidEmail(email)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Phone Number </h1>
+     * <p>
+     * This method will get the Phone Number and checks whether the given Phone Number is valid or not
+     * </p>
+     *
+     * @param phoneNumber - Phone Number of Lead given by the Employee  
+     * @return boolean    - true if the Phone Number is valid otherwise false
+     */
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        if (validationUtils.isValidPhoneNumber(phoneNumber)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Company Name </h1>
+     * <p>
+     * This method will get the Company Name and checks whether the given Company Name is valid or not
+     * </p>
+     *
+     * @param companyName - Company Name of Lead given by the Employee  
+     * @return boolean    - true if the Company Name is valid otherwise false
+     */
+    public boolean isValidCompanyName(String companyName) {
+        if (validationUtils.isValidCompanyName(companyName)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Deal Size </h1>
+     * <p>
+     * This method will get the Deal Size and checks whether the given Deal Size is valid or not
+     * </p>
+     *
+     * @param dealSize - Deal Size of Lead given by the Employee  
+     * @return boolean - true if the Deal Size is valid otherwise false
+     */
+    public boolean isValidDealSize(String dealSize) {
+        if (validationUtils.isValidDealSize(dealSize)) {
+            return true;
+        }
+        return false;
     }
 }
