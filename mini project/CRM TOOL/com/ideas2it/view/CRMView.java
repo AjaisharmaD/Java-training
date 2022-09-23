@@ -14,9 +14,9 @@ import com.ideas2it.view.ManagerView;
  * Login users as Manager and Employee
  * </p>
  *
- * @author AJAISHARMA 
+ * @author  AJAISHARMA 
  * @version 1.0 
- * @since 10-09-2022
+ * @since   10-09-2022
  */
 public class CRMView {
     private Scanner scanner = new Scanner(System.in);
