@@ -67,4 +67,16 @@ public interface ManagerDao {
      * @return User - updated Details of Employee
      */
     public User updateEmployee(String id, User user);
+
+    /**
+     * <h1> Remove Details of Employee </h1>
+     * <p>
+     * Removes the Details of Employee 
+     * </p>
+     *
+     * @param id    - key to Remove the Details of Employee
+     *
+     * @return User - Removed Details of Employee
+     */
+    public User removeEmployeeById(String id);
 }
