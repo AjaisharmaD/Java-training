@@ -45,7 +45,7 @@ public class EmployeeService {
     /**
      * <h1> Add Leads </h1>
      * <p>
-     * Adds the Details of Leads 
+     * Adds the Details of Leads then returns true
      * </p>
      *
      * @param lead     - lead Object to add 
@@ -111,17 +111,17 @@ public class EmployeeService {
     }
 
     /**
-     * <h1> Delete Details of Lead </h1>
+     * <h1> Remove Details of Lead </h1>
      * <p>
-     * Deletes the Details of a Single Lead
+     * Removes the Details of a Single Lead
      * </p>
      *
-     * @param id       - key to delete the Lead
+     * @param id       - key to Remove the Lead
      *
-     * @return boolean - true if the Details of Lead are Deleted otherwise false
+     * @return boolean - true if the Details of Lead are Removed otherwise false
      */
-    public boolean isLeadDeletedById(String id) {
-        if (employeeDao.deleteLeadById(id) != null) {
+    public boolean isLeadRemovedById(String id) {
+        if (employeeDao.removeLeadById(id) != null) {
             return true;
         }
         return false;
