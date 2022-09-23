@@ -23,7 +23,7 @@ public interface EmployeeDao {
      * <h1> Add Leads </h1>
      * <p>
      * Adds the Details of Leads 
-     * <p>
+     * </p>
      *
      * @param leadId - Id of a lead 
      * @param lead   - Details of Leads to add 
@@ -68,14 +68,14 @@ public interface EmployeeDao {
      public Lead updateLead(String id, Lead lead);
 
     /**
-     * <h1> Delete Details of Lead </h1>
+     * <h1> Remove Details of Lead </h1>
      * <p>
-     * Deletes the Details of Lead 
+     * Removes the Details of Lead 
      * </p>
      *
-     * @param id    - key to delete the Details of Leads
+     * @param id    - key to Remove the Details of Lead
      *
-     * @return Lead - Deleted Details of Lead
+     * @return boolean - true if value is not null otherwise false
      */
-    public Lead deleteLeadById(String id);
+    public Lead removeLeadById(String id);
 }
