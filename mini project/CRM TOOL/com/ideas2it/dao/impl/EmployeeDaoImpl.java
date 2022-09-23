@@ -17,9 +17,9 @@ import com.ideas2it.model.Lead;
  * by Stores and fetching the data
  * </p> 
  *
- * @author AJAISHARMA
+ * @author  AJAISHARMA
  * @version 1.0
- * @since 19-09-2022
+ * @since   19-09-2022
  */
 public class EmployeeDaoImpl implements EmployeeDao {
     private Map<String, Lead> leadMap;
@@ -59,12 +59,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public Lead getLeadById(String id) {
-        Lead leads = null;
-
         if (leadMap.containsKey(id)) {
-            leads = leadMap.get(id);
+            return leadMap.get(id);
         }
-        return leads;
+        return null;
     }
 
     /**
@@ -75,26 +73,23 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public Lead updateLead(String id, Lead lead) {
-        Lead updatedLead = null;
-
         if (leadMap.containsKey(id)) {
-            updatedLead = leadMap.replace(id, lead);
+            return leadMap.replace(id, lead);
         }
-        return updatedLead;
+        return null;
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method will remove the data of Lead from the leadMap
+     * This method will remove the details of Lead from the leadMap
      * </p>
      */
     @Override
-    public Lead deleteLeadById(String id) {
-        Lead deletedLead = null;
+    public Lead removeLeadById(String id) {
         if (leadMap.containsKey(id)) {
-            deletedLead =leadMap.remove(id);
+            return leadMap.remove(id);
         }
-        return deletedLead;
+        return null;
     }
 }
