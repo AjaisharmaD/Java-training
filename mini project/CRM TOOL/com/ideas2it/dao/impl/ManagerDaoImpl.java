@@ -89,4 +89,19 @@ public class ManagerDaoImpl implements ManagerDao {
         }
         return updatedEmployee;
     }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This method will remove the details of Employee from the employeeMap
+     * </p>
+     */
+    @Override
+    public User removeEmployeeById(String id) {
+        User removedEmployee = null;
+        if (employeeMap.containsKey(id)) {
+            removedEmployee = employeeMap.remove(id);
+        }
+        return removedEmployee;
+    }
 }
