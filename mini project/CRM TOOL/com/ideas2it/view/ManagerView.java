@@ -61,6 +61,10 @@ public class ManagerView {
                 updateEmployee();
                 break;
                
+            case Constants.REMOVER:
+                removeEmployee();
+                break;
+
             case Constants.EXIT:
                 printExitMenu();
                 byte logout = scanner.nextByte();
@@ -92,15 +96,11 @@ public class ManagerView {
 
         for (int index = 0; index < count; index++) {
             System.out.println("\n====== Enter Employee 0"+ (index + 1) + " Details ======\n");
-            System.out.print("Enter the Employee's Name         :  ");
-            scanner.nextLine();
-            employeeName = scanner.nextLine();
-            System.out.print("Enter the Employee's Email ID     :  ");
-            employeeEmailId = scanner.nextLine();
-            System.out.print("Enter the Employee's Phone Number :  ");
-            employeePhone = scanner.nextLine();
-            System.out.print("Enter the Password                :  ");
-            password = scanner.nextLine();
+            scanner.skip("\r\n");
+            employeeName = getName();
+            employeeEmailId = getEmail();
+            employeePhone = getPhoneNumber();
+            password = getPassword();
 
             boolean isAdded = managerController.isEmployeeAdded(new User(employeeName, employeeEmailId, employeePhone), password);
         }
@@ -154,16 +154,19 @@ public class ManagerView {
                      
             switch (updater) {
             case Constants.NAME:
+                scanner.skip("\r\n");
                 user.setName(getName());
                 isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
                     
             case Constants.EMAIL:
+                scanner.skip("\r\n");
                 user.setEmailId(getEmail());
                 isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
                          
             case Constants.PHONE_NUMBER:
+                scanner.skip("\r\n");
                 user.setPhoneNumber(getPhoneNumber());
                 isUpdated = managerController.isEmployeeUpdated(id, user);
                 break;
@@ -183,46 +186,131 @@ public class ManagerView {
     /**
      * <h1> Get Name </h1>
      * <p>
-     * Gets the Name of the Lead to be updated
+     * Gets the Name of the Employee and checks whether the Name is Valid or not
      * </p> 
      *
-     * @return leadName - an updated Name
+     * @return employeeName - a Valid Name of the Employee
      */
     private String getName() {
-        System.out.print("Enter the Name: ");
-        scanner.skip("\r\n");
-        String leadName = scanner.nextLine();
-        return leadName;
+        String employeeName = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter the Employee's Name                          : ");
+            employeeName = scanner.nextLine();
+
+            if (managerController.isValidName(employeeName)) {
+                break;
+            } else { 
+                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+            }  
+        }
+        return employeeName;
     }
 
     /**
      * <h1> Get Email Id </h1>
      * <p>
-     * Gets the Email Id of the Lead to be updated
+     * Gets the Email of the Employee and checks whether the Email is Valid or not
      * </p>
      *
-     * @return leadEmail - an updated Email Id
+     * @return employeeEmail - a Valid Email of the Employee
      */
     private String getEmail() {
-        System.out.print("Enter the Email: ");
-        scanner.skip("\r\n");
-        String leadEmail = scanner.nextLine();
-        return leadEmail;
+        String employeeEmail = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter the Employee's Email ID                      : ");
+            employeeEmail = scanner.nextLine();
+
+            if (managerController.isValidEmail(employeeEmail)) {
+                break;
+            } else { 
+                System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+            }  
+        }
+        return employeeEmail;
     }
 
     /**
      * <h1> Get Phone Number </h1>
      * <p>
-     * Gets the Phone Number of the Lead to be updated
+     * Gets the Phone Number of the Employee and checks whether the Phone Number is Valid or not
      * </p>
      *
-     * @return leadPhoneNumber - an updated Phone number
+     * @return employeePhoneNumber - a Valid Phone Number of the Employee
      */
     private String getPhoneNumber() {
-        System.out.print("Enter the Phone Number: ");
-        scanner.skip("\r\n");
-        String leadPhoneNumber = scanner.nextLine();
-        return leadPhoneNumber;
+        String employeePhoneNumber = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter the Employee's Phone Number                  : ");
+            employeePhoneNumber = scanner.nextLine();
+
+            if (managerController.isValidPhoneNumber(employeePhoneNumber)) {
+                break;
+            } else { 
+                System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+            }  
+        }
+        return employeePhoneNumber;
+    }
+
+    /**
+     * <h1> Get Password </h1>
+     * <p>
+     * Gets the Password of the Employee and checks whether the Password is Valid or not
+     * </p>
+     *
+     * @return password - a Valid Password of the Employee
+     */
+    private String getPassword() {
+        String password = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter the Employee's Password                     : ");
+            password = scanner.nextLine();
+
+            if (managerController.isValidPassword(password)) {
+                break;
+            } else { 
+                System.out.println("\n>>>>> Wrong Password Format, Give the proper Password! <<<<<\n");
+            }  
+        }
+        return password;
+    }
+
+    /**
+     * <h1> Delate the Employee </h1>
+     * <p>
+     * This method will Delete the Details of a Employee 
+     * and Prints the Message that the fields are Deleted or not
+     * </p>
+     */
+    private void removeEmployee() {
+        System.out.print("Enter the ID to Employee\n \" Format:Employee_01 \" : ");
+        String id = scanner.nextLine();
+        boolean isRemoved = managerController.isEmployeeRemovedById(id);
+        printSuccessMessage(isRemoved);
+    }
+
+    /**
+     * <h1> Print Success Message </h1>
+     * <p>
+     * Prints the Message that the Operation completed Successfully or not
+     * </p>
+     *
+     * @param isSuccess - boolean value of Operation performed
+     */
+    private void printSuccessMessage(boolean isSuccess) {
+        if (isSuccess) {
+            System.out.println("\n>>>>> Successfully finished the operation <<<<<\n");
+        } else {
+            System.out.println("\n>>>>> Error: Please check something went wrong <<<<<\n");
+        }
     }
 
     /**
@@ -233,12 +321,13 @@ public class ManagerView {
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
-        OperationPrinter.append("Press \" 1 \" for Add New Employee\n")
-                     .append("Press \" 2 \" for View\n")
-                     .append("Press \" 3 \" for Search\n")
-                     .append("Press \" 4 \" for Update\n")
-                     .append("Press \" 5 \" for EXIT\n")
-                     .append("Enter your Operation: ");
+        OperationPrinter.append("\nPress \" 1 \" for Add New Employee\n")
+                        .append("Press \" 2 \" for View\n")
+                        .append("Press \" 3 \" for Search\n")
+                        .append("Press \" 4 \" for Update\n")
+                        .append("Press \" 5 \" for Delete\n")
+                        .append("Press \" 6 \" for EXIT\n")
+                        .append("Enter your Operation: ");
         System.out.print(OperationPrinter);
     }
 
