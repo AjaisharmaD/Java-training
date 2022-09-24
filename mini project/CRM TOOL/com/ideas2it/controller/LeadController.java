@@ -1,0 +1,178 @@
+package com.ideas2it.controller;
+
+import java.util.List;
+
+import com.ideas2it.model.Lead;
+import com.ideas2it.service.LeadService;
+import com.ideas2it.utils.ValidationUtils;
+
+/**
+ * <h1> Lead Controller </h1>
+ * <p>
+ * This class will get request and return the responces
+ * like Adding, Updating, Viewing, Searching, Deleting
+ * the details of Leads
+ * </p> 
+ *
+ * @author  Ajaisharma D
+ * @version 1.0
+ * @since   24-08-2022
+ */
+public class LeadController {
+    private LeadService leadService;
+    private ValidationUtils validationUtils; 
+
+    public LeadController() {
+        this.leadService = new LeadService();
+        this.validationUtils = new ValidationUtils();
+    }
+       
+    /**
+     * <h1> Create Lead </h1>
+     * <p>
+     * Passes the Details of Leads to Service
+     * </p>
+     *
+     * @param lead     - lead Object to add 
+     *
+     * @return boolean - true if the Details of an Lead added otherwise false
+     */
+    public Lead createLead(Lead lead) {
+        return leadService.createLead(lead);
+    }
+
+    /**   
+     * <h1> Get Details of Leads </h1>
+     * <p>
+     * Gets the Details of Leads
+     * </p>
+     *
+     * @return List - Details of Leads
+     */
+    public List<Lead> getLeads() {
+        return leadService.getLeads();
+    }    
+
+    /**
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of a Single Lead by Id
+     * </p>
+     * 
+     * @param id    - Lead's Id to search the lead
+     *
+     * @return Lead - Details of a Single Lead
+     */
+    public Lead getById(String id) {
+        return leadService.getById(id);
+    }
+
+    /**
+     * <h1> Update Details of Lead By Id </h1>
+     * <p>
+     * Updates the Details of a Single Lead
+     * </p>
+     *
+     * @param id       - key to update the Lead
+     * @param lead     - updated Lead 
+     *
+     * @return lead - the Update details of lead
+     */
+    public Lead updateById(String id, Lead lead) {
+        return leadService.updateById(id, lead);
+    }
+
+    /**
+     * <h1> Detele Details of Lead by Id</h1>
+     * <p>
+     * Deteles the Details of a Single Lead
+     * </p>
+     *
+     * @param id       - key to Detele the Lead
+     *
+     * @return boolean - true if the Details of Lead are Deteled otherwise false
+     */
+    public boolean deleteById(String id) {
+        return leadService.deleteById(id);
+    }
+
+    /**
+     * <h1> Valid Name </h1>
+     * <p>
+     * Get the Name and checks whether the given Name is valid or not
+     * </p>
+     *
+     * @param name     - Name of Lead given by the Employee  
+     * @return boolean - true if the Name is valid otherwise false
+     */
+    public boolean isValidName(String name) {
+        if (validationUtils.isValidName(name)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Email </h1>
+     * <p>
+     * Get the Email and checks whether the given Email is valid or not
+     * </p>
+     *
+     * @param email    - Email of Lead given by the Employee  
+     * @return boolean - true if the Email is valid otherwise false
+     */
+    public boolean isValidEmail(String email) {
+        if (validationUtils.isValidEmail(email)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Phone Number </h1>
+     * <p>
+     * Get the Phone Number and checks whether the given Phone Number is valid or not
+     * </p>
+     *
+     * @param phoneNumber - Phone Number of Lead given by the Employee  
+     * @return boolean    - true if the Phone Number is valid otherwise false
+     */
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        if (validationUtils.isValidPhoneNumber(phoneNumber)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Company Name </h1>
+     * <p>
+     * Get the Company Name and checks whether the given Company Name is valid or not
+     * </p>
+     *
+     * @param companyName - Company Name of Lead given by the Employee  
+     * @return boolean    - true if the Company Name is valid otherwise false
+     */
+    public boolean isValidCompanyName(String companyName) {
+        if (validationUtils.isValidCompanyName(companyName)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Deal Size </h1>
+     * <p>
+     * Get the Deal Size and checks whether the given Deal Size is valid or not
+     * </p>
+     *
+     * @param dealSize - Deal Size of Lead given by the Employee  
+     * @return boolean - true if the Deal Size is valid otherwise false
+     */
+    public boolean isValidDealSize(String dealSize) {
+        if (validationUtils.isValidDealSize(dealSize)) {
+            return true;
+        }
+        return false;
+    }
+}
