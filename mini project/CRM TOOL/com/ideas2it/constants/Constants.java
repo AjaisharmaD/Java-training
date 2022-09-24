@@ -1,5 +1,7 @@
 package com.ideas2it.constants;
 
+import java.util.regex.Pattern;
+
 /**
  * <h1> Constants </h1>
  * <p>
@@ -42,4 +44,5 @@ public class Constants {
     public final static String DEALSIZE_PATTERN = "^[0-9]{1,}[.]{1}[0-9]{1,}$";
     public final static String COMPANYNAME_PATTERN = "^[a-zA-Z0-9\s]{1,}$"; 
     public final static String PASSWORD_PATTERN = "^[A-Za-z0-9@#$*]{8,15}$";
+    public final static String STAGE_PATTERN = "^(lead|customer|contact)?$";
 }
