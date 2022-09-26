@@ -25,7 +25,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     private Map<String, String> passwordMap;
     private Map<String, User> employeeMap;
 
-    public ManagerDaoImpl() {
+    public EmployeeDaoImpl() {
         this.passwordMap = new HashMap<>();
         this.employeeMap = new HashMap<>();
     }
@@ -37,10 +37,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public User addEmployee(String employeeId, User user, String password) {
         user.setId(employeeId);
         user.setPassword(password);
-
         passwordMap.put(employeeId, password);
         employeeMap.put(employeeId, user);
-        return employeeMap.get(id);
+        return employeeMap.get(employeeId);
     }
 
     /**
