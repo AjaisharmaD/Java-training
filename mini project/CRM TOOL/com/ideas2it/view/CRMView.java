@@ -14,9 +14,9 @@ import com.ideas2it.view.EmployeeView;
  * Login users as Manager and Employee
  * </p>
  *
- * @author AJAISHARMA 
+ * @author  AJAISHARMA 
  * @version 1.0 
- * @since 10-09-2022
+ * @since   10-09-2022
  */
 public class CRMView {
     private Scanner scanner = new Scanner(System.in);
@@ -55,14 +55,13 @@ public class CRMView {
                  break;
              
             case Constants.CRM_EXIT:
-                printExitMenu();
+                System.out.println(Constants.EXIT_MENU);
                 logout = scanner.nextByte();
                 isActive = (logout == Constants.LOGOUT) ? false : true;  
                 break;
                  
             default:
-                printDefaultStatement();
-                
+                System.out.println(Constants.DEFAULT_MESSAGE);
             }  
         } while (isActive);
     } 
@@ -85,7 +84,7 @@ public class CRMView {
     private void printWelcomeMessage() {
         StringBuilder welcomePrinter = new StringBuilder();
         welcomePrinter.append("\n========================================")
-                      .append("|               CRM TOOL               |")
+                      .append("|                CRM TOOL                |")
                       .append("========================================\n");
         System.out.println(welcomePrinter);
     }
@@ -98,38 +97,13 @@ public class CRMView {
      */
     private void printUserMenu() {
         StringBuilder userMenu = new StringBuilder();
-        userMenu.append("press \" 1 \" for Employee\n")
-                .append("press \" 2 \" for Manager\n")
-                .append("press \" 3 \" for EXIT\n")
+        userMenu.append("press \" ").append(Constants.EMPLOYEE)
+                .append(" \" for Employee\n")
+                .append("press \" ").append(Constants.MANAGER)
+                .append(" \" for Manager\n")
+                .append("press \" ").append(Constants.CRM_EXIT)
+                .append(" \" for EXIT\n")
                 .append("Press the Number to Login as: ");
 	System.out.print(userMenu);
-    }
-
-    /**
-     * <h1> Print Exit Menu </h1>
-     * <p>
-     * Prints the choice for User to exit
-     * </p>
-     */
-    private void printExitMenu() {
-	StringBuilder exitMenu = new StringBuilder();
-        exitMenu.append(">>>>> Are you sure want to Exit? <<<<<\n")
-                .append("press \" 1 \" for Yes\n")
-                .append("press \" Any Number \" for No");
-	System.out.println(exitMenu);
-    }
-
-    /**
-     * <h1> Print Default Statement </h1>
-     * <p>
-     * Prints the Default Statements
-     * </p>
-     */
-    private void printDefaultStatement() {
-        StringBuilder defaultPrinter = new StringBuilder();        
-        defaultPrinter.append(">>>>> You have entered wrong Choice <<<<<\n")
-                  .append("Please enter any of the ")
-                  .append("number given Below to proceed\n");
-        System.out.println(defaultPrinter);
     }
 }
