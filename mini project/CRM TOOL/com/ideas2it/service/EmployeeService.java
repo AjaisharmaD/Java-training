@@ -52,13 +52,9 @@ public class EmployeeService {
      *
      * @return boolean - true if the Details of an employee added otherwise false
      */
-    public boolean createEmployee(User user, String password) {
+    public User createEmployee(User user, String password) {
         String id = generateId();
-
-        if (employeeDao.addEmployee(id, user, password) != null) {
-            return true;
-        }
-        return false;
+        return employeeDao.addEmployee(id, user, password);
     }
 
     /**
@@ -69,10 +65,10 @@ public class EmployeeService {
      *
      * @return List - Details of employees
      */
-    public List<User> displayAll() {
+    public List<User> getAll() {
         List<User> employeeList = new ArrayList<>();
 
-        for (Map.Entry<String, User> employeeEntry : managerDao.getAll().entrySet()) {
+        for (Map.Entry<String, User> employeeEntry : employeeDao.getAll().entrySet()) {
             employeeList.add(employeeEntry.getValue());
         } 
         return employeeList;
@@ -88,8 +84,8 @@ public class EmployeeService {
      *
      * @return User - Details of a Single Employee
      */
-    public User displayById(String id) {
-        return employeeeDao.getById(id);
+    public User getById(String id) {
+        return employeeDao.getById(id);
     }
 
     /**
@@ -103,11 +99,8 @@ public class EmployeeService {
      *
      * @return User - Details of a Single Employee
      */
-    public User updatedById(String id, User user) {
-        if (employeeDao.updateById(id, user) != null) {
-            return true;
-        }
-        return false;
+    public User updateById(String id, User user) {
+        return employeeDao.updateById(id, user);
     }
 
     /**
