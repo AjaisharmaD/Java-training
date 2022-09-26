@@ -26,8 +26,7 @@ public class ValidationUtils {
      * </p>
      *
      * @param name     - Name of Employee or Lead
-     * @return boolean - true if the given Name Matches 
-     *                   the Name pattern otherwise false
+     * @return boolean - Status of Name
      */
     public boolean isValidName(String name) {
         return Pattern.matches(Constants.NAME_PATTERN, name);        
@@ -40,8 +39,7 @@ public class ValidationUtils {
      * </p>
      *
      * @param email     - Email of Employee or Lead
-     * @return boolean  - true if the given Email Matches 
-     *                    the Email pattern otherwise false 
+     * @return boolean  - Status of Email
      */
     public boolean isValidEmail(String email) {
         return Pattern.matches(Constants.EMAIL_PATTERN, email);
@@ -54,25 +52,23 @@ public class ValidationUtils {
      * </p>
      *
      * @param phoneNumber - Phone Number of Employee or Lead
-     * @return boolean    - true if the given Phone Number Matches
-     *                      the Phone Number pattern 
+     * @return boolean    - Status of Phone Number 
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
         return Pattern.matches(Constants.PHONENUMBER_PATTERN, phoneNumber);
     }
 
     /**
-     * <h1> Valid Deal Size </h1>
+     * <h1> Valid Deal Cost </h1>
      * <p>
-     * This method will checks the input for Deal Size is valid or not
+     * This method will checks the input for Deal Cost is valid or not
      * </p>
      *
-     * @param dealSize - Deal Size of Employee or Lead
-     * @return boolean - true if the given Deal Size Matches 
-     *                   the Deal Size pattern 
+     * @param dealCost - Deal Size of Employee or Lead
+     * @return boolean - Status of Deal Cost
      */
-    public boolean isValidDealSize(String dealSize) {
-        return Pattern.matches(Constants.DEALSIZE_PATTERN, dealSize);
+    public boolean isValidDealCost(String dealCost) {
+        return Pattern.matches(Constants.DEALCOST_PATTERN, dealCost);
     }
 
     /**
@@ -82,8 +78,7 @@ public class ValidationUtils {
      * </p>
      *
      * @param companyName - Company Name of Lead
-     * @return boolean    - true if the given Company Name 
-     *                      Matches the Company Name pattern otherwise false
+     * @return boolean    - Status of Company Name
      */
     public boolean isValidCompanyName(String companyName) {
         return Pattern.matches(Constants.COMPANYNAME_PATTERN, companyName);        
@@ -96,8 +91,7 @@ public class ValidationUtils {
      * </p>
      *
      * @param password - Password of Employee
-     * @return boolean - true if the given Password 
-     *                      Matches the Password pattern otherwise false
+     * @return boolean - Status of Password
      */
     public boolean isValidPassword(String password) {
         return Pattern.matches(Constants.PASSWORD_PATTERN, password);        
@@ -110,8 +104,7 @@ public class ValidationUtils {
      * </p>
      *
      * @param password - Password of Employee
-     * @return boolean - true if the given Password 
-     *                      Matches the Password pattern otherwise false
+     * @return boolean - Status of Stage
      */
     public boolean isValidStage(String stage) {
         return Pattern.matches(Constants.STAGE_PATTERN, stage);        
