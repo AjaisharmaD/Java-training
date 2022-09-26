@@ -22,7 +22,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
     private ValidationUtils validationUtils;
     
-    public ManagerController() {
+    public EmployeeController() {
         this.employeeService = new EmployeeService();
         this.validationUtils = new ValidationUtils();
     }
@@ -50,8 +50,8 @@ public class EmployeeController {
      *
      * @return List - Details of Employees
      */
-    public List<User> displayAll() {
-        return employeeService.display();
+    public List<User> getAll() {
+        return employeeService.getAll();
     }
 
     /**
@@ -64,8 +64,8 @@ public class EmployeeController {
      *
      * @return User - Details of a Single Employee
      */
-    public User displayById(String id) {
-        return employeeService.displayById(id);
+    public User getById(String id) {
+        return employeeService.getById(id);
     }
 
     /**
