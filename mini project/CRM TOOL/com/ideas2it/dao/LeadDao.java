@@ -40,7 +40,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public Map<String, Lead> getLeads();
+    public Map<String, Lead> getAll();
 
     /**
      * <h1> Get Details of Lead by Id </h1>
