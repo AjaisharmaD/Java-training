@@ -63,13 +63,13 @@ public class LeadService {
      *
      * @return List - Details of Leads 
      */
-    public List<Lead> getLeads() {    
-        List<Lead> leadList = new ArrayList<>();
+    public List<Lead> getAll() {    
+        List<Lead> leads = new ArrayList<>();
 
-        for (Map.Entry<String, Lead> leadEntry : leadDao.getLeads().entrySet()) {
-            leadList.add(leadEntry.getValue());
+        for (Map.Entry<String, Lead> leadEntry : leadDao.getAll().entrySet()) {
+            leads.add(leadEntry.getValue());
         }  
-        return leadList;
+        return leads;
     }
 
     /**
@@ -95,7 +95,7 @@ public class LeadService {
      * @param id       - key to update the Lead
      * @param lead     - an updated Lead 
      *  
-     * @return Lead - Details of Single lead
+     * @return Lead    - Details of Single lead
      */
     public Lead updateById(String id, Lead lead) {
         return leadDao.updateById(id, lead);
@@ -107,11 +107,11 @@ public class LeadService {
      * Deteles the Details of a Single Lead
      * </p>
      *
-     * @param id       - key to Remove the Lead
+     * @param id       - key to Delete the Lead
      *
-     * @return boolean - true if the Details of Lead are Deteled otherwise false
+     * @return boolean - Status of the Deleted Lead
      */
-    public boolean deleteById(String id) {
+    public boolean isDeletedById(String id) {
         if (leadDao.deleteById(id) != null) {
             return true;
         }
