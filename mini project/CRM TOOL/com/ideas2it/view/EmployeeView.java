@@ -51,7 +51,7 @@ public class EmployeeView {
                 break;
                
             case Constants.PROJECTOR:
-                display();
+                displayAll();
                 break;
                                                 
             case Constants.FINDER:
@@ -67,13 +67,13 @@ public class EmployeeView {
                 break;
 
             case Constants.EXIT:
-                printExitMenu();
+                System.out.println(Constants.EXIT_MENU);
                 logout = scanner.nextByte();
                 isActive = (logout == Constants.LOGOUT) ? true : false; 
                 break;
                    
             default:
-                printDefaultStatement();
+                System.out.println(Constants.DEFAULT_MESSAGE);
             }        
         }
     }
@@ -100,34 +100,39 @@ public class EmployeeView {
             emailId = getEmail();
             phoneNumber = getPhoneNumber();
             password = getPassword();
-            System.out.println(employeeController.createEmployee(new User(name, emailId, phoneNumber), password));
+            System.out.println((employeeController
+                                .createEmployee(new User(name, emailId, phoneNumber),
+                                password) != null) ? Constants.SUCCESS 
+                                : Constants.FAILED);
         }
     }
 
     /**
-     * <h1> Display Employee byte logout </h1>
+     * <h1> Display the Details of  all Employee </h1>
      * <p>
      * Displys the Details of an employee
      * </p>
      */
-    public void display() {
+    public void displayAll() {
         System.out.println("\n========== EMPLOYEE DETAILS ==========\n");
-        System.out.println(managerController.display());
+        for (User employee : employeeController.getAll()) {
+            System.out.println(employee);
+        }
     }
 
     /**
-     * <h1> Display Single Employee Details By Id </h1>
+     * <h1> Display Details of Employee By Id </h1>
      * <p>
-     * Searchs the Employee Details by calling the Employee Id
+     * Search the Employee Details by calling the Employee Id
      * This will print the Details of a Single Employee
      * </p>
      */
-    public void DisplayById() {
+    public void displayById() {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
         System.out.print("Enter the Employee's Id to Search: ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
-        System.out.println(managerController.getEmployeeById(id));
+        System.out.println(employeeController.getById(id));
     }
 
     /**
@@ -145,7 +150,7 @@ public class EmployeeView {
         byte updater;
         boolean isUpdating = false;
 
-        User employee = employeeController.getEmployeeById(id);
+        User employee = employeeController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
@@ -155,29 +160,32 @@ public class EmployeeView {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 employee.setName(getName());
-                System.out.println(employeeController.updateById(id, user));
+                System.out.println((employeeController.updateById(id, employee) != null)
+                                                ? Constants.SUCCESS : Constants.FAILED);
                 break;
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
                 employee.setEmailId(getEmail());
-                System.out.println(employeeController.updateById(id, user));
+                System.out.println((employeeController.updateById(id, employee) != null)
+                                                ? Constants.SUCCESS : Constants.FAILED);
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
                 employee.setPhoneNumber(getPhoneNumber());
-                System.out.println(employeeController.updateById(id, user));
+                System.out.println((employeeController.updateById(id, employee) != null)
+                                                ? Constants.SUCCESS : Constants.FAILED);
                 break;
 
-            case Constants.EXIT_MANAGER_UPDATER:
-                printExitMenu();
+            case Constants.EXIT_EMPLOYEE_UPDATER:
+                System.out.println(Constants.EXIT_MENU);
                 logout = scanner.nextByte();
                 isUpdating = (logout == Constants.LOGOUT) ? true : false;
                 break;
                                   
             default:
-                printDefaultStatement();  
+                System.out.println(Constants.DEFAULT_MESSAGE);  
             } 
         }
     }
@@ -292,24 +300,8 @@ public class EmployeeView {
     private void deleteById() {
         System.out.print("Enter the ID to Employee\n \" Format:Employee_01 \" : ");
         String id = scanner.nextLine();
-        boolean isDeleted = employeeController.deleteById(id);
-        printSuccessMessage(isDeleted);
-    }
-
-    /**
-     * <h1> Print Success Message </h1>
-     * <p>
-     * Prints the Message that the Operation completed Successfully or not
-     * </p>
-     *
-     * @param isSuccess - boolean value of Operation performed
-     */
-    private void printSuccessMessage(boolean isSuccess) {
-        if (isSuccess) {
-            System.out.println("\n>>>>> Successfully finished the operation <<<<<\n");
-        } else {
-            System.out.println("\n>>>>> Error: Please check something went wrong <<<<<\n");
-        }
+        System.out.println((employeeController.deleteById(id))
+                                        ? Constants.SUCCESS : Constants.FAILED);
     }
 
     /**
@@ -320,12 +312,18 @@ public class EmployeeView {
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
-        OperationPrinter.append("\nPress \" 1 \" for Add New Employee\n")
-                        .append("Press \" 2 \" for View\n")
-                        .append("Press \" 3 \" for Search\n")
-                        .append("Press \" 4 \" for Update\n")
-                        .append("Press \" 5 \" for Delete\n")
-                        .append("Press \" 6 \" for EXIT\n")
+        OperationPrinter.append("Press \" ").append(Constants.ADDER)
+                        .append(" \" for Create New Lead\n")
+                        .append("Press \" ").append(Constants.PROJECTOR)
+                        .append(" \" for View\n")
+                        .append("Press \" ").append(Constants.FINDER)
+                        .append(" \" for Search\n")
+                        .append("Press \" ").append(Constants.UPDATER)
+                        .append(" \" for Update\n")
+                        .append("Press \" ").append(Constants.REMOVER)
+                        .append(" \" for Delete\n")
+                        .append("Press \" ").append(Constants.EXIT)
+                        .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");
         System.out.print(OperationPrinter);
     }
@@ -333,47 +331,23 @@ public class EmployeeView {
     /**
      * <h1> Print Updation Menu </h1>
      * <p>
-     * Prints the Menu for Updating the Details of Employee
+     * Prints the Menu for Updating the Details of Lead
      * </p>
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append("\nEmployee Id can't be changed\n")
-                     .append("\npress \" 1 \" for Name\n")
-                     .append("press \" 2 \" for Email\n")
-                     .append("press \" 3 \" for Phone Number\n")
-                     .append("press \" 4 \" for Exit\n")
+        choicePrinter.append(">>>>> Lead Id can't be changed <<<<<\n")
+                     .append("\npress \" ").append(Constants.NAME)
+                     .append(" \" for Name\n")
+                     .append("press \" ").append(Constants.EMAIL)
+                     .append(" \" for Email\n")
+                     .append("press \" ").append(Constants.PHONE_NUMBER)
+                     .append(" \" for Phone Number\n")
+                     .append("press \" ").append(Constants.EXIT_EMPLOYEE_UPDATER)
+                     .append(" \" for Exit\n")
                      .append("Enter your Updater: "); 
         System.out.println(choicePrinter);
     } 
-
-    /**
-     * <h1> Print Exit Menu </h1>
-     * <p>
-     * Prints the choice for Employee to exit
-     * </p>
-     */
-    private void printExitMenu() {
-        StringBuilder exitPrinter = new StringBuilder();
-        exitPrinter.append("\n>>>>> Are you sure want to Exit? <<<<<\n")
-                   .append("Press \" 1 \" for Yes\n")
-                   .append("Press \" Any Number \" for No");
-        System.out.println(exitPrinter);
-    }
-
-    /**
-     * <h1> Print Default Statement </h1>
-     * <p>
-     * Prints the Default Statements
-     * </p>
-     */
-    private void printDefaultStatement() {
-        StringBuilder defaultPrinter = new StringBuilder();        
-        defaultPrinter.append("\n>>>>> You have entered wrong Choice <<<<<\n")
-                      .append("Please enter any of the ")
-                      .append("number given Below to proceed\n");
-        System.out.println(defaultPrinter);
-    }
 
     /**
      * <h1> Print Welcome message </h1>
