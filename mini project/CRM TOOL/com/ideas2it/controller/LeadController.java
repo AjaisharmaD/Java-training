@@ -35,7 +35,7 @@ public class LeadController {
      *
      * @param lead     - lead Object to add 
      *
-     * @return boolean - true if the Details of an Lead added otherwise false
+     * @return Lead    - Details of a added Lead
      */
     public Lead createLead(Lead lead) {
         return leadService.createLead(lead);
@@ -49,8 +49,8 @@ public class LeadController {
      *
      * @return List - Details of Leads
      */
-    public List<Lead> getLeads() {
-        return leadService.getLeads();
+    public List<Lead> getAll() {
+        return leadService.getAll();
     }    
 
     /**
@@ -90,10 +90,10 @@ public class LeadController {
      *
      * @param id       - key to Detele the Lead
      *
-     * @return boolean - true if the Details of Lead are Deteled otherwise false
+     * @return boolean - Status of the Delated Lead
      */
-    public boolean deleteById(String id) {
-        return leadService.deleteById(id);
+    public boolean isDeletedById(String id) {
+        return leadService.isDeletedById(id);
     }
 
     /**
@@ -103,7 +103,7 @@ public class LeadController {
      * </p>
      *
      * @param name     - Name of Lead given by the Employee  
-     * @return boolean - true if the Name is valid otherwise false
+     * @return boolean - Status of Lead Name
      */
     public boolean isValidName(String name) {
         if (validationUtils.isValidName(name)) {
@@ -119,7 +119,7 @@ public class LeadController {
      * </p>
      *
      * @param email    - Email of Lead given by the Employee  
-     * @return boolean - true if the Email is valid otherwise false
+     * @return boolean - Status of Lead Email
      */
     public boolean isValidEmail(String email) {
         if (validationUtils.isValidEmail(email)) {
@@ -135,7 +135,7 @@ public class LeadController {
      * </p>
      *
      * @param phoneNumber - Phone Number of Lead given by the Employee  
-     * @return boolean    - true if the Phone Number is valid otherwise false
+     * @return boolean    - Status of Lead Phone Number
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
         if (validationUtils.isValidPhoneNumber(phoneNumber)) {
@@ -151,7 +151,7 @@ public class LeadController {
      * </p>
      *
      * @param companyName - Company Name of Lead given by the Employee  
-     * @return boolean    - true if the Company Name is valid otherwise false
+     * @return boolean    - Status of Lead Company Name
      */
     public boolean isValidCompanyName(String companyName) {
         if (validationUtils.isValidCompanyName(companyName)) {
@@ -161,16 +161,16 @@ public class LeadController {
     }
 
     /**
-     * <h1> Valid Deal Size </h1>
+     * <h1> Valid Deal Cost </h1>
      * <p>
-     * Get the Deal Size and checks whether the given Deal Size is valid or not
+     * Get the Deal Cost and checks whether the given Deal Cost is valid or not
      * </p>
      *
-     * @param dealSize - Deal Size of Lead given by the Employee  
-     * @return boolean - true if the Deal Size is valid otherwise false
+     * @param dealCost - Deal Cost of Lead given by the Employee  
+     * @return boolean - Status of Lead Deal Cost
      */
-    public boolean isValidDealSize(String dealSize) {
-        if (validationUtils.isValidDealSize(dealSize)) {
+    public boolean isValidDealCost(String dealCost) {
+        if (validationUtils.isValidDealCost(dealCost)) {
             return true;
         }
         return false;
