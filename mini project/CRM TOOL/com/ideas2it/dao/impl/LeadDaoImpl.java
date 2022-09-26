@@ -40,7 +40,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Lead> getLeads() {
+    public Map<String, Lead> getAll() {
         return leadMap;
     }
 
