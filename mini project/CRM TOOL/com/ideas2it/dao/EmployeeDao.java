@@ -3,7 +3,7 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.model.User;
+import com.ideas2it.model.Employee;
 
 /**
  * <h1> Employee DAO </h1>
@@ -26,12 +26,12 @@ public interface EmployeeDao {
      * <p>
      *
      * @param employeeId - ID of an employee
-     * @param user       - user Details to add 
+     * @param employee   - employee Details to add 
      * @param password   - password to login
      *
-     * @return User      - Details of an Employee
+     * @return Employee  - Details of an Employee
      */
-    public User addEmployee(String employeeId, User user, String password);
+    public Employee add(String employeeId, Employee employee, String password);
 
     /**
      * <h1> Get Details of Employees </h1>
@@ -41,7 +41,7 @@ public interface EmployeeDao {
      *
      * @return Map - Details of Employees
      */
-    public Map<String, User> getAll();
+    public Map<String, Employee> getAll();
 
     /**
      * <h1> Get Details of Employee by Id </h1>
@@ -49,11 +49,11 @@ public interface EmployeeDao {
      * Gets the Details of Employees by Id
      * </p>
      * 
-     * @param id    - Employee's Id to search the Details of Employee
+     * @param id        - Employee's Id to search the Details of Employee
      *
-     * @return User - Details of a Single Employee
+     * @return Employee - Details of a Single Employee
      */
-    public User getById(String id);
+    public Employee getById(String id);
 
     /**
      * <h1> Update Details of Employee </h1>
@@ -61,12 +61,12 @@ public interface EmployeeDao {
      * Updates the Details of Employees 
      * </p>
      *
-     * @param id    - key to store the Updated Details of Employee
-     * @param user  - updated Details of Employee
+     * @param id        - key to store the Updated Details of Employee
+     * @param employee  - updated Details of Employee
      *
-     * @return User - updated Details of Employee
+     * @return Employee - updated Details of Employee
      */
-    public User updateById(String id, User user);
+    public Employee updateById(String id, Employee employee);
 
     /**
      * <h1> Delete Details of Employee </h1>
@@ -74,9 +74,9 @@ public interface EmployeeDao {
      * Deletes the Details of Employee 
      * </p>
      *
-     * @param id    - key to Delete the Details of Employee
+     * @param id        - key to Delete the Details of Employee
      *
-     * @return User - Deleted Details of Employee
+     * @return Employee - Deleted Details of Employee
      */
-    public User deleteById(String id);
+    public Employee deleteById(String id);
 }

@@ -47,7 +47,7 @@ public class LeadView {
                    
             switch (operation) {
             case Constants.ADDER:
-                createLead();
+                create();
                 break;
                  
             case Constants.PROJECTOR:
@@ -85,7 +85,7 @@ public class LeadView {
      * and passes the Details of Lead to store
      * </p>
      */
-    private void createLead() {
+    private void create() {
         String name;
         String email;
         String phoneNumber;
@@ -110,7 +110,7 @@ public class LeadView {
             startDate = getStartDate();     
             endDate = getEndDate();    
             dealCost = getDealCost();
-            System.out.println((leadController.createLead(new Lead(name, email, 
+            System.out.println((leadController.create(new Lead(name, email, 
                                    phoneNumber, stage, companyName,
                                    startDate, endDate, dealCost)) != null) 
                                    ? Constants.SUCCESS : Constants.FAILED);
@@ -158,15 +158,15 @@ public class LeadView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();   
         boolean isUpdating = false;
-        byte updater;
+        byte updaterChoice;
         byte logout;
         Lead lead = leadController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updater = scanner.nextByte();
+            updaterChoice = scanner.nextByte();
                      
-            switch (updater) {
+            switch (updaterChoice) {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 lead.setName(getName());
@@ -335,7 +335,7 @@ public class LeadView {
      * @return stage - an updated Stage
      */
     private String getStage() {
-        System.out.print("Enter the Lead's Stage                          : ");
+        System.out.print("Enter the Lead's Stage                       : ");
         String stage = scanner.nextLine();
         return stage;
     }
@@ -353,7 +353,7 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter the Company Name                     : ");
+            System.out.print("Enter the Company Name                       : ");
             companyName = scanner.nextLine();
 
             if (leadController.isValidCompanyName(companyName)) {
@@ -368,29 +368,51 @@ public class LeadView {
     /**
      * <h1> Get Start Date </h1>
      * <p>
-     * Gets the Satrt Date of the Lead
+     * Gets the Start Date of the Lead
      * </p>
      *
-     * @return startDate - an updated Start Date
+     * @return date - a Valid Start Date
      */
     private String getStartDate() {
-        System.out.print("Enter the Start-Date in this Formate DD-MM-YYYY: ");
-        String startDate = scanner.nextLine();
-        return startDate;
-    }
+        String date = "";
+        boolean isNotValid = false;
 
+        while (!isNotValid) {
+            System.out.print("Enter the Start Date [format: dd/mm/yyyy]    : ");
+            date = scanner.nextLine();
+
+            if (leadController.isValidDate(date)) {
+                break;
+            } else {
+                System.out.println("\n>>>>> Wrong Date Format! <<<<<\n");
+            }
+        }
+        return date;
+    }
+    
     /**
      * <h1> Get End Date </h1>
      * <p>
      * Gets the End Date of the Lead
      * </p>
      *
-     * @return endDate - an updated End Date
+     * @return date - a Valid End Date
      */
     private String getEndDate() {
-        System.out.print("Enter the End-Date in this Formate DD-MM-YYYY  : ");
-        String endDate = scanner.nextLine();
-        return endDate;
+        String date = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter the End Date [format: dd/mm/yyyy]      : ");
+            date = scanner.nextLine();
+
+            if (leadController.isValidDate(date)) {
+                break;
+            } else {
+                System.out.println("\n>>>>> Wrong Date Format! <<<<<\n");
+            }
+        }
+        return date;
     }
 
     /**

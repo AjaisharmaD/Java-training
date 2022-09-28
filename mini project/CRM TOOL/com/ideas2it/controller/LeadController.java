@@ -1,5 +1,6 @@
 package com.ideas2it.controller;
 
+import java.time.DateTimeException;
 import java.util.List;
 
 import com.ideas2it.model.Lead;
@@ -15,7 +16,7 @@ import com.ideas2it.utils.ValidationUtils;
  * </p> 
  *
  * @author  Ajaisharma D
- * @version 1.0
+ * @version 1.2
  * @since   24-08-2022
  */
 public class LeadController {
@@ -37,8 +38,8 @@ public class LeadController {
      *
      * @return Lead    - Details of a added Lead
      */
-    public Lead createLead(Lead lead) {
-        return leadService.createLead(lead);
+    public Lead create(Lead lead) {
+        return leadService.create(lead);
     }
 
     /**   
@@ -158,6 +159,27 @@ public class LeadController {
             return true;
         }
         return false;
+    }
+
+    /**
+     * <h1> Valid Date </h1>
+     * <p>
+     * Get the Date and checks whether the given Date is valid or not
+     * </p>
+     *
+     * @param date - Start/End Date given by the Employee  
+     * @return boolean - Status of Lead Date
+     */
+    public boolean isValidDate(String date) {
+        try {
+            if (validationUtils.validateDate(date).equals(date)) {
+                return true;
+            } else {
+                return false;
+            }   
+        } catch (DateTimeException e) {
+            return false;
+        }
     }
 
     /**

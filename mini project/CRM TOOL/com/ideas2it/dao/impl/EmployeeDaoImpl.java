@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.dao.EmployeeDao;
-import com.ideas2it.model.Lead;
-import com.ideas2it.model.User;
+import com.ideas2it.model.Employee;
 
 /**
  * <h1> Employee DAO Impl </h1>
@@ -23,7 +22,7 @@ import com.ideas2it.model.User;
  */
 public class EmployeeDaoImpl implements EmployeeDao {
     private Map<String, String> passwordMap;
-    private Map<String, User> employeeMap;
+    private Map<String, Employee> employeeMap;
 
     public EmployeeDaoImpl() {
         this.passwordMap = new HashMap<>();
@@ -34,11 +33,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public User addEmployee(String employeeId, User user, String password) {
-        user.setId(employeeId);
-        user.setPassword(password);
+    public Employee add(String employeeId, Employee employee, String password) {
+        employee.setId(employeeId);
+        employee.setPassword(password);
         passwordMap.put(employeeId, password);
-        employeeMap.put(employeeId, user);
+        employeeMap.put(employeeId, employee);
         return employeeMap.get(employeeId);
     }
 
@@ -46,7 +45,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, User> getAll() {
+    public Map<String, Employee> getAll() {
         return employeeMap;
     }
 
@@ -54,7 +53,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public User getById(String id) {
+    public Employee getById(String id) {
         if (employeeMap.containsKey(id)) {
             return employeeMap.get(id);
         }
@@ -65,9 +64,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public User updateById(String id, User user) {
+    public Employee updateById(String id, Employee employee) {
         if (employeeMap.containsKey(id)) {
-            return employeeMap.replace(id, user); 
+            return employeeMap.replace(id, employee); 
         }
         return null;
     }
@@ -76,7 +75,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public User deleteById(String id) {
+    public Employee deleteById(String id) {
         if (employeeMap.containsKey(id)) {
             return employeeMap.remove(id);
         }

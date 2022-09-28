@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.model.Lead;
-import com.ideas2it.model.User;
+import com.ideas2it.constants.Constants;
 import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.dao.impl.EmployeeDaoImpl;
+import com.ideas2it.model.Employee;
 
 /**
  * <h1> Employee Service </h1>
@@ -38,7 +38,7 @@ public class EmployeeService {
      * @return String - generated Id
      */
     private String generateId() {
-         return "Employee_0" + (++idCount);   // string only in constants
+         return Constants.EMPLOYEE_ID + (++idCount);   
      }
 
     /**
@@ -47,14 +47,13 @@ public class EmployeeService {
      * Adds the Details of Employees 
      * </p>
      *
-     * @param user     - Details of Employee to add 
+     * @param employee     - Details of Employee to add 
      * @param password - password to login
      *
      * @return boolean - true if the Details of an employee added otherwise false
      */
-    public User createEmployee(User user, String password) {
-        String id = generateId();
-        return employeeDao.addEmployee(id, user, password);
+    public Employee create(Employee employee, String password) {
+        return employeeDao.add(generateId(), employee, password);
     }
 
     /**
@@ -65,10 +64,10 @@ public class EmployeeService {
      *
      * @return List - Details of employees
      */
-    public List<User> getAll() {
-        List<User> employeeList = new ArrayList<>();
+    public List<Employee> getAll() {
+        List<Employee> employeeList = new ArrayList<>();
 
-        for (Map.Entry<String, User> employeeEntry : employeeDao.getAll().entrySet()) {
+        for (Map.Entry<String, Employee> employeeEntry : employeeDao.getAll().entrySet()) {
             employeeList.add(employeeEntry.getValue());
         } 
         return employeeList;
@@ -80,11 +79,11 @@ public class EmployeeService {
      * Gets the Details of a Single Employee by Id
      * </p>
      * 
-     * @param id    - Employee's Id to search the Details of Employee
+     * @param id        - Employee's Id to search the Details of Employee
      *
-     * @return User - Details of a Single Employee
+     * @return employee - Details of a Single Employee
      */
-    public User getById(String id) {
+    public Employee getById(String id) {
         return employeeDao.getById(id);
     }
 
@@ -94,13 +93,13 @@ public class EmployeeService {
      * Updates the Details of a Single Employee
      * </p>
      *
-     * @param id       - key to update the Details of Employee
-     * @param user     - updated Employee Details
+     * @param id        - key to update the Details of Employee
+     * @param employee  - updated Employee Details
      *
-     * @return User - Details of a Single Employee
+     * @return Employee - Details of a Single Employee
      */
-    public User updateById(String id, User user) {
-        return employeeDao.updateById(id, user);
+    public Employee updateById(String id, Employee employee) {
+        return employeeDao.updateById(id, employee);
     }
 
     /**

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.controller.EmployeeController;
-import com.ideas2it.model.User;
+import com.ideas2it.model.Employee;
 
 /**
  * <h1> Employee View </h1>
@@ -37,17 +37,16 @@ public class EmployeeView {
     public void openManagerDashboard() {
         boolean isActive = false;
         byte logout;
-        byte operation;
-
+        byte operationChoice;
         printWelcomeMessage();
 
         while (!isActive) {
             printOperationMenu();
-            operation = scanner.nextByte();
+            operationChoice = scanner.nextByte();
                    
-            switch (operation) {
+            switch (operationChoice) {
             case Constants.ADDER:
-                createEmployee();
+                create();
                 break;
                
             case Constants.PROJECTOR:
@@ -79,13 +78,13 @@ public class EmployeeView {
     }
 
     /**
-     * <h1> Add Employee </h1>
+     * <h1> Create Employee </h1>
      * <p>
      * Ask for the Details of Employee from the manager
      * and passes the Details to Store
      * </p>
      */
-    public void createEmployee() {
+    public void create() {
         System.out.print("\nEnter the Employee count to add: ");
         int count = scanner.nextInt();
         String name;
@@ -101,7 +100,7 @@ public class EmployeeView {
             phoneNumber = getPhoneNumber();
             password = getPassword();
             System.out.println((employeeController
-                                .createEmployee(new User(name, emailId, phoneNumber),
+                                .create(new Employee(name, emailId, phoneNumber),
                                 password) != null) ? Constants.SUCCESS 
                                 : Constants.FAILED);
         }
@@ -115,7 +114,7 @@ public class EmployeeView {
      */
     public void displayAll() {
         System.out.println("\n========== EMPLOYEE DETAILS ==========\n");
-        for (User employee : employeeController.getAll()) {
+        for (Employee employee : employeeController.getAll()) {
             System.out.println(employee);
         }
     }
@@ -150,7 +149,7 @@ public class EmployeeView {
         byte updater;
         boolean isUpdating = false;
 
-        User employee = employeeController.getById(id);
+        Employee employee = employeeController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
@@ -336,7 +335,7 @@ public class EmployeeView {
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> Lead Id can't be changed <<<<<\n")
+        choicePrinter.append(">>>>> Employee Id can't be changed <<<<<\n")
                      .append("\npress \" ").append(Constants.NAME)
                      .append(" \" for Name\n")
                      .append("press \" ").append(Constants.EMAIL)

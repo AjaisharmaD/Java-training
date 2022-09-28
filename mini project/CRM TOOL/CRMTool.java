@@ -1,5 +1,6 @@
 import com.ideas2it.view.CRMView;
 
+
 /**
  * <h1> CRM Tool <h1>
  * <p>
@@ -11,13 +12,14 @@ import com.ideas2it.view.CRMView;
  * @since   24-08-2022
  */
 public class CRMTool {
+
     /**
      * <h1> Main Method <h1>
      * <p>
      * This method will call the CRM Tool's Dashboard to start.
      * </p>
      *
-     * @param args - Unused.
+     * @param args - an Unused parameter.
      */
     public static void main(String[] args) {
 	CRMView crmView = new CRMView();

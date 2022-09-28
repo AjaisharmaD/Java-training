@@ -2,7 +2,7 @@ package com.ideas2it.controller;
 
 import java.util.List; 
 
-import com.ideas2it.model.User;
+import com.ideas2it.model.Employee;
 import com.ideas2it.service.EmployeeService;
 import com.ideas2it.utils.ValidationUtils;
 
@@ -33,13 +33,13 @@ public class EmployeeController {
      * Adds the Details of Employees 
      * </p>
      *
-     * @param user     - Details of Employee to add 
+     * @param employee     - Details of Employee to add 
      * @param password - password to login
      *
-     * @return User - Details of a Single Employee
+     * @return Employee - Details of a Single Employee
      */
-    public User createEmployee(User user, String password) {
-        return employeeService.createEmployee(user, password);
+    public Employee create(Employee employee, String password) {
+        return employeeService.create(employee, password);
     }
 
     /**
@@ -50,7 +50,7 @@ public class EmployeeController {
      *
      * @return List - Details of Employees
      */
-    public List<User> getAll() {
+    public List<Employee> getAll() {
         return employeeService.getAll();
     }
 
@@ -62,9 +62,9 @@ public class EmployeeController {
      *
      * @param id    - Employee's Id to search the Employee
      *
-     * @return User - Details of a Single Employee
+     * @return Employee - Details of a Single Employee
      */
-    public User getById(String id) {
+    public Employee getById(String id) {
         return employeeService.getById(id);
     }
 
@@ -74,13 +74,13 @@ public class EmployeeController {
      * Updates the Details of a Single Employee
      * </p>
      *
-     * @param id    - key to update the Details of Employees
-     * @param user  - updated Details of Employees
+     * @param id        - key to update the Details of Employees
+     * @param employee  - updated Details of Employees
      *
-     * @return User - Updated details of a Single Employee
+     * @return Employee - Updated details of a Single Employee
      */
-    public User updateById(String id, User user) {
-        return employeeService.updateById(id, user);
+    public Employee updateById(String id, Employee employee) {
+        return employeeService.updateById(id, employee);
     }
 
     /**

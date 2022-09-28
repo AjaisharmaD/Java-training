@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.dao.impl.LeadDaoImpl;
@@ -38,7 +39,7 @@ public class LeadService {
      * @return String - generated Id
      */
     private String generateId() {   
-        return "Lead_0" + (++idCount);  
+        return Constants.LEAD_ID + (++idCount);  
     }
     
     /**
@@ -51,8 +52,8 @@ public class LeadService {
      *
      * @return boolean - true if the Details of an employee added otherwise false
      */
-    public Lead createLead(Lead lead) {
-       return leadDao.addLead(generateId(), lead);
+    public Lead create(Lead lead) {
+       return leadDao.add(generateId(), lead);
     } 
 
     /**   

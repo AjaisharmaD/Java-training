@@ -7,7 +7,7 @@ package com.ideas2it.model;
  * @version 1.0 
  * @since 24-08-2022
  */
-public class Lead extends User {
+public class Lead extends Employee {
     private Double dealCost;
     private String startDate;
     private String endDate;

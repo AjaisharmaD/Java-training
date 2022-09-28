@@ -31,7 +31,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead addLead(String leadId, Lead lead) {
+    public Lead add(String leadId, Lead lead) {
         lead.setId(leadId);
         return leadMap.put(leadId, lead);
     }

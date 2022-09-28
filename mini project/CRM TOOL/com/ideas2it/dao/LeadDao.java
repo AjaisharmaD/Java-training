@@ -30,7 +30,7 @@ public interface LeadDao {
      *   
      * @return Lead  - Details of Leads
      */
-    public Lead addLead(String leadId, Lead lead);
+    public Lead add(String leadId, Lead lead);
 
     /**   
      * <h1> Get Details of Lead by Id </h1>

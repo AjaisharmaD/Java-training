@@ -7,7 +7,7 @@ package com.ideas2it.constants;
  * </p>
  * 
  * @author  AJAISHARMA
- * @version 1.0
+ * @version 1.0 
  * @since   19-09-2022
  */
 public class Constants {
@@ -36,6 +36,9 @@ public class Constants {
 
     public final static byte LOGOUT = 1;
 
+    public final static String EMPLOYEE_ID = "Employee_0";
+    public final static String LEAD_ID = "Lead_0";
+
     public final static String DEFAULT_MESSAGE = "\n>>>>> You have entered wrong Choice <<<<<\n"
                                                   + "Please enter any of the " 
                                                   + "number given Below to proceed\n";
@@ -47,7 +50,7 @@ public class Constants {
     public final static String FAILED = ">>>>> FAILED! <<<<<";
     
     public final static String NAME_PATTERN = "^([a-zA-Z]{0,20}[\s.]?){2}[a-zA-Z]{0,20}$";
-    public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}(.[a-z]{2,3}){1,2}$";
+    public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
     public final static String PHONENUMBER_PATTERN = "^[6789]{1}[0-9]{9}$";
     public final static String DEALCOST_PATTERN = "^[0-9]{1,}[.]{1}[0-9]{1,}$";
     public final static String COMPANYNAME_PATTERN = "^[a-zA-Z0-9\s]{1,}$"; 
