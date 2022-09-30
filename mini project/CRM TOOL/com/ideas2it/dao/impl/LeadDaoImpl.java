@@ -31,16 +31,17 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead add(String leadId, Lead lead) {
+    public Lead insert(String leadId, Lead lead) {
         lead.setId(leadId);
-        return leadMap.put(leadId, lead);
+        leadMap.put(leadId, lead);
+        return leadMap.get(leadId);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Lead> getAll() {
+    public Map<String, Lead> fetchAll() {
         return leadMap;
     }
 
@@ -48,10 +49,10 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead getById(String id) {
+    public Lead fetchById(String id) {
         if (leadMap.containsKey(id)) {
             return leadMap.get(id);
-        }
+        } 
         return null;
     }
 

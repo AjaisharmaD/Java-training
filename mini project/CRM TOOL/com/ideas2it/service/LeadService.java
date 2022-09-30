@@ -53,7 +53,7 @@ public class LeadService {
      * @return boolean - true if the Details of an employee added otherwise false
      */
     public Lead create(Lead lead) {
-       return leadDao.add(generateId(), lead);
+       return leadDao.insert(generateId(), lead);
     } 
 
     /**   
@@ -67,7 +67,7 @@ public class LeadService {
     public List<Lead> getAll() {    
         List<Lead> leads = new ArrayList<>();
 
-        for (Map.Entry<String, Lead> leadEntry : leadDao.getAll().entrySet()) {
+        for (Map.Entry<String, Lead> leadEntry : leadDao.fetchAll().entrySet()) {
             leads.add(leadEntry.getValue());
         }  
         return leads;
@@ -84,7 +84,7 @@ public class LeadService {
      * @return Lead - Details of Single lead 
      */
     public Lead getById(String id) {
-        return leadDao.getById(id);
+        return leadDao.fetchById(id);
     }
 
     /**

@@ -97,14 +97,9 @@ public class ValidationUtils {
      * @return boolean - Status of Company Name
      */
     public String validateDate(String date) throws DateTimeException {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
-
-        try {
-            LocalDate localDate = LocalDate.parse(date, dateFormat);
-            return dateFormat.format(localDate).toString();
-        } catch (DateTimeException exception) {           
-            throw exception;
-        }
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(date, dateFormat);
+        return dateFormat.format(localDate).toString();
     }
 
     /**

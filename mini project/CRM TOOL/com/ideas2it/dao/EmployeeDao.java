@@ -20,9 +20,9 @@ import com.ideas2it.model.Employee;
 public interface EmployeeDao {
 
     /**
-     * <h1> Add Employee </h1>
+     * <h1> Insert Employee </h1>
      * <p>
-     * Adds the Details of Employees 
+     * Inserts the Details of Employees 
      * <p>
      *
      * @param employeeId - ID of an employee
@@ -31,29 +31,29 @@ public interface EmployeeDao {
      *
      * @return Employee  - Details of an Employee
      */
-    public Employee add(String employeeId, Employee employee, String password);
+    public Employee insert(String employeeId, Employee employee, String password);
 
     /**
      * <h1> Get Details of Employees </h1>
      * <p>
-     * Gets the Details of Employees  
+     * Fetchs the Details of Employees  
      * </p>
      *
      * @return Map - Details of Employees
      */
-    public Map<String, Employee> getAll();
+    public Map<String, Employee> fetchAll();
 
     /**
      * <h1> Get Details of Employee by Id </h1>
      * <p>
-     * Gets the Details of Employees by Id
+     * Fetchs the Details of Employees by Id
      * </p>
      * 
      * @param id        - Employee's Id to search the Details of Employee
      *
      * @return Employee - Details of a Single Employee
      */
-    public Employee getById(String id);
+    public Employee fetchById(String id);
 
     /**
      * <h1> Update Details of Employee </h1>

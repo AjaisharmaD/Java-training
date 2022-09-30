@@ -20,9 +20,9 @@ import com.ideas2it.model.Lead;
 public interface LeadDao {
  
     /**
-     * <h1> Add Leads </h1>
+     * <h1> Insert Leads </h1>
      * <p>
-     * Adds the Details of Leads 
+     * Inserts the Details of Leads 
      * </p>
      *
      * @param leadId - Id of a lead 
@@ -30,7 +30,7 @@ public interface LeadDao {
      *   
      * @return Lead  - Details of Leads
      */
-    public Lead add(String leadId, Lead lead);
+    public Lead insert(String leadId, Lead lead);
 
     /**   
      * <h1> Get Details of Lead by Id </h1>
@@ -40,7 +40,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public Map<String, Lead> getAll();
+    public Map<String, Lead> fetchAll();
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -52,7 +52,7 @@ public interface LeadDao {
      *
      * @return Lead - Details of single Lead
      */
-    public Lead getById(String id);
+    public Lead fetchById(String id);
 
     /**
      * <h1> Update Details of Lead </h1>

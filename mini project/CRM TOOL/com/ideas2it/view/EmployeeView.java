@@ -1,15 +1,17 @@
 package com.ideas2it.view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.EmployeeController;
 import com.ideas2it.model.Employee;
 
 /**
  * <h1> Employee View </h1>
  * <p>
- * This manager View class used to Controll the operation which are 
+ * This Employee View class used to Controll the operation which are 
  * performed by the Manager, like Adding, Viewing, Editing, Deleting
  * the details of Employee.
  * </p> 
@@ -19,7 +21,6 @@ import com.ideas2it.model.Employee;
  * @since   19-09-2022
  */
 public class EmployeeView {
-    private Scanner scanner = new Scanner(System.in);
     private EmployeeController employeeController;
 
     public EmployeeView() {
@@ -34,7 +35,7 @@ public class EmployeeView {
      * the Details of Employee
      * </p>
      */
-    public void openManagerDashboard() {
+    public void openManagerDashboard(Scanner scanner) {
         boolean isActive = false;
         byte logout;
         byte operationChoice;
@@ -42,11 +43,11 @@ public class EmployeeView {
 
         while (!isActive) {
             printOperationMenu();
-            operationChoice = scanner.nextByte();
-                   
+            operationChoice = getChoice(scanner);
+            
             switch (operationChoice) {
             case Constants.ADDER:
-                create();
+                create(scanner);
                 break;
                
             case Constants.PROJECTOR:
@@ -54,25 +55,27 @@ public class EmployeeView {
                 break;
                                                 
             case Constants.FINDER:
-                displayById();
+                displayById(scanner);
                 break;
                        
             case Constants.UPDATER:
-                updateById();
+                editById(scanner);
                 break;
                
             case Constants.REMOVER:
-                deleteById();
+                deleteById(scanner);
                 break;
 
             case Constants.EXIT:
-                System.out.println(Constants.EXIT_MENU);
-                logout = scanner.nextByte();
-                isActive = (logout == Constants.LOGOUT) ? true : false; 
+                while (!isActive) {
+                    System.out.println(Messages.EXIT_MENU);
+                    logout = getChoice(scanner);
+                    isActive = (logout == Constants.LOGOUT) ? true : false;                    
+                }
                 break;
                    
             default:
-                System.out.println(Constants.DEFAULT_MESSAGE);
+                System.out.println(Messages.DEFAULT_MESSAGE);
             }        
         }
     }
@@ -84,25 +87,39 @@ public class EmployeeView {
      * and passes the Details to Store
      * </p>
      */
-    public void create() {
-        System.out.print("\nEnter the Employee count to add: ");
-        int count = scanner.nextInt();
+    public void create(Scanner scanner) {
+        System.out.println("\n========== NEW EMPLOYEE ==========\n");
+        boolean isRight = false;
         String name;
         String emailId;
         String phoneNumber;
         String password;
 
+        int count = 0;
+
+        while (!isRight) {
+            try {
+                System.out.print("\nEnter the Employee count to add: ");
+                count = scanner.nextInt();
+                isRight = true;
+            } catch (InputMismatchException e) {
+                System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+                scanner.next();
+                continue;
+            }
+        }
+
         for (int index = 0; index < count; index++) {
             System.out.println("\n====== Enter Employee 0"+ (index + 1) + " Details ======\n");
             scanner.skip("\r\n");
-            name = getName();
-            emailId = getEmail();
-            phoneNumber = getPhoneNumber();
-            password = getPassword();
+            name = getName(scanner);
+            emailId = getEmail(scanner);
+            phoneNumber = getPhoneNumber(scanner);
+            password = getPassword(scanner);
             System.out.println((employeeController
                                 .create(new Employee(name, emailId, phoneNumber),
-                                password) != null) ? Constants.SUCCESS 
-                                : Constants.FAILED);
+                                password) != null) ? Messages.SUCCESS 
+                                : Messages.FAILED);
         }
     }
 
@@ -126,8 +143,8 @@ public class EmployeeView {
      * This will print the Details of a Single Employee
      * </p>
      */
-    public void displayById() {
-        System.out.println("\n========== SEARCH LEAD ==========\n");  
+    public void displayById(Scanner scanner) {
+        System.out.println("\n========== SEARCH EMPLOYEE ==========\n");  
         System.out.print("Enter the Employee's Id to Search: ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
@@ -141,52 +158,70 @@ public class EmployeeView {
      * and Prints the Message that the fields are Updated or not
      * </p>
      */
-    public void updateById() {
-        System.out.print("Enter the Employee's Id to Update: ");
+    public void editById(Scanner scanner) {
+        System.out.println("\n========== EDIT EMPLOYEE ==========\n"); 
+        System.out.print("Enter the Employee's Id to Edit: ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         byte logout;
-        byte updater;
+        byte updaterChoice;
         boolean isUpdating = false;
 
         Employee employee = employeeController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updater = scanner.nextByte();
-                     
-            switch (updater) {
+            updaterChoice = getChoice(scanner);
+                                 
+            switch (updaterChoice) {
             case Constants.NAME:
                 scanner.skip("\r\n");
-                employee.setName(getName());
+                employee.setName(getName(scanner));
                 System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Constants.SUCCESS : Constants.FAILED);
+                                                ? Messages.SUCCESS : Messages.FAILED);
                 break;
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                employee.setEmailId(getEmail());
+                employee.setEmailId(getEmail(scanner));
                 System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Constants.SUCCESS : Constants.FAILED);
+                                                ? Messages.SUCCESS : Messages.FAILED);
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
-                employee.setPhoneNumber(getPhoneNumber());
+                employee.setPhoneNumber(getPhoneNumber(scanner));
                 System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Constants.SUCCESS : Constants.FAILED);
+                                                ? Messages.SUCCESS : Messages.FAILED);
                 break;
 
             case Constants.EXIT_EMPLOYEE_UPDATER:
-                System.out.println(Constants.EXIT_MENU);
-                logout = scanner.nextByte();
-                isUpdating = (logout == Constants.LOGOUT) ? true : false;
+                while (!isUpdating) {
+                    System.out.println(Messages.EXIT_MENU);
+                    logout = getChoice(scanner);
+                    isUpdating = (logout == Constants.LOGOUT) ? true : false;                    
+                }
                 break;
                                   
             default:
-                System.out.println(Constants.DEFAULT_MESSAGE);  
+                System.out.println(Messages.DEFAULT_MESSAGE);  
             } 
         }
+    }
+
+    /**
+     * <h1> Delete the Employee </h1>
+     * <p>
+     * This method will Delete the Details of a Employee 
+     * and Prints the Message that the fields are Deleted or not
+     * </p>
+     */
+    private void deleteById(Scanner scanner) {
+        System.out.println("\n========== DELETE EMPLOYEE ==========\n");
+        System.out.print("Enter the ID to Employee\n \" Format:Employee_01 \" : ");
+        String id = scanner.nextLine();
+        System.out.println((employeeController.isDeletedById(id))
+                                        ? Messages.SUCCESS : Messages.FAILED);
     }
 
     /**
@@ -197,7 +232,7 @@ public class EmployeeView {
      *
      * @return name - a Valid Name of the Employee
      */
-    private String getName() {
+    private String getName(Scanner scanner) {
         String name = "";
         boolean isNotValid = false;
 
@@ -222,7 +257,7 @@ public class EmployeeView {
      *
      * @return email - a Valid Email of the Employee
      */
-    private String getEmail() {
+    private String getEmail(Scanner scanner) {
         String email = "";
         boolean isNotValid = false;
 
@@ -247,7 +282,7 @@ public class EmployeeView {
      *
      * @return employeePhoneNumber - a Valid Phone Number of the Employee
      */
-    private String getPhoneNumber() {
+    private String getPhoneNumber(Scanner scanner) {
         String phoneNumber = "";
         boolean isNotValid = false;
 
@@ -272,7 +307,7 @@ public class EmployeeView {
      *
      * @return password - a Valid Password of the Employee
      */
-    private String getPassword() {
+    private String getPassword(Scanner scanner) {
         String password = "";
         boolean isNotValid = false;
 
@@ -290,17 +325,20 @@ public class EmployeeView {
     }
 
     /**
-     * <h1> Delete the Employee </h1>
+     * <h1> Get choice </h1>
      * <p>
-     * This method will Delete the Details of a Employee 
-     * and Prints the Message that the fields are Deleted or not
+     * Gets the choice from the user
      * </p>
      */
-    private void deleteById() {
-        System.out.print("Enter the ID to Employee\n \" Format:Employee_01 \" : ");
-        String id = scanner.nextLine();
-        System.out.println((employeeController.deleteById(id))
-                                        ? Constants.SUCCESS : Constants.FAILED);
+    private byte getChoice(Scanner scanner) {
+        byte choice = 0;
+        try {
+            choice = scanner.nextByte();
+        } catch (InputMismatchException e) {
+            System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+            scanner.next();  // clears the scanner buffer
+        }
+        return choice;
     }
 
     /**

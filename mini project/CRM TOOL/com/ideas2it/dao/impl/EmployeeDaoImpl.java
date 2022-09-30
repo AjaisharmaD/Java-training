@@ -33,7 +33,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public Employee add(String employeeId, Employee employee, String password) {
+    public Employee insert(String employeeId, Employee employee, String password) {
         employee.setId(employeeId);
         employee.setPassword(password);
         passwordMap.put(employeeId, password);
@@ -45,7 +45,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Employee> getAll() {
+    public Map<String, Employee> fetchAll() {
         return employeeMap;
     }
 
@@ -53,7 +53,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {@inheritDoc}
      */
     @Override
-    public Employee getById(String id) {
+    public Employee fetchById(String id) {
         if (employeeMap.containsKey(id)) {
             return employeeMap.get(id);
         }

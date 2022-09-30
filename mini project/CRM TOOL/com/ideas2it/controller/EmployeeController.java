@@ -93,8 +93,8 @@ public class EmployeeController {
      *
      * @return boolean - true if the Details of Employee are Removed otherwise false
      */
-    public boolean deleteById(String id) {
-        return employeeService.deleteById(id);
+    public boolean isDeletedById(String id) {
+        return employeeService.isDeletedById(id);
     }
 
     /**

@@ -12,21 +12,21 @@ public class Lead extends Employee {
     private String startDate;
     private String endDate;
     private String companyName;
-    private String stage;
+    private String status;
 
     public Lead(String name, String emailId, 
-                    String phoneNumber, String stage, String companyName, 
+                    String phoneNumber, String status, String companyName, 
                     String startDate, String endDate, Double dealCost) {
         super(name, emailId, phoneNumber);
-        this.stage =  stage;
+        this.status =  status;
         this.companyName = companyName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dealCost = dealCost;
     }
     
-    public void setStage(String stage) {
-        this.stage = stage;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setCompanyName(String companyName) {
@@ -45,8 +45,8 @@ public class Lead extends Employee {
         this.dealCost = dealCost;
     }
    
-    public String getStage() {
-        return stage;
+    public String getStatus() {
+        return status;
     }
     
     public String getCompanyName() {
@@ -69,7 +69,7 @@ public class Lead extends Employee {
     public String toString() {
         StringBuilder leadResponder = new StringBuilder();
         leadResponder.append(super.toString())
-                     .append("\nStage         : ").append(stage)                                            
+                     .append("\nStatus         : ").append(status)                                            
                      .append("\nCompany Name  : ").append(companyName)
                      .append("\nStart Date    : ").append(startDate)
                      .append("\nEnd Date      : ").append(endDate)

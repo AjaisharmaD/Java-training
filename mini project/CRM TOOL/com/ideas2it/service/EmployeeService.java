@@ -53,7 +53,7 @@ public class EmployeeService {
      * @return boolean - true if the Details of an employee added otherwise false
      */
     public Employee create(Employee employee, String password) {
-        return employeeDao.add(generateId(), employee, password);
+        return employeeDao.insert(generateId(), employee, password);
     }
 
     /**
@@ -67,7 +67,7 @@ public class EmployeeService {
     public List<Employee> getAll() {
         List<Employee> employeeList = new ArrayList<>();
 
-        for (Map.Entry<String, Employee> employeeEntry : employeeDao.getAll().entrySet()) {
+        for (Map.Entry<String, Employee> employeeEntry : employeeDao.fetchAll().entrySet()) {
             employeeList.add(employeeEntry.getValue());
         } 
         return employeeList;
@@ -84,7 +84,7 @@ public class EmployeeService {
      * @return employee - Details of a Single Employee
      */
     public Employee getById(String id) {
-        return employeeDao.getById(id);
+        return employeeDao.fetchById(id);
     }
 
     /**
@@ -112,7 +112,7 @@ public class EmployeeService {
      *
      * @return boolean - true if the Details of Employee are Deleted otherwise false
      */
-    public boolean deleteById(String id) {
+    public boolean isDeletedById(String id) {
         if (employeeDao.deleteById(id) != null) {
             return true;
         }

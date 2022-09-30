@@ -1,8 +1,10 @@
 package com.ideas2it.view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.view.LeadView;
 import com.ideas2it.view.EmployeeView;
 //import com.ideas2it.controller.CRMController;
@@ -19,7 +21,6 @@ import com.ideas2it.view.EmployeeView;
  * @since   10-09-2022
  */
 public class CRMView {
-    private Scanner scanner = new Scanner(System.in);
     private LeadView leadView;
     private EmployeeView employeeView;
 
@@ -36,36 +37,58 @@ public class CRMView {
      * </p>
      */
     public void startCRM() {
+        Scanner scanner = new Scanner(System.in);
         printWelcomeMessage();
         byte logout;
-        boolean isActive = true;
-        
-        do {
+        boolean isActive = false;
+        byte loginChoice;
+
+        while (!isActive) {
             printUserMenu();
-            byte user = scanner.nextByte();
-            
-            switch (user) {
+            loginChoice = getChoice(scanner);
+                       
+            switch (loginChoice) {
             case Constants.EMPLOYEE:
                  //loginUser();
-                 leadView.openEmployeeDashboard();   // need create login for Employee with validation
+                 leadView.openEmployeeDashboard(scanner);
                  break;
                
             case Constants.MANAGER:
-                 employeeView.openManagerDashboard();
+                 employeeView.openManagerDashboard(scanner);
                  break;
              
             case Constants.CRM_EXIT:
-                System.out.println(Constants.EXIT_MENU);
-                logout = scanner.nextByte();
-                isActive = (logout == Constants.LOGOUT) ? false : true;  
+                while (!isActive){
+                    System.out.println(Messages.EXIT_MENU);
+                    logout = getChoice(scanner);
+                    isActive = (logout == Constants.LOGOUT) ? true : false; 
+                } 
                 break;
                  
             default:
-                System.out.println(Constants.DEFAULT_MESSAGE);
+                System.out.println(Messages.DEFAULT_MESSAGE);
             }  
-        } while (isActive);
+        }
     } 
- 
+
+    /**
+     * <h1> Get Choice </h1>
+     * <p>
+     * Gets the Choice From the user
+     * </p>
+     *
+     * @return byte - choice to perform
+     */
+    private byte getChoice(Scanner scanner) {
+        byte choice = 0;
+        try {
+            choice = scanner.nextByte();
+        } catch (InputMismatchException e) {
+            System.out.println("\n>>>>> Please Enter Numbers Only! <<<<<\n");
+        }
+        return choice;
+    }
+
     /**
      * Validates the login Details
     
