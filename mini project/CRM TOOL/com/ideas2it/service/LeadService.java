@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.constants.Constants;
-import com.ideas2it.controller.LeadController;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.dao.impl.LeadDaoImpl;
 import com.ideas2it.model.Lead;
@@ -48,9 +47,9 @@ public class LeadService {
      * Creates the Details of Leads 
      * </p>
      *
-     * @param lead     - lead Object to add 
+     * @param lead  - lead details to add 
      *
-     * @return boolean - true if the Details of an employee added otherwise false
+     * @return Lead - lead detail which is inserted into the map
      */
     public Lead create(Lead lead) {
        return leadDao.insert(generateId(), lead);
@@ -66,11 +65,13 @@ public class LeadService {
      */
     public List<Lead> getAll() {    
         List<Lead> leads = new ArrayList<>();
-
-        for (Map.Entry<String, Lead> leadEntry : leadDao.fetchAll().entrySet()) {
-            leads.add(leadEntry.getValue());
-        }  
-        return leads;
+        if (!leadDao.fetchAll().isEmpty()) {
+            for (Map.Entry<String, Lead> leadEntry : leadDao.fetchAll().entrySet()) {
+                leads.add(leadEntry.getValue());
+            }  
+            return leads;
+        }
+        return null;
     }
 
     /**

@@ -1,6 +1,9 @@
 package com.ideas2it.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import java.
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +12,7 @@ import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Status;
 import com.ideas2it.model.Lead;
+import com.ideas2it.view.AccountView;
 
 /**
  * <h1> Lead View </h1>
@@ -19,7 +23,7 @@ import com.ideas2it.model.Lead;
  * </p>
  * 
  * @author  Ajaisharma D
- * @version 1.0 
+ * @version 1.2 03-10-2022
  * @since   16-09-2022
  */
 public class LeadView {
@@ -72,7 +76,7 @@ public class LeadView {
                 while (!isActive) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
-                    isActive = (logout == Constants.LOGOUT) ? true : false;                    
+                    isActive = (logout == Constants.LOGOUT) ? true : false;        
                 } 
                 break;
                    
@@ -90,14 +94,13 @@ public class LeadView {
      * </p>
      */
     private void create(Scanner scanner) {
+        Lead lead = null;
         String name;
         String email;
         String phoneNumber;
         String status;
         String companyName;
         String startDate;
-        String endDate;
-        Double dealCost = 0.00d;
 
         int count = 0;
         boolean isRight = false;
@@ -121,14 +124,12 @@ public class LeadView {
             name = getName(scanner);
             email = getEmail(scanner);     
             phoneNumber = getPhoneNumber(scanner);
-            status = getStatus(scanner);    
+            status = getStatus(scanner, lead);    
             companyName = getCompanyName(scanner);    
-            startDate = getStartDate(scanner);     
-            endDate = getEndDate(scanner);    
-            dealCost = getDealCost(scanner);
+            startDate = getStartDate();
             System.out.println((leadController.create(new Lead(name, email, 
                                    phoneNumber, status, companyName,
-                                   startDate, endDate, dealCost)) != null) 
+                                   startDate)) != null) 
                                    ? Messages.SUCCESS : Messages.FAILED);
         }
     }
@@ -141,9 +142,12 @@ public class LeadView {
      */
     private void displayAll() {
         System.out.println("\n========== LEAD DETAILS ==========\n");
-
-        for (Lead lead : leadController.getAll()) {
-            System.out.println(lead);
+        if (leadController.getAll() != null) {
+            for (Lead lead : leadController.getAll()) {
+                System.out.println(lead);
+            }
+        } else {
+                System.out.println(">>>>> No Elements Found! <<<<<");
         }
     }
    
@@ -207,7 +211,7 @@ public class LeadView {
                            
             case Constants.STATUS:
                 scanner.skip("\r\n");
-                lead.setStatus(getStatus(scanner));
+                lead.setStatus(getStatus(scanner, lead));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
@@ -218,28 +222,7 @@ public class LeadView {
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
-                            
-            case Constants.START_DATE:
-                scanner.skip("\r\n");
-                lead.setStartDate(getStartDate(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                break;
-                           
-            case Constants.END_DATE:
-                scanner.skip("\r\n");
-                lead.setEndDate(getEndDate(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                break;
-                           
-            case Constants.DEAL_COST:
-                scanner.skip("\r\n");
-                lead.setDealCost(getDealCost(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                break;
-                           
+
             case Constants.EXIT_LEAD_UPDATER:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
@@ -283,7 +266,7 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter the Name                               : ");
+            System.out.print("Name                 : ");
             name = scanner.nextLine();
 
             if (leadController.isValidName(name)) {
@@ -308,7 +291,7 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter the Email ID                           : ");
+            System.out.print("Email ID             : ");
             email = scanner.nextLine();
 
             if (leadController.isValidEmail(email)) {
@@ -333,7 +316,7 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter the Phone Number                       : ");
+            System.out.print("Phone Number         : ");
             phoneNumber = scanner.nextLine();
 
             if (leadController.isValidPhoneNumber(phoneNumber)) {
@@ -353,34 +336,50 @@ public class LeadView {
      *
      * @return status - Status of a Lead
      */
-    private String getStatus(Scanner scanner) {
-        System.out.print("Enter the Lead's Status                      : ");
+    private String getStatus(Scanner scanner, Lead lead) {
+        System.out.print("Status               : ");
         boolean isSelecting = false;
         String status = "";
         printStatusMenu();
         byte statusChoice = getChoice(scanner);
 
-        switch (statusChoice) {
-        case Constants.NEW:
-            status = Status.New.toString();
-            break;
+        while (is)
+            switch (statusChoice) {
+            case Constants.NEW:
+                status = Status.New.toString();
+                break;
 
-        case Constants.WORKING:
-            status = Status.Working.toString();
-            break;
+            case Constants.CONTACTED:
+                status = Status.Contacted.toString();
+                break;
 
-        case Constants.NURTURING:
-            status = Status.Nurturing.toString();
-            break;
+            case Constants.WORKING:
+                status = Status.Working.toString();
+                break;
 
-        case Constants.QUALIFIED:
-            status = Status.Qualified.toString();
-            break;
+            case Constants.QUALIFIED:
+                status = Status.Qualified.toString();
+                break;
 
-        default:
-            System.out.println(Messages.DEFAULT_MESSAGE);
+            case Constants.UNQUALIFIED:
+                status = Status.Unqualified.toString();
+                break;
+
+            case Constants.CONVERTED:
+                try {
+                    AccountView accountView = new AccountView();
+                    status = accountView.convertToAccount(lead);
+                } catch (NullPoiterException e) {
+                    System.out.println("New Lead Can't be converted to Account:");
+                    continue;
+                } 
+                break;
+
+            default:
+                System.out.println(Messages.DEFAULT_MESSAGE);
+            }
+            return status;
         }
-        return status;
     }
 
     /**
@@ -396,7 +395,8 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter the Company Name                       : ");
+            System.out.print("Company Name         : ");
+            scanner.skip("\r\n");
             companyName = scanner.nextLine();
 
             if (leadController.isValidCompanyName(companyName)) {
@@ -416,72 +416,11 @@ public class LeadView {
      *
      * @return date - a Valid Start Date
      */
-    private String getStartDate(Scanner scanner) {
-        String date = "";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            System.out.print("Enter the Start Date [format: dd/mm/yyyy]    : ");
-            date = scanner.nextLine();
-
-            if (leadController.isValidDate(date)) {
-                break;
-            } else {
-                System.out.println("\n>>>>> Wrong Date Format! <<<<<\n");
-            }
-        }
-        return date;
-    }
-    
-    /**
-     * <h1> Get End Date </h1>
-     * <p>
-     * Gets the End Date of the Lead
-     * </p>
-     *
-     * @return date - a Valid End Date
-     */
-    private String getEndDate(Scanner scanner) {
-        String date = "";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            System.out.print("Enter the End Date [format: dd/mm/yyyy]      : ");
-            date = scanner.nextLine();
-
-            if (leadController.isValidDate(date)) {
-                break;
-            } else {
-                System.out.println("\n>>>>> Wrong Date Format! <<<<<\n");
-            }
-        }
-        return date;
-    }
-
-    /**
-     * <h1> Get Deal Cost </h1>
-     * <p>
-     * Gets the Deal Cost of the Lead and checks whether the Deal Size is Valid or not
-     * </p>
-     *
-     * @return dealCost - a Valid Deal Cost
-     */
-    private Double getDealCost(Scanner scanner) {
-        Double dealCost = 0.00d;
-        boolean isNotValid = false;
-        String costOfDeal = "";
-
-        while (!isNotValid) {
-            System.out.print("Enter the Deal Size                          : ");
-            dealCost = scanner.nextDouble();
-            costOfDeal = Double.toString(dealCost);
-            if (leadController.isValidDealCost(costOfDeal)) {
-                break;
-            } else { 
-                System.out.println("\n>>>>> Wrong Deal Cost Format, Give the proper Deal Cost! <<<<<\n");
-            }  
-        }
-        return dealCost;
+    private String getStartDate() {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
+        String startDate = formatter.format(date); 
+        return startDate;
     }
 
     /**
@@ -544,12 +483,6 @@ public class LeadView {
                      .append(" \" for Status\n")
                      .append("press \" ").append(Constants.COMPANY_NAME)
                      .append(" \" for Company Name\n")
-                     .append("press \" ").append(Constants.START_DATE)
-                     .append(" \" for Start date\n")
-                     .append("press \" ").append(Constants.END_DATE)
-                     .append(" \" for End date\n")
-                     .append("press \" ").append(Constants.DEAL_COST)
-                     .append(" \" for Deal Cost\n")
                      .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
                      .append(" \" for Exit\n")
                      .append("Enter your Updater: "); 
@@ -564,19 +497,22 @@ public class LeadView {
      */
     private void printStatusMenu() {
         StringBuilder statusMenu = new StringBuilder();
-        statusMenu.append("\npress \" ").append(Constants.NEW)
-                     .append(" \" for New\n")
-                     .append("press \" ").append(Constants.WORKING)
-                     .append(" \" for Working\n")
-                     .append("press \" ").append(Constants.NURTURING)
-                     .append(" \" for Nurturing\n")
-                     .append("press \" ").append(Constants.QUALIFIED)
-                     .append(" \" for Qualified\n")
-                     .append("press \" ").append(Constants.CLOSE)
-                     .append(" \" for Close\n")
-                     .append("Enter your Choice: ");
+        statusMenu.append("\n+=============================+ ")
+                  .append("\n| press \" ").append(Constants.NEW)
+                  .append(" \" for New         |\n")
+                  .append("| press \" ").append(Constants.CONTACTED)
+                  .append(" \" for Contacted   |\n")
+                  .append("| press \" ").append(Constants.WORKING)
+                  .append(" \" for Working     |\n")
+                  .append("| press \" ").append(Constants.QUALIFIED)
+                  .append(" \" for Qualified   |\n")
+                  .append("| press \" ").append(Constants.UNQUALIFIED)
+                  .append(" \" for Unqualified |\n")
+                  .append("| press \" ").append(Constants.CONVERTED)
+                  .append(" \" for Converted   |\n")
+                  .append("+=============================+\n")
+                  .append("Enter your Choice: ");
         System.out.print(statusMenu);
-
     }
 
     /**

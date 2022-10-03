@@ -2,8 +2,10 @@ package com.ideas2it.enums;
 
 public enum Status {
     New,
+    Contacted,
     Working,
-    Nurturing,
-    Qualified
+    Qualified,
+    Unqualified,
+    Converted
 }
 

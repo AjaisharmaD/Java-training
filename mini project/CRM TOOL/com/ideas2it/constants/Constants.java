@@ -13,6 +13,7 @@ package com.ideas2it.constants;
 public class Constants {
     public final static String EMPLOYEE_ID = "Employee_0";
     public final static String LEAD_ID = "Lead_0";
+    public final static String ACCOUNT_ID = "ACCOUNT_0";
 
     public final static byte LOGOUT = 1;
 
@@ -33,17 +34,16 @@ public class Constants {
     public final static byte STATUS = 4;
     public final static byte COMPANY_NAME = 5;
     public final static byte START_DATE = 6;
-    public final static byte END_DATE = 7;
-    public final static byte DEAL_COST = 8;
-    public final static byte EXIT_LEAD_UPDATER = 9; 
+    public final static byte EXIT_LEAD_UPDATER = 7; 
 
     public final static byte EXIT_EMPLOYEE_UPDATER = 4;
 
     public final static byte NEW = 1;
-    public final static byte WORKING = 2;
-    public final static byte NURTURING = 3;
+    public final static byte CONTACTED = 2;
+    public final static byte WORKING = 3;
     public final static byte QUALIFIED = 4;
-    public final static byte CLOSE = 5;
+    public final static byte UNQUALIFIED = 5;
+    public final static byte CONVERTED = 6;
 
     public final static String NAME_PATTERN = "^([a-zA-Z]{0,20}[\s.]?){2}[a-zA-Z]{0,20}$";
     public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
