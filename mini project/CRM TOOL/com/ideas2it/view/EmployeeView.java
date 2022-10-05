@@ -66,7 +66,7 @@ public class EmployeeView {
                 deleteById(scanner);
                 break;
 
-            case Constants.EXIT:
+            case Constants.EXIT_OPERATION:
                 while (!isActive) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -359,7 +359,7 @@ public class EmployeeView {
                         .append(" \" for Update\n")
                         .append("Press \" ").append(Constants.REMOVER)
                         .append(" \" for Delete\n")
-                        .append("Press \" ").append(Constants.EXIT)
+                        .append("Press \" ").append(Constants.EXIT_OPERATION)
                         .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");
         System.out.print(OperationPrinter);

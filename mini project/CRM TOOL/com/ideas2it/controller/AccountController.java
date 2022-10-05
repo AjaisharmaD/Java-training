@@ -1,5 +1,7 @@
 package com.ideas2it.controller;
 
+import java.util.List;
+
 import com.ideas2it.model.Account;
 import com.ideas2it.service.AccountService;
 
@@ -34,6 +36,62 @@ public class AccountController {
      */
     public Account create(Account account) {
         return accountService.create(account);
+    }
+
+
+    /**   
+     * <h1> Get Details of Accounts </h1>
+     * <p>
+     * Gets the Details of Accounts
+     * </p>
+     *
+     * @return List - Details of Accounts
+     */
+    public List<Account> getAll() {
+        return accountService.getAll();
+    }    
+
+    /**
+     * <h1> Get Details of Account by Id </h1>
+     * <p>
+     * Gets the Details of a Account by Id
+     * </p>
+     * 
+     * @param id       - Account's Id to search the Account
+     *
+     * @return Account - Details of a Single Account
+     */
+    public Account getById(String id) {
+        return accountService.getById(id);
+    }
+
+    /**
+     * <h1> Update Details of Account By Id </h1>
+     * <p>
+     * Updates the Details of a Single Account
+     * </p>
+     *
+     * @param id       - key to update the Account
+     * @param account     - updated Account 
+     *
+     * @return Account - the Update details of Account
+     */
+    public Account updateById(String id, Account account) {
+        return accountService.updateById(id, account);
+    }
+
+    /**
+     * <h1> Detele Details of Account by Id</h1>
+     * <p>
+     * Deteles the Details of a Account
+     * </p>
+     *
+     * @param id       - key to Detele the Account
+     *
+     * @return boolean - Status of the Delated Account
+     */
+    public boolean isDeletedById(String id) {
+        return accountService.isDeletedById(id);
     }
 
 }

@@ -3,7 +3,6 @@ package com.ideas2it.view;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
-import java.
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,14 +22,16 @@ import com.ideas2it.view.AccountView;
  * </p>
  * 
  * @author  Ajaisharma D
- * @version 1.2 03-10-2022
+ * @version 1.4 05-10-2022
  * @since   16-09-2022
  */
 public class LeadView {
     private LeadController leadController;
+    private AccountView accountView;
         
     public LeadView() {
         this.leadController = new LeadController();
+        this.accountView = new AccountView();
     }
 
     /**
@@ -48,6 +49,39 @@ public class LeadView {
         printWelcomeMessage();     
                 
         while (!isActive) {
+            printLeadMenu();
+            operationChoice = getChoice(scanner);
+                   
+            switch (operationChoice) {
+            case Constants.LEAD:
+                openLeadOperations(scanner);
+                break;
+                 
+            case Constants.ACCOUNT:
+                accountView.showAccountDashboard(scanner);
+                break;
+                                                
+            case Constants.EXIT:
+                while (!isActive) {
+                    System.out.println(Messages.EXIT_MENU);
+                    logout = getChoice(scanner);
+                    isActive = (logout == Constants.LOGOUT) ? true : false;        
+                } 
+                break;
+                   
+            default:
+                System.out.println(Messages.DEFAULT_MESSAGE); 
+            }        
+        }
+    }
+
+    private void openLeadOperations(Scanner scanner) {
+        boolean isOpened = false;
+        byte operationChoice; 
+        byte logout;   
+        printLeadTitle();     
+                
+        while (!isOpened) {
             printOperationMenu();
             operationChoice = getChoice(scanner);
                    
@@ -72,11 +106,11 @@ public class LeadView {
                 deleteById(scanner);
                 break;
               
-            case Constants.EXIT:
-                while (!isActive) {
+            case Constants.EXIT_OPERATION:
+                while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
-                    isActive = (logout == Constants.LOGOUT) ? true : false;        
+                    isOpened = (logout == Constants.LOGOUT) ? true : false;        
                 } 
                 break;
                    
@@ -116,11 +150,11 @@ public class LeadView {
                 continue;
             }
         }
+        scanner.skip("\r\n");
 
         for (int index = 0; index < count; index++) {
             System.out.println("\n====== Enter Lead 0" + (index + 1) 
                                                        + " Details ======\n");
-            scanner.skip("\r\n");
             name = getName(scanner);
             email = getEmail(scanner);     
             phoneNumber = getPhoneNumber(scanner);
@@ -142,17 +176,19 @@ public class LeadView {
      */
     private void displayAll() {
         System.out.println("\n========== LEAD DETAILS ==========\n");
+
         if (leadController.getAll() != null) {
             for (Lead lead : leadController.getAll()) {
                 System.out.println(lead);
+                System.out.println("\n--------------X---------------");
             }
         } else {
-                System.out.println(">>>>> No Elements Found! <<<<<");
+                System.out.println(">>>>> No Leads Found! <<<<<");
         }
     }
    
    /**
-     * <h1> Disply Lead By Id </h1>
+     * <h1> Display Lead By Id </h1>
      * <p>
      * Method is used to serach the Details of Lead by calling the Lead Id
      * This will Display the Details of a Single Lead
@@ -164,6 +200,7 @@ public class LeadView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println(leadController.getById(id));
+        System.out.println("\n--------------X---------------");
     }
 
     /**
@@ -246,7 +283,7 @@ public class LeadView {
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE LEAD  ==========\n");
-        System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the ID to Delete Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println((leadController.isDeletedById(id)) 
@@ -264,6 +301,7 @@ public class LeadView {
     private String getName(Scanner scanner) {
         String name = "";
         boolean isNotValid = false;
+        //scanner.skip("\r\n");
 
         while (!isNotValid) {
             System.out.print("Name                 : ");
@@ -339,47 +377,60 @@ public class LeadView {
     private String getStatus(Scanner scanner, Lead lead) {
         System.out.print("Status               : ");
         boolean isSelecting = false;
+        byte logout;
         String status = "";
         printStatusMenu();
-        byte statusChoice = getChoice(scanner);
+        byte statusChoice;
 
-        while (is)
+        while (!isSelecting) {
+            statusChoice = getChoice(scanner);
+
             switch (statusChoice) {
             case Constants.NEW:
                 status = Status.New.toString();
+                isSelecting = true;
                 break;
 
             case Constants.CONTACTED:
                 status = Status.Contacted.toString();
+                isSelecting = true;
                 break;
 
             case Constants.WORKING:
                 status = Status.Working.toString();
+                isSelecting = true;
                 break;
 
             case Constants.QUALIFIED:
                 status = Status.Qualified.toString();
+                isSelecting = true;
                 break;
 
             case Constants.UNQUALIFIED:
                 status = Status.Unqualified.toString();
+                isSelecting = true; 
                 break;
 
-            case Constants.CONVERTED:
+            case Constants.CONVERTED:               
                 try {
-                    AccountView accountView = new AccountView();
-                    status = accountView.convertToAccount(lead);
-                } catch (NullPoiterException e) {
+                    status = accountView.convertToAccount(scanner, lead);
+                    isSelecting = true; 
+                } catch (NullPointerException e) {
                     System.out.println("New Lead Can't be converted to Account:");
+                    scanner.next();
                     continue;
                 } 
+                break;
+
+            case Constants.EXIT_STATUS:
+                isSelecting = true; 
                 break;
 
             default:
                 System.out.println(Messages.DEFAULT_MESSAGE);
             }
-            return status;
         }
+        return status;
     }
 
     /**
@@ -441,14 +492,35 @@ public class LeadView {
     }
 
     /**
+     * <h1> Print Lead Menu </h1>
+     * <p>
+     * Prints the Lead Menu
+     * </p>
+     */
+    private void printLeadMenu() {
+        StringBuilder leadMenu = new StringBuilder();
+        leadMenu.append("Press \" ").append(Constants.LEAD)
+                        .append(" \" for Lead\n")
+                        .append("Press \" ").append(Constants.ACCOUNT)
+                        .append(" \" for Account\n")
+                        .append("Press \" ").append(Constants.CONTACT)
+                        .append(" \" for Contact\n")
+                        .append("Press \" ").append(Constants.OPPORTUNITY)
+                        .append(" \" for Opportunity\n")
+                        .append("Press \" ").append(Constants.EXIT)
+                        .append(" \" for EXIT\n")
+                        .append("Enter your Operation: ");
+        System.out.print(leadMenu);
+    }
+    /**
      * <h1> Print Operation Menu </h1>
      * <p>
      * Prints the Operation Menu
      * </p>
      */
     private void printOperationMenu() {
-        StringBuilder OperationPrinter = new StringBuilder();
-        OperationPrinter.append("Press \" ").append(Constants.ADDER)
+        StringBuilder operationMenu = new StringBuilder();
+        operationMenu.append("Press \" ").append(Constants.ADDER)
                         .append(" \" for Create New Lead\n")
                         .append("Press \" ").append(Constants.PROJECTOR)
                         .append(" \" for View\n")
@@ -458,10 +530,10 @@ public class LeadView {
                         .append(" \" for Update\n")
                         .append("Press \" ").append(Constants.REMOVER)
                         .append(" \" for Delete\n")
-                        .append("Press \" ").append(Constants.EXIT)
+                        .append("Press \" ").append(Constants.EXIT_OPERATION)
                         .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");
-        System.out.print(OperationPrinter);
+        System.out.print(operationMenu);
     }
 
     /**
@@ -471,22 +543,22 @@ public class LeadView {
      * </p>
      */
     private void printUpdaterMenu() {
-        StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> Lead Id can't be changed <<<<<\n")
-                     .append("\npress \" ").append(Constants.NAME)
-                     .append(" \" for Name\n")
-                     .append("press \" ").append(Constants.EMAIL)
-                     .append(" \" for Email\n")
-                     .append("press \" ").append(Constants.PHONE_NUMBER)
-                     .append(" \" for Phone Number\n")
-                     .append("press \" ").append(Constants.STATUS)
-                     .append(" \" for Status\n")
-                     .append("press \" ").append(Constants.COMPANY_NAME)
-                     .append(" \" for Company Name\n")
-                     .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
-                     .append(" \" for Exit\n")
-                     .append("Enter your Updater: "); 
-        System.out.print(choicePrinter);
+        StringBuilder updaterMenu = new StringBuilder();
+        updaterMenu.append(">>>>> Lead Id can't be changed <<<<<\n")
+                   .append("\npress \" ").append(Constants.NAME)
+                   .append(" \" for Name\n")
+                   .append("press \" ").append(Constants.EMAIL)
+                   .append(" \" for Email\n")
+                   .append("press \" ").append(Constants.PHONE_NUMBER)
+                   .append(" \" for Phone Number\n")
+                   .append("press \" ").append(Constants.STATUS)
+                   .append(" \" for Status\n")
+                   .append("press \" ").append(Constants.COMPANY_NAME)
+                   .append(" \" for Company Name\n")
+                   .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
+                   .append(" \" for Exit\n")
+                   .append("Enter your Updater: "); 
+        System.out.print(updaterMenu);
     }
 
     /**
@@ -510,6 +582,8 @@ public class LeadView {
                   .append(" \" for Unqualified |\n")
                   .append("| press \" ").append(Constants.CONVERTED)
                   .append(" \" for Converted   |\n")
+                  .append("| press \" ").append(Constants.EXIT_LEAD_UPDATER)
+                  .append(" \" for Exit        |\n")
                   .append("+=============================+\n")
                   .append("Enter your Choice: ");
         System.out.print(statusMenu);
@@ -522,10 +596,24 @@ public class LeadView {
      * </p>
      */
     private void printWelcomeMessage() {
-        StringBuilder welcomePrinter = new StringBuilder();
-        welcomePrinter.append("\n========================================")
+        StringBuilder welcomeMessage = new StringBuilder();
+        welcomeMessage.append("\n========================================")
                       .append("|           WELCOME EMPLOYEE!            |")
                       .append("========================================\n");
-        System.out.println(welcomePrinter);
+        System.out.println(welcomeMessage);
+    }
+
+    /**
+     * <h1> Print  </h1>
+     * <p>
+     * Prints the Title of Lead
+     * </p>
+     */
+    private void printLeadTitle() {
+        StringBuilder title = new StringBuilder();
+        title.append("\n========================================")
+             .append("|                 LEAD!                  |")
+             .append("========================================\n");
+        System.out.println(title);
     }
 }                                          

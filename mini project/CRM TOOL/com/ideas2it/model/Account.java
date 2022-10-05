@@ -55,4 +55,17 @@ public class Account {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder accountDetails = new StringBuilder();
+        accountDetails.append("\nId           :").append(id)
+                      .append("\nName         :").append(name)
+                      .append("\nOwner Name   :").append(ownerName)
+                      .append("\nEmail        :").append(email)
+                      .append("\nPhone Number :").append(phoneNumber)
+                      .append("\nType         :").append(type)
+                      .append("\n-----------------------------------\n");
+        return accountDetails.toString();
+    }
 }

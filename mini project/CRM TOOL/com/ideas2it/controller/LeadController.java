@@ -160,41 +160,4 @@ public class LeadController {
         }
         return false;
     }
-
-    /**
-     * <h1> Valid Date </h1>
-     * <p>
-     * Get the Date and checks whether the given Date is valid or not
-     * </p>
-     *
-     * @param date - Start/End Date given by the Employee  
-     * @return boolean - Status of Lead Date
-     */
-    public boolean isValidDate(String date) {
-        try {
-            if (validationUtils.validateDate(date).equals(date)) {
-                return true;
-            } else {
-                return false;
-            }   
-        } catch (DateTimeException e) {
-            return false;
-        }
-    }
-
-    /**
-     * <h1> Valid Deal Cost </h1>
-     * <p>
-     * Get the Deal Cost and checks whether the given Deal Cost is valid or not
-     * </p>
-     *
-     * @param dealCost - Deal Cost of Lead given by the Employee  
-     * @return boolean - Status of Lead Deal Cost
-     */
-    public boolean isValidDealCost(String dealCost) {
-        if (validationUtils.isValidDealCost(dealCost)) {
-            return true;
-        }
-        return false;
-    }
 }

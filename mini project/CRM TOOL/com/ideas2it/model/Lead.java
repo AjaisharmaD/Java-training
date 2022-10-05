@@ -46,12 +46,11 @@ public class Lead extends Employee {
 
     @Override
     public String toString() {
-        StringBuilder leadResponder = new StringBuilder();
-        leadResponder.append(super.toString())
-                     .append("\nStatus        : ").append(status)                                            
-                     .append("\nCompany Name  : ").append(companyName)
-                     .append("\nStart Date    : ").append(startDate)
-                     .append("\n----------------------------------------\n");
-       return leadResponder.toString();
+        StringBuilder leadDetails = new StringBuilder();
+        leadDetails.append(super.toString())
+                   .append("\nStatus        : ").append(status)                                           
+                   .append("\nCompany Name  : ").append(companyName)
+                   .append("\nStart Date    : ").append(startDate);
+       return leadDetails.toString();
     }
 }

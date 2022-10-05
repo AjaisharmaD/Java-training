@@ -75,47 +75,6 @@ public class ValidationUtils {
     }
 
     /**
-     * <h1> Valid Stage </h1>
-     * <p>
-     * This method will checks the input for Stage is valid or not.
-     * </p>
-     *
-     * @param password - Password of Employee
-     * @return boolean - Status of Stage
-     */
-    public boolean isValidStage(String stage) {
-        return Pattern.matches(Constants.STAGE_PATTERN, stage);        
-    }
-
-    /**
-     * <h1> Valid Date </h1>
-     * <p>
-     * This method will checks the input for Date is valid or not.
-     * </p>
-     *
-     * @param date     - Start/End Date of Lead
-     * @return boolean - Status of Company Name
-     */
-    public String validateDate(String date) throws DateTimeException {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        LocalDate localDate = LocalDate.parse(date, dateFormat);
-        return dateFormat.format(localDate).toString();
-    }
-
-    /**
-     * <h1> Valid Deal Cost </h1>
-     * <p>
-     * This method will checks the input for Deal Cost is valid or not
-     * </p>
-     *
-     * @param dealCost - Deal Size of Employee or Lead
-     * @return boolean - Status of Deal Cost
-     */
-    public boolean isValidDealCost(String dealCost) {
-        return Pattern.matches(Constants.DEALCOST_PATTERN, dealCost);
-    }
-
-    /**
      * <h1> Valid Password </h1>
      * <p>
      * This method will checks the input for Password is valid or not.

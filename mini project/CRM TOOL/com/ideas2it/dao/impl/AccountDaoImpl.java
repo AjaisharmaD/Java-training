@@ -32,8 +32,48 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account insert(String accountId, Account account) {
-        account.setId(accountId);
         accountMap.put(accountId, account);
         return accountMap.get(accountId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, Account> fetchAll() {
+        return accountMap;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Account fetchById(String id) {
+        if (accountMap.containsKey(id)) {
+            return accountMap.get(id);
+        } 
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Account updateById(String id, Account account) {
+        if (accountMap.containsKey(id)) {
+            return accountMap.replace(id, account);
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Account deleteById(String id) {
+        if (accountMap.containsKey(id)) {
+            return accountMap.remove(id);
+        }
+        return null;
     }
 }

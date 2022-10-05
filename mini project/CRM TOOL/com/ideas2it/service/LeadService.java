@@ -65,6 +65,7 @@ public class LeadService {
      */
     public List<Lead> getAll() {    
         List<Lead> leads = new ArrayList<>();
+
         if (!leadDao.fetchAll().isEmpty()) {
             for (Map.Entry<String, Lead> leadEntry : leadDao.fetchAll().entrySet()) {
                 leads.add(leadEntry.getValue());
@@ -104,9 +105,9 @@ public class LeadService {
     }
 
     /**
-     * <h1> Detele Details of Lead </h1>
+     * <h1> Delete Details of Lead </h1>
      * <p>
-     * Deteles the Details of a Single Lead
+     * Deletes the Details of a Single Lead
      * </p>
      *
      * @param id       - key to Delete the Lead

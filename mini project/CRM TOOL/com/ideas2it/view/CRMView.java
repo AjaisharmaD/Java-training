@@ -81,10 +81,11 @@ public class CRMView {
      */
     private byte getChoice(Scanner scanner) {
         byte choice = 0;
+
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            System.out.println("\n>>>>> Please Enter Numbers Only! <<<<<\n");
+            scanner.next();
         }
         return choice;
     }
