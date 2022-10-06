@@ -6,46 +6,43 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
-import com.ideas2it.controller.AccountController;
+import com.ideas2it.controller.ContactController;
 import com.ideas2it.controller.LeadController;
-import com.ideas2it.enums.Status;
-import com.ideas2it.enums.Type;
-import com.ideas2it.model.Account;
+import com.ideas2it.enums.Title;
 import com.ideas2it.model.Lead;
-import com.ideas2it.view.ContactView;
+import com.ideas2it.model.Contact;
 
 /**
- * <h1> Account View </h1>
+ * <h1> Contact View </h1>
  * <p>
- * Converts the Lead into Account who are qualified
+ * Creats the Contact for Lead
  * </p>
  *
  * @author  AJAISHARMA
- * @version 1.1 06-10-2022
- * @since   03-10-2022
+ * @version 1.0
+ * @since   06-10-2022
  */
-public class AccountView {
-    private AccountController accountController;
+public class ContactView {
+    private ContactController contactController;
     private LeadController leadController;
 
-    public AccountView() {
-        this.accountController = new AccountController();
+    ContactView() {
+        this.contactController = new ContactController();
         this.leadController = new LeadController();
     }
 
     /**
-     * <h1> Account Dashboard </h1>
+     * <h1> Contact Dashboard </h1>
      * <p>
      * Method is used to do Operations 
      * such as Adding, Printing, Updating, Deleting 
-     * the Details of Account
+     * the Details of Contact
      * </p>
      */
-    public void showAccountDashboard(Scanner scanner, ContactView contactView) {
+    public void showContactDashboard(Scanner scanner) {
         boolean isOpened = false;
         byte operationChoice; 
-        byte logout;   
-        String status;
+        byte logout;
                 
         while (!isOpened) {
             printOperationMenu();
@@ -83,83 +80,82 @@ public class AccountView {
     }
 
     /**
-     * <h1> Convert To Account </h1>
+     * <h1> Create Contact </h1>
      * <p>
-     * Converts the lead into Account
+     * Creates a Contact from the Account
      * </p>
      *
      * @param scanner - scanner to get input from console
-     * @param lead    - lead to convert as Account 
-     * @return status - status of the Lead 
+     * @param account - account to create Contact  
      */
-    public String toAccount(Scanner scanner, Lead lead) {
-        Account account = new Account();
-        account.setId(lead.getId());
-        account.setName(lead.getCompanyName());
-        account.setOwnerName(lead.getName());
-        account.setEmailId(lead.getEmailId());
-        account.setPhoneNumber(lead.getPhoneNumber());
-        account.setType(lead.getAccountType());
-        return accountController.create(account) != null 
-                                 ? Status.Converted.toString()
-                                 : Messages.FAILED;
+    public void create(Scanner scanner, Lead lead) {
+        Contact contact = new Contact();
+        contact.setId(lead.getId());
+        contact.setName(lead.getName());
+        contact.setAccountName(lead.getCompanyName());
+        contact.setEmailId(lead.getEmailId());
+        contact.setPhoneNumber(lead.getPhoneNumber());
+        contact.setTitle(lead.getContactTitle());
+        System.out.println(contactController.create(contact) != null 
+                                 ? Messages.SUCCESS
+                                 : Messages.FAILED);
     }
 
     /**   
-     * <h1> Display Details of account </h1>
+     * <h1> Display Details of Contact </h1>
      * <p>
-     * Method will Display all the Details of Account
+     * Method will Display all the Details of Contact
      * </p>
      */
     private void displayAll() {
-        System.out.println("\n========== ACCOUNTS DETAILS ==========\n");
+        System.out.println("\n========== CONTACT DETAILS ==========\n");
 
-        if (accountController.getAll() != null) {
-            for (Account account : accountController.getAll()) {
-                System.out.println(account);
-                System.out.println("\n-------------X-------------");
+        if (contactController.getAll() != null) {
+            for (Contact contact : contactController.getAll()) {
+                System.out.println(contact);
+                System.out.println("\n-----------------X-----------------");
             }
         } else {
-                System.out.println(">>>>> No Accounts Found! <<<<<");
+            System.out.println(">>>>> No Contacts Found! <<<<<\n");
         }
     }
 
    /**
-     * <h1> Display Account By Id </h1>
+     * <h1> Display Contact By Id </h1>
      * <p>
-     * Method is used to serach the Details of Account by calling the Account Id
-     * This will Display the Details of a Account
+     * Method is used to serach the Details of contact by calling the contact Id
+     * This will Display the Details of a contact
      * </p>
      */
     private void displayById(Scanner scanner) {
-        System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
-        System.out.print("Enter the ID to Account\n \" Format:Lead_01 \" : ");
+        System.out.println("\n========== SEARCH contact ==========\n");  
+        System.out.print("Enter the ID to contact\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
-        if (accountController.getById(id) != null) {
-            System.out.println(accountController.getById(id));
-            System.out.println("\n-------------X-------------");
+        if (contactController.getById(id) != null) {
+            System.out.println(contactController.getById(id));
+            System.out.println("\n-----------------X-----------------");
         } else {
-            System.out.println(">>>>> No Accounts Found! <<<<<");
+            System.out.println(">>>>> No Contacts Found! <<<<<\n");
         }
     }
 
     /**
-     * <h1> Update the Account </h1>
+     * <h1> Update the Contact </h1>
      * <p>
-     * Method will updates the each fields of the Lead Details 
+     * Updates the each fields of the Contact Details 
      * and Display the Message that the fields are Updated or not
      * </p>
      */
     private void updateById(Scanner scanner) {  
-        System.out.println("\n========== UPDATE ACCOUNT  ==========\n");
-        System.out.print("Enter the ID to Account\n \" Format:Lead_01 \" : ");
+        System.out.println("\n========== UPDATE CONTACT  ==========\n");
+        System.out.print("Enter the ID to Contact\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();   
         boolean isUpdating = false;
         byte updaterChoice;
         byte logout;
-        Account account = accountController.getById(id);
+        Contact contact = contactController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
@@ -168,36 +164,36 @@ public class AccountView {
             switch (updaterChoice) {
             case Constants.NAME:
                 scanner.skip("\r\n");
-                account.setName(getName(scanner));
-                System.out.println((accountController.updateById(id, account) != null) 
+                contact.setName(getName(scanner));
+                System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
                     
-            case Constants.OWNER_NAME:
+            case Constants.ACCOUNT_NAME:
                 scanner.skip("\r\n");
-                account.setOwnerName(getOwnerName(scanner));
-                System.out.println((accountController.updateById(id, account) != null) 
+                contact.setAccountName(getAccountName(scanner));
+                System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
 
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                account.setEmailId(getEmail(scanner));
-                System.out.println((accountController.updateById(id, account) != null) 
+                contact.setEmailId(getEmail(scanner));
+                System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
-                account.setPhoneNumber(getPhoneNumber(scanner));
-                System.out.println((accountController.updateById(id, account) != null) 
+                contact.setPhoneNumber(getPhoneNumber(scanner));
+                System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
                            
-            case Constants.TYPE:
+            case Constants.TITLE:
                 scanner.skip("\r\n");
-                account.setType(getType(scanner));
-                System.out.println((accountController.updateById(id, account) != null) 
+                contact.setTitle(getTitle(scanner));
+                System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
                            
@@ -215,19 +211,20 @@ public class AccountView {
         }         
     }
 
+
     /**
-     * <h1> Delete the Account </h1>
+     * <h1> Delete the Contact </h1>
      * <p>
-     * Method will Delete the Details of a Account 
+     * Method will Delete the Details of a Contact 
      * and Prints the Message that the fields are Deleted or not
      * </p>
      */
     private void deleteById(Scanner scanner) {
-        System.out.println("\n========== DELETE ACCOUNT  ==========\n");
-        System.out.print("Enter the ID to Delete Account\n \" Format:Account_01 \" : ");
+        System.out.println("\n========== DELETE CONTACT  ==========\n");
+        System.out.print("Enter the ID to Delete Contact\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
-        System.out.println((accountController.isDeletedById(id)) 
+        System.out.println((contactController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
     }          
 
@@ -247,7 +244,7 @@ public class AccountView {
             System.out.print("Name                 : ");
             name = scanner.nextLine();
 
-            if (leadController.isValidCompanyName(name)) {
+            if (leadController.isValidName(name)) {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
@@ -257,14 +254,14 @@ public class AccountView {
     }
 
     /**
-     * <h1> Get Owner Name </h1>
+     * <h1> Get Account Name </h1>
      * <p>
-     * Gets the Name and checks whether the Name is Valid or not
+     * Gets the Account Name and checks whether the Account Name is Valid or not
      * </p> 
      *
      * @return name - a Valid Name
      */
-    private String getOwnerName(Scanner scanner) {
+    private String getAccountName(Scanner scanner) {
         String name = "";
         boolean isNotValid = false;
 
@@ -272,7 +269,7 @@ public class AccountView {
             System.out.print("Name                 : ");
             name = scanner.nextLine();
 
-            if (leadController.isValidName(name)) {
+            if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
@@ -332,40 +329,44 @@ public class AccountView {
     }
 
     /**
-     * <h1> Get type </h1>
+     * <h1> Get Title </h1>
      * <p>
-     * Gets the Type of the Account
+     * Gets the Title of the Contact
      * </p>
      *
-     * @return type - type of a Account
+     * @return title - title of a Contact
      */
-    private String getType(Scanner scanner) {
-        System.out.print("Type               : ");
-        String type = "";
-        printTypeMenu();
-        byte typeChoice = getChoice(scanner);
+    private String getTitle(Scanner scanner) {
+        System.out.print("Title               : ");
+        String title = "";
+        printTitleMenu();
+        byte titleChoice = getChoice(scanner);
 
-        switch (typeChoice) {
-        case Constants.CUSTOMER:
-            type = Type.Customer.toString();
+        switch (titleChoice) {
+        case Constants.CEO:
+            title = Title.CEO.toString();
             break;
 
-        case Constants.RESELLER:
-            type = Type.Reseller.toString();
+        case Constants.FOUNDER:
+            title = Title.Founder.toString();
             break;
 
-        case Constants.INVESTOR:
-            type = Type.Investor.toString();
+        case Constants.PRESIDENT:
+            title = Title.President.toString();
             break;
 
-        case Constants.PARTNER:
-            type = Type.Partner.toString();
+        case Constants.VICE_PRESIDENT:
+            title = Title.VicePresident.toString();
+            break;
+
+        case Constants.DIRECTOR:
+            title = Title.Director.toString();
             break;
 
             default:
                 System.out.println(Messages.DEFAULT_MESSAGE);
         }
-        return type;
+        return title;
     }
 
     /**
@@ -394,7 +395,7 @@ public class AccountView {
      */
     private void printOperationMenu() {
         StringBuilder OperationMenu = new StringBuilder();
-        OperationMenu.append("\nPress \" ").append(Constants.PROJECTOR)
+        OperationMenu.append("Press \" ").append(Constants.PROJECTOR)
                      .append(" \" for View\n")
                      .append("Press \" ").append(Constants.FINDER)
                      .append(" \" for Search\n")
@@ -423,9 +424,9 @@ public class AccountView {
                    .append(" \" for Email\n")
                    .append("press \" ").append(Constants.PHONE_NUMBER)
                    .append(" \" for Phone Number\n")
-                   .append("press \" ").append(Constants.TYPE)
+                   .append("press \" ").append(Constants.TITLE)
                    .append(" \" for Type\n")
-                   .append("press \" ").append(Constants.OWNER_NAME)
+                   .append("press \" ").append(Constants.ACCOUNT_NAME)
                    .append(" \" for Owner Name\n")
                    .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
                    .append(" \" for Exit\n")
@@ -434,24 +435,26 @@ public class AccountView {
     }
 
     /**
-     * <h1> Print Type Menu </h1>
+     * <h1> Print Title Menu </h1>
      * <p>
-     * Prints the Menu for Account Type
+     * Prints the Menu for Contact Title
      * </p>
      */
-    private void printTypeMenu() {
-        StringBuilder typeMenu = new StringBuilder();
-        typeMenu.append("\n+=============================+ ")
-                .append("\n| press \" ").append(Constants.CUSTOMER)
-                .append(" \" for Customer    |\n")
-                .append("| press \" ").append(Constants.RESELLER)
-                .append(" \" for Reseller    |\n")
-                .append("| press \" ").append(Constants.INVESTOR)
-                .append(" \" for Investor    |\n")
-                .append("| press \" ").append(Constants.PARTNER)
-                .append(" \" for Partner     |\n")
-                .append("+=============================+\n")
-                .append("Enter your Choice: ");
-        System.out.print(typeMenu);
+    private void printTitleMenu() {
+        StringBuilder titleMenu = new StringBuilder();
+        titleMenu.append("\n+====================================+")
+                 .append("\n| press \" ").append(Constants.CEO)
+                 .append(" \" for CEO                |\n")
+                 .append("| press \" ").append(Constants.FOUNDER)
+                 .append(" \" for Founder            |\n")
+                 .append("| press \" ").append(Constants.PRESIDENT)
+                 .append(" \" for President          |\n")
+                 .append("| press \" ").append(Constants.VICE_PRESIDENT)
+                 .append(" \" for Vice President     |\n")
+                 .append("| press \" ").append(Constants.DIRECTOR)
+                 .append(" \" for Director           |\n")
+                 .append("+====================================+\n")
+                 .append("Enter your Choice: ");
+        System.out.print(titleMenu);
     }
 }

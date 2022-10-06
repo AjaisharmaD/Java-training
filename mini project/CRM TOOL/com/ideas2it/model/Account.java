@@ -58,14 +58,13 @@ public class Account {
 
     @Override
     public String toString() {
-        StringBuilder accountDetails = new StringBuilder();
-        accountDetails.append("\nId           :").append(id)
-                      .append("\nName         :").append(name)
-                      .append("\nOwner Name   :").append(ownerName)
-                      .append("\nEmail        :").append(email)
-                      .append("\nPhone Number :").append(phoneNumber)
-                      .append("\nType         :").append(type)
-                      .append("\n-----------------------------------\n");
-        return accountDetails.toString();
+        StringBuilder account = new StringBuilder();
+        account.append("Id           :").append(id)
+               .append("\nName         :").append(name)
+               .append("\nOwner Name   :").append(ownerName)
+               .append("\nEmail        :").append(email)
+               .append("\nPhone Number :").append(phoneNumber)
+               .append("\nType         :").append(type);
+        return account.toString();
     }
 }

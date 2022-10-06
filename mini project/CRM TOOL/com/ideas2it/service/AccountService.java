@@ -22,23 +22,10 @@ import com.ideas2it.model.Account;
  * @since   03-10-2022
  */
 public class  AccountService {
-    private static int idCount = 0;
     private AccountDao accountDao;
 
     public AccountService() {
         this.accountDao = new AccountDaoImpl();
-    }
-
-    /**
-     * <h1> Id generator </h1>
-     * <p>
-     * Generates the Id for Account
-     * </p>
-     * 
-     * @return String - generated Id
-     */
-    private String generateId() {   
-        return Constants.ACCOUNT_ID + (++idCount);  
     }
 
     /**

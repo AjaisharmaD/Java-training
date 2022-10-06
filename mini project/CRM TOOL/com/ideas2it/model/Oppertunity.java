@@ -1,10 +1,15 @@
 package com.ideas2it.model;
 
 public class Oppertunity {
+    private string id;
     private String name;
     private String accountName;
     private String closeDate;
     private String stage;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -20,6 +25,10 @@ public class Oppertunity {
 
     public void setStage(String stage) {
         this.stage = stage;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

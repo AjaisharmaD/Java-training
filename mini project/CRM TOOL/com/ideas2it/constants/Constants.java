@@ -37,12 +37,17 @@ public class Constants {
     public final static byte NAME = 1;
     public final static byte EMAIL = 2;
     public final static byte PHONE_NUMBER = 3;
-    public final static byte STATUS = 4;
-    public final static byte COMPANY_NAME = 5;
-    public final static byte EXIT_LEAD_UPDATER = 7; 
+    public final static byte COMPANY_NAME = 4;
+    public final static byte STATUS = 5;
+    public final static byte ACCOUNT_TYPE = 6;
+    public final static byte CONTACT_TITLE = 7;
+    public final static byte EXIT_LEAD_UPDATER = 8; 
 
     public final static byte TYPE = 4;
     public final static byte OWNER_NAME = 5;
+
+    public final static byte TITLE = 4;
+    public final static byte ACCOUNT_NAME = 5;
 
     public final static byte EXIT_EMPLOYEE_UPDATER = 4;
 
@@ -58,6 +63,12 @@ public class Constants {
     public final static byte RESELLER = 2;
     public final static byte INVESTOR = 3;
     public final static byte PARTNER = 4;
+
+    public final static byte CEO = 1;
+    public final static byte FOUNDER = 2;
+    public final static byte PRESIDENT = 3;
+    public final static byte VICE_PRESIDENT = 4;
+    public final static byte DIRECTOR = 5;
 
     public final static String NAME_PATTERN = "^([a-zA-Z]{0,20}[\s.]?){2}[a-zA-Z]{0,20}$";
     public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";

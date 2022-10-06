@@ -1,11 +1,16 @@
 package com.ideas2it.model;
 
 public class Contact {
+    private String id;
     private String name;
     private String accountName;
     private String email;
     private String phoneNumber;
     private String title;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -15,7 +20,7 @@ public class Contact {
         this.accountName = accountName;
     } 
 
-    public void setEmail(String email) {
+    public void setEmailId(String email) {
         this.email = email;
     }
 
@@ -25,6 +30,10 @@ public class Contact {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -43,7 +52,18 @@ public class Contact {
         return phoneNumber;
     } 
 
-    public string getTitle() {
+    public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder contact = new StringBuilder();
+        contact.append("\nName             :").append(name)
+               .append("\nAccount Name     :").append(accountName)
+               .append("\nEmail            :").append(email)
+               .append("\nPhone Number     :").append(phoneNumber)
+               .append("\nTitle            :").append(title);
+        return contact.toString();
     }
 }

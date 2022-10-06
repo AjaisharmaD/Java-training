@@ -33,9 +33,9 @@ public interface AccountDao {
     public Account insert(String accountId, Account account);
 
     /**   
-     * <h1> Get Details of Account by Id </h1>
+     * <h1> Get Details of Account </h1>
      * <p>
-     * Gets the Details of Account by Id
+     * Gets the Details of Account
      * </p>  
      *
      * @return Map - Details of Accounts 
