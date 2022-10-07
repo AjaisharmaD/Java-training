@@ -6,15 +6,20 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.LeadController;
+import com.ideas2it.enums.Stage;
 import com.ideas2it.enums.Status;
 import com.ideas2it.enums.Title;
 import com.ideas2it.enums.Type;
 import com.ideas2it.model.Lead;
 import com.ideas2it.view.AccountView;
 import com.ideas2it.view.ContactView;
+import com.ideas2it.view.OpportunityView;
 
 /**
  * <h1> Lead View </h1>
@@ -29,14 +34,18 @@ import com.ideas2it.view.ContactView;
  * @since   16-09-2022
  */
 public class LeadView {
+    private Logger logger;
     private LeadController leadController;
     private AccountView accountView;
     private ContactView contactView;
+    private OpportunityView opportunityView;
         
     public LeadView() {
+        this.logger = LogManager.getLogger(LeadView.class);
         this.leadController = new LeadController();
         this.accountView = new AccountView();
         this.contactView = new ContactView();
+        this.opportunityView = new OpportunityView();
     }
 
     /**
@@ -63,11 +72,15 @@ public class LeadView {
                 break;
                  
             case Constants.ACCOUNT:
-                accountView.showAccountDashboard(scanner, contactView);
+                accountView.showAccountDashboard(scanner, contactView, opportunityView);
                 break;
                               
             case Constants.CONTACT:
                 contactView.showContactDashboard(scanner);
+                break;
+
+            case Constants.OPPORTUNITY:
+                opportunityView.showOpportunityDashboard(scanner);
                 break;
                   
             case Constants.EXIT:
@@ -145,6 +158,8 @@ public class LeadView {
         String status;
         String accountType;
         String contactTitle;
+        String opportunityStage;
+        Double amount = 0.00d;
         String startDate;
 
         int count = 0;
@@ -172,11 +187,13 @@ public class LeadView {
             status = getStatus(scanner, lead);   
             accountType = getType(scanner);
             contactTitle = getTitle(scanner); 
-            companyName = getCompanyName(scanner);   
+            companyName = getCompanyName(scanner); 
+            opportunityStage = getStage(scanner);   
+            amount = getAmount(scanner); 
             startDate = getStartDate();
             System.out.println((leadController.create(new Lead(name, email, 
                                           phoneNumber, status, accountType, 
-                                          contactTitle, companyName,
+                                          contactTitle, companyName, opportunityStage, amount,
                                           startDate)) != null) 
                                           ? Messages.SUCCESS : Messages.FAILED);
         }
@@ -289,6 +306,20 @@ public class LeadView {
             case Constants.CONTACT_TITLE:
                 scanner.skip("\r\n");
                 lead.setContactTitle(getTitle(scanner));
+                System.out.println((leadController.updateById(id, lead) != null) 
+                                        ? Messages.SUCCESS : Messages.FAILED);
+                break;
+
+            case Constants.OPPORTUNITY_STAGE:
+                scanner.skip("\r\n");
+                lead.setOpportunityStage(getStage(scanner));
+                System.out.println((leadController.updateById(id, lead) != null) 
+                                        ? Messages.SUCCESS : Messages.FAILED);
+                break;
+
+            case Constants.DEAL_AMOUNT:
+                scanner.skip("\r\n");
+                lead.setAmount(getAmount(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
                 break;
@@ -445,14 +476,13 @@ public class LeadView {
                 break;
 
             case Constants.CONVERTED:               
-                try {
+                if (lead != null) {
                     status = accountView.toAccount(scanner, lead);
                     contactView.create(scanner, lead);
+                    opportunityView.create(scanner, lead);
                     isSelecting = true; 
-                } catch (NullPointerException e) {
+                } else {
                     System.out.println("New Lead Can't be converted to Account:");
-                    scanner.next();
-                    continue;
                 } 
                 break;
 
@@ -546,6 +576,48 @@ public class LeadView {
     }
 
     /**
+     * <h1> Get Stage </h1>
+     * <p>
+     * Gets the Stage of the opportunity
+     * </p>
+     *
+     * @return stage - stage of a opportunity
+     */
+    private String getStage(Scanner scanner) {
+        System.out.print("Stage               : ");
+        String stage = "";
+        printStageMenu();
+        byte stageChoice = getChoice(scanner);
+
+        switch (stageChoice) {
+        case Constants.MEETING_SCHEDULED:
+            stage = Stage.MeetingScheduled.toString();
+            break;
+
+        case Constants.PROPOSAL:
+            stage = Stage.Proposal.toString();
+            break;
+
+        case Constants.NEGOTIATION:
+            stage = Stage.Negotiation.toString();
+            break;
+
+        case Constants.QUALIFIED:
+            stage = Stage.Qualified.toString();
+            break;
+
+        case Constants.CLOSED:
+            stage = Stage.Closed.toString();
+            break;
+
+
+            default:
+                System.out.println(Messages.DEFAULT_MESSAGE);
+        }
+        return stage;
+    }
+
+    /**
      * <h1> Get Company Name </h1>
      * <p>
      * Gets the Company Name of the Lead and checks whether the Company Name is Valid or not
@@ -570,7 +642,33 @@ public class LeadView {
         }
         return companyName;
     }
-    
+
+    /**
+     * <h1> Get Amount </h1>
+     * <p>
+     * Gets the Amount of the Deal and checks whether the Amount is Valid or not
+     * </p> 
+     *
+     * @return amount - a Valid Amount for deal
+     */
+    private Double getAmount(Scanner scanner) {
+        Double amount = 0.00d;
+        boolean isNotValid = false;
+        //scanner.skip("\r\n");
+
+        while (!isNotValid) {
+            System.out.print("Amount                 : ");
+            amount = scanner.nextDouble();
+
+            if (leadController.isValidAmount(amount.toString())) {
+                break;
+            } else { 
+                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+            }  
+        }
+        return amount;
+    }
+
     /**
      * <h1> Get Start Date </h1>
      * <p>
@@ -596,8 +694,10 @@ public class LeadView {
         byte choice = 0;
         try {
             choice = scanner.nextByte();
+            logger.info(" ran success");
         } catch (InputMismatchException e) {
             System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+            logger.error("Input Mismatch Exception");
             scanner.next();  // clears the scanner buffer
         }
         return choice;
@@ -671,6 +771,10 @@ public class LeadView {
                    .append(" \" for Account type\n")
                    .append("press \" ").append(Constants.CONTACT_TITLE)
                    .append(" \" for Contact Title\n")
+                   .append("press \" ").append(Constants.STAGE)
+                   .append(" \" for Stage\n")
+                   .append("press \" ").append(Constants.DEAL_AMOUNT)
+                   .append(" \" for Deal Amount\n")
                    .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
@@ -749,6 +853,30 @@ public class LeadView {
                  .append("+====================================+\n")
                  .append("Enter your Choice: ");
         System.out.print(titleMenu);
+    }
+
+    /**
+     * <h1> Print Stage Menu </h1>
+     * <p>
+     * Prints the Menu for opportunity Stage
+     * </p>
+     */
+    private void printStageMenu() {
+        StringBuilder stageMenu = new StringBuilder();
+        stageMenu.append("\n+=======================================+ ")
+                 .append("\n| press \" ").append(Constants.MEETING_SCHEDULED)
+                 .append(" \" for Meeting Scheduled    |\n")
+                 .append("| press \" ").append(Constants.PROPOSAL)
+                 .append(" \" for Proposal             |\n")
+                 .append("| press \" ").append(Constants.NEGOTIATION)
+                 .append(" \" for Negotiation          |\n")
+                 .append("| press \" ").append(Constants.QUALIFIED)
+                 .append(" \" for Qualified            |\n")
+                 .append("| press \" ").append(Constants.CLOSED)
+                 .append(" \" for Closed               |\n")
+                 .append("+=======================================+\n")
+                 .append("Enter your Choice: ");
+        System.out.print(stageMenu);
     }
 
     /**

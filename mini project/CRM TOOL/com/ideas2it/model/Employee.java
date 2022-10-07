@@ -62,11 +62,11 @@ public class Employee {
      
     @Override
     public String toString() {
-         StringBuilder commonResponder = new StringBuilder();
-         commonResponder.append("ID            : ").append(id)
-                        .append("\nName          : ").append(name)
-                        .append("\nEmail ID      : ").append(emailId) 
-                        .append("\nPhone Number  : ").append(phoneNumber);
-         return commonResponder.toString();
+         StringBuilder employee = new StringBuilder();
+         employee.append("ID            : ").append(id)
+                 .append("\nName          : ").append(name)
+                 .append("\nEmail ID      : ").append(emailId) 
+                 .append("\nPhone Number  : ").append(phoneNumber);
+         return employee.toString();
     }
 }

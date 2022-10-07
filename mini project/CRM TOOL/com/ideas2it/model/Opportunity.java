@@ -1,9 +1,10 @@
 package com.ideas2it.model;
 
-public class Oppertunity {
-    private string id;
+public class Opportunity {
+    private String id;
     private String name;
     private String accountName;
+    private Double amount;
     private String closeDate;
     private String stage;
 
@@ -18,6 +19,10 @@ public class Oppertunity {
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     } 
+
+    public void setAmount(Double amount) {
+       this.amount = amount;
+    }
 
     public void setCloseDate(String closeDate) {
         this.closeDate = closeDate;
@@ -39,11 +44,27 @@ public class Oppertunity {
         return accountName;
     }
 
+    public Double getAmount(Double amount) {
+       return amount;
+    }
+
     public String getColseDate() {
         return closeDate;
     }
 
     public String getStage() {
         return stage;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder opportunity = new StringBuilder();
+        opportunity.append("\nId                : ").append(id)
+                   .append("\nName              : ").append(name)
+                   .append("\nAccount Name      : ").append(accountName)
+                   .append("\nAmount            : ").append(amount)
+                   .append("\nStage             : ").append(stage)
+                   .append("\nClosed Date       : ").append(closeDate);
+        return opportunity.toString();
     }
 }

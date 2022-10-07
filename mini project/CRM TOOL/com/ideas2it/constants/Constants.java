@@ -41,7 +41,9 @@ public class Constants {
     public final static byte STATUS = 5;
     public final static byte ACCOUNT_TYPE = 6;
     public final static byte CONTACT_TITLE = 7;
-    public final static byte EXIT_LEAD_UPDATER = 8; 
+    public final static byte OPPORTUNITY_STAGE = 8;
+    public final static byte DEAL_AMOUNT = 9;
+    public final static byte EXIT_LEAD_UPDATER = 10; 
 
     public final static byte TYPE = 4;
     public final static byte OWNER_NAME = 5;
@@ -70,11 +72,20 @@ public class Constants {
     public final static byte VICE_PRESIDENT = 4;
     public final static byte DIRECTOR = 5;
 
+    public final static byte MEETING_SCHEDULED = 1;
+    public final static byte PROPOSAL = 2;
+    public final static byte NEGOTIATION = 3;
+    public final static byte CLOSED = 5;
+
+    public final static byte OPPORTUNITY_ACCOUNT_NAME = 2;
+    public final static byte STAGE = 3;
+    public final static byte AMOUNT = 4;
+
     public final static String NAME_PATTERN = "^([a-zA-Z]{0,20}[\s.]?){2}[a-zA-Z]{0,20}$";
     public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
     public final static String PHONENUMBER_PATTERN = "^[6-9]{1}[0-9]{9}$";    //(\d{1,3}[- ])?[6-9]{1}\d{10}$
     //public final static String ZERO_PATTERN = "^";
-    public final static String DEALCOST_PATTERN = "^[0-9]{1,}[.]{1}[0-9]{1,}$";
+    public final static String AMOUNT_PATTERN = "^[0-9]{1,}[.]{1}[0-9]{1,}$";
     public final static String COMPANYNAME_PATTERN = "^[a-zA-Z0-9\s]{1,}$"; 
     public final static String PASSWORD_PATTERN = "^[A-Za-z0-9@#$*]{8,15}$";
 }

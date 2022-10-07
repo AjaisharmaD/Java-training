@@ -2,7 +2,7 @@ package com.ideas2it.enums;
 
 public enum Stage {
     Qualified,
-    Meeting_Scheduled,
+    MeetingScheduled,
     Proposal,
     Negotiation,
     Closed

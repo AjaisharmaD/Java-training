@@ -84,6 +84,19 @@ public class ValidationUtils {
      * @return boolean - Status of Password
      */
     public boolean isValidPassword(String password) {
-        return Pattern.matches(Constants.PASSWORD_PATTERN, password);        
+        return Pattern.matches(Constants.PASSWORD_PATTERN, password);    
+    }
+
+    /**
+     * <h1> Valid Amount </h1>
+     * <p>
+     * This method will checks the input for Amount is valid or not
+     * </p>
+     *
+     * @param amount   - Amount of the Deal
+     * @return boolean - Status of Amount
+     */
+    public boolean isValidAmount(String amount) {
+        return Pattern.matches(Constants.AMOUNT_PATTERN, amount);
     }
 }

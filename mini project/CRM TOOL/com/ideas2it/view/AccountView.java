@@ -13,6 +13,7 @@ import com.ideas2it.enums.Type;
 import com.ideas2it.model.Account;
 import com.ideas2it.model.Lead;
 import com.ideas2it.view.ContactView;
+import com.ideas2it.view.OpportunityView;
 
 /**
  * <h1> Account View </h1>
@@ -41,7 +42,7 @@ public class AccountView {
      * the Details of Account
      * </p>
      */
-    public void showAccountDashboard(Scanner scanner, ContactView contactView) {
+    public void showAccountDashboard(Scanner scanner, ContactView contactView, OpportunityView opportunityView) {
         boolean isOpened = false;
         byte operationChoice; 
         byte logout;   

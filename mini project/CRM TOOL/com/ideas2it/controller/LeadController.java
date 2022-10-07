@@ -160,4 +160,20 @@ public class LeadController {
         }
         return false;
     }
+
+    /**
+     * <h1> Valid Amount </h1>
+     * <p>
+     * Get the Amount and checks whether the given Amount is valid or not
+     * </p>
+     *
+     * @param amount   - Amount of Lead for deal
+     * @return boolean - Status of Lead Amount
+     */
+    public boolean isValidAmount(String amount) {
+        if (validationUtils.isValidAmount(amount)) {
+            return true;
+        }
+        return false;
+    }
 }
