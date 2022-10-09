@@ -6,6 +6,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.OpportunityController;
@@ -27,8 +30,10 @@ import com.ideas2it.model.Opportunity;
 public class OpportunityView {
     private OpportunityController opportunityController;
     private LeadController leadController;
+    private Logger logger;
 
     public OpportunityView() {
+        this.logger = LogManager.getLogger(OpportunityView.class);
         this.opportunityController = new OpportunityController();
         this.leadController = new LeadController();
     }
@@ -115,10 +120,10 @@ public class OpportunityView {
         if (opportunityController.getAll() != null) {
             for (Opportunity opportunity : opportunityController.getAll()) {
                 System.out.println(opportunity);
-                System.out.println("\n-------------X-------------");
+                System.out.println("\n------------------X------------------");
             }
         } else {
-                System.out.println(">>>>> No opportunitys Found! <<<<<");
+            logger.info(">>>>> No opportunitys Found! <<<<<");
         }
     }
 
@@ -136,9 +141,9 @@ public class OpportunityView {
         String id = scanner.nextLine();
         if (opportunityController.getById(id) != null) {
             System.out.println(opportunityController.getById(id));
-            System.out.println("\n-------------X-------------");
+            System.out.println("\n------------------X------------------");
         } else {
-            System.out.println(">>>>> No opportunitys Found! <<<<<");
+            logger.info(">>>>> No opportunitys Found! <<<<<");
         }
     }
 
@@ -169,6 +174,7 @@ public class OpportunityView {
                 opportunity.setName(getName(scanner));
                 System.out.println((opportunityController.updateById(id, opportunity) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Name Updated");
                 break;
                     
             case Constants.OPPORTUNITY_ACCOUNT_NAME:
@@ -176,13 +182,17 @@ public class OpportunityView {
                 opportunity.setAccountName(getAccountName(scanner));
                 System.out.println((opportunityController.updateById(id, opportunity) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Email Updated");
                 break;
                            
             case Constants.STAGE:
                 scanner.skip("\r\n");
-                opportunity.setStage(getStage(scanner));
+                String stage = getStage(scanner);
+                opportunity.setStage(stage);
+                opportunity.setClosedDate(getDate(stage));
                 System.out.println((opportunityController.updateById(id, opportunity) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Stage Updated");
                 break;
 
             case Constants.AMOUNT:
@@ -190,6 +200,7 @@ public class OpportunityView {
                 opportunity.setStage(getStage(scanner));
                 System.out.println((opportunityController.updateById(id, opportunity) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Deal Amount Updated");
                 break;
                            
             case Constants.EXIT:
@@ -220,6 +231,7 @@ public class OpportunityView {
         String id = scanner.nextLine();
         System.out.println((opportunityController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
+        logger.info("Lead Deleted");
     }          
 
     /**
@@ -242,6 +254,7 @@ public class OpportunityView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Account Name");
             }  
         }
         return name;
@@ -267,6 +280,7 @@ public class OpportunityView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Name");
             }  
         }
         return name;
@@ -307,7 +321,6 @@ public class OpportunityView {
             stage = Stage.Closed.toString();
             break;
 
-
             default:
                 System.out.println(Messages.DEFAULT_MESSAGE);
         }
@@ -326,10 +339,12 @@ public class OpportunityView {
         if (stage.equals(Stage.Closed)) {
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
-            String startDate = formatter.format(date); 
-            return startDate;
+            String closedDate = formatter.format(date); 
+
+            logger.info("Closed Date Created");
+            return closedDate;
         }
-        return "NotClosed";
+        return "Not Closed Yet";
     }
 
     /**
@@ -345,6 +360,8 @@ public class OpportunityView {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
             System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+
+            logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }
         return choice;

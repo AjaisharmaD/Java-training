@@ -167,11 +167,11 @@ public class LeadView {
 
         while (!isRight) {
             try {
-                System.out.print("\nEnter the Employee count to add: ");
+                logger.info("\nEnter the Employee count to add: ");
                 count = scanner.nextInt();
                 isRight = true;
             } catch (InputMismatchException e) {
-                System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+                logger.error("\n>>>>> Please Enter Numbers only! <<<<<\n");
                 scanner.next();
                 continue;
             }
@@ -214,7 +214,7 @@ public class LeadView {
                 System.out.println("\n--------------X---------------\n");
             }
         } else {
-                System.out.println(">>>>> No Leads Found! <<<<<");
+            logger.info(">>>>> No Leads Found! <<<<<");
         }
     }
    
@@ -230,11 +230,12 @@ public class LeadView {
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
+
         if (leadController.getById(id) != null) {
             System.out.println("\n" + leadController.getById(id));
             System.out.println("\n--------------X---------------\n");
         } else {
-            System.out.println(">>>>> No Lead Found! <<<<<");
+            logger.info(">>>>> No Lead Found! <<<<<");
             System.out.println("\n--------------X---------------\n");
         }
     }
@@ -266,6 +267,7 @@ public class LeadView {
                 lead.setName(getName(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Name Updated");
                 break;
                     
             case Constants.EMAIL:
@@ -273,6 +275,7 @@ public class LeadView {
                 lead.setEmailId(getEmail(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Email Updated");
                 break;
                          
             case Constants.PHONE_NUMBER:
@@ -280,6 +283,7 @@ public class LeadView {
                 lead.setPhoneNumber(getPhoneNumber(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Phone Number Updated");
                 break;
                         
             case Constants.COMPANY_NAME:
@@ -287,6 +291,7 @@ public class LeadView {
                 lead.setCompanyName(getCompanyName(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Company Name Updated");
                 break;
    
             case Constants.STATUS:
@@ -294,6 +299,7 @@ public class LeadView {
                 lead.setStatus(getStatus(scanner, lead));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Status Updated");
                 break;
 
             case Constants.ACCOUNT_TYPE:
@@ -301,6 +307,7 @@ public class LeadView {
                 lead.setAccountType(getType(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Account Type Updated");
                 break;
 
             case Constants.CONTACT_TITLE:
@@ -308,6 +315,7 @@ public class LeadView {
                 lead.setContactTitle(getTitle(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Contact Title Updated");
                 break;
 
             case Constants.OPPORTUNITY_STAGE:
@@ -315,6 +323,7 @@ public class LeadView {
                 lead.setOpportunityStage(getStage(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Opportunity Stage Updated");
                 break;
 
             case Constants.DEAL_AMOUNT:
@@ -322,6 +331,7 @@ public class LeadView {
                 lead.setAmount(getAmount(scanner));
                 System.out.println((leadController.updateById(id, lead) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Lead Amount Updated");
                 break;
 
             case Constants.EXIT_LEAD_UPDATER:
@@ -352,6 +362,7 @@ public class LeadView {
         String id = scanner.nextLine();
         System.out.println((leadController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
+        logger.info("Lead Deleted");
     }          
 
     /**
@@ -375,6 +386,7 @@ public class LeadView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Name");
             }  
         }
         return name;
@@ -400,6 +412,7 @@ public class LeadView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.error("Wrong Input for Email");
             }  
         }
         return email;
@@ -425,6 +438,7 @@ public class LeadView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.error("Wrong Input for Name");
             }  
         }
         return phoneNumber;
@@ -483,6 +497,7 @@ public class LeadView {
                     isSelecting = true; 
                 } else {
                     System.out.println("New Lead Can't be converted to Account:");
+                    logger.error("Tried to convert the lead which not present");
                 } 
                 break;
 
@@ -569,8 +584,8 @@ public class LeadView {
             title = Title.Director.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            System.out.println(Messages.DEFAULT_MESSAGE);
         }
         return title;
     }
@@ -610,7 +625,6 @@ public class LeadView {
             stage = Stage.Closed.toString();
             break;
 
-
             default:
                 System.out.println(Messages.DEFAULT_MESSAGE);
         }
@@ -638,6 +652,7 @@ public class LeadView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Company Name Format, Give the proper Company Name! <<<<<\n");
+                logger.error("Wrong Input for Company Name");
             }  
         }
         return companyName;
@@ -663,7 +678,8 @@ public class LeadView {
             if (leadController.isValidAmount(amount.toString())) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                System.out.println("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
+                logger.error("Wrong Input for Amount");
             }  
         }
         return amount;
@@ -681,6 +697,7 @@ public class LeadView {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
         String startDate = formatter.format(date); 
+        logger.info("Date created successfully");
         return startDate;
     }
 
@@ -692,6 +709,7 @@ public class LeadView {
      */
     private byte getChoice(Scanner scanner) {
         byte choice = 0;
+
         try {
             choice = scanner.nextByte();
             logger.info(" ran success");

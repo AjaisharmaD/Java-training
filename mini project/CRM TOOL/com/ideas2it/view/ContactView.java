@@ -4,6 +4,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.ContactController;
@@ -23,10 +26,12 @@ import com.ideas2it.model.Contact;
  * @since   06-10-2022
  */
 public class ContactView {
+    private Logger logger;
     private ContactController contactController;
     private LeadController leadController;
 
     ContactView() {
+        this.logger = LogManager.getLogger(ContactView.class);
         this.contactController = new ContactController();
         this.leadController = new LeadController();
     }
@@ -116,7 +121,7 @@ public class ContactView {
                 System.out.println("\n-----------------X-----------------");
             }
         } else {
-            System.out.println(">>>>> No Contacts Found! <<<<<\n");
+            logger.info(">>>>> No Contacts Found! <<<<<\n");
         }
     }
 
@@ -136,7 +141,7 @@ public class ContactView {
             System.out.println(contactController.getById(id));
             System.out.println("\n-----------------X-----------------");
         } else {
-            System.out.println(">>>>> No Contacts Found! <<<<<\n");
+            logger.info(">>>>> No Contacts Found! <<<<<\n");
         }
     }
 
@@ -167,6 +172,7 @@ public class ContactView {
                 contact.setName(getName(scanner));
                 System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
                     
             case Constants.ACCOUNT_NAME:
@@ -174,6 +180,7 @@ public class ContactView {
                 contact.setAccountName(getAccountName(scanner));
                 System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
 
             case Constants.EMAIL:
@@ -181,6 +188,7 @@ public class ContactView {
                 contact.setEmailId(getEmail(scanner));
                 System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
                          
             case Constants.PHONE_NUMBER:
@@ -188,6 +196,7 @@ public class ContactView {
                 contact.setPhoneNumber(getPhoneNumber(scanner));
                 System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
                            
             case Constants.TITLE:
@@ -195,6 +204,7 @@ public class ContactView {
                 contact.setTitle(getTitle(scanner));
                 System.out.println((contactController.updateById(id, contact) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
                            
             case Constants.EXIT_LEAD_UPDATER:
@@ -226,6 +236,7 @@ public class ContactView {
         String id = scanner.nextLine();
         System.out.println((contactController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
+        logger.info("Account Deleted");
     }          
 
     /**
@@ -248,6 +259,7 @@ public class ContactView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Name");
             }  
         }
         return name;
@@ -273,6 +285,7 @@ public class ContactView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Account Name");
             }  
         }
         return name;
@@ -298,6 +311,7 @@ public class ContactView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.error("Wrong Input for Email");
             }  
         }
         return email;
@@ -323,6 +337,7 @@ public class ContactView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.error("Wrong Input for Phone Number");
             }  
         }
         return phoneNumber;
@@ -382,6 +397,7 @@ public class ContactView {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
             System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+            logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }
         return choice;
@@ -395,7 +411,7 @@ public class ContactView {
      */
     private void printOperationMenu() {
         StringBuilder OperationMenu = new StringBuilder();
-        OperationMenu.append("Press \" ").append(Constants.PROJECTOR)
+        OperationMenu.append("\nPress \" ").append(Constants.PROJECTOR)
                      .append(" \" for View\n")
                      .append("Press \" ").append(Constants.FINDER)
                      .append(" \" for Search\n")

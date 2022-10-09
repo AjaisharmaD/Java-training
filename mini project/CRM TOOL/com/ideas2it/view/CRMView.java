@@ -3,6 +3,9 @@ package com.ideas2it.view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.view.LeadView;
@@ -21,10 +24,12 @@ import com.ideas2it.view.EmployeeView;
  * @since   10-09-2022
  */
 public class CRMView {
+    private Logger logger;
     private LeadView leadView;
     private EmployeeView employeeView;
 
     public CRMView() {
+        this.logger = LogManager.getLogger(CRMView.class);
         this.leadView = new LeadView();
         this.employeeView = new EmployeeView();
     }
@@ -85,6 +90,7 @@ public class CRMView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
+            logger.error("Wrong Input for Choice");
             scanner.next();
         }
         return choice;

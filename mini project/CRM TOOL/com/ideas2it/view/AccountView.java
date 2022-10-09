@@ -4,6 +4,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.AccountController;
@@ -26,10 +29,12 @@ import com.ideas2it.view.OpportunityView;
  * @since   03-10-2022
  */
 public class AccountView {
+    private Logger logger;
     private AccountController accountController;
     private LeadController leadController;
 
     public AccountView() {
+        this.logger = LogManager.getLogger(AccountView.class);
         this.accountController = new AccountController();
         this.leadController = new LeadController();
     }
@@ -121,7 +126,7 @@ public class AccountView {
                 System.out.println("\n-------------X-------------");
             }
         } else {
-                System.out.println(">>>>> No Accounts Found! <<<<<");
+                logger.info(">>>>> No Accounts Found! <<<<<");
         }
     }
 
@@ -141,7 +146,7 @@ public class AccountView {
             System.out.println(accountController.getById(id));
             System.out.println("\n-------------X-------------");
         } else {
-            System.out.println(">>>>> No Accounts Found! <<<<<");
+            logger.info(">>>>> No Accounts Found! <<<<<");
         }
     }
 
@@ -172,6 +177,7 @@ public class AccountView {
                 account.setName(getName(scanner));
                 System.out.println((accountController.updateById(id, account) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Name Updated");
                 break;
                     
             case Constants.OWNER_NAME:
@@ -179,6 +185,7 @@ public class AccountView {
                 account.setOwnerName(getOwnerName(scanner));
                 System.out.println((accountController.updateById(id, account) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Owner Name Updated");
                 break;
 
             case Constants.EMAIL:
@@ -186,6 +193,7 @@ public class AccountView {
                 account.setEmailId(getEmail(scanner));
                 System.out.println((accountController.updateById(id, account) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Email Updated");
                 break;
                          
             case Constants.PHONE_NUMBER:
@@ -193,6 +201,7 @@ public class AccountView {
                 account.setPhoneNumber(getPhoneNumber(scanner));
                 System.out.println((accountController.updateById(id, account) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Phone Number Updated");
                 break;
                            
             case Constants.TYPE:
@@ -200,6 +209,7 @@ public class AccountView {
                 account.setType(getType(scanner));
                 System.out.println((accountController.updateById(id, account) != null) 
                                         ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Type Updated");
                 break;
                            
             case Constants.EXIT_LEAD_UPDATER:
@@ -230,6 +240,7 @@ public class AccountView {
         String id = scanner.nextLine();
         System.out.println((accountController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
+                logger.info("Account Deleted");
     }          
 
     /**
@@ -252,6 +263,7 @@ public class AccountView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Name");
             }  
         }
         return name;
@@ -277,6 +289,7 @@ public class AccountView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.error("Wrong Input for Owner Name");
             }  
         }
         return name;
@@ -302,6 +315,7 @@ public class AccountView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.error("Wrong Input for Email");
             }  
         }
         return email;
@@ -327,6 +341,7 @@ public class AccountView {
                 break;
             } else { 
                 System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.error("Wrong Input for Phone Number");
             }  
         }
         return phoneNumber;
@@ -363,8 +378,8 @@ public class AccountView {
             type = Type.Partner.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            System.out.println(Messages.DEFAULT_MESSAGE);
         }
         return type;
     }
@@ -382,6 +397,7 @@ public class AccountView {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
             System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
+            logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }
         return choice;

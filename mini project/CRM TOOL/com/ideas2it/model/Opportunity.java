@@ -59,7 +59,7 @@ public class Opportunity {
     @Override
     public String toString() {
         StringBuilder opportunity = new StringBuilder();
-        opportunity.append("\nId                : ").append(id)
+        opportunity.append("Id                : ").append(id)
                    .append("\nName              : ").append(name)
                    .append("\nAccount Name      : ").append(accountName)
                    .append("\nAmount            : ").append(amount)
