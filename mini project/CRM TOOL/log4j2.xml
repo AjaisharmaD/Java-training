@@ -2,7 +2,9 @@
 <Configuration status="info">
 
     <Appenders>
-        
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%t] %-5level %logger{36} - %msg"/>      //%d{HH:mm:ss.SSS}
+        </Console>
 
     <RollingFile name="RollingFileInfo" fileName="logs/info.log"
                  filePattern="logs/$${date:yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log">

@@ -6,14 +6,12 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.OpportunityController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Stage;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.Opportunity;
 
@@ -30,10 +28,10 @@ import com.ideas2it.model.Opportunity;
 public class OpportunityView {
     private OpportunityController opportunityController;
     private LeadController leadController;
-    private Logger logger;
+    private CustomLogger logger;
 
     public OpportunityView() {
-        this.logger = LogManager.getLogger(OpportunityView.class);
+        this.logger = CustomLogger(OpportunityView.class);
         this.opportunityController = new OpportunityController();
         this.leadController = new LeadController();
     }
@@ -81,7 +79,7 @@ public class OpportunityView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.DEFAULT_MESSAGE); 
             }        
         }
     }
@@ -102,7 +100,7 @@ public class OpportunityView {
         opportunity.setName(lead.getName());
         opportunity.setAmount(lead.getAmount());
         opportunity.setStage(lead.getOpportunityStage());
-        opportunity.setCloseDate(getDate(opportunity.getStage()));
+        opportunity.setClosedDate(getDate(opportunity.getStage()));
         System.out.println(opportunityController.create(opportunity) != null 
                                  ? Messages.SUCCESS
                                  : Messages.FAILED);
@@ -172,17 +170,13 @@ public class OpportunityView {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 opportunity.setName(getName(scanner));
-                System.out.println((opportunityController.updateById(id, opportunity) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Name Updated");
+                printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
                     
             case Constants.OPPORTUNITY_ACCOUNT_NAME:
                 scanner.skip("\r\n");
                 opportunity.setAccountName(getAccountName(scanner));
-                System.out.println((opportunityController.updateById(id, opportunity) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Email Updated");
+                printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
                            
             case Constants.STAGE:
@@ -190,17 +184,13 @@ public class OpportunityView {
                 String stage = getStage(scanner);
                 opportunity.setStage(stage);
                 opportunity.setClosedDate(getDate(stage));
-                System.out.println((opportunityController.updateById(id, opportunity) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Stage Updated");
+                printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
 
             case Constants.AMOUNT:
                 scanner.skip("\r\n");
                 opportunity.setStage(getStage(scanner));
-                System.out.println((opportunityController.updateById(id, opportunity) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Deal Amount Updated");
+                printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
                            
             case Constants.EXIT:
@@ -212,7 +202,7 @@ public class OpportunityView {
                 break;
                                   
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.DEFAULT_MESSAGE);  
             }            
         }         
     }
@@ -253,8 +243,7 @@ public class OpportunityView {
             if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Account Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -279,8 +268,7 @@ public class OpportunityView {
             if (leadController.isValidName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -321,8 +309,8 @@ public class OpportunityView {
             stage = Stage.Closed.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            logger.warn(Messages.DEFAULT_MESSAGE);
         }
         return stage;
     }
@@ -348,6 +336,22 @@ public class OpportunityView {
     }
 
     /**
+     * <h1> Print Update Status </h1>
+     * <p>
+     * Prints the Update Status of the opportunity
+     * </p>
+     *
+     * @return opportunity - Update opportunity
+     */
+    private void printUpdatedStatus(Opportunity opportunity) {
+        if (opportunity != null) {
+            logger.info("Lead Updated");
+        } else {
+            logger.info(Messages.FAILED);
+        }
+    }
+
+    /**
      * <h1> Get choice </h1>
      * <p>
      * Gets the choice from the user
@@ -359,8 +363,6 @@ public class OpportunityView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
-
             logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }

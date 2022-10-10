@@ -3,12 +3,10 @@ package com.ideas2it.view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.EmployeeController;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Employee;
 
 /**
@@ -24,11 +22,11 @@ import com.ideas2it.model.Employee;
  * @since   19-09-2022
  */
 public class EmployeeView {
-    private Logger logger;
+    private CustomLogger logger;
     private EmployeeController employeeController;
 
     public EmployeeView() {
-        this.logger = LogManager.getLogger(EmployeeView.class);
+        this.logger = CustomLogger(EmployeeView.class);
         this.employeeController = new EmployeeController();
     }
 
@@ -80,7 +78,7 @@ public class EmployeeView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+                logger.warn(Messages.DEFAULT_MESSAGE);
             }        
         }
     }
@@ -108,7 +106,6 @@ public class EmployeeView {
                 count = scanner.nextInt();
                 isRight = true;
             } catch (InputMismatchException e) {
-                System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
                 logger.error("Wrong Input for Count");
                 scanner.next();
                 continue;
@@ -184,24 +181,19 @@ public class EmployeeView {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 employee.setName(getName(scanner));
-                System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(employeeController.updateById(id, employee));
                 break;
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
                 employee.setEmailId(getEmail(scanner));
-                System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Email Updated");
+                printUpdatedStatus(employeeController.updateById(id, employee));
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
                 employee.setPhoneNumber(getPhoneNumber(scanner));
-                System.out.println((employeeController.updateById(id, employee) != null)
-                                                ? Messages.SUCCESS : Messages.FAILED);
+                printUpdatedStatus(employeeController.updateById(id, employee));
                 break;
 
             case Constants.EXIT_EMPLOYEE_UPDATER:
@@ -213,7 +205,7 @@ public class EmployeeView {
                 break;
                                   
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.DEFAULT_MESSAGE);  
             } 
         }
     }
@@ -254,8 +246,7 @@ public class EmployeeView {
             if (employeeController.isValidName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -280,8 +271,7 @@ public class EmployeeView {
             if (employeeController.isValidEmail(email)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
-                logger.error("Wrong Input for Email");
+                logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
         return email;
@@ -306,8 +296,7 @@ public class EmployeeView {
             if (employeeController.isValidPhoneNumber(phoneNumber)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
-                logger.error("Wrong Input for Phone Number");
+                logger.warn("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
             }  
         }
         return phoneNumber;
@@ -332,11 +321,26 @@ public class EmployeeView {
             if (employeeController.isValidPassword(password)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Password Format, Give the proper Password! <<<<<\n");
-                logger.error("Wrong Input for Password");
+                logger.warn("\n>>>>> Wrong Password Format, Give the proper Password! <<<<<\n");
             }  
         }
         return password;
+    }
+
+    /**
+     * <h1> Print Update Status </h1>
+     * <p>
+     * Prints the Update Status of the Employee
+     * </p>
+     *
+     * @return employee - Update employee
+     */
+    private void printUpdatedStatus(Employee employee) {
+        if (employee != null) {
+            logger.info("Lead Updated");
+        } else {
+            logger.info(Messages.FAILED);
+        }
     }
 
     /**
@@ -350,8 +354,6 @@ public class EmployeeView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
-
             logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }

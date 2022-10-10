@@ -6,9 +6,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.LeadController;
@@ -16,6 +13,7 @@ import com.ideas2it.enums.Stage;
 import com.ideas2it.enums.Status;
 import com.ideas2it.enums.Title;
 import com.ideas2it.enums.Type;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.view.AccountView;
 import com.ideas2it.view.ContactView;
@@ -34,14 +32,14 @@ import com.ideas2it.view.OpportunityView;
  * @since   16-09-2022
  */
 public class LeadView {
-    private Logger logger;
+    private CustomLogger logger;
     private LeadController leadController;
     private AccountView accountView;
     private ContactView contactView;
     private OpportunityView opportunityView;
         
     public LeadView() {
-        this.logger = LogManager.getLogger(LeadView.class);
+        this.logger = CustomLogger(LeadView.class);
         this.leadController = new LeadController();
         this.accountView = new AccountView();
         this.contactView = new ContactView();
@@ -92,7 +90,7 @@ public class LeadView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.DEFAULT_MESSAGE); 
             }        
         }
     }
@@ -137,7 +135,7 @@ public class LeadView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.DEFAULT_MESSAGE); 
             }        
         }
     }
@@ -150,7 +148,6 @@ public class LeadView {
      * </p>
      */
     private void create(Scanner scanner) {
-        Lead lead = null;
         String name;
         String email;
         String phoneNumber;
@@ -167,11 +164,11 @@ public class LeadView {
 
         while (!isRight) {
             try {
-                logger.info("\nEnter the Employee count to add: ");
+                System.out.println("\nEnter the Employee count to add: ");
                 count = scanner.nextInt();
                 isRight = true;
             } catch (InputMismatchException e) {
-                logger.error("\n>>>>> Please Enter Numbers only! <<<<<\n");
+                logger.warn("\n>>>>> Please Enter Numbers only! <<<<<\n");
                 scanner.next();
                 continue;
             }
@@ -235,7 +232,7 @@ public class LeadView {
             System.out.println("\n" + leadController.getById(id));
             System.out.println("\n--------------X---------------\n");
         } else {
-            logger.info(">>>>> No Lead Found! <<<<<");
+            logger.warn(">>>>> No Lead Found! <<<<<");
             System.out.println("\n--------------X---------------\n");
         }
     }
@@ -265,73 +262,55 @@ public class LeadView {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 lead.setName(getName(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Name Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
                 lead.setEmailId(getEmail(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Email Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
                 lead.setPhoneNumber(getPhoneNumber(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Phone Number Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
                         
             case Constants.COMPANY_NAME:
                 scanner.skip("\r\n");
                 lead.setCompanyName(getCompanyName(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Company Name Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
    
             case Constants.STATUS:
                 scanner.skip("\r\n");
                 lead.setStatus(getStatus(scanner, lead));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Status Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
             case Constants.ACCOUNT_TYPE:
                 scanner.skip("\r\n");
                 lead.setAccountType(getType(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Account Type Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
             case Constants.CONTACT_TITLE:
                 scanner.skip("\r\n");
                 lead.setContactTitle(getTitle(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Contact Title Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
             case Constants.OPPORTUNITY_STAGE:
                 scanner.skip("\r\n");
                 lead.setOpportunityStage(getStage(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Opportunity Stage Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
             case Constants.DEAL_AMOUNT:
                 scanner.skip("\r\n");
                 lead.setAmount(getAmount(scanner));
-                System.out.println((leadController.updateById(id, lead) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Lead Amount Updated");
+                printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
             case Constants.EXIT_LEAD_UPDATER:
@@ -343,7 +322,7 @@ public class LeadView {
                 break;
                                   
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.DEFAULT_MESSAGE);  
             }            
         }         
     }   
@@ -360,9 +339,12 @@ public class LeadView {
         System.out.print("Enter the ID to Delete Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
-        System.out.println((leadController.isDeletedById(id)) 
-                                   ? Messages.SUCCESS : Messages.FAILED);
-        logger.info("Lead Deleted");
+
+        if (leadController.isDeletedById(id)) { 
+            logger.info("Lead Deleted");
+        } else {
+            logger.warn(Messages.FAILED);
+        }
     }          
 
     /**
@@ -385,8 +367,7 @@ public class LeadView {
             if (leadController.isValidName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -411,8 +392,7 @@ public class LeadView {
             if (leadController.isValidEmail(email)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
-                logger.error("Wrong Input for Email");
+                logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
         return email;
@@ -437,8 +417,7 @@ public class LeadView {
             if (leadController.isValidPhoneNumber(phoneNumber)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
-                logger.error("Wrong Input for Name");
+                logger.warn("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
             }  
         }
         return phoneNumber;
@@ -496,8 +475,7 @@ public class LeadView {
                     opportunityView.create(scanner, lead);
                     isSelecting = true; 
                 } else {
-                    System.out.println("New Lead Can't be converted to Account:");
-                    logger.error("Tried to convert the lead which not present");
+                    logger.warn("Tried to convert the lead which not present");
                 } 
                 break;
 
@@ -506,7 +484,7 @@ public class LeadView {
                 break;
 
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+                logger.warn(Messages.DEFAULT_MESSAGE);
             }
         }
         return status;
@@ -543,8 +521,8 @@ public class LeadView {
             type = Type.Partner.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            logger.warn(Messages.DEFAULT_MESSAGE);
         }
         return type;
     }
@@ -585,7 +563,7 @@ public class LeadView {
             break;
 
         default:
-            System.out.println(Messages.DEFAULT_MESSAGE);
+            logger.warn(Messages.DEFAULT_MESSAGE);
         }
         return title;
     }
@@ -625,8 +603,8 @@ public class LeadView {
             stage = Stage.Closed.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            logger.warn(Messages.DEFAULT_MESSAGE);
         }
         return stage;
     }
@@ -651,8 +629,7 @@ public class LeadView {
             if (leadController.isValidCompanyName(companyName)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Company Name Format, Give the proper Company Name! <<<<<\n");
-                logger.error("Wrong Input for Company Name");
+                logger.warn("\n>>>>> Wrong Company Name Format, Give the proper Company Name! <<<<<\n");
             }  
         }
         return companyName;
@@ -678,9 +655,7 @@ public class LeadView {
             if (leadController.isValidAmount(amount.toString())) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
-                logger.error("Wrong Input for Amount");
-            }  
+                logger.warn("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
         }
         return amount;
     }
@@ -702,6 +677,22 @@ public class LeadView {
     }
 
     /**
+     * <h1> Print Update Status </h1>
+     * <p>
+     * Prints the Update Status of the Lead
+     * </p>
+     *
+     * @return lead - Update lead
+     */
+    private void printUpdatedStatus(Lead lead) {
+        if (lead != null) {
+            logger.info("Lead Updated");
+        } else {
+            logger.info(Messages.FAILED);
+        }
+    }
+
+    /**
      * <h1> Get choice </h1>
      * <p>
      * Gets the choice from the user
@@ -714,7 +705,6 @@ public class LeadView {
             choice = scanner.nextByte();
             logger.info(" ran success");
         } catch (InputMismatchException e) {
-            System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
             logger.error("Input Mismatch Exception");
             scanner.next();  // clears the scanner buffer
         }

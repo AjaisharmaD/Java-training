@@ -3,11 +3,9 @@ package com.ideas2it.view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.view.LeadView;
 import com.ideas2it.view.EmployeeView;
 //import com.ideas2it.controller.CRMController;
@@ -24,12 +22,12 @@ import com.ideas2it.view.EmployeeView;
  * @since   10-09-2022
  */
 public class CRMView {
-    private Logger logger;
+    private CustomLogger logger;
     private LeadView leadView;
     private EmployeeView employeeView;
 
     public CRMView() {
-        this.logger = LogManager.getLogger(CRMView.class);
+        this.logger = CustomLogger(CRMView.class);
         this.leadView = new LeadView();
         this.employeeView = new EmployeeView();
     }
@@ -55,10 +53,12 @@ public class CRMView {
             switch (loginChoice) {
             case Constants.EMPLOYEE:
                  //loginUser();
+                 logger.info("Logging in as Employee");
                  leadView.openEmployeeDashboard(scanner);
                  break;
                
             case Constants.MANAGER:
+                 logger.info("Logging in as Manager");
                  employeeView.openManagerDashboard(scanner);
                  break;
              
@@ -71,7 +71,7 @@ public class CRMView {
                 break;
                  
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+                logger.warn(Messages.DEFAULT_MESSAGE);
             }  
         }
     } 
@@ -127,7 +127,7 @@ public class CRMView {
      */
     private void printUserMenu() {
         StringBuilder userMenu = new StringBuilder();
-        userMenu.append("press \" ").append(Constants.EMPLOYEE)
+        userMenu.append("\npress \" ").append(Constants.EMPLOYEE)
                 .append(" \" for Employee\n")
                 .append("press \" ").append(Constants.MANAGER)
                 .append(" \" for Manager\n")

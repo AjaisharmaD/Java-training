@@ -4,14 +4,12 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.ContactController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Title;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.Contact;
 
@@ -26,12 +24,12 @@ import com.ideas2it.model.Contact;
  * @since   06-10-2022
  */
 public class ContactView {
-    private Logger logger;
+    private CustomLogger logger;
     private ContactController contactController;
     private LeadController leadController;
 
     ContactView() {
-        this.logger = LogManager.getLogger(ContactView.class);
+        this.logger = CustomLogger(ContactView.class);
         this.contactController = new ContactController();
         this.leadController = new LeadController();
     }
@@ -79,7 +77,7 @@ public class ContactView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.DEFAULT_MESSAGE); 
             }        
         }
     }
@@ -137,6 +135,7 @@ public class ContactView {
         System.out.print("Enter the ID to contact\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
+
         if (contactController.getById(id) != null) {
             System.out.println(contactController.getById(id));
             System.out.println("\n-----------------X-----------------");
@@ -170,41 +169,31 @@ public class ContactView {
             case Constants.NAME:
                 scanner.skip("\r\n");
                 contact.setName(getName(scanner));
-                System.out.println((contactController.updateById(id, contact) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                     
             case Constants.ACCOUNT_NAME:
                 scanner.skip("\r\n");
                 contact.setAccountName(getAccountName(scanner));
-                System.out.println((contactController.updateById(id, contact) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(contactController.updateById(id, contact));
                 break;
 
             case Constants.EMAIL:
                 scanner.skip("\r\n");
                 contact.setEmailId(getEmail(scanner));
-                System.out.println((contactController.updateById(id, contact) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                          
             case Constants.PHONE_NUMBER:
                 scanner.skip("\r\n");
                 contact.setPhoneNumber(getPhoneNumber(scanner));
-                System.out.println((contactController.updateById(id, contact) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                            
             case Constants.TITLE:
                 scanner.skip("\r\n");
                 contact.setTitle(getTitle(scanner));
-                System.out.println((contactController.updateById(id, contact) != null) 
-                                        ? Messages.SUCCESS : Messages.FAILED);
-                logger.info("Name Updated");
+                printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                            
             case Constants.EXIT_LEAD_UPDATER:
@@ -216,7 +205,7 @@ public class ContactView {
                 break;
                                   
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.DEFAULT_MESSAGE);  
             }            
         }         
     }
@@ -258,8 +247,7 @@ public class ContactView {
             if (leadController.isValidName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -284,8 +272,7 @@ public class ContactView {
             if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
-                logger.error("Wrong Input for Account Name");
+                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
         }
         return name;
@@ -310,8 +297,7 @@ public class ContactView {
             if (leadController.isValidEmail(email)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
-                logger.error("Wrong Input for Email");
+                logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
         return email;
@@ -336,8 +322,7 @@ public class ContactView {
             if (leadController.isValidPhoneNumber(phoneNumber)) {
                 break;
             } else { 
-                System.out.println("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
-                logger.error("Wrong Input for Phone Number");
+                logger.warn("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
             }  
         }
         return phoneNumber;
@@ -378,10 +363,26 @@ public class ContactView {
             title = Title.Director.toString();
             break;
 
-            default:
-                System.out.println(Messages.DEFAULT_MESSAGE);
+        default:
+            logger.warn(Messages.DEFAULT_MESSAGE);
         }
         return title;
+    }
+
+    /**
+     * <h1> Print Update Status </h1>
+     * <p>
+     * Prints the Update Status of the contact
+     * </p>
+     *
+     * @return contact - Update contact
+     */
+    private void printUpdatedStatus(Contact contact) {
+        if (contact != null) {
+            logger.info("Lead Updated");
+        } else {
+            logger.info(Messages.FAILED);
+        }
     }
 
     /**

@@ -5,7 +5,7 @@ public class Opportunity {
     private String name;
     private String accountName;
     private Double amount;
-    private String closeDate;
+    private String closedDate;
     private String stage;
 
     public void setId(String id) {
@@ -24,8 +24,8 @@ public class Opportunity {
        this.amount = amount;
     }
 
-    public void setCloseDate(String closeDate) {
-        this.closeDate = closeDate;
+    public void setClosedDate(String closedDate) {
+        this.closedDate = closedDate;
     }
 
     public void setStage(String stage) {
@@ -48,8 +48,8 @@ public class Opportunity {
        return amount;
     }
 
-    public String getColseDate() {
-        return closeDate;
+    public String getColsedDate() {
+        return closedDate;
     }
 
     public String getStage() {
@@ -64,7 +64,7 @@ public class Opportunity {
                    .append("\nAccount Name      : ").append(accountName)
                    .append("\nAmount            : ").append(amount)
                    .append("\nStage             : ").append(stage)
-                   .append("\nClosed Date       : ").append(closeDate);
+                   .append("\nClosed Date       : ").append(closedDate);
         return opportunity.toString();
     }
 }
