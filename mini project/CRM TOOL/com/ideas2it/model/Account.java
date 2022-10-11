@@ -1,5 +1,15 @@
 package com.ideas2it.model;
 
+/**
+ * <h1> Account </h1>
+ * <p>
+ * Account details to be setted and getted
+ * </p>
+ *
+ * @author  AJAISHARMA
+ * @version 1.0  
+ * @since   03-10-2022
+ */   
 public class Account {
     private String id;
     private String name;

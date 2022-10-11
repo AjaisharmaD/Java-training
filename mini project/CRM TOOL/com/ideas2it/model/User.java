@@ -1,20 +1,29 @@
 package com.ideas2it.model;
 
+import java.util.List;
+
+import com.ideas2it.model.Lead;
+
 /**
- * Common details are setted and getted from here
+ * <h1> User </h1>
+ * <p>
+ * User details to be setted and getted
+ * </p>
  *
- * @author Ajaisharma D
- * @version 1.0  
- * @since 07-09-2022
+ * @author  AJAISHARMA
+ * @version 1.1  11-10-2022  
+ * @since   07-09-2022
  */   
-public class Employee { 
+public class User { 
     private String id;
     private String name;
     private String phoneNumber;
     private String emailId;
     private String password;
 
-    public Employee(String name, String emailId, String phoneNumber) {
+    private List<Lead> leads;
+
+    public User(String name, String emailId, String phoneNumber) {
         this.name = name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
@@ -40,6 +49,10 @@ public class Employee {
         this.password = password;
     }
 
+    public void setLead(Lead lead) {
+        leads.add(lead);
+    }
+   
     public String getId() {
         return id;
     }
@@ -59,14 +72,18 @@ public class Employee {
     public String getPassword() {
         return password;
     }
+
+    public List<Lead> getLead() {
+        return leads;
+    }
      
     @Override
     public String toString() {
-         StringBuilder employee = new StringBuilder();
-         employee.append("ID            : ").append(id)
-                 .append("\nName          : ").append(name)
-                 .append("\nEmail ID      : ").append(emailId) 
-                 .append("\nPhone Number  : ").append(phoneNumber);
-         return employee.toString();
+         StringBuilder user = new StringBuilder();
+         user.append("ID            : ").append(id)
+             .append("\nName          : ").append(name)
+             .append("\nEmail ID      : ").append(emailId) 
+             .append("\nPhone Number  : ").append(phoneNumber);
+         return user.toString();
     }
 }

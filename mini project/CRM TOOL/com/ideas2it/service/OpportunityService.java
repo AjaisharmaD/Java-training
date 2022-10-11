@@ -69,7 +69,7 @@ public class  OpportunityService {
      * Gets the Details of a Opportunity by Id
      * </p>
      * 
-     * @param id       - Opportunity's Id to search the Opportunity
+     * @param id           - Opportunity's Id to search the Opportunity
      *
      * @return Opportunity - Details of Opportunity
      */
@@ -83,7 +83,7 @@ public class  OpportunityService {
      * Updates the Details of a Opportunity
      * </p>
      *
-     * @param id       - key to update the Opportunity
+     * @param id           - key to update the Opportunity
      * @param Opportunity  - an updated Opportunity
      *  
      * @return Opportunity - Details of Single lead

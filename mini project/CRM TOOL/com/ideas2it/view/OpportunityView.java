@@ -31,7 +31,7 @@ public class OpportunityView {
     private CustomLogger logger;
 
     public OpportunityView() {
-        this.logger = CustomLogger(OpportunityView.class);
+        this.logger = new CustomLogger(OpportunityView.class);
         this.opportunityController = new OpportunityController();
         this.leadController = new LeadController();
     }
@@ -42,12 +42,15 @@ public class OpportunityView {
      * Method is used to do Operations 
      * such as Adding, Printing, Updating, Deleting 
      * the Details of Account
+     *
+     * @param scanner - object of a Scanner class
      * </p>
      */
     public void showOpportunityDashboard(Scanner scanner) {
         boolean isOpened = false;
         byte operationChoice; 
         byte logout;   
+        printOpportunityTitle();
                 
         while (!isOpened) {
             printOperationMenu();
@@ -90,7 +93,7 @@ public class OpportunityView {
      * Creates the Opportunity of the lead
      * </p>
      *
-     * @param scanner - scanner to get input from console
+     * @param scanner - object of a Scanner class
      * @param lead    - lead to create Opportunity 
      */
     public void create(Scanner scanner, Lead lead) {
@@ -131,6 +134,8 @@ public class OpportunityView {
      * Method is used to serach the Details of opportunity by calling the opportunity Id
      * This will Display the Details of a opportunity
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH OPPORTUNITY ==========\n");  
@@ -151,6 +156,8 @@ public class OpportunityView {
      * Method will updates the each fields of the Lead Details 
      * and Display the Message that the fields are Updated or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE OPPORTUNITY  ==========\n");
@@ -213,6 +220,8 @@ public class OpportunityView {
      * Method will Delete the Details of a opportunity 
      * and Prints the Message that the fields are Deleted or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE opportunity  ==========\n");
@@ -230,7 +239,9 @@ public class OpportunityView {
      * Gets the Name and checks whether the Name is Valid or not
      * </p> 
      *
-     * @return name - a Valid Name
+     * @param scanner - object of a Scanner class
+     *
+     * @return name   - a Valid Name
      */
     private String getAccountName(Scanner scanner) {
         String name = "";
@@ -255,7 +266,9 @@ public class OpportunityView {
      * Gets the Name and checks whether the Name is Valid or not
      * </p> 
      *
-     * @return name - a Valid Name
+     * @param scanner - object of a Scanner class
+     *
+     * @return name   - a Valid Name
      */
     private String getName(Scanner scanner) {
         String name = "";
@@ -280,7 +293,9 @@ public class OpportunityView {
      * Gets the Stage of the opportunity
      * </p>
      *
-     * @return stage - stage of a opportunity
+     * @param scanner - object of a Scanner class
+     *
+     * @return stage  - stage of a opportunity
      */
     private String getStage(Scanner scanner) {
         System.out.print("Stage               : ");
@@ -320,6 +335,8 @@ public class OpportunityView {
      * <p>
      * Gets the Date for Close date
      * </p>
+     *  
+     * @param stage - Stage of the Opportunity
      *
      * @return date - a Valid Close Date
      */
@@ -356,6 +373,10 @@ public class OpportunityView {
      * <p>
      * Gets the choice from the user
      * </p>
+     *
+     * @param scanner - object of a Scanner class
+     * 
+     * @return choice - choice of the user
      */
     private byte getChoice(Scanner scanner) {
         byte choice = 0;
@@ -436,5 +457,19 @@ public class OpportunityView {
                  .append("+=======================================+\n")
                  .append("Enter your Choice: ");
         System.out.print(stageMenu);
+    }
+
+    /**
+     * <h1> Print Opportunity Title  </h1>
+     * <p>
+     * Prints the Title of Opportunity
+     * </p>
+     */
+    private void printOpportunityTitle() {
+        StringBuilder title = new StringBuilder();
+        title.append("\n========================================")
+             .append("|               OPPORTUNITY              |")
+             .append("========================================\n");
+        System.out.println(title);
     }
 }

@@ -29,7 +29,7 @@ public class ContactView {
     private LeadController leadController;
 
     ContactView() {
-        this.logger = CustomLogger(ContactView.class);
+        this.logger = new CustomLogger(ContactView.class);
         this.contactController = new ContactController();
         this.leadController = new LeadController();
     }
@@ -41,11 +41,14 @@ public class ContactView {
      * such as Adding, Printing, Updating, Deleting 
      * the Details of Contact
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     public void showContactDashboard(Scanner scanner) {
         boolean isOpened = false;
         byte operationChoice; 
         byte logout;
+        printContactTitle();
                 
         while (!isOpened) {
             printOperationMenu();
@@ -129,6 +132,8 @@ public class ContactView {
      * Method is used to serach the Details of contact by calling the contact Id
      * This will Display the Details of a contact
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH contact ==========\n");  
@@ -150,6 +155,8 @@ public class ContactView {
      * Updates the each fields of the Contact Details 
      * and Display the Message that the fields are Updated or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE CONTACT  ==========\n");
@@ -217,6 +224,8 @@ public class ContactView {
      * Method will Delete the Details of a Contact 
      * and Prints the Message that the fields are Deleted or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE CONTACT  ==========\n");
@@ -233,6 +242,8 @@ public class ContactView {
      * <p>
      * Gets the Name and checks whether the Name is Valid or not
      * </p> 
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return name - a Valid Name
      */
@@ -259,6 +270,8 @@ public class ContactView {
      * Gets the Account Name and checks whether the Account Name is Valid or not
      * </p> 
      *
+     * @param scanner - object of a Scanner class
+     *
      * @return name - a Valid Name
      */
     private String getAccountName(Scanner scanner) {
@@ -283,6 +296,8 @@ public class ContactView {
      * <p>
      * Gets the Email and checks whether the Email is Valid or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return email - a Valid Email
      */
@@ -309,6 +324,8 @@ public class ContactView {
      * Gets the Phone Number of the Lead and checks whether the Phone Number is Valid or not
      * </p>
      *
+     * @param scanner - object of a Scanner class
+     *
      * @return phoneNumber - a Valid Phone Number of the Lead
      */
     private String getPhoneNumber(Scanner scanner) {
@@ -333,6 +350,8 @@ public class ContactView {
      * <p>
      * Gets the Title of the Contact
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return title - title of a Contact
      */
@@ -375,6 +394,8 @@ public class ContactView {
      * Prints the Update Status of the contact
      * </p>
      *
+     * @param scanner - object of a Scanner class
+     *
      * @return contact - Update contact
      */
     private void printUpdatedStatus(Contact contact) {
@@ -390,6 +411,10 @@ public class ContactView {
      * <p>
      * Gets the choice from the user
      * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return choice - choice of the User
      */
     private byte getChoice(Scanner scanner) {
         byte choice = 0;
@@ -397,7 +422,6 @@ public class ContactView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            System.out.println("\n>>>>> Please Enter Numbers only! <<<<<\n");
             logger.error("Wrong Input for Choice");
             scanner.next();  // clears the scanner buffer
         }
@@ -473,5 +497,20 @@ public class ContactView {
                  .append("+====================================+\n")
                  .append("Enter your Choice: ");
         System.out.print(titleMenu);
+    }
+
+
+    /**
+     * <h1> Print Contact Title  </h1>
+     * <p>
+     * Prints the Title of Contact
+     * </p>
+     */
+    private void printContactTitle() {
+        StringBuilder title = new StringBuilder();
+        title.append("\n========================================")
+             .append("|                 CONTACT                |")
+             .append("========================================\n");
+        System.out.println(title);
     }
 }

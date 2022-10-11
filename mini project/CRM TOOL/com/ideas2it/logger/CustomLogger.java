@@ -17,7 +17,7 @@ public class CustomLogger {
     private Logger logger;
 
     public CustomLogger(Class<?> className) {
-        this.logger = LogManager.getMessage(className);
+        this.logger = LogManager.getLogger(className);
     }
 
     /**

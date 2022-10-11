@@ -1,5 +1,15 @@
 package com.ideas2it.model;
 
+/**
+ * <h1> Contact </h1>
+ * <p>
+ * Contact details to be setted and getted
+ * </p>
+ *
+ * @author  AJAISHARMA
+ * @version 1.0  
+ * @since   05-10-2022
+ */   
 public class Contact {
     private String id;
     private String name;

@@ -48,7 +48,7 @@ public interface ContactDao {
      * Gets the Details of Contact by Id
      * </p>
      * 
-     * @param id    - Contact's Id to search the Contact
+     * @param id       - Contact's Id to search the Contact
      *
      * @return Contact - Details of single Contact
      */

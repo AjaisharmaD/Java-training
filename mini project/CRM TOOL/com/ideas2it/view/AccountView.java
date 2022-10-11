@@ -32,7 +32,7 @@ public class AccountView {
     private LeadController leadController;
 
     public AccountView() {
-        this.logger = CustomLogger(AccountView.class);
+        this.logger = new CustomLogger(AccountView.class);
         this.accountController = new AccountController();
         this.leadController = new LeadController();
     }
@@ -44,6 +44,10 @@ public class AccountView {
      * such as Adding, Printing, Updating, Deleting 
      * the Details of Account
      * </p>
+     *
+     * @param scanner         - object of a Scanner class
+     * @param contactView     - object of a Contact View class
+     * @param opportunityView - object of a Opportunity View Class
      */
     public void showAccountDashboard(Scanner scanner, ContactView contactView, 
                                             OpportunityView opportunityView) {
@@ -51,6 +55,7 @@ public class AccountView {
         byte operationChoice; 
         byte logout;   
         String status;
+        printAccountTitle();
                 
         while (!isOpened) {
             printOperationMenu();
@@ -95,6 +100,7 @@ public class AccountView {
      *
      * @param scanner - scanner to get input from console
      * @param lead    - lead to convert as Account 
+     *
      * @return status - status of the Lead 
      */
     public String toAccount(Scanner scanner, Lead lead) {
@@ -105,7 +111,7 @@ public class AccountView {
         account.setEmailId(lead.getEmailId());
         account.setPhoneNumber(lead.getPhoneNumber());
         account.setType(lead.getAccountType());
-        return accountController.create(account) != null 
+        return accountController.create(account) != null
                                  ? Status.Converted.toString()
                                  : Messages.FAILED;
     }
@@ -136,6 +142,8 @@ public class AccountView {
      * by calling the Account Id
      * This will Display the Details of a Account
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
@@ -156,6 +164,8 @@ public class AccountView {
      * Method will updates the each fields of the Lead Details 
      * and Display the Message that the fields are Updated or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE ACCOUNT  ==========\n");
@@ -206,7 +216,7 @@ public class AccountView {
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
-                    isUpdating = (logout == Constants.LOGOUT) ? true : false;                    
+                    isUpdating = (logout == Constants.LOGOUT) ? true : false;      
                 } 
                 break;
                                   
@@ -222,6 +232,8 @@ public class AccountView {
      * Method will Delete the Details of a Account 
      * and Prints the Message that the fields are Deleted or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE ACCOUNT  ==========\n");
@@ -238,6 +250,8 @@ public class AccountView {
      * <p>
      * Gets the Name and checks whether the Name is Valid or not
      * </p> 
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return name - a Valid Name
      */
@@ -264,6 +278,8 @@ public class AccountView {
      * Gets the Name and checks whether the Name is Valid or not
      * </p> 
      *
+     * @param scanner - object of a Scanner class
+     *
      * @return name - a Valid Name
      */
     private String getOwnerName(Scanner scanner) {
@@ -288,6 +304,8 @@ public class AccountView {
      * <p>
      * Gets the Email and checks whether the Email is Valid or not
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return email - a Valid Email
      */
@@ -314,6 +332,8 @@ public class AccountView {
      * Gets the Phone Number of the Lead and checks whether the Phone Number is Valid or not
      * </p>
      *
+     * @param scanner - object of a Scanner class
+     *
      * @return phoneNumber - a Valid Phone Number of the Lead
      */
     private String getPhoneNumber(Scanner scanner) {
@@ -338,6 +358,8 @@ public class AccountView {
      * <p>
      * Gets the Type of the Account
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return type - type of a Account
      */
@@ -376,7 +398,7 @@ public class AccountView {
      * Prints the Update Status of the Account
      * </p>
      *
-     * @return account - Updated account
+     * @param account - Updated account
      */
     private void printUpdatedStatus(Account account) {
         if (account != null) {
@@ -391,6 +413,10 @@ public class AccountView {
      * <p>
      * Gets the choice from the user
      * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return choice - choice of the User
      */
     private byte getChoice(Scanner scanner) {
         byte choice = 0;
@@ -471,5 +497,19 @@ public class AccountView {
                 .append("+=============================+\n")
                 .append("Enter your Choice: ");
         System.out.print(typeMenu);
+    }
+
+    /**
+     * <h1> Print Account Title  </h1>
+     * <p>
+     * Prints the Title of Account
+     * </p>
+     */
+    private void printAccountTitle() {
+        StringBuilder title = new StringBuilder();
+        title.append("\n========================================")
+             .append("|                 ACCOUNT                |")
+             .append("========================================\n");
+        System.out.println(title);
     }
 }

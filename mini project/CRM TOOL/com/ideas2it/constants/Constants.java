@@ -32,7 +32,9 @@ public class Constants {
     public final static byte FINDER = 3;
     public final static byte UPDATER = 4;
     public final static byte REMOVER = 5;
-    public final static byte EXIT_OPERATION = 6;
+    public final static byte ASSIGN_LEAD = 6;
+    public final static byte EXIT_LEAD_OPERATION = 7;
+    public final static byte EXIT_OPERATION = 7;
 
     public final static byte NAME = 1;
     public final static byte EMAIL = 2;

@@ -7,7 +7,7 @@ import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.view.LeadView;
-import com.ideas2it.view.EmployeeView;
+import com.ideas2it.view.UserView;
 //import com.ideas2it.controller.CRMController;
 
 /**
@@ -24,19 +24,19 @@ import com.ideas2it.view.EmployeeView;
 public class CRMView {
     private CustomLogger logger;
     private LeadView leadView;
-    private EmployeeView employeeView;
+    private UserView userView;
 
     public CRMView() {
-        this.logger = CustomLogger(CRMView.class);
+        this.logger = new CustomLogger(CRMView.class);
         this.leadView = new LeadView();
-        this.employeeView = new EmployeeView();
+        this.userView = new UserView();
     }
     
     /**
      * <h1> CRM Dashboard </h1>
      * <p>
      * This method is used to login
-     * as Employee and Manager 
+     * as User and Manager 
      * </p>
      */
     public void startCRM() {
@@ -59,7 +59,7 @@ public class CRMView {
                
             case Constants.MANAGER:
                  logger.info("Logging in as Manager");
-                 employeeView.openManagerDashboard(scanner);
+                 userView.openManagerDashboard(scanner);
                  break;
              
             case Constants.CRM_EXIT:
@@ -81,6 +81,8 @@ public class CRMView {
      * <p>
      * Gets the Choice From the user
      * </p>
+     *
+     * @param scanner - object of a Scanner class
      *
      * @return byte - choice to perform
      */
@@ -115,7 +117,7 @@ public class CRMView {
         StringBuilder welcomePrinter = new StringBuilder();
         welcomePrinter.append("\n========================================")
                       .append("|                CRM TOOL                |")
-                      .append("========================================\n");
+                      .append("========================================");
         System.out.println(welcomePrinter);
     }
 

@@ -3,9 +3,9 @@ package com.ideas2it.constants;
 import com.ideas2it.constants.Constants;
 
 /**
- * <h1> Constants </h1>
+ * <h1> Messages </h1>
  * <p>
- * Constants of the CRMTool are declared in here
+ * Messages of the CRMTool are declared in here
  * </p>
  * 
  * @author  AJAISHARMA

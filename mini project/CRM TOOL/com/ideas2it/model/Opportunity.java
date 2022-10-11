@@ -1,5 +1,15 @@
 package com.ideas2it.model;
 
+/**
+ * <h1> Opportunity </h1>
+ * <p>
+ * opportunity details to be setted and getted
+ * </p>
+ *
+ * @author  AJAISHARMA
+ * @version 1.0
+ * @since   07-10-2022
+ */
 public class Opportunity {
     private String id;
     private String name;

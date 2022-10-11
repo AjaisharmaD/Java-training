@@ -48,7 +48,7 @@ public interface OpportunityDao {
      * Gets the Details of Opportunity by Id
      * </p>
      * 
-     * @param id    - Opportunity's Id to search the Opportunity
+     * @param id           - Opportunity's Id to search the Opportunity
      *
      * @return Opportunity - Details of single Opportunity
      */
@@ -60,7 +60,7 @@ public interface OpportunityDao {
      * Updates the Details of Opportunity 
      * </p>
      *
-     * @param id       - key to update the Opportunity
+     * @param id           - key to update the Opportunity
      * @param Opportunity  - updated Details of Opportunity
      *
      * @return Opportunity -  updated Details of Opportunity
@@ -73,7 +73,7 @@ public interface OpportunityDao {
      * Deletes the Details of Opportunity 
      * </p>
      *
-     * @param id       - key to Remove the Details of Opportunity
+     * @param id           - key to Remove the Details of Opportunity
      *
      * @return Opportunity -  Delated Details of Opportunity
      */
