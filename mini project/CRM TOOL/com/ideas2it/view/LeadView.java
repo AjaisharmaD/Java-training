@@ -138,12 +138,8 @@ public class LeadView {
             case Constants.REMOVER:
                 deleteById(scanner);
                 break;
-
-            case Constants.ASSIGN_LEAD:
-                assignLead(scanner);
-                break;
-              
-            case Constants.EXIT_OPERATION:
+            
+            case Constants.EXIT_LEAD_OPERATION:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -371,35 +367,7 @@ public class LeadView {
         } else {
             logger.warn(Messages.FAILED);
         }
-    }          
-
-    /**
-     * <h1> Assign Lead </h1>
-     * <p>
-     * This method will Assign the Lead to the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     */
-    private void assignLead(Scanner scanner) {
-        UserController userController = new UserController();
-        System.out.println("\n========== ASSIGN LEAD ==========\n");
-        System.out.println("Enter Lead Id     : ");
-        scanner.skip("\r\n");
-        String leadId = scanner.nextLine();
-        Lead lead = leadController.getById(leadId);
-        System.out.println(lead);    
-        System.out.println("Enter Employee Id : ");
-        String userId = scanner.nextLine();
-        User user = userController.getById(userId);
-        System.out.println(user);
-        
-        lead.setEmployeeId(userId);
-        leadController.updateById(lead.getId(), lead);
-
-        user.setLead(lead);
-        userController.updateById(user.getId(), user);
-    }
+    }       
 
     /**
      * <h1> Get Name </h1>
@@ -588,29 +556,38 @@ public class LeadView {
      * @return type - type of a Account
      */
     private String getType(Scanner scanner) {
+        boolean isSelecting = false;
         String type = "";
-        printTypeMenu();
-        byte typeChoice = getChoice(scanner);
+        byte typeChoice;
 
-        switch (typeChoice) {
-        case Constants.CUSTOMER:
-            type = Type.Customer.toString();
-            break;
+        while (!isSelecting) {
+            printTypeMenu();
+            typeChoice = getChoice(scanner);
 
-        case Constants.RESELLER:
-            type = Type.Reseller.toString();
-            break;
+            switch (typeChoice) {
+            case Constants.CUSTOMER:
+                type = Type.Customer.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.INVESTOR:
-            type = Type.Investor.toString();
-            break;
+            case Constants.RESELLER:
+                type = Type.Reseller.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.PARTNER:
-            type = Type.Partner.toString();
-            break;
+            case Constants.INVESTOR:
+                type = Type.Investor.toString();
+                isSelecting = true;
+                break;
+ 
+            case Constants.PARTNER:
+                type = Type.Partner.toString();
+                isSelecting = true;
+                break;
 
-        default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            default:
+                logger.warn(Messages.DEFAULT_MESSAGE);
+            }
         }
         return type;
     }
@@ -626,33 +603,43 @@ public class LeadView {
      * @return title - title of a Contact
      */
     private String getTitle(Scanner scanner) {
+        boolean isSelecting = false;
+        byte titleChoice;
         String title = "";
-        printTitleMenu();
-        byte titleChoice = getChoice(scanner);
 
-        switch (titleChoice) {
-        case Constants.CEO:
-            title = Title.CEO.toString();
-            break;
+        while (!isSelecting) {
+            printTitleMenu();
+            titleChoice = getChoice(scanner);
 
-        case Constants.FOUNDER:
-            title = Title.Founder.toString();
-            break;
+            switch (titleChoice) {
+            case Constants.CEO:
+                title = Title.CEO.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.PRESIDENT:
-            title = Title.President.toString();
-            break;
+            case Constants.FOUNDER:
+                title = Title.Founder.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.VICE_PRESIDENT:
-            title = Title.VicePresident.toString();
-            break;
+            case Constants.PRESIDENT:
+                title = Title.President.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.DIRECTOR:
-            title = Title.Director.toString();
-            break;
+            case Constants.VICE_PRESIDENT:
+                title = Title.VicePresident.toString();
+                isSelecting = true;
+                break;
 
-        default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            case Constants.DIRECTOR:
+                title = Title.Director.toString();
+                isSelecting = true;
+                break;
+
+            default:
+                logger.warn(Messages.DEFAULT_MESSAGE);
+            }
         }
         return title;
     }
@@ -668,33 +655,43 @@ public class LeadView {
      * @return stage - stage of a opportunity
      */
     private String getStage(Scanner scanner) {
+        boolean isSelecting = false;
         String stage = "";
-        printStageMenu();
-        byte stageChoice = getChoice(scanner);
+        byte stageChoice;
 
-        switch (stageChoice) {
-        case Constants.MEETING_SCHEDULED:
-            stage = Stage.MeetingScheduled.toString();
-            break;
+        while (!isSelecting) {
+            printStageMenu();
+            stageChoice = getChoice(scanner);
 
-        case Constants.PROPOSAL:
-            stage = Stage.Proposal.toString();
-            break;
+            switch (stageChoice) {
+            case Constants.MEETING_SCHEDULED:
+                stage = Stage.MeetingScheduled.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.NEGOTIATION:
-            stage = Stage.Negotiation.toString();
-            break;
+            case Constants.PROPOSAL:
+                stage = Stage.Proposal.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.QUALIFIED:
-            stage = Stage.Qualified.toString();
-            break;
+            case Constants.NEGOTIATION:
+                stage = Stage.Negotiation.toString();
+                isSelecting = true;
+                break;
+ 
+            case Constants.QUALIFIED:
+                stage = Stage.Qualified.toString();
+                isSelecting = true;
+                break;
 
-        case Constants.CLOSED:
-            stage = Stage.Closed.toString();
-            break;
+            case Constants.CLOSED:
+                stage = Stage.Closed.toString();
+                isSelecting = true;
+                break;
 
-        default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            default:
+                logger.warn(Messages.DEFAULT_MESSAGE);
+            }
         }
         return stage;
     }
@@ -819,9 +816,7 @@ public class LeadView {
                         .append(" \" for Update\n")
                         .append("Press \" ").append(Constants.REMOVER)
                         .append(" \" for Delete\n")
-                        .append("Press \" ").append(Constants.ASSIGN_LEAD)
-                        .append(" \" for To Assign\n")
-                        .append("Press \" ").append(Constants.EXIT_OPERATION)
+                        .append("Press \" ").append(Constants.EXIT_LEAD_OPERATION)
                         .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");
         System.out.print(operationMenu);

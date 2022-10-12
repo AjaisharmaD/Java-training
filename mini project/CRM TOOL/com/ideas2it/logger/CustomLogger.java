@@ -55,4 +55,16 @@ public class CustomLogger {
     public void error(String message) {
         logger.error(message);
     }
+
+    /**
+     * <h1> Debug </h1>
+     * <p>
+     * Gets the debug Log of the Application
+     * </p>
+     *
+     * @param message - a message to be Logged in the file
+     */
+    public void debug(String message) {
+        logger.debug(message);
+    }
 }

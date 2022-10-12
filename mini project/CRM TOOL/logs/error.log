@@ -1,31 +1,11 @@
-2022-10-11 15:56:58,450 ERROR c.i.v.UserView [main] 
+2022-10-12 09:58:17,382 ERROR c.i.v.UserView [main] 
+>>>>> Wrong Email Format, Give the proper Email! <<<<<
+
+2022-10-12 09:58:28,811 ERROR c.i.v.UserView [main] 
 >>>>> Wrong Password Format, Give the proper Password! <<<<<
 
-2022-10-11 16:27:26,364 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-11 16:27:35,865 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-11 16:27:43,300 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-11 16:29:10,558 ERROR c.i.v.UserView [main] 
+2022-10-12 09:58:52,003 ERROR c.i.v.UserView [main] Wrong Input for Choice
+2022-10-12 11:58:14,608 ERROR c.i.v.UserView [main] 
 >>>>> Wrong Password Format, Give the proper Password! <<<<<
 
-2022-10-11 18:05:19,988 ERROR c.i.v.UserView [main] 
->>>>> Wrong Password Format, Give the proper Password! <<<<<
-
-2022-10-11 18:09:08,957 ERROR c.i.v.UserView [main] Wrong Input for Count
-2022-10-11 18:50:51,111 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-11 19:46:52,407 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-11 20:22:22,938 ERROR c.i.v.UserView [main] 
->>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<
-
-2022-10-11 20:26:06,962 ERROR c.i.v.UserView [main] 
->>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<
-
+2022-10-12 12:44:31,975 ERROR c.i.v.LeadView [main] Input Mismatch Exception

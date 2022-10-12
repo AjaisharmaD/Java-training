@@ -5,8 +5,10 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
+import com.ideas2it.controller.LeadController;
 import com.ideas2it.controller.UserController;
 import com.ideas2it.logger.CustomLogger;
+import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
 
 /**
@@ -69,6 +71,10 @@ public class UserView {
                
             case Constants.REMOVER:
                 deleteById(scanner);
+                break;
+
+            case Constants.ASSIGN_LEAD:
+                assignLead(scanner);
                 break;
 
             case Constants.EXIT_OPERATION:
@@ -141,6 +147,7 @@ public class UserView {
         if (null != userController.getAll()) {
             for (User user : userController.getAll()) {
                 System.out.println(user);
+                //System.out.println(user.getLead());
                 System.out.println("--------------X--------------\n");
             }
         } else {
@@ -244,6 +251,40 @@ public class UserView {
         System.out.println((userController.isDeletedById(id))
                                         ? Messages.SUCCESS : Messages.FAILED);
         logger.info("User Deleted");
+    }
+
+    /**
+     * <h1> Assign Lead </h1>
+     * <p>
+     * This method will Assign the Lead to the user
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     */
+    private void assignLead(Scanner scanner) {
+        LeadController leadController = new LeadController();
+        System.out.println("\n========== ASSIGN LEAD ==========\n");
+
+        scanner.skip("\r\n");
+        System.out.println("employee id :");
+        String userId = scanner.nextLine();
+        System.out.println(userId);
+        User user = userController.getById(userId);
+
+        System.out.println("Enter Lead Id     : ");
+        String leadId = scanner.nextLine();
+        Lead lead = userController.getLeadById(leadId);
+        
+        if (null != user) {
+            lead.setEmployeeId(userId);
+            leadController.updateById(leadId, lead);
+        }
+
+        if (null != lead) {
+            user.setLead(lead);
+            userController.updateById(userId, user); 
+        }
+         
     }
 
     /**
@@ -410,6 +451,8 @@ public class UserView {
                         .append(" \" for Update\n")
                         .append("Press \" ").append(Constants.REMOVER)
                         .append(" \" for Delete\n")
+                        .append("Press \" ").append(Constants.ASSIGN_LEAD)
+                        .append(" \" for Assign Lead\n")
                         .append("Press \" ").append(Constants.EXIT_OPERATION)
                         .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");

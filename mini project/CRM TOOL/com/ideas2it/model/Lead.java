@@ -24,7 +24,7 @@ public class Lead {
     private String accountType;
     private String contactTitle;
     private String opportunityStage;
-    private String employeeId;
+    private String employeeId = "";
 
     public Lead(String name, String emailId, String phoneNumber,
                        String companyName, String status, String accountType,

@@ -1,6 +1,7 @@
 package com.ideas2it.model;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.ideas2it.model.Lead;
 
@@ -21,7 +22,7 @@ public class User {
     private String emailId;
     private String password;
 
-    private List<Lead> leads;
+    private List<Lead> leads = new ArrayList<>();
 
     public User(String name, String emailId, String phoneNumber) {
         this.name = name;
@@ -83,7 +84,8 @@ public class User {
          user.append("ID            : ").append(id)
              .append("\nName          : ").append(name)
              .append("\nEmail ID      : ").append(emailId) 
-             .append("\nPhone Number  : ").append(phoneNumber);
+             .append("\nPhone Number  : ").append(phoneNumber)
+             .append("\nAssigned leads: ").append(leads);
          return user.toString();
     }
 }

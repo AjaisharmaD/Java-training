@@ -21,13 +21,8 @@ import com.ideas2it.model.User;
  * @since   19-09-2022
  */
 public class UserDaoImpl implements UserDao {
-    private Map<String, String> passwordMap;
-    private static Map<String, User> userMap;
-
-    public UserDaoImpl() {
-        this.passwordMap = new HashMap<>();
-        this.userMap = new HashMap<>();
-    }
+    private static Map<String, String> passwordMap = new HashMap<>();
+    private static Map<String, User> userMap = new HashMap<>();
 
     /**
      * {@inheritDoc}
@@ -36,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     public User insert(String userId, User user, String password) {
         user.setId(userId);
         user.setPassword(password);
-        //passwordMap.put(userId, password);
+        passwordMap.put(userId, password);
         userMap.put(userId, user);
         return userMap.get(userId);
     }
@@ -46,7 +41,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public Map<String, User> fetchAll() {
-        return userMap;
+        if (!userMap.isEmpty()) {
+            return userMap;
+        }
+        return null;
     }
 
     /**
@@ -54,8 +52,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User fetchById(String id) {
-        if (userMap.containsKey(id)) {
-            return userMap.get(id);
+        if (!userMap.isEmpty()) {
+            if (userMap.containsKey(id)) {
+                return userMap.get(id);
+            }
         }
         return null;
     }
@@ -65,8 +65,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User updateById(String id, User user) {
-        if (userMap.containsKey(id)) {
-            return userMap.replace(id, user); 
+        if (!userMap.isEmpty()) {
+            if (userMap.containsKey(id)) {
+                return userMap.replace(id, user); 
+            }
         }
         return null;
     }
@@ -76,8 +78,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User deleteById(String id) {
-        if (userMap.containsKey(id)) {
-            return userMap.remove(id);
+        if (!userMap.isEmpty()) {
+            if (userMap.containsKey(id)) {
+                return userMap.remove(id);
+            }
         }
         return null;
     }

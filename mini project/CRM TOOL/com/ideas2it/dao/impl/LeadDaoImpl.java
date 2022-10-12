@@ -21,20 +21,16 @@ import com.ideas2it.model.Lead;
  * @since   19-09-2022
  */
 public class LeadDaoImpl implements LeadDao {
-    private Map<String, Lead> leadMap;
+    private static Map<String, Lead> leadMap = new HashMap<>();
     
-    public LeadDaoImpl() {
-        this.leadMap = new HashMap<>(); 
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Lead insert(String leadId, Lead lead) {
-        lead.setId(leadId);
-        leadMap.put(leadId, lead);
-        return leadMap.get(leadId);
+    public Lead insert(String id, Lead lead) {
+        lead.setId(id);
+        leadMap.put(id, lead);
+        return leadMap.get(id);
     }
 
     /**
@@ -42,7 +38,10 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Map<String, Lead> fetchAll() {
-        return leadMap;
+        if (!leadMap.isEmpty()) {
+            return leadMap;
+        }
+        return null;
     }
 
     /**
@@ -50,9 +49,11 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead fetchById(String id) {
-        if (leadMap.containsKey(id)) {
-            return leadMap.get(id);
-        } 
+        if (!leadMap.isEmpty()) {
+            if (leadMap.containsKey(id)) {
+                return leadMap.get(id);
+            }
+        }
         return null;
     }
 
@@ -61,8 +62,10 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead updateById(String id, Lead lead) {
-        if (leadMap.containsKey(id)) {
-            return leadMap.replace(id, lead);
+        if (!leadMap.isEmpty()) {
+            if (leadMap.containsKey(id)) {
+                return leadMap.replace(id, lead);
+            }
         }
         return null;
     }
@@ -72,8 +75,10 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead deleteById(String id) {
-        if (leadMap.containsKey(id)) {
-            return leadMap.remove(id);
+        if (!leadMap.isEmpty()) {
+            if (leadMap.containsKey(id)) {
+                return leadMap.remove(id);
+            }
         }
         return null;
     }

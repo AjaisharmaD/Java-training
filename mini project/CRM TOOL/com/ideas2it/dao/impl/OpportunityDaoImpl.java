@@ -21,19 +21,15 @@ import com.ideas2it.model.Opportunity;
  * @since   03-10-2022
  */
 public class OpportunityDaoImpl implements OpportunityDao {
-    private Map<String, Opportunity> opportunityMap;
+    private static Map<String, Opportunity> opportunityMap = new HashMap<>();
     
-    public OpportunityDaoImpl() {
-        this.opportunityMap = new HashMap<>(); 
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Opportunity insert(String opportunityId, Opportunity opportunity) {
-        opportunityMap.put(opportunityId, opportunity);
-        return opportunityMap.get(opportunityId);
+    public Opportunity insert(String id, Opportunity opportunity) {
+        opportunityMap.put(id, opportunity);
+        return opportunityMap.get(id);
     }
 
     /**
@@ -41,7 +37,10 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Map<String, Opportunity> fetchAll() {
-        return opportunityMap;
+        if (!opportunityMap.isEmpty()) {
+            return opportunityMap;
+        }
+        return null;
     }
 
     /**
@@ -49,9 +48,11 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity fetchById(String id) {
-        if (opportunityMap.containsKey(id)) {
-            return opportunityMap.get(id);
-        } 
+        if (!opportunityMap.isEmpty()) {
+            if (opportunityMap.containsKey(id)) {
+                return opportunityMap.get(id);
+            }
+        }
         return null;
     }
 
@@ -60,8 +61,10 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity updateById(String id, Opportunity opportunity) {
-        if (opportunityMap.containsKey(id)) {
-            return opportunityMap.replace(id, opportunity);
+        if (!opportunityMap.isEmpty()) {
+            if (opportunityMap.containsKey(id)) {
+                return opportunityMap.replace(id, opportunity);
+            }
         }
         return null;
     }
@@ -71,8 +74,10 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity deleteById(String id) {
-        if (opportunityMap.containsKey(id)) {
-            return opportunityMap.remove(id);
+        if (!opportunityMap.isEmpty()) {
+            if (opportunityMap.containsKey(id)) {
+                return opportunityMap.remove(id);
+            }
         }
         return null;
     }

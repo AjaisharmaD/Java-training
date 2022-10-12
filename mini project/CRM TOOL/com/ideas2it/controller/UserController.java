@@ -2,7 +2,9 @@ package com.ideas2it.controller;
 
 import java.util.List; 
 
+import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
+import com.ideas2it.service.LeadService;
 import com.ideas2it.service.UserService;
 import com.ideas2it.utils.ValidationUtils;
 
@@ -20,10 +22,12 @@ import com.ideas2it.utils.ValidationUtils;
  */
 public class UserController {
     private UserService userService;
+    private LeadService leadService;
     private ValidationUtils validationUtils;
     
     public UserController() {
         this.userService = new UserService();
+        this.leadService = new LeadService();
         this.validationUtils = new ValidationUtils();
     }
 
@@ -66,6 +70,20 @@ public class UserController {
      */
     public User getById(String id) {
         return userService.getById(id);
+    }
+
+    /**
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of a Single Lead by Id
+     * </p>
+     *
+     * @param id    - Lead's Id to search the Lead
+     *
+     * @return Lead - Details of a Single Lead
+     */
+    public Lead getLeadById(String id) {
+        return leadService.getById(id);
     }
 
     /**

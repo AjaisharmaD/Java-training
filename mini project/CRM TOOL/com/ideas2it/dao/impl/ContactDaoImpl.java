@@ -21,19 +21,15 @@ import com.ideas2it.model.Contact;
  * @since   03-10-2022
  */
 public class ContactDaoImpl implements ContactDao {
-    private Map<String, Contact> contactMap;
-    
-    public ContactDaoImpl() {
-        this.contactMap = new HashMap<>(); 
-    }
+    private static Map<String, Contact> contactMap = new HashMap<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Contact insert(String contactId, Contact contact) {
-        contactMap.put(contactId, contact);
-        return contactMap.get(contactId);
+    public Contact insert(String id, Contact contact) {
+        contactMap.put(id, contact);
+        return contactMap.get(id);
     }
 
     /**
@@ -41,7 +37,10 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Map<String, Contact> fetchAll() {
-        return contactMap;
+        if (!contactMap.isEmpty()) {
+            return contactMap;
+        }
+        return null;
     }
 
     /**
@@ -49,9 +48,11 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact fetchById(String id) {
-        if (contactMap.containsKey(id)) {
-            return contactMap.get(id);
-        } 
+        if (!contactMap.isEmpty()) {
+            if (contactMap.containsKey(id)) {
+                return contactMap.get(id);
+            }
+        }
         return null;
     }
 
@@ -60,8 +61,10 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact updateById(String id, Contact contact) {
-        if (contactMap.containsKey(id)) {
-            return contactMap.replace(id, contact);
+        if (!contactMap.isEmpty()) {
+            if (contactMap.containsKey(id)) {
+                return contactMap.replace(id, contact);
+            }
         }
         return null;
     }
@@ -71,8 +74,10 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact deleteById(String id) {
-        if (contactMap.containsKey(id)) {
-            return contactMap.remove(id);
+        if (!contactMap.isEmpty()) {
+            if (contactMap.containsKey(id)) {
+                return contactMap.remove(id);
+            }
         }
         return null;
     }

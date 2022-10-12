@@ -21,19 +21,15 @@ import com.ideas2it.model.Account;
  * @since   03-10-2022
  */
 public class AccountDaoImpl implements AccountDao {
-    private Map<String, Account> accountMap;
+    private static Map<String, Account> accountMap = new HashMap<>();
     
-    public AccountDaoImpl() {
-        this.accountMap = new HashMap<>(); 
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Account insert(String accountId, Account account) {
-        accountMap.put(accountId, account);
-        return accountMap.get(accountId);
+    public Account insert(String id, Account account) {
+        accountMap.put(id, account);
+        return accountMap.get(id);
     }
 
     /**
@@ -41,7 +37,10 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Map<String, Account> fetchAll() {
-        return accountMap;
+        if (!accountMap.isEmpty()) {
+            return accountMap;
+        }
+        return null;
     }
 
     /**
@@ -49,8 +48,10 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account fetchById(String id) {
-        if (accountMap.containsKey(id)) {
-            return accountMap.get(id);
+        if (!accountMap.isEmpty()) {
+            if (accountMap.containsKey(id)) {
+                return accountMap.get(id);
+            }
         } 
         return null;
     }
@@ -60,8 +61,10 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account updateById(String id, Account account) {
-        if (accountMap.containsKey(id)) {
-            return accountMap.replace(id, account);
+        if (!accountMap.isEmpty()) {
+            if (accountMap.containsKey(id)) {
+                return accountMap.replace(id, account);
+            }
         }
         return null;
     }
@@ -71,8 +74,10 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account deleteById(String id) {
-        if (accountMap.containsKey(id)) {
-            return accountMap.remove(id);
+        if (!accountMap.isEmpty()) {
+            if (accountMap.containsKey(id)) {
+                return accountMap.remove(id);
+            }
         }
         return null;
     }

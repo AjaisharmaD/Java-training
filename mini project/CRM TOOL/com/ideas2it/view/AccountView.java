@@ -7,6 +7,8 @@ import java.util.Scanner;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.AccountController;
+import com.ideas2it.controller.ContactController;
+import com.ideas2it.controller.OpportunityController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Status;
 import com.ideas2it.enums.Type;
@@ -243,7 +245,8 @@ public class AccountView {
         System.out.println((accountController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
         logger.info("Account Deleted");
-    }          
+    }       
+
 
     /**
      * <h1> Get Name </h1>
