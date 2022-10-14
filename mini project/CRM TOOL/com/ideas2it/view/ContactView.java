@@ -95,7 +95,7 @@ public class ContactView {
                 break;
                    
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.INVALID_CHOICE); 
             }        
         }
     }
@@ -115,11 +115,11 @@ public class ContactView {
         contact.setEmailId(getEmailId(scanner));
         contact.setPhoneNumber(getPhoneNumber(scanner));
         contact.setTitle(getTitle(scanner));
-        accountView.create(scanner, contact);
+        createAccountOrAddContact(scanner, contact);
         opportunityView.createFromContact(scanner, contact);
         System.out.println(contactController.create(contact) != null 
-                                 ? Messages.SUCCESS
-                                 : Messages.FAILED);
+                                 ? Messages.ADDED_SUCCESSFULLY
+                                 : Messages.FAILED_TO_ADD);
     }
 
     /**
@@ -140,11 +140,38 @@ public class ContactView {
         contact.setEmailId(lead.getEmailId());
         contact.setPhoneNumber(lead.getPhoneNumber());
         contact.setTitle(getTitle(scanner));
-        accountView.create(scanner, contact);
         opportunityView.createFromContact(scanner, contact);
         return contactController.create(contact) != null 
                                  ? Status.Converted.toString()
-                                 : Messages.FAILED;
+                                 : Messages.FAILED_TO_ADD;
+    }
+
+    /**
+     * <h1> Create Account Or Add Contact </h1>
+     * <p>
+     * Creates the Account or adds the Contact to the Exisiting Account
+     * </p>
+     *
+     * @param scanner - scanner to get input from console
+     * @param lead    - lead to convert as Account 
+     *
+     * @return status - status of the Lead 
+     */
+    public void createAccountOrAddContact(Scanner scanner, Contact contact) {
+        List<Account> accounts = accountController.getAll();
+        String accountName = "";
+
+        if (null != accounts) {
+            for (Account account : accounts) {
+                accountName = account.getName();
+
+                if (accountName.equals(contact.getAccountName())) {
+                    account.setContact(contact);
+                }
+            }
+        } else {
+            accountView.createFromContact(scanner, contact);
+        }
     }
 
     /**   
@@ -162,7 +189,7 @@ public class ContactView {
                 System.out.println("\n-----------------X-----------------");
             }
         } else {
-            logger.info(">>>>> No Contacts Found! <<<<<\n");
+            logger.info(Messages.CONTACT_NOT_FOUND);
         }
     }
 
@@ -185,7 +212,7 @@ public class ContactView {
             System.out.println(contactController.getById(id));
             System.out.println("\n-----------------X-----------------");
         } else {
-            logger.info(">>>>> No Contacts Found! <<<<<\n");
+            logger.info(Messages.CONTACT_NOT_FOUND);
         }
     }
 
@@ -252,7 +279,7 @@ public class ContactView {
                 break;
                                   
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.INVALID_CHOICE);  
             }            
         }         
     }
@@ -273,7 +300,7 @@ public class ContactView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println((contactController.isDeletedById(id)) 
-                                   ? Messages.SUCCESS : Messages.FAILED);
+                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");
     }          
 
@@ -298,7 +325,7 @@ public class ContactView {
             if (leadController.isValidName(name)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_NAME_FORMAT);
             }  
         }
         return name;
@@ -325,7 +352,7 @@ public class ContactView {
             if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_COMPANY_NAME_FORMAT);
             }  
         }
         return name;
@@ -352,7 +379,7 @@ public class ContactView {
             if (leadController.isValidEmailId(emailId)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.warn(Messages.WRONG_EMAIL_ID_FORMAT);
             }  
         }
         return emailId;
@@ -379,7 +406,7 @@ public class ContactView {
             if (leadController.isValidPhoneNumber(phoneNumber)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.warn(Messages.WRONG_PHONE_NUMBER_FORMAT);
             }  
         }
         return phoneNumber;
@@ -423,7 +450,7 @@ public class ContactView {
             break;
 
         default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            logger.warn(Messages.INVALID_CHOICE);
         }
         return title;
     }
@@ -440,9 +467,9 @@ public class ContactView {
      */
     private void printUpdatedStatus(Contact contact) {
         if (contact != null) {
-            logger.info("Lead Updated");
+            logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
-            logger.info(Messages.FAILED);
+            logger.info(Messages.FAILED_TO_UPDATE);
         }
     }
 
@@ -500,8 +527,7 @@ public class ContactView {
      */
     private void printUpdaterMenu() {
         StringBuilder updaterMenu = new StringBuilder();
-        updaterMenu.append(">>>>> Lead Id can't be changed <<<<<\n")
-                   .append("\npress \" ").append(Constants.NAME)
+        updaterMenu.append("\npress \" ").append(Constants.NAME)
                    .append(" \" for Name\n")
                    .append("press \" ").append(Constants.EMAIL)
                    .append(" \" for Email\n")
@@ -552,7 +578,7 @@ public class ContactView {
         StringBuilder title = new StringBuilder();
         title.append("\n========================================")
              .append("|                 CONTACT                |")
-             .append("========================================\n");
+             .append("========================================");
         System.out.println(title);
     }
 }

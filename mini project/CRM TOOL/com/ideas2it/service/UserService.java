@@ -67,7 +67,7 @@ public class UserService {
     public List<User> getAll() {
         Map<String, User> map = userDao.fetchAll();
         
-        if (!map.isEmpty()) {
+        if (null != map) {
             List<User> user = new ArrayList<>(map.values());
             return user;
         }

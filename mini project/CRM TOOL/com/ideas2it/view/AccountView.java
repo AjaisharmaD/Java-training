@@ -85,23 +85,9 @@ public class AccountView {
                 break;
                    
             default:
-                System.out.println(Messages.DEFAULT_MESSAGE); 
+                System.out.println(Messages.INVALID_CHOICE); 
             }        
         }
-    }
-
-    /**
-     * <h1> Add Contact to Account </h1>
-     * <p>
-     * Adds the Contact to Account
-     * </p>
-     *
-     * @param scanner - scanner to get input from console
-     * @param contact - contact to add to Account 
-     */
-    public void addContact(Contact contact) {
-        Account account = null;
-        account.setContact(contact);
     }
 
     /**
@@ -115,7 +101,7 @@ public class AccountView {
      *
      * @return status - status of the Lead 
      */
-    public void create(Scanner scanner, Contact contact) {
+    public void createFromContact(Scanner scanner, Contact contact) {
         Account account = new Account();
         account.setName(contact.getAccountName());
         account.setWebsite(getWebsite(scanner));
@@ -123,8 +109,8 @@ public class AccountView {
         account.setPhoneNumber(getPhoneNumber(scanner));
         account.setType(getType(scanner));
         System.out.println(accountController.create(account) != null
-                                 ? Messages.SUCCESS
-                                 : Messages.FAILED);
+                                 ? Messages.ADDED_SUCCESSFULLY
+                                 : Messages.FAILED_TO_ADD);
     }
 
     /**   
@@ -142,7 +128,7 @@ public class AccountView {
                 System.out.println("\n-------------X-------------");
             }
         } else {
-            logger.info(">>>>> No Accounts Found! <<<<<");
+            logger.info(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -165,7 +151,7 @@ public class AccountView {
             System.out.println(accountController.getById(id));
             System.out.println("\n-------------X-------------");
         } else {
-            logger.info(">>>>> No Accounts Found! <<<<<");
+            logger.info(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -232,7 +218,7 @@ public class AccountView {
                 break;
                                   
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.INVALID_CHOICE);  
             }            
         }         
     }
@@ -252,7 +238,7 @@ public class AccountView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println((accountController.isDeletedById(id)) 
-                                   ? Messages.SUCCESS : Messages.FAILED);
+                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");
     }       
 
@@ -278,7 +264,7 @@ public class AccountView {
             if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_NAME_FORMAT);
             }  
         }
         return name;
@@ -305,7 +291,7 @@ public class AccountView {
             if (leadController.isValidWebsite(website)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Website Format, Give the proper Website! <<<<<\n");
+                logger.warn(Messages.WRONG_WEBSITE_FORMAT);
             }  
         }
         return website;
@@ -332,7 +318,7 @@ public class AccountView {
             if (leadController.isValidEmailId(emailId)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.warn(Messages.WRONG_EMAIL_ID_FORMAT);
             }  
         }
         return emailId;
@@ -359,7 +345,7 @@ public class AccountView {
             if (leadController.isValidPhoneNumber(phoneNumber)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.warn(Messages.WRONG_PHONE_NUMBER_FORMAT);
             }  
         }
         return phoneNumber;
@@ -399,7 +385,7 @@ public class AccountView {
             break;
 
         default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            logger.warn(Messages.INVALID_CHOICE);
         }
         return type;
     }
@@ -414,9 +400,9 @@ public class AccountView {
      */
     private void printUpdatedStatus(Account account) {
         if (account != null) {
-            logger.info("Lead Updated");
+            logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
-            logger.info(Messages.FAILED);
+            logger.info(Messages.FAILED_TO_UPDATE);
         }
     }
 
@@ -436,7 +422,7 @@ public class AccountView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            logger.warn("\n>>>>> Please Enter Numbers only! <<<<<\n");
+            logger.warn(Messages.INVALID_CHOICE);
             scanner.next();  // clears the scanner buffer
         }
         return choice;
@@ -520,7 +506,7 @@ public class AccountView {
         StringBuilder title = new StringBuilder();
         title.append("\n========================================")
              .append("|                 ACCOUNT                |")
-             .append("========================================\n");
+             .append("========================================");
         System.out.println(title);
     }
 }

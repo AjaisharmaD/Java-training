@@ -50,8 +50,8 @@ public class LeadController {
      *
      * @return List - Details of Leads
      */
-    public List<Lead> getAll() {
-        return leadService.getAll();
+    public List<Lead> getAll(String userId) {
+        return leadService.getAll(userId);
     }    
 
     /**

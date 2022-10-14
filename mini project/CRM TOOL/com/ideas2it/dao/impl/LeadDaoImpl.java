@@ -38,7 +38,7 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Map<String, Lead> fetchAll() {
-        if (!leadMap.isEmpty()) {
+        if (null != leadMap) {
             return leadMap;
         }
         return null;

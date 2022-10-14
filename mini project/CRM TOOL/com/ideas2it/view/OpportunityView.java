@@ -90,7 +90,7 @@ public class OpportunityView {
                 break;
                    
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE); 
+                logger.warn(Messages.INVALID_CHOICE); 
             }        
         }
     }
@@ -112,8 +112,8 @@ public class OpportunityView {
         String closedDate = getClosedDate(opportunity.getStage());
         opportunity.setClosedDate(closedDate);
         System.out.println(opportunityController.create(opportunity) != null 
-                                 ? Messages.SUCCESS
-                                 : Messages.FAILED);
+                                 ? Messages.ADDED_SUCCESSFULLY
+                                 : Messages.FAILED_TO_ADD);
     }
 
     /**
@@ -134,8 +134,8 @@ public class OpportunityView {
         String closedDate = getClosedDate(opportunity.getStage());
         opportunity.setClosedDate(closedDate);
         System.out.println(opportunityController.create(opportunity) != null 
-                                 ? Messages.SUCCESS
-                                 : Messages.FAILED);
+                                 ? Messages.ADDED_SUCCESSFULLY
+                                 : Messages.FAILED_TO_ADD);
     }
 
     /**   
@@ -153,7 +153,7 @@ public class OpportunityView {
                 System.out.println("\n------------------X------------------");
             }
         } else {
-            logger.info(">>>>> No opportunitys Found! <<<<<");
+            logger.info(Messages.OPPORTUNITY_NOT_FOUND);
         }
     }
 
@@ -176,7 +176,7 @@ public class OpportunityView {
             System.out.println(opportunityController.getById(id));
             System.out.println("\n------------------X------------------");
         } else {
-            logger.info(">>>>> No opportunitys Found! <<<<<");
+            logger.info(Messages.OPPORTUNITY_NOT_FOUND);
         }
     }
 
@@ -239,7 +239,7 @@ public class OpportunityView {
                 break;
                                   
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.INVALID_CHOICE);  
             }            
         }         
     }
@@ -259,7 +259,7 @@ public class OpportunityView {
         scanner.skip("\r\n");
         String id = getId(scanner);
         System.out.println((opportunityController.isDeletedById(id)) 
-                                   ? Messages.SUCCESS : Messages.FAILED);
+                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("Lead Deleted");
     }          
 
@@ -284,7 +284,7 @@ public class OpportunityView {
             if (leadController.isValidCompanyName(name)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_COMPANY_NAME_FORMAT);
             }  
         }
         return name;
@@ -311,7 +311,7 @@ public class OpportunityView {
             if (leadController.isValidName(name)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_NAME_FORMAT);
             }  
         }
         return name;
@@ -355,7 +355,7 @@ public class OpportunityView {
             break;
 
         default:
-            logger.warn(Messages.DEFAULT_MESSAGE);
+            logger.warn(Messages.INVALID_CHOICE);
         }
         return stage;
     }
@@ -402,7 +402,7 @@ public class OpportunityView {
             if (leadController.isValidAmount(amount.toString())) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
+                logger.warn(Messages.WRONG_AMOUNT_FORMAT);
             }  
         }
         return amount;
@@ -429,7 +429,7 @@ public class OpportunityView {
             if (leadController.isValidId(id)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+                logger.error(Messages.WRONG_ID_FORMAT);
             }  
         }
         return id; 
@@ -445,9 +445,9 @@ public class OpportunityView {
      */
     private void printUpdatedStatus(Opportunity opportunity) {
         if (opportunity != null) {
-            logger.info("Lead Updated");
+            logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
-            logger.info(Messages.FAILED);
+            logger.info(Messages.FAILED_TO_UPDATE);
         }
     }
 
@@ -467,7 +467,7 @@ public class OpportunityView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            logger.error("Wrong Input for Choice");
+            logger.error(Messages.INVALID_INPUT);
             scanner.next();  // clears the scanner buffer
         }
         return choice;
@@ -503,8 +503,7 @@ public class OpportunityView {
      */
     private void printUpdaterMenu() {
         StringBuilder updaterMenu = new StringBuilder();
-        updaterMenu.append(">>>>> Id can't be changed <<<<<\n")
-                   .append("\npress \" ").append(Constants.NAME)
+        updaterMenu.append("\npress \" ").append(Constants.NAME)
                    .append(" \" for Name\n")
                    .append("press \" ").append(Constants.OPPORTUNITY_ACCOUNT_NAME)
                    .append(" \" for Account Name\n")
@@ -552,7 +551,7 @@ public class OpportunityView {
         StringBuilder title = new StringBuilder();
         title.append("\n========================================")
              .append("|               OPPORTUNITY              |")
-             .append("========================================\n");
+             .append("========================================");
         System.out.println(title);
     }
 }

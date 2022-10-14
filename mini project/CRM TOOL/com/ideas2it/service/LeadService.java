@@ -63,14 +63,22 @@ public class LeadService {
      *
      * @return List - Details of Leads 
      */
-    public List<Lead> getAll() {   
+    public List<Lead> getAll(String userId) {   
          Map<String, Lead> map = leadDao.fetchAll();
+         List<Lead> leads = new ArrayList<>();
+         Lead lead;
 
-         if (!map.isEmpty()) {
-            List<Lead> lead = new ArrayList<>(map.values());
-            return lead;
+         if (null != map) {
+            for (Map.Entry<String, Lead> leadMap : map.entrySet()) {
+
+                lead = leadMap.getValue();
+
+                if (lead.getEmployeeId().equals(userId)) {
+                    leads.add(lead);
+                }
+            }
         }
-        return null;
+        return leads;    
     }
 
     /**

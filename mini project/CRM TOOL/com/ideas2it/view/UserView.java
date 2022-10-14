@@ -86,7 +86,7 @@ public class UserView {
                 break;
                    
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);
+                logger.warn(Messages.INVALID_CHOICE);
             }        
         }
     }
@@ -101,7 +101,7 @@ public class UserView {
      * @param scanner - object of a Scanner class
      */
     public void create(Scanner scanner) {
-        System.out.println("\n========== NEW EMPLOYEE ==========\n");
+        System.out.println("\n========== NEW EMPLOYEE ==========");
         boolean isRight = false;
         String name;
         String emailId;
@@ -115,7 +115,7 @@ public class UserView {
                 count = scanner.nextInt();
                 isRight = true;
             } catch (InputMismatchException e) {
-                logger.error("Wrong Input for Count");
+                logger.error(Messages.INVALID_INPUT);
                 scanner.next();
                 continue;
             }
@@ -130,8 +130,8 @@ public class UserView {
             password = getPassword(scanner);
             System.out.println((userController
                                 .create(new User(name, emailId, phoneNumber),
-                                password) != null) ? Messages.SUCCESS 
-                                : Messages.FAILED);
+                                password) != null) ? Messages.ADDED_SUCCESSFULLY 
+                                : Messages.FAILED_TO_ADD);
         }
     }
 
@@ -147,11 +147,10 @@ public class UserView {
         if (null != userController.getAll()) {
             for (User user : userController.getAll()) {
                 System.out.println(user);
-                //System.out.println(user.getLead());
                 System.out.println("--------------X--------------\n");
             }
         } else {
-            logger.info(">>>>> No Employee Found! <<<<<");
+            logger.info(Messages.USER_NOT_FOUND);
         }
     }
 
@@ -174,7 +173,7 @@ public class UserView {
             System.out.println(userController.getById(id));
             System.out.println("--------------X--------------\n");
         } else {
-            logger.warn(">>>>> Employee Not Found! <<<<<");
+            logger.warn(Messages.USER_NOT_FOUND);
         }
     }
 
@@ -230,7 +229,7 @@ public class UserView {
                 break;
                                   
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);  
+                logger.warn(Messages.INVALID_CHOICE);  
             } 
         }
     }
@@ -249,7 +248,7 @@ public class UserView {
         System.out.print("Enter the ID to User\n \" Format:Employee_01 \" : ");
         String id = getId(scanner);
         System.out.println((userController.isDeletedById(id))
-                                        ? Messages.SUCCESS : Messages.FAILED);
+                                        ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("User Deleted");
     }
 
@@ -306,7 +305,7 @@ public class UserView {
             if (userController.isValidName(name)) {
                 isNotValid = true;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn(Messages.WRONG_NAME_FORMAT);
             }  
         }
         return name;
@@ -333,7 +332,7 @@ public class UserView {
             if (userController.isValidEmailId(emailId)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
+                logger.error(Messages.WRONG_EMAIL_ID_FORMAT);
             }  
         }
         return emailId;
@@ -360,7 +359,7 @@ public class UserView {
             if (userController.isValidPhoneNumber(phoneNumber)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
+                logger.error(Messages.WRONG_PHONE_NUMBER_FORMAT);
             }  
         }
         return phoneNumber;
@@ -387,7 +386,7 @@ public class UserView {
             if (userController.isValidPassword(password)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Password Format, Give the proper Password! <<<<<\n");
+                logger.error(Messages.WRONG_PASSWORD_FORMAT);
             }  
         }
         return password;
@@ -414,7 +413,7 @@ public class UserView {
             if (userController.isValidId(id)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+                logger.error(Messages.WRONG_ID_FORMAT);
             }  
         }
         return id; 
@@ -430,9 +429,9 @@ public class UserView {
      */
     private void printUpdatedStatus(User user) {
         if (user != null) {
-            logger.info("Lead Updated");
+            logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
-            logger.info(Messages.FAILED);
+            logger.info(Messages.FAILED_TO_UPDATE);
         }
     }
 
@@ -452,7 +451,7 @@ public class UserView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            logger.error("Wrong Input for Choice");
+            logger.error(Messages.INVALID_INPUT);
             scanner.next();  // clears the scanner buffer
         }
         return choice;
@@ -466,7 +465,7 @@ public class UserView {
      */
     private void printOperationMenu() {
         StringBuilder OperationPrinter = new StringBuilder();
-        OperationPrinter.append("Press \" ").append(Constants.ADDER)
+        OperationPrinter.append("\nPress \" ").append(Constants.ADDER)
                         .append(" \" for New Employee\n")
                         .append("Press \" ").append(Constants.PROJECTOR)
                         .append(" \" for View\n")
@@ -492,8 +491,7 @@ public class UserView {
      */
     private void printUpdaterMenu() {
         StringBuilder choicePrinter = new StringBuilder();
-        choicePrinter.append(">>>>> User Id can't be changed <<<<<\n")
-                     .append("\npress \" ").append(Constants.NAME)
+        choicePrinter.append("\npress \" ").append(Constants.NAME)
                      .append(" \" for Name\n")
                      .append("press \" ").append(Constants.EMAIL)
                      .append(" \" for Email\n")
@@ -515,7 +513,7 @@ public class UserView {
         StringBuilder welcomePrinter = new StringBuilder();
         welcomePrinter.append("\n========================================")
                       .append("|            WELCOME MANAGER!            |")
-                      .append("========================================\n");
+                      .append("========================================");
         System.out.println(welcomePrinter);
     }
 }

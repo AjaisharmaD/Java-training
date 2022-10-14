@@ -77,7 +77,7 @@ public class Constants {
     public final static byte STAGE = 3;
     public final static byte AMOUNT = 4;
 
-    public final static String NAME_PATTERN = "^([\\w\\D]{0,20}[\s.]?){2}[\\w\\D]{0,20}$";
+    public final static String NAME_PATTERN = "^([\\D]{0,20}[\s.]?){2}[\\D]{0,20}$";
     public final static String EMAIL_ID_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
     public final static String PHONE_NUMBER_PATTERN = "^[6-9]{1}[\\d]{9}$";    
     //public final static String ZERO_PATTERN = "^";

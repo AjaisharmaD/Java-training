@@ -49,6 +49,7 @@ public class CRMView {
         String userId = "";
         byte logout;
         boolean isActive = false;
+        boolean isValid = false;
         byte loginChoice;
 
         while (!isActive) {
@@ -57,15 +58,16 @@ public class CRMView {
                        
             switch (loginChoice) {
             case Constants.EMPLOYEE:
-
-                 userId = getId(scanner);
-                 if (isValidUser(userId)) {
-                     logger.info("Logging in as Employee");
-                     leadView.openEmployeeDashboard(scanner, userId);
-                 } else {
-                     System.out.println(">>>>> No User Found <<<<<");
-                 }
-
+                 while (!isValid)
+                     userId = getId(scanner);
+ 
+                     if (isValidUser(userId)) {
+                         logger.info("Logging in as Employee");
+                         leadView.openEmployeeDashboard(scanner, userId);
+                         isValid = true;
+                     } else {
+                         System.out.println(Messages.USER_NOT_FOUND);
+                     }
                  break;
                
             case Constants.MANAGER:
@@ -82,7 +84,7 @@ public class CRMView {
                 break;
                  
             default:
-                logger.warn(Messages.DEFAULT_MESSAGE);
+                logger.warn(Messages.INVALID_CHOICE);
             }  
         }
     } 
@@ -103,7 +105,7 @@ public class CRMView {
         try {
             choice = scanner.nextByte();
         } catch (InputMismatchException e) {
-            logger.error("Wrong Input for Choice");
+            logger.error(Messages.INVALID_INPUT);
             scanner.next();
         }
         return choice;
@@ -149,7 +151,7 @@ public class CRMView {
             if (userController.isValidId(id)) {
                 isNotValid = true;
             } else { 
-                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+                logger.error(Messages.WRONG_ID_FORMAT);
             }  
         }
         return id; 
