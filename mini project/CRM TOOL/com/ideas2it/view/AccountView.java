@@ -7,21 +7,17 @@ import java.util.Scanner;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.AccountController;
-import com.ideas2it.controller.ContactController;
-import com.ideas2it.controller.OpportunityController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Status;
 import com.ideas2it.enums.Type;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
-import com.ideas2it.model.Lead;
-import com.ideas2it.view.ContactView;
-import com.ideas2it.view.OpportunityView;
+import com.ideas2it.model.Contact;
 
 /**
  * <h1> Account View </h1>
  * <p>
- * Converts the Lead into Account who are qualified
+ * Converts the Contact into Account who are qualified
  * </p>
  *
  * @author  AJAISHARMA
@@ -95,6 +91,20 @@ public class AccountView {
     }
 
     /**
+     * <h1> Add Contact to Account </h1>
+     * <p>
+     * Adds the Contact to Account
+     * </p>
+     *
+     * @param scanner - scanner to get input from console
+     * @param contact - contact to add to Account 
+     */
+    public void addContact(Contact contact) {
+        Account account = null;
+        account.setContact(contact);
+    }
+
+    /**
      * <h1> Convert To Account </h1>
      * <p>
      * Converts the lead into Account
@@ -105,17 +115,16 @@ public class AccountView {
      *
      * @return status - status of the Lead 
      */
-    public String toAccount(Scanner scanner, Lead lead) {
+    public void create(Scanner scanner, Contact contact) {
         Account account = new Account();
-        account.setId(lead.getId());
-        account.setName(lead.getCompanyName());
-        account.setOwnerName(lead.getName());
-        account.setEmailId(lead.getEmailId());
-        account.setPhoneNumber(lead.getPhoneNumber());
-        account.setType(lead.getAccountType());
-        return accountController.create(account) != null
-                                 ? Status.Converted.toString()
-                                 : Messages.FAILED;
+        account.setName(contact.getAccountName());
+        account.setWebsite(getWebsite(scanner));
+        account.setEmailId(getEmailId(scanner));
+        account.setPhoneNumber(getPhoneNumber(scanner));
+        account.setType(getType(scanner));
+        System.out.println(accountController.create(account) != null
+                                 ? Messages.SUCCESS
+                                 : Messages.FAILED);
     }
 
     /**   
@@ -149,7 +158,7 @@ public class AccountView {
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
-        System.out.print("Enter the ID to Account\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the Account Name       : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         if (accountController.getById(id) != null) {
@@ -163,7 +172,7 @@ public class AccountView {
     /**
      * <h1> Update the Account </h1>
      * <p>
-     * Method will updates the each fields of the Lead Details 
+     * Method will updates the each fields of the Account Details 
      * and Display the Message that the fields are Updated or not
      * </p>
      *
@@ -171,7 +180,7 @@ public class AccountView {
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE ACCOUNT  ==========\n");
-        System.out.print("Enter the ID to Account\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the Account Name         : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();   
         boolean isUpdating = false;
@@ -190,15 +199,15 @@ public class AccountView {
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                     
-            case Constants.OWNER_NAME:
+            case Constants.WEBSITE:
                 scanner.skip("\r\n");
-                account.setOwnerName(getOwnerName(scanner));                              
+                account.setWebsite(getWebsite(scanner));                              
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
 
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                account.setEmailId(getEmail(scanner));
+                account.setEmailId(getEmailId(scanner));
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                          
@@ -214,7 +223,7 @@ public class AccountView {
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                            
-            case Constants.EXIT_LEAD_UPDATER:
+            case Constants.EXIT_LEAD:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -276,30 +285,30 @@ public class AccountView {
     }
 
     /**
-     * <h1> Get Owner Name </h1>
+     * <h1> Get Webite  </h1>
      * <p>
-     * Gets the Name and checks whether the Name is Valid or not
+     * Gets the Website and checks whether the Website is Valid or not
      * </p> 
      *
-     * @param scanner - object of a Scanner class
+     * @param scanner  - object of a Scanner class
      *
-     * @return name - a Valid Name
+     * @return website - a Valid Website
      */
-    private String getOwnerName(Scanner scanner) {
-        String name = "";
+    private String getWebsite(Scanner scanner) {
+        String website = "";
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Name                 : ");
-            name = scanner.nextLine();
+            System.out.print("Website              : ");
+            website = scanner.nextLine();
 
-            if (leadController.isValidName(name)) {
+            if (leadController.isValidWebsite(website)) {
                 break;
             } else { 
-                logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
+                logger.warn("\n>>>>> Wrong Website Format, Give the proper Website! <<<<<\n");
             }  
         }
-        return name;
+        return website;
     }
 
     /**
@@ -312,32 +321,32 @@ public class AccountView {
      *
      * @return email - a Valid Email
      */
-    private String getEmail(Scanner scanner) {
-        String email = "";
+    private String getEmailId(Scanner scanner) {
+        String emailId = "";
         boolean isNotValid = false;
 
         while (!isNotValid) {
             System.out.print("Email ID             : ");
-            email = scanner.nextLine();
+            emailId = scanner.nextLine();
 
-            if (leadController.isValidEmail(email)) {
+            if (leadController.isValidEmailId(emailId)) {
                 break;
             } else { 
                 logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
-        return email;
+        return emailId;
     }
 
     /**
      * <h1> Get Phone Number </h1>
      * <p>
-     * Gets the Phone Number of the Lead and checks whether the Phone Number is Valid or not
+     * Gets the Phone Number of the Account and checks whether the Phone Number is Valid or not
      * </p>
      *
-     * @param scanner - object of a Scanner class
+     * @param scanner      - object of a Scanner class
      *
-     * @return phoneNumber - a Valid Phone Number of the Lead
+     * @return phoneNumber - a Valid Phone Number
      */
     private String getPhoneNumber(Scanner scanner) {
         String phoneNumber = "";
@@ -463,8 +472,7 @@ public class AccountView {
      */
     private void printUpdaterMenu() {
         StringBuilder updaterMenu = new StringBuilder();
-        updaterMenu.append(">>>>> Lead Id can't be changed <<<<<\n")
-                   .append("\npress \" ").append(Constants.NAME)
+        updaterMenu.append("\npress \" ").append(Constants.NAME)
                    .append(" \" for Name\n")
                    .append("press \" ").append(Constants.EMAIL)
                    .append(" \" for Email\n")
@@ -472,9 +480,9 @@ public class AccountView {
                    .append(" \" for Phone Number\n")
                    .append("press \" ").append(Constants.TYPE)
                    .append(" \" for Type\n")
-                   .append("press \" ").append(Constants.OWNER_NAME)
-                   .append(" \" for Owner Name\n")
-                   .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
+                   .append("press \" ").append(Constants.WEBSITE)
+                   .append(" \" for Website\n")
+                   .append("press \" ").append(Constants.EXIT_LEAD)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
         System.out.print(updaterMenu);

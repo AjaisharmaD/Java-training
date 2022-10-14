@@ -33,7 +33,6 @@ public class Constants {
     public final static byte UPDATER = 4;
     public final static byte REMOVER = 5;
     public final static byte ASSIGN_LEAD = 6;
-    public final static byte EXIT_LEAD_OPERATION = 6;
     public final static byte EXIT_OPERATION = 7;
 
     public final static byte NAME = 1;
@@ -41,14 +40,10 @@ public class Constants {
     public final static byte PHONE_NUMBER = 3;
     public final static byte COMPANY_NAME = 4;
     public final static byte STATUS = 5;
-    public final static byte ACCOUNT_TYPE = 6;
-    public final static byte CONTACT_TITLE = 7;
-    public final static byte OPPORTUNITY_STAGE = 8;
-    public final static byte DEAL_AMOUNT = 9;
-    public final static byte EXIT_LEAD_UPDATER = 10; 
+    public final static byte EXIT_LEAD = 6;
 
     public final static byte TYPE = 4;
-    public final static byte OWNER_NAME = 5;
+    public final static byte WEBSITE = 5;
 
     public final static byte TITLE = 4;
     public final static byte ACCOUNT_NAME = 5;
@@ -61,7 +56,6 @@ public class Constants {
     public final static byte QUALIFIED = 4;
     public final static byte UNQUALIFIED = 5;
     public final static byte CONVERTED = 6;
-    public final static byte EXIT_STATUS = 7; 
 
     public final static byte CUSTOMER = 1;
     public final static byte RESELLER = 2;
@@ -83,11 +77,13 @@ public class Constants {
     public final static byte STAGE = 3;
     public final static byte AMOUNT = 4;
 
-    public final static String NAME_PATTERN = "^([a-zA-Z]{0,20}[\s.]?){2}[a-zA-Z]{0,20}$";
-    public final static String EMAIL_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
-    public final static String PHONENUMBER_PATTERN = "^[6-9]{1}[0-9]{9}$";    //(\d{1,3}[- ])?[6-9]{1}\d{10}$
+    public final static String NAME_PATTERN = "^([\\w\\D]{0,20}[\s.]?){2}[\\w\\D]{0,20}$";
+    public final static String EMAIL_ID_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";
+    public final static String PHONE_NUMBER_PATTERN = "^[6-9]{1}[\\d]{9}$";    
     //public final static String ZERO_PATTERN = "^";
-    public final static String AMOUNT_PATTERN = "^[0-9]{1,}[.]{1}[0-9]{1,}$";
-    public final static String COMPANYNAME_PATTERN = "^[a-zA-Z0-9\s]{1,}$"; 
+    public final static String AMOUNT_PATTERN = "^[\\d]{1,}[.]{1}[\\d]{1,2}$";
+    public final static String COMPANY_NAME_PATTERN = "^[a-zA-Z0-9\s]{1,}$"; 
+    public final static String WEBSITE_PATTERN = "(^$|(www.)?[a-z0-9]+([.][a-z]{2,3}){1,2}$)";
     public final static String PASSWORD_PATTERN = "^[A-Za-z0-9@#$*]{8,15}$";
+    public final static String ID_PATTERN = "^(Lead_0|Employee_0|Contact_0){1}[\\d]{1,5}$";
 }

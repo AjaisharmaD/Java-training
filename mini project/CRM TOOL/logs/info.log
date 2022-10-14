@@ -1,56 +1,30 @@
-2022-10-12 09:56:30,319 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 09:56:46,579 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 09:58:05,523 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 09:58:10,807 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 09:58:39,055 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 09:58:50,594 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:02:52,499 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:03:14,487 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 10:03:24,432 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:05:14,443 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:05:20,390 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:05:30,838 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:24:56,537 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:25:19,297 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 10:25:31,759 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:27:40,296 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:28:04,670 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 10:28:13,137 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:28:57,607 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:29:07,448 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 10:40:57,410 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 10:41:17,165 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 10:41:50,161 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 11:21:28,963 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:22:04,258 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 11:22:36,583 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 11:23:31,015 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:23:46,724 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 11:28:42,952 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:29:21,620 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 11:29:36,093 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 11:42:33,627 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:42:52,591 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 11:46:31,607 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:46:49,916 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 11:47:06,445 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 11:56:51,249 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 11:57:35,113 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 11:57:46,820 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 12:21:53,188 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 12:22:23,125 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 12:22:45,179 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 12:39:14,728 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 12:39:59,741 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 12:40:06,423 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 12:43:09,500 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 12:43:35,295 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 12:49:59,790 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 12:51:04,855 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 14:10:38,521 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 14:11:34,292 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 14:11:53,467 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 14:47:18,718 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-10-12 14:47:47,653 INFO c.i.v.LeadView [main] Date created successfully
-2022-10-12 14:47:56,228 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-12 16:03:30,159 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 14:14:28,265 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 14:14:47,237 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 14:34:26,981 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 14:34:47,157 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 14:38:33,854 INFO c.i.v.LeadView [main] Lead Updated
+2022-10-13 17:48:05,173 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 17:48:51,644 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 17:49:03,156 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 22:49:29,621 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 22:50:27,675 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 22:51:12,944 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 22:53:11,711 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 22:53:38,877 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 22:54:11,565 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 22:57:30,454 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 22:57:54,601 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 22:58:37,920 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 23:00:30,787 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 23:01:00,567 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 23:02:25,120 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 23:08:40,453 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 23:09:13,114 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 23:09:49,558 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 23:15:02,587 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 23:15:47,888 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-13 23:16:23,013 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-13 23:16:28,900 INFO c.i.v.LeadView [main] emp id generated
+2022-10-13 23:18:14,667 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 23:26:40,186 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-13 23:27:04,426 INFO c.i.v.CRMView [main] Logging in as Employee

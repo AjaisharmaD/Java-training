@@ -10,10 +10,7 @@ import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.controller.UserController;
-import com.ideas2it.enums.Stage;
 import com.ideas2it.enums.Status;
-import com.ideas2it.enums.Title;
-import com.ideas2it.enums.Type;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
@@ -57,7 +54,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void openEmployeeDashboard(Scanner scanner) {
+    public void openEmployeeDashboard(Scanner scanner, String userId) {
         boolean isActive = false;
         byte operationChoice; 
         byte logout;   
@@ -69,7 +66,7 @@ public class LeadView {
                    
             switch (operationChoice) {
             case Constants.LEAD:
-                openLeadOperations(scanner);
+                openLeadOperations(scanner, userId);
                 break;
                  
             case Constants.ACCOUNT:
@@ -108,7 +105,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void openLeadOperations(Scanner scanner) {
+    private void openLeadOperations(Scanner scanner, String userId) {
         boolean isOpened = false;
         byte operationChoice; 
         byte logout;   
@@ -120,11 +117,11 @@ public class LeadView {
                    
             switch (operationChoice) {
             case Constants.ADDER:
-                create(scanner);
+                create(scanner, userId);
                 break;
                  
             case Constants.PROJECTOR:
-                displayAll();
+                displayAll(scanner);
                 break;
                                                 
             case Constants.FINDER:
@@ -139,7 +136,7 @@ public class LeadView {
                 deleteById(scanner);
                 break;
             
-            case Constants.EXIT_LEAD_OPERATION:
+            case Constants.EXIT_LEAD:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -162,17 +159,13 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void create(Scanner scanner) {
+    private void create(Scanner scanner, String userId) {
         Lead lead = null;
         String name;
         String email;
         String phoneNumber;
         String companyName;
         String status;
-        String accountType;
-        String contactTitle;
-        String opportunityStage;
-        Double amount = 0.00d;
         String createdDate;
 
         int count = 0;
@@ -195,21 +188,18 @@ public class LeadView {
             System.out.println("\n====== Enter Lead 0" + (index + 1) 
                                                        + " Details ======\n");
             name = getName(scanner);
-            email = getEmail(scanner);     
+            email = getEmailId(scanner);     
             phoneNumber = getPhoneNumber(scanner); 
             companyName = getCompanyName(scanner);
-            status = getStatus(scanner, lead);   
-            accountType = getType(scanner);
-            contactTitle = getTitle(scanner);  
-            opportunityStage = getStage(scanner);   
-            amount = getAmount(scanner); 
+            status = getStatus(scanner, lead);
             createdDate = getCreatedDate();
             scanner.skip("\r\n");
-            System.out.println((leadController.create(new Lead(name, email, 
-                                          phoneNumber,companyName, status, accountType, 
-                                          contactTitle, opportunityStage, amount,
-                                          createdDate)) != null) 
-                                          ? Messages.SUCCESS : Messages.FAILED);
+            lead = new Lead(name, email, phoneNumber,companyName, status,
+                                          createdDate);
+            lead.setEmployeeId(userId);
+            System.out.println((leadController.create(lead) != null) 
+                                          ? Messages.SUCCESS 
+                                          : Messages.FAILED);
         }
     }
 
@@ -219,13 +209,20 @@ public class LeadView {
      * Method will Display all the Details of Lead
      * </p>
      */
-    private void displayAll() {
+    private void displayAll(Scanner scanner) {
         System.out.println("\n========== LEAD DETAILS ==========\n");
+        
+        scanner.skip("\r\n");
+        String userId;
 
-        if (null != leadController.getAll() ) {
+        if (null != leadController.getAll()) {
             for (Lead lead : leadController.getAll()) {
                 System.out.println(lead);
-                System.out.println("\n--------------X---------------\n");
+                userId = getId(scanner);
+                if (lead.getEmployeeId().equals(userId)) {
+                    System.out.println(lead);
+                    System.out.println("\n--------------X---------------\n");
+                }
             }
         } else {
             logger.info(">>>>> No Lead Found! <<<<<");
@@ -245,7 +242,7 @@ public class LeadView {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
 
         if (null != leadController.getById(id)) {
             System.out.println("\n" + leadController.getById(id));
@@ -268,7 +265,7 @@ public class LeadView {
         System.out.println("\n========== UPDATE LEAD  ==========\n");
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();   
+        String id = getId(scanner);   
         boolean isUpdating = false;
         byte updaterChoice;
         byte logout;
@@ -287,7 +284,7 @@ public class LeadView {
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                lead.setEmailId(getEmail(scanner));
+                lead.setEmailId(getEmailId(scanner));
                 printUpdatedStatus(leadController.updateById(id, lead));
                 break;
                          
@@ -309,31 +306,7 @@ public class LeadView {
                 printUpdatedStatus(leadController.updateById(id, lead));
                 break;
 
-            case Constants.ACCOUNT_TYPE:
-                scanner.skip("\r\n");
-                lead.setAccountType(getType(scanner));
-                printUpdatedStatus(leadController.updateById(id, lead));
-                break;
-
-            case Constants.CONTACT_TITLE:
-                scanner.skip("\r\n");
-                lead.setContactTitle(getTitle(scanner));
-                printUpdatedStatus(leadController.updateById(id, lead));
-                break;
-
-            case Constants.OPPORTUNITY_STAGE:
-                scanner.skip("\r\n");
-                lead.setOpportunityStage(getStage(scanner));
-                printUpdatedStatus(leadController.updateById(id, lead));
-                break;
-
-            case Constants.DEAL_AMOUNT:
-                scanner.skip("\r\n");
-                lead.setAmount(getAmount(scanner));
-                printUpdatedStatus(leadController.updateById(id, lead));
-                break;
-
-            case Constants.EXIT_LEAD_UPDATER:
+            case Constants.EXIT_LEAD:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -360,7 +333,7 @@ public class LeadView {
         System.out.println("\n========== DELETE LEAD  ==========\n");
         System.out.print("Enter the ID to Delete Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
 
         if (leadController.isDeletedById(id)) { 
             logger.info("Lead Deleted");
@@ -377,7 +350,7 @@ public class LeadView {
      *     
      * @param scanner - object of a Scanner class
      *
-     * @return name - a Valid Name of the Lead
+     * @return name   - a Valid Name of the Lead
      */
     private String getName(Scanner scanner) {
         String name = "";
@@ -406,21 +379,21 @@ public class LeadView {
      *
      * @return email - a Valid Email of the Lead
      */
-    private String getEmail(Scanner scanner) {
-        String email = "";
+    private String getEmailId(Scanner scanner) {
+        String emailId = "";
         boolean isNotValid = false;
 
         while (!isNotValid) {
             System.out.print("Email ID             : ");
-            email = scanner.nextLine();
+            emailId = scanner.nextLine();
 
-            if (leadController.isValidEmail(email)) {
+            if (leadController.isValidEmailId(emailId)) {
                 break;
             } else { 
                 logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
-        return email;
+        return emailId;
     }
 
     /**
@@ -525,17 +498,11 @@ public class LeadView {
 
             case Constants.CONVERTED:               
                 if (lead != null) {
-                    status = accountView.toAccount(scanner, lead);
-                    contactView.create(scanner, lead);
-                    opportunityView.create(scanner, lead);
+                    status = contactView.createFromLead(scanner, lead);
                     isSelecting = true; 
                 } else {
                     logger.warn("Tried to convert the lead which not present");
                 } 
-                break;
-
-            case Constants.EXIT_STATUS:
-                isSelecting = true; 
                 break;
 
             default:
@@ -546,181 +513,31 @@ public class LeadView {
     }
 
     /**
-     * <h1> Get type </h1>
+     * <h1> Get ID </h1>
      * <p>
-     * Gets the Type of the Account
+     * Gets the Id of the user
      * </p>
      *
      * @param scanner - object of a Scanner class
      *
-     * @return type - type of a Account
+     * @return id     - a valid Id 
      */
-    private String getType(Scanner scanner) {
-        boolean isSelecting = false;
-        String type = "";
-        byte typeChoice;
-
-        while (!isSelecting) {
-            printTypeMenu();
-            typeChoice = getChoice(scanner);
-
-            switch (typeChoice) {
-            case Constants.CUSTOMER:
-                type = Type.Customer.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.RESELLER:
-                type = Type.Reseller.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.INVESTOR:
-                type = Type.Investor.toString();
-                isSelecting = true;
-                break;
- 
-            case Constants.PARTNER:
-                type = Type.Partner.toString();
-                isSelecting = true;
-                break;
-
-            default:
-                logger.warn(Messages.DEFAULT_MESSAGE);
-            }
-        }
-        return type;
-    }
-
-    /**
-     * <h1> Get Title </h1>
-     * <p>
-     * Gets the Title of the Contact
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return title - title of a Contact
-     */
-    private String getTitle(Scanner scanner) {
-        boolean isSelecting = false;
-        byte titleChoice;
-        String title = "";
-
-        while (!isSelecting) {
-            printTitleMenu();
-            titleChoice = getChoice(scanner);
-
-            switch (titleChoice) {
-            case Constants.CEO:
-                title = Title.CEO.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.FOUNDER:
-                title = Title.Founder.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.PRESIDENT:
-                title = Title.President.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.VICE_PRESIDENT:
-                title = Title.VicePresident.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.DIRECTOR:
-                title = Title.Director.toString();
-                isSelecting = true;
-                break;
-
-            default:
-                logger.warn(Messages.DEFAULT_MESSAGE);
-            }
-        }
-        return title;
-    }
-
-    /**
-     * <h1> Get Stage </h1>
-     * <p>
-     * Gets the Stage of the opportunity
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return stage - stage of a opportunity
-     */
-    private String getStage(Scanner scanner) {
-        boolean isSelecting = false;
-        String stage = "";
-        byte stageChoice;
-
-        while (!isSelecting) {
-            printStageMenu();
-            stageChoice = getChoice(scanner);
-
-            switch (stageChoice) {
-            case Constants.MEETING_SCHEDULED:
-                stage = Stage.MeetingScheduled.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.PROPOSAL:
-                stage = Stage.Proposal.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.NEGOTIATION:
-                stage = Stage.Negotiation.toString();
-                isSelecting = true;
-                break;
- 
-            case Constants.QUALIFIED:
-                stage = Stage.Qualified.toString();
-                isSelecting = true;
-                break;
-
-            case Constants.CLOSED:
-                stage = Stage.Closed.toString();
-                isSelecting = true;
-                break;
-
-            default:
-                logger.warn(Messages.DEFAULT_MESSAGE);
-            }
-        }
-        return stage;
-    }
-
-    /**
-     * <h1> Get Amount </h1>
-     * <p>
-     * Gets the Amount of the Deal and checks whether the Amount is Valid or not
-     * </p> 
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return amount - a Valid Amount for deal
-     */
-    private Double getAmount(Scanner scanner) {
-        Double amount = 0.00d;
+    private String getId(Scanner scanner) {
+        String id = " ";
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Amount                 : ");
-            amount = scanner.nextDouble();
+            System.out.print("Enter Id             : ");
+            id = scanner.nextLine();
 
-            if (leadController.isValidAmount(amount.toString())) {
-                break;
+            if (leadController.isValidId(id)) {
+                isNotValid = true;
+                logger.info("emp id generated");
             } else { 
-                logger.warn("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
-            }
+                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+            }  
         }
-        return amount;
+        return id; 
     }
 
     /**
@@ -816,7 +633,7 @@ public class LeadView {
                         .append(" \" for Update\n")
                         .append("Press \" ").append(Constants.REMOVER)
                         .append(" \" for Delete\n")
-                        .append("Press \" ").append(Constants.EXIT_LEAD_OPERATION)
+                        .append("Press \" ").append(Constants.EXIT_LEAD)
                         .append(" \" for EXIT\n")
                         .append("Enter your Operation: ");
         System.out.print(operationMenu);
@@ -841,15 +658,7 @@ public class LeadView {
                    .append(" \" for Company Name\n")
                    .append("press \" ").append(Constants.STATUS)
                    .append(" \" for Status\n")
-                   .append("press \" ").append(Constants.ACCOUNT_TYPE)
-                   .append(" \" for Account type\n")
-                   .append("press \" ").append(Constants.CONTACT_TITLE)
-                   .append(" \" for Contact Title\n")
-                   .append("press \" ").append(Constants.STAGE)
-                   .append(" \" for Stage\n")
-                   .append("press \" ").append(Constants.DEAL_AMOUNT)
-                   .append(" \" for Deal Amount\n")
-                   .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
+                   .append("press \" ").append(Constants.EXIT_LEAD)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
         System.out.print(updaterMenu);
@@ -877,8 +686,6 @@ public class LeadView {
                   .append(" \" for Unqualified |\n")
                   .append("| press \" ").append(Constants.CONVERTED)
                   .append(" \" for Converted   |\n")
-                  .append("| press \" ").append(Constants.EXIT_STATUS)
-                  .append(" \" for Exit        |\n")
                   .append("+=============================+\n")
                   .append("Enter your Choice: ");
         System.out.print(statusMenu);
@@ -905,31 +712,6 @@ public class LeadView {
                 .append("+=============================+\n")
                 .append("Enter your Choice: ");
         System.out.print(typeMenu);
-    }
-
-    /**
-     * <h1> Print Title Menu </h1>
-     * <p>
-     * Prints the Menu for Contact Title
-     * </p>
-     */
-    private void printTitleMenu() {
-        StringBuilder titleMenu = new StringBuilder();
-        titleMenu.append("+====================================+")
-                 .append("\n|               \"TITLE\"              |")
-                 .append("\n| press \" ").append(Constants.CEO)
-                 .append(" \" for CEO                |\n")
-                 .append("| press \" ").append(Constants.FOUNDER)
-                 .append(" \" for Founder            |\n")
-                 .append("| press \" ").append(Constants.PRESIDENT)
-                 .append(" \" for President          |\n")
-                 .append("| press \" ").append(Constants.VICE_PRESIDENT)
-                 .append(" \" for Vice President     |\n")
-                 .append("| press \" ").append(Constants.DIRECTOR)
-                 .append(" \" for Director           |\n")
-                 .append("+====================================+\n")
-                 .append("Enter your Choice: ");
-        System.out.print(titleMenu);
     }
 
     /**

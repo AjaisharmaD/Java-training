@@ -103,8 +103,8 @@ public class LeadController {
      * Get the Name and checks whether the given Name is valid or not
      * </p>
      *
-     * @param name     - Name of Lead given by the Employee  
-     * @return boolean - Status of Lead Name
+     * @param name     - Name of Lead 
+     * @return boolean - Status of Name
      */
     public boolean isValidName(String name) {
         if (validationUtils.isValidName(name)) {
@@ -114,16 +114,16 @@ public class LeadController {
     }
 
     /**
-     * <h1> Valid Email </h1>
+     * <h1> Valid Email Id </h1>
      * <p>
-     * Get the Email and checks whether the given Email is valid or not
+     * Get the Email Id and checks whether the given Email Id is valid or not
      * </p>
      *
-     * @param email    - Email of Lead given by the Employee  
-     * @return boolean - Status of Lead Email
+     * @param email    - Email Id of Lead 
+     * @return boolean - Status of Email Id
      */
-    public boolean isValidEmail(String email) {
-        if (validationUtils.isValidEmail(email)) {
+    public boolean isValidEmailId(String emailId) {
+        if (validationUtils.isValidEmailId(emailId)) {
             return true;
         }
         return false;
@@ -135,8 +135,8 @@ public class LeadController {
      * Get the Phone Number and checks whether the given Phone Number is valid or not
      * </p>
      *
-     * @param phoneNumber - Phone Number of Lead given by the Employee  
-     * @return boolean    - Status of Lead Phone Number
+     * @param phoneNumber - Phone Number of Lead 
+     * @return boolean    - Status of Phone Number
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
         if (validationUtils.isValidPhoneNumber(phoneNumber)) {
@@ -151,8 +151,8 @@ public class LeadController {
      * Get the Company Name and checks whether the given Company Name is valid or not
      * </p>
      *
-     * @param companyName - Company Name of Lead given by the Employee  
-     * @return boolean    - Status of Lead Company Name
+     * @param companyName - Company Name of Lead 
+     * @return boolean    - Status of Company Name
      */
     public boolean isValidCompanyName(String companyName) {
         if (validationUtils.isValidCompanyName(companyName)) {
@@ -167,11 +167,43 @@ public class LeadController {
      * Get the Amount and checks whether the given Amount is valid or not
      * </p>
      *
-     * @param amount   - Amount of Lead for deal
-     * @return boolean - Status of Lead Amount
+     * @param amount   - Amount of deal
+     * @return boolean - Status of Amount
      */
     public boolean isValidAmount(String amount) {
         if (validationUtils.isValidAmount(amount)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid Website </h1>
+     * <p>
+     * Get the Website and checks whether the given Website is valid or not
+     * </p>
+     *
+     * @param website  - Website of Account for deal
+     * @return boolean - Status of Website
+     */
+    public boolean isValidWebsite(String website) {
+        if (validationUtils.isValidWebsite(website)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid ID </h1>
+     * <p>
+     * This method will get the Id and checks whether the given Id is valid or not
+     * </p>
+     *
+     * @param id       - id to be Validated  
+     * @return boolean  - Status of the Id
+     */
+    public boolean isValidId(String id) {
+        if (validationUtils.isValidId(id)) {
             return true;
         }
         return false;

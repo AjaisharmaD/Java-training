@@ -122,7 +122,7 @@ public class UserController {
      * </p>
      *
      * @param name     - Name of User  
-     * @return boolean - true if the Name is valid otherwise false
+     * @return boolean - Status of the Name
      */
     public boolean isValidName(String name) {
         if (validationUtils.isValidName(name)) {
@@ -138,10 +138,10 @@ public class UserController {
      * </p>
      *
      * @param email    - Email of User 
-     * @return boolean - true if the Email is valid otherwise false
+     * @return boolean - Status of the Email Id
      */
-    public boolean isValidEmail(String email) {
-        if (validationUtils.isValidEmail(email)) {
+    public boolean isValidEmailId(String emailId) {
+        if (validationUtils.isValidEmailId(emailId)) {
             return true;
         }
         return false;
@@ -154,7 +154,7 @@ public class UserController {
      * </p>
      *
      * @param phoneNumber - Phone Number of User  
-     * @return boolean    - true if the Phone Number is valid otherwise false
+     * @return boolean    - Status of the Phone Number
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
         if (validationUtils.isValidPhoneNumber(phoneNumber)) {
@@ -170,10 +170,26 @@ public class UserController {
      * </p>
      *
      * @param password - Company Name of User  
-     * @return boolean - true if the Company Name is valid otherwise false
+     * @return boolean - Status of the Company Name
      */
     public boolean isValidPassword(String password) {
         if (validationUtils.isValidPassword(password)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <h1> Valid ID </h1>
+     * <p>
+     * This method will get the Id and checks whether the given Id is valid or not
+     * </p>
+     *
+     * @param id       - id to be Validated  
+     * @return boolean - Status of the Id
+     */
+    public boolean isValidId(String id) {
+        if (validationUtils.isValidId(id)) {
             return true;
         }
         return false;

@@ -25,12 +25,12 @@ public interface AccountDao {
      * Inserts the Details of account 
      * </p>
      *
-     * @param accountId - Id of a Account
+     * @param name      - name of a Account
      * @param account   - Details of Account to add 
      *   
      * @return Account  - Details of Account
      */
-    public Account insert(String accountId, Account account);
+    public Account insert(String name, Account account);
 
     /**   
      * <h1> Get Details of Account </h1>

@@ -39,8 +39,8 @@ public class  AccountService {
      * @return Account - account detail which is inserted into the Map
      */
     public Account create(Account account) {
-       String id = account.getId();
-       return accountDao.insert(id, account);
+       String name = account.getName();
+       return accountDao.insert(name, account);
     } 
 
     /**   

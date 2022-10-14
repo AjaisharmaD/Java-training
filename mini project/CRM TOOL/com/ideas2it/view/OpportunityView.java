@@ -8,10 +8,12 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
+import com.ideas2it.controller.ContactController;
 import com.ideas2it.controller.OpportunityController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Stage;
 import com.ideas2it.logger.CustomLogger;
+import com.ideas2it.model.Contact;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.Opportunity;
 
@@ -27,12 +29,14 @@ import com.ideas2it.model.Opportunity;
  */
 public class OpportunityView {
     private OpportunityController opportunityController;
+    private ContactController contactController;
     private LeadController leadController;
     private CustomLogger logger;
 
     public OpportunityView() {
         this.logger = new CustomLogger(OpportunityView.class);
         this.opportunityController = new OpportunityController();
+        this.contactController = new ContactController();
         this.leadController = new LeadController();
     }
 
@@ -57,6 +61,10 @@ public class OpportunityView {
             operationChoice = getChoice(scanner);
                    
             switch (operationChoice) {
+            case Constants.ADDER:
+                create(scanner);
+                break;
+
             case Constants.PROJECTOR:
                 displayAll();
                 break;
@@ -90,20 +98,41 @@ public class OpportunityView {
     /**
      * <h1> Creates Opportunity </h1>
      * <p>
-     * Creates the Opportunity of the lead
+     * Creates the Opportunity of the contact
+     * </p>
+     *
+     * @param scanner - object of a Scanner class 
+     */
+    public void create(Scanner scanner) {
+        Opportunity opportunity = new Opportunity();
+        opportunity.setAccountName(getAccountName(scanner));
+        opportunity.setName(getName(scanner));
+        opportunity.setAmount(getAmount(scanner));
+        opportunity.setStage(getStage(scanner));
+        String closedDate = getClosedDate(opportunity.getStage());
+        opportunity.setClosedDate(closedDate);
+        System.out.println(opportunityController.create(opportunity) != null 
+                                 ? Messages.SUCCESS
+                                 : Messages.FAILED);
+    }
+
+    /**
+     * <h1> Creates Opportunity </h1>
+     * <p>
+     * Creates the Opportunity of the contact
      * </p>
      *
      * @param scanner - object of a Scanner class
-     * @param lead    - lead to create Opportunity 
+     * @param contact    - contact to create Opportunity 
      */
-    public void create(Scanner scanner, Lead lead) {
+    public void createFromContact(Scanner scanner, Contact contact) {
         Opportunity opportunity = new Opportunity();
-        opportunity.setId(lead.getId());
-        opportunity.setAccountName(lead.getCompanyName());
-        opportunity.setName(lead.getName());
-        opportunity.setAmount(lead.getAmount());
-        opportunity.setStage(lead.getOpportunityStage());
-        opportunity.setClosedDate(getDate(opportunity.getStage()));
+        opportunity.setAccountName(contact.getAccountName());
+        opportunity.setName(contact.getName());
+        opportunity.setAmount(getAmount(scanner));
+        opportunity.setStage(getStage(scanner));
+        String closedDate = getClosedDate(opportunity.getStage());
+        opportunity.setClosedDate(closedDate);
         System.out.println(opportunityController.create(opportunity) != null 
                                  ? Messages.SUCCESS
                                  : Messages.FAILED);
@@ -141,7 +170,8 @@ public class OpportunityView {
         System.out.println("\n========== SEARCH OPPORTUNITY ==========\n");  
         System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
+
         if (opportunityController.getById(id) != null) {
             System.out.println(opportunityController.getById(id));
             System.out.println("\n------------------X------------------");
@@ -163,7 +193,7 @@ public class OpportunityView {
         System.out.println("\n========== UPDATE OPPORTUNITY  ==========\n");
         System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();   
+        String id = getId(scanner);   
         boolean isUpdating = false;
         byte updaterChoice;
         byte logout;
@@ -190,13 +220,13 @@ public class OpportunityView {
                 scanner.skip("\r\n");
                 String stage = getStage(scanner);
                 opportunity.setStage(stage);
-                opportunity.setClosedDate(getDate(stage));
+                opportunity.setClosedDate(getClosedDate(stage));
                 printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
 
             case Constants.AMOUNT:
                 scanner.skip("\r\n");
-                opportunity.setStage(getStage(scanner));
+                opportunity.setAmount(getAmount(scanner));
                 printUpdatedStatus(opportunityController.updateById(id, opportunity));
                 break;
                            
@@ -227,7 +257,7 @@ public class OpportunityView {
         System.out.println("\n========== DELETE opportunity  ==========\n");
         System.out.print("Enter the ID to Delete opportunity\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
         System.out.println((opportunityController.isDeletedById(id)) 
                                    ? Messages.SUCCESS : Messages.FAILED);
         logger.info("Lead Deleted");
@@ -331,25 +361,78 @@ public class OpportunityView {
     }
 
     /**
-     * <h1> Get Date </h1>
+     * <h1> Get Closed Date </h1>
      * <p>
-     * Gets the Date for Close date
+     * Gets the Date for Closed date
      * </p>
      *  
      * @param stage - Stage of the Opportunity
      *
-     * @return date - a Valid Close Date
+     * @return date - a Valid Closed Date
      */
-    private String getDate(String stage) {
-        if (stage.equals(Stage.Closed)) {
+    private String getClosedDate(String stage) {
+        String closedDate = "Not Closed Yet";
+
+        if (stage.equals(Stage.Closed.toString())) {
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
-            String closedDate = formatter.format(date); 
-
-            logger.info("Closed Date Created");
-            return closedDate;
+            closedDate = formatter.format(date); 
         }
-        return "Not Closed Yet";
+        return closedDate;
+    }
+
+    /**
+     * <h1> Get Amount </h1>
+     * <p>
+     * Gets the Amount for Deal
+     * </p>
+     *  
+     * @param scanner - Object of a Scanner class
+     *
+     * @return amount - valid Amount
+     */
+    private Double getAmount(Scanner scanner) {
+        Double amount = 0.00d;
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Amount                 : ");
+            amount = scanner.nextDouble();
+
+            if (leadController.isValidAmount(amount.toString())) {
+                break;
+            } else { 
+                logger.warn("\n>>>>> Wrong Amount Format, Give the proper Amount! <<<<<\n");
+            }  
+        }
+        return amount;
+    }
+
+    /**
+     * <h1> Get ID </h1>
+     * <p>
+     * Gets the Id of the user
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return id     - a valid Id 
+     */
+    private String getId(Scanner scanner) {
+        String id = " ";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter Id             : ");
+            id = scanner.nextLine();
+
+            if (leadController.isValidId(id)) {
+                isNotValid = true;
+            } else { 
+                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+            }  
+        }
+        return id; 
     }
 
     /**

@@ -6,12 +6,17 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
+import com.ideas2it.controller.AccountController;
 import com.ideas2it.controller.ContactController;
 import com.ideas2it.controller.LeadController;
+import com.ideas2it.enums.Status;
 import com.ideas2it.enums.Title;
 import com.ideas2it.logger.CustomLogger;
+import com.ideas2it.model.Account;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.Contact;
+import com.ideas2it.view.AccountView;
+import com.ideas2it.view.OpportunityView;
 
 /**
  * <h1> Contact View </h1>
@@ -27,11 +32,17 @@ public class ContactView {
     private CustomLogger logger;
     private ContactController contactController;
     private LeadController leadController;
+    private AccountView accountView;
+    private OpportunityView opportunityView;
+    private AccountController accountController;
 
     ContactView() {
         this.logger = new CustomLogger(ContactView.class);
         this.contactController = new ContactController();
         this.leadController = new LeadController();
+        this.accountController = new AccountController();
+        this.accountView = new AccountView();
+        this.opportunityView =  new OpportunityView();
     }
 
     /**
@@ -55,6 +66,10 @@ public class ContactView {
             operationChoice = getChoice(scanner);
                    
             switch (operationChoice) {
+            case Constants.ADDER:
+                create(scanner);
+                break;
+
             case Constants.PROJECTOR:
                 displayAll();
                 break;
@@ -71,7 +86,7 @@ public class ContactView {
                 deleteById(scanner);
                 break;
               
-            case Constants.EXIT_OPERATION:
+            case Constants.EXIT_LEAD:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -88,23 +103,48 @@ public class ContactView {
     /**
      * <h1> Create Contact </h1>
      * <p>
-     * Creates a Contact from the Account
+     * Creates a Contact newly
      * </p>
      *
      * @param scanner - scanner to get input from console
-     * @param account - account to create Contact  
      */
-    public void create(Scanner scanner, Lead lead) {
+    public void create(Scanner scanner) {
         Contact contact = new Contact();
-        contact.setId(lead.getId());
+        contact.setName(getName(scanner));
+        contact.setAccountName(getAccountName(scanner));
+        contact.setEmailId(getEmailId(scanner));
+        contact.setPhoneNumber(getPhoneNumber(scanner));
+        contact.setTitle(getTitle(scanner));
+        accountView.create(scanner, contact);
+        opportunityView.createFromContact(scanner, contact);
+        System.out.println(contactController.create(contact) != null 
+                                 ? Messages.SUCCESS
+                                 : Messages.FAILED);
+    }
+
+    /**
+     * <h1> Create Contact From Lead </h1>
+     * <p>
+     * Creates a Contact from the Lead
+     * </p>
+     *
+     * @param scanner - scanner to get input from console
+     * @param lead    - lead to create Contact  
+     *
+     * @return status - Status of the Lead
+     */
+    public String createFromLead(Scanner scanner, Lead lead) {
+        Contact contact = new Contact();
         contact.setName(lead.getName());
         contact.setAccountName(lead.getCompanyName());
         contact.setEmailId(lead.getEmailId());
         contact.setPhoneNumber(lead.getPhoneNumber());
-        contact.setTitle(lead.getContactTitle());
-        System.out.println(contactController.create(contact) != null 
-                                 ? Messages.SUCCESS
-                                 : Messages.FAILED);
+        contact.setTitle(getTitle(scanner));
+        accountView.create(scanner, contact);
+        opportunityView.createFromContact(scanner, contact);
+        return contactController.create(contact) != null 
+                                 ? Status.Converted.toString()
+                                 : Messages.FAILED;
     }
 
     /**   
@@ -187,7 +227,7 @@ public class ContactView {
 
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                contact.setEmailId(getEmail(scanner));
+                contact.setEmailId(getEmailId(scanner));
                 printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                          
@@ -203,7 +243,7 @@ public class ContactView {
                 printUpdatedStatus(contactController.updateById(id, contact));
                 break;
                            
-            case Constants.EXIT_LEAD_UPDATER:
+            case Constants.EXIT_LEAD:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
                     logout = getChoice(scanner);
@@ -301,21 +341,21 @@ public class ContactView {
      *
      * @return email - a Valid Email
      */
-    private String getEmail(Scanner scanner) {
-        String email = "";
+    private String getEmailId(Scanner scanner) {
+        String emailId = "";
         boolean isNotValid = false;
 
         while (!isNotValid) {
             System.out.print("Email ID             : ");
-            email = scanner.nextLine();
+            emailId = scanner.nextLine();
 
-            if (leadController.isValidEmail(email)) {
+            if (leadController.isValidEmailId(emailId)) {
                 break;
             } else { 
                 logger.warn("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
-        return email;
+        return emailId;
     }
 
     /**
@@ -436,7 +476,9 @@ public class ContactView {
      */
     private void printOperationMenu() {
         StringBuilder OperationMenu = new StringBuilder();
-        OperationMenu.append("\nPress \" ").append(Constants.PROJECTOR)
+        OperationMenu.append("\nPress \" ").append(Constants.ADDER)
+                     .append(" \" for Create\n")
+                     .append("\nPress \" ").append(Constants.PROJECTOR)
                      .append(" \" for View\n")
                      .append("Press \" ").append(Constants.FINDER)
                      .append(" \" for Search\n")
@@ -444,7 +486,7 @@ public class ContactView {
                      .append(" \" for Update\n")
                      .append("Press \" ").append(Constants.REMOVER)
                      .append(" \" for Delete\n")
-                     .append("Press \" ").append(Constants.EXIT_OPERATION)
+                     .append("Press \" ").append(Constants.EXIT_LEAD)
                      .append(" \" for EXIT\n")
                      .append("Enter your Operation: ");
         System.out.print(OperationMenu);
@@ -469,7 +511,7 @@ public class ContactView {
                    .append(" \" for Type\n")
                    .append("press \" ").append(Constants.ACCOUNT_NAME)
                    .append(" \" for Owner Name\n")
-                   .append("press \" ").append(Constants.EXIT_LEAD_UPDATER)
+                   .append("press \" ").append(Constants.EXIT_LEAD)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
         System.out.print(updaterMenu);
@@ -483,7 +525,8 @@ public class ContactView {
      */
     private void printTitleMenu() {
         StringBuilder titleMenu = new StringBuilder();
-        titleMenu.append("\n+====================================+")
+        titleMenu.append("\n+------------------------------------+")
+                 .append("\n|               \"TITLE\"              |")
                  .append("\n| press \" ").append(Constants.CEO)
                  .append(" \" for CEO                |\n")
                  .append("| press \" ").append(Constants.FOUNDER)
@@ -494,11 +537,10 @@ public class ContactView {
                  .append(" \" for Vice President     |\n")
                  .append("| press \" ").append(Constants.DIRECTOR)
                  .append(" \" for Director           |\n")
-                 .append("+====================================+\n")
+                 .append("+------------------------------------+\n")
                  .append("Enter your Choice: ");
         System.out.print(titleMenu);
     }
-
 
     /**
      * <h1> Print Contact Title  </h1>

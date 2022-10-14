@@ -1,5 +1,7 @@
 package com.ideas2it.model;
 
+import java.util.List;
+
 /**
  * <h1> Contact </h1>
  * <p>
@@ -17,6 +19,8 @@ public class Contact {
     private String email;
     private String phoneNumber;
     private String title;
+
+    List<Opportunity> opportunities; 
 
     public void setId(String id) {
         this.id = id;
@@ -42,6 +46,10 @@ public class Contact {
         this.title = title;
     }
 
+    public void setOpportunity(Opportunity opportunity) {
+        opportunities.add(opportunity);
+    }
+
     public String getId() {
         return id;
     }
@@ -54,7 +62,7 @@ public class Contact {
         return accountName;
     }
 
-    public String getEmail() {
+    public String getEmailId() {
         return email;
     }
 
@@ -64,6 +72,10 @@ public class Contact {
 
     public String getTitle() {
         return title;
+    }
+
+    public List<Opportunity> getOpportunity() {
+        return opportunities;
     }
 
     @Override

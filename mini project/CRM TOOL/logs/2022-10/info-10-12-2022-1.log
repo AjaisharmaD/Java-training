@@ -1,0 +1,11 @@
+2022-10-12 09:58:17,382 ERROR c.i.v.UserView [main] 
+>>>>> Wrong Email Format, Give the proper Email! <<<<<
+
+2022-10-12 09:58:28,811 ERROR c.i.v.UserView [main] 
+>>>>> Wrong Password Format, Give the proper Password! <<<<<
+
+2022-10-12 09:58:52,003 ERROR c.i.v.UserView [main] Wrong Input for Choice
+2022-10-12 11:58:14,608 ERROR c.i.v.UserView [main] 
+>>>>> Wrong Password Format, Give the proper Password! <<<<<
+
+2022-10-12 12:44:31,975 ERROR c.i.v.LeadView [main] Input Mismatch Exception

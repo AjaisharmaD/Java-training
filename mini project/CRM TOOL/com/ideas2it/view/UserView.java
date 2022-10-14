@@ -125,7 +125,7 @@ public class UserView {
         for (int index = 0; index < count; index++) {
             System.out.println("\n====== Enter User 0"+ (index + 1) + " Details ======\n");
             name = getName(scanner);
-            emailId = getEmail(scanner);
+            emailId = getEmailId(scanner);
             phoneNumber = getPhoneNumber(scanner);
             password = getPassword(scanner);
             System.out.println((userController
@@ -168,7 +168,7 @@ public class UserView {
         System.out.println("\n========== SEARCH EMPLOYEE ==========\n");  
         System.out.print("Enter the User's Id to Search: ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
         
         if (null != userController.getById(id)) {
             System.out.println(userController.getById(id));
@@ -191,7 +191,7 @@ public class UserView {
         System.out.println("\n========== UPDATE EMPLOYEE ==========\n"); 
         System.out.print("Enter the User's Id to Edit: ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
         byte logout;
         byte updaterChoice;
         boolean isUpdating = false;
@@ -211,7 +211,7 @@ public class UserView {
                     
             case Constants.EMAIL:
                 scanner.skip("\r\n");
-                user.setEmailId(getEmail(scanner));
+                user.setEmailId(getEmailId(scanner));
                 printUpdatedStatus(userController.updateById(id, user));
                 break;
                          
@@ -247,7 +247,7 @@ public class UserView {
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE EMPLOYEE ==========\n");
         System.out.print("Enter the ID to User\n \" Format:Employee_01 \" : ");
-        String id = scanner.nextLine();
+        String id = getId(scanner);
         System.out.println((userController.isDeletedById(id))
                                         ? Messages.SUCCESS : Messages.FAILED);
         logger.info("User Deleted");
@@ -266,13 +266,12 @@ public class UserView {
         System.out.println("\n========== ASSIGN LEAD ==========\n");
 
         scanner.skip("\r\n");
-        System.out.println("employee id :");
-        String userId = scanner.nextLine();
-        System.out.println(userId);
+        System.out.print("Enter Employee Id : ");
+        String userId = getId(scanner);
         User user = userController.getById(userId);
 
-        System.out.println("Enter Lead Id     : ");
-        String leadId = scanner.nextLine();
+        System.out.print("Enter Lead Id     : ");
+        String leadId = getId(scanner);
         Lead lead = userController.getLeadById(leadId);
         
         if (null != user) {
@@ -284,7 +283,6 @@ public class UserView {
             user.setLead(lead);
             userController.updateById(userId, user); 
         }
-         
     }
 
     /**
@@ -306,7 +304,7 @@ public class UserView {
             name = scanner.nextLine();
 
             if (userController.isValidName(name)) {
-                break;
+                isNotValid = true;
             } else { 
                 logger.warn("\n>>>>> Wrong Name Format, Give the proper Name! <<<<<\n");
             }  
@@ -324,21 +322,21 @@ public class UserView {
      *
      * @return email - a Valid Email of the User
      */
-    private String getEmail(Scanner scanner) {
-        String email = "";
+    private String getEmailId(Scanner scanner) {
+        String emailId = "";
         boolean isNotValid = false;
 
         while (!isNotValid) {
             System.out.print("Email ID             : ");
-            email = scanner.nextLine();
+            emailId = scanner.nextLine();
 
-            if (userController.isValidEmail(email)) {
-                break;
+            if (userController.isValidEmailId(emailId)) {
+                isNotValid = true;
             } else { 
                 logger.error("\n>>>>> Wrong Email Format, Give the proper Email! <<<<<\n");
             }  
         }
-        return email;
+        return emailId;
     }
 
     /**
@@ -360,7 +358,7 @@ public class UserView {
             phoneNumber = scanner.nextLine();
 
             if (userController.isValidPhoneNumber(phoneNumber)) {
-                break;
+                isNotValid = true;
             } else { 
                 logger.error("\n>>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<\n");
             }  
@@ -387,12 +385,39 @@ public class UserView {
             password = scanner.nextLine();
 
             if (userController.isValidPassword(password)) {
-                break;
+                isNotValid = true;
             } else { 
                 logger.error("\n>>>>> Wrong Password Format, Give the proper Password! <<<<<\n");
             }  
         }
         return password;
+    }
+
+    /**
+     * <h1> Get ID </h1>
+     * <p>
+     * Gets the Id of the user
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return id     - a valid Id 
+     */
+    private String getId(Scanner scanner) {
+        String id = " ";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Enter Id             : ");
+            id = scanner.nextLine();
+
+            if (userController.isValidId(id)) {
+                isNotValid = true;
+            } else { 
+                logger.error("\n>>>>> Wrong Id Format, Give the proper Id! <<<<<\n");
+            }  
+        }
+        return id; 
     }
 
     /**

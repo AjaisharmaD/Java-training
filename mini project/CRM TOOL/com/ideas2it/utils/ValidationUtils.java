@@ -44,8 +44,8 @@ public class ValidationUtils {
      * @param email     - Email of Employee or Lead
      * @return boolean  - Status of Email
      */
-    public boolean isValidEmail(String email) {
-        return Pattern.matches(Constants.EMAIL_PATTERN, email);
+    public boolean isValidEmailId(String emailId) {
+        return Pattern.matches(Constants.EMAIL_ID_PATTERN, emailId);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ValidationUtils {
      * @return boolean    - Status of Phone Number 
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
-        return Pattern.matches(Constants.PHONENUMBER_PATTERN, phoneNumber);
+        return Pattern.matches(Constants.PHONE_NUMBER_PATTERN, phoneNumber);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ValidationUtils {
      * @return boolean    - Status of Company Name
      */
     public boolean isValidCompanyName(String companyName) {
-        return Pattern.matches(Constants.COMPANYNAME_PATTERN, companyName);        
+        return Pattern.matches(Constants.COMPANY_NAME_PATTERN, companyName);        
     }
 
     /**
@@ -98,5 +98,31 @@ public class ValidationUtils {
      */
     public boolean isValidAmount(String amount) {
         return Pattern.matches(Constants.AMOUNT_PATTERN, amount);
+    }
+
+    /**
+     * <h1> Valid Website </h1>
+     * <p>
+     * This method will checks the input for Website is valid or not
+     * </p>
+     *
+     * @param website  - Website of the Deal
+     * @return boolean - Status of Website
+     */
+    public boolean isValidWebsite(String website) {
+        return Pattern.matches(Constants.WEBSITE_PATTERN, website);
+    }
+
+    /**
+     * <h1> Valid Id </h1>
+     * <p>
+     * This method will checks the input for Id is valid or not
+     * </p>
+     *
+     * @param id       - Id of the Deal
+     * @return boolean - Status of Website
+     */
+    public boolean isValidId(String id) {
+        return Pattern.matches(Constants.ID_PATTERN, id);
     }
 }

@@ -27,9 +27,9 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public Account insert(String id, Account account) {
-        accountMap.put(id, account);
-        return accountMap.get(id);
+    public Account insert(String name, Account account) {
+        accountMap.put(name, account);
+        return accountMap.get(name);
     }
 
     /**
@@ -47,10 +47,10 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public Account fetchById(String id) {
+    public Account fetchById(String name) {
         if (!accountMap.isEmpty()) {
-            if (accountMap.containsKey(id)) {
-                return accountMap.get(id);
+            if (accountMap.containsKey(name)) {
+                return accountMap.get(name);
             }
         } 
         return null;
@@ -60,10 +60,10 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public Account updateById(String id, Account account) {
+    public Account updateById(String name, Account account) {
         if (!accountMap.isEmpty()) {
-            if (accountMap.containsKey(id)) {
-                return accountMap.replace(id, account);
+            if (accountMap.containsKey(name)) {
+                return accountMap.replace(name, account);
             }
         }
         return null;
@@ -73,10 +73,10 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public Account deleteById(String id) {
+    public Account deleteById(String name) {
         if (!accountMap.isEmpty()) {
-            if (accountMap.containsKey(id)) {
-                return accountMap.remove(id);
+            if (accountMap.containsKey(name)) {
+                return accountMap.remove(name);
             }
         }
         return null;
