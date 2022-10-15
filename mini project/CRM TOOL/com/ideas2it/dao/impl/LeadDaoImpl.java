@@ -49,7 +49,7 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead fetchById(String id) {
-        if (!leadMap.isEmpty()) {
+        if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.get(id);
             }
@@ -62,7 +62,7 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead updateById(String id, Lead lead) {
-        if (!leadMap.isEmpty()) {
+        if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.replace(id, lead);
             }

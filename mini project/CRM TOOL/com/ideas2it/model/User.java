@@ -20,7 +20,7 @@ public class User {
     private String emailId;
     private String password;
 
-    private List<Lead> leads;
+    private List<Lead> leads = new ArrayList<>();
 
     public User(String name, String emailId, String phoneNumber) {
         this.name = name;

@@ -50,14 +50,14 @@ public class AccountView {
     public void showAccountDashboard(Scanner scanner, ContactView contactView, 
                                             OpportunityView opportunityView) {
         boolean isOpened = false;
-        byte operationChoice; 
-        byte logout;   
+        String operationChoice; 
+        String logout;   
         String status;
         printAccountTitle();
                 
         while (!isOpened) {
             printOperationMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
                    
             switch (operationChoice) {
             case Constants.PROJECTOR:
@@ -79,8 +79,8 @@ public class AccountView {
             case Constants.EXIT_OPERATION:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isOpened = (logout == Constants.LOGOUT) ? true : false;        
+                    logout = scanner.next();
+                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 } 
                 break;
                    
@@ -146,7 +146,7 @@ public class AccountView {
         System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
         System.out.print("Enter the Account Name       : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        String id = scanner.nextLine(); 
         if (accountController.getById(id) != null) {
             System.out.println(accountController.getById(id));
             System.out.println("\n-------------X-------------");
@@ -168,15 +168,15 @@ public class AccountView {
         System.out.println("\n========== UPDATE ACCOUNT  ==========\n");
         System.out.print("Enter the Account Name         : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();   
+        String id = scanner.next();    //change to acc name  
         boolean isUpdating = false;
-        byte updaterChoice;
-        byte logout;
+        String updaterChoice;
+        String logout;
         Account account = accountController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updaterChoice = getChoice(scanner);
+            updaterChoice = scanner.next();
                      
             switch (updaterChoice) {
             case Constants.NAME:
@@ -212,8 +212,8 @@ public class AccountView {
             case Constants.EXIT_LEAD:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isUpdating = (logout == Constants.LOGOUT) ? true : false;      
+                    logout = scanner.next();
+                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;      
                 } 
                 break;
                                   
@@ -365,7 +365,7 @@ public class AccountView {
         System.out.print("Type               : ");
         String type = "";
         printTypeMenu();
-        byte typeChoice = getChoice(scanner);
+        String typeChoice = scanner.next();
 
         switch (typeChoice) {
         case Constants.CUSTOMER:
@@ -404,28 +404,6 @@ public class AccountView {
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
         }
-    }
-
-    /**
-     * <h1> Get choice </h1>
-     * <p>
-     * Gets the choice from the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return choice - choice of the User
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.warn(Messages.INVALID_CHOICE);
-            scanner.next();  // clears the scanner buffer
-        }
-        return choice;
     }
 
     /**

@@ -52,13 +52,13 @@ public class OpportunityView {
      */
     public void showOpportunityDashboard(Scanner scanner) {
         boolean isOpened = false;
-        byte operationChoice; 
-        byte logout;   
+        String operationChoice; 
+        String logout;   
         printOpportunityTitle();
                 
         while (!isOpened) {
             printOperationMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
                    
             switch (operationChoice) {
             case Constants.ADDER:
@@ -84,8 +84,8 @@ public class OpportunityView {
             case Constants.EXIT_OPERATION:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isOpened = (logout == Constants.LOGOUT) ? true : false;        
+                    logout = scanner.next();
+                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 } 
                 break;
                    
@@ -195,13 +195,13 @@ public class OpportunityView {
         scanner.skip("\r\n");
         String id = getId(scanner);   
         boolean isUpdating = false;
-        byte updaterChoice;
-        byte logout;
+        String updaterChoice;
+        String logout;
         Opportunity opportunity = opportunityController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updaterChoice = getChoice(scanner);
+            updaterChoice = scanner.next();
                      
             switch (updaterChoice) {
             case Constants.NAME:
@@ -233,8 +233,8 @@ public class OpportunityView {
             case Constants.EXIT:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isUpdating = (logout == Constants.LOGOUT) ? true : false;                    
+                    logout = scanner.next();
+                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
                 } 
                 break;
                                   
@@ -331,7 +331,7 @@ public class OpportunityView {
         System.out.print("Stage               : ");
         String stage = "";
         printStageMenu();
-        byte stageChoice = getChoice(scanner);
+        String stageChoice = scanner.next();
 
         switch (stageChoice) {
         case Constants.MEETING_SCHEDULED:
@@ -449,28 +449,6 @@ public class OpportunityView {
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
         }
-    }
-
-    /**
-     * <h1> Get choice </h1>
-     * <p>
-     * Gets the choice from the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     * 
-     * @return choice - choice of the user
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.error(Messages.INVALID_INPUT);
-            scanner.next();  // clears the scanner buffer
-        }
-        return choice;
     }
 
     /**

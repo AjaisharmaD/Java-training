@@ -1,0 +1,65 @@
+2022-10-14 11:22:36,748 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 11:23:03,679 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 11:23:25,329 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 11:23:49,061 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 11:23:55,425 INFO c.i.v.LeadView [main] emp id generated
+2022-10-14 11:26:19,158 INFO c.i.v.LeadView [main] emp id generated
+2022-10-14 11:26:36,351 INFO c.i.v.LeadView [main] emp id generated
+2022-10-14 11:28:10,272 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 11:28:40,731 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 11:28:46,278 INFO c.i.v.LeadView [main] >>>>> No Lead Found! <<<<<
+2022-10-14 11:52:07,182 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 11:52:51,956 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 11:53:00,004 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 11:56:47,963 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 11:57:11,418 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 12:00:22,525 INFO c.i.v.LeadView [main] emp id generated
+2022-10-14 12:00:48,795 INFO c.i.v.LeadView [main] emp id generated
+2022-10-14 12:04:57,640 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 12:08:49,704 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 12:09:35,070 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 12:09:58,656 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 12:11:31,411 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 12:11:33,865 INFO c.i.v.LeadView [main] >>>>> Lead Not Assigned to You! <<<<<
+2022-10-14 12:11:33,865 INFO c.i.v.LeadView [main] >>>>> Lead Not Assigned to You! <<<<<
+2022-10-14 12:35:22,272 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 12:35:57,605 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 12:36:02,910 INFO c.i.v.LeadView [main] >>>>> No Lead Found! <<<<<
+2022-10-14 12:36:34,052 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 12:41:39,973 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 12:41:44,716 INFO c.i.v.UserView [main] >>>>> No Employee Found! <<<<<
+2022-10-14 14:29:21,583 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:34:50,101 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:35:52,195 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:36:06,846 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:37:32,568 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:37:58,654 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:38:07,366 INFO c.i.v.LeadView [main] >>>>> No Lead Found! <<<<<
+2022-10-14 14:39:09,405 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:44:55,185 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:45:57,726 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:46:33,256 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:48:05,342 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:48:39,159 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:49:02,817 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:50:20,980 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:50:46,975 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:50:54,321 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:51:14,858 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:53:23,528 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:56:09,564 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:56:37,384 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 14:58:03,564 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 14:58:47,953 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 14:59:07,660 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 15:06:06,606 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 15:07:14,180 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 15:07:35,876 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 15:10:25,187 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 15:11:04,961 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 15:11:39,005 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 15:17:52,264 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-14 15:19:03,103 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 15:19:38,587 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-14 15:19:56,000 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-14 15:20:05,451 INFO c.i.v.LeadView [main] >>>>> No Lead Found! <<<<<

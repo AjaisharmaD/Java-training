@@ -1,5 +1,6 @@
 package com.ideas2it.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,9 +19,10 @@ public class Account {
     private String email;
     private String phoneNumber;
     private String type;
+    private String userId;
 
-    private List<Contact> contacts; 
-    private List<Opportunity> opportunities;
+    private List<Contact> contacts = new ArrayList<>(); 
+    private List<Opportunity> opportunities = new ArrayList<>();
 
     public void setName(String name) {
         this.name = name;
@@ -50,6 +52,10 @@ public class Account {
         this.opportunities.add(opportunity);
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name;
     }
@@ -76,6 +82,10 @@ public class Account {
 
     public List<Opportunity> getOpportunity() {
         return opportunities;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     @Override

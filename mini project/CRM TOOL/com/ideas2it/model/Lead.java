@@ -18,16 +18,17 @@ public class Lead {
     private String createdDate;
     private String companyName;
     private String status;
-    private String employeeId = "";
+    private String userId;
 
     public Lead(String name, String emailId, String phoneNumber,
-                       String companyName, String status, String createdDate) {
+                       String companyName, String status, String createdDate, String userId) {
         this.name = name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
         this.companyName = companyName;
         this.status = status;
         this.createdDate = createdDate;
+        this.userId = userId;
     }
 
     public void setId(String id) {
@@ -58,8 +59,8 @@ public class Lead {
         this.createdDate = createdDate;
     }
 
-    public void setEmployeeId(String id) {
-        this.employeeId = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {
@@ -90,8 +91,8 @@ public class Lead {
         return createdDate;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getUserId() {
+        return userId;
     }
 
     @Override

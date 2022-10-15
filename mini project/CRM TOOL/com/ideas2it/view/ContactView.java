@@ -57,13 +57,13 @@ public class ContactView {
      */
     public void showContactDashboard(Scanner scanner) {
         boolean isOpened = false;
-        byte operationChoice; 
-        byte logout;
+        String operationChoice; 
+        String logout;
         printContactTitle();
                 
         while (!isOpened) {
             printOperationMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
                    
             switch (operationChoice) {
             case Constants.ADDER:
@@ -89,8 +89,8 @@ public class ContactView {
             case Constants.EXIT_LEAD:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isOpened = (logout == Constants.LOGOUT) ? true : false;        
+                    logout = scanner.next();
+                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 } 
                 break;
                    
@@ -231,13 +231,13 @@ public class ContactView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();   
         boolean isUpdating = false;
-        byte updaterChoice;
-        byte logout;
+        String updaterChoice;
+        String logout;
         Contact contact = contactController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updaterChoice = getChoice(scanner);
+            updaterChoice = scanner.next();
                      
             switch (updaterChoice) {
             case Constants.NAME:
@@ -273,8 +273,8 @@ public class ContactView {
             case Constants.EXIT_LEAD:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isUpdating = (logout == Constants.LOGOUT) ? true : false;                    
+                    logout = scanner.next();
+                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
                 } 
                 break;
                                   
@@ -426,7 +426,7 @@ public class ContactView {
         System.out.print("Title               : ");
         String title = "";
         printTitleMenu();
-        byte titleChoice = getChoice(scanner);
+        String titleChoice = scanner.next();
 
         switch (titleChoice) {
         case Constants.CEO:
@@ -471,28 +471,6 @@ public class ContactView {
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
         }
-    }
-
-    /**
-     * <h1> Get choice </h1>
-     * <p>
-     * Gets the choice from the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return choice - choice of the User
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.error("Wrong Input for Choice");
-            scanner.next();  // clears the scanner buffer
-        }
-        return choice;
     }
 
     /**

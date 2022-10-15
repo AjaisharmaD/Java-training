@@ -42,15 +42,15 @@ public class UserView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void openManagerDashboard(Scanner scanner) {
+    public void openManagerDashboard(Scanner scanner) { 
         boolean isActive = false;
-        byte logout;
-        byte operationChoice;
+        String logout;
+        String operationChoice;
         printWelcomeMessage();
 
         while (!isActive) {
             printOperationMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
             
             switch (operationChoice) {
             case Constants.ADDER:
@@ -78,11 +78,7 @@ public class UserView {
                 break;
 
             case Constants.EXIT_OPERATION:
-                while (!isActive) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isActive = (logout == Constants.LOGOUT) ? true : false;                    
-                }
+                isActive = true;
                 break;
                    
             default:
@@ -107,32 +103,16 @@ public class UserView {
         String emailId;
         String phoneNumber;
         String password;
-        int count = 0;
-
-        while (!isRight) {
-            try {
-                System.out.print("\nEnter the User count to add: ");
-                count = scanner.nextInt();
-                isRight = true;
-            } catch (InputMismatchException e) {
-                logger.error(Messages.INVALID_INPUT);
-                scanner.next();
-                continue;
-            }
-        }
-        scanner.skip("\r\n");
-
-        for (int index = 0; index < count; index++) {
-            System.out.println("\n====== Enter User 0"+ (index + 1) + " Details ======\n");
-            name = getName(scanner);
-            emailId = getEmailId(scanner);
-            phoneNumber = getPhoneNumber(scanner);
-            password = getPassword(scanner);
-            System.out.println((userController
-                                .create(new User(name, emailId, phoneNumber),
-                                password) != null) ? Messages.ADDED_SUCCESSFULLY 
-                                : Messages.FAILED_TO_ADD);
-        }
+        
+        name = getName(scanner);
+        emailId = getEmailId(scanner);
+        phoneNumber = getPhoneNumber(scanner);
+        password = getPassword(scanner);
+        System.out.println((userController
+                            .create(new User(name, emailId, phoneNumber),
+                            password) != null) ? Messages.ADDED_SUCCESSFULLY 
+                            : Messages.FAILED_TO_ADD);
+        
     }
 
     /**
@@ -191,19 +171,18 @@ public class UserView {
         System.out.print("Enter the User's Id to Edit: ");
         scanner.skip("\r\n");
         String id = getId(scanner);
-        byte logout;
-        byte updaterChoice;
+        String logout;
+        String updaterChoice;
         boolean isUpdating = false;
 
         User user = userController.getById(id);
 
         while (!isUpdating) {
             printUpdaterMenu();
-            updaterChoice = getChoice(scanner);
+            updaterChoice = scanner.next();
                                  
             switch (updaterChoice) {
             case Constants.NAME:
-                scanner.skip("\r\n");
                 user.setName(getName(scanner));
                 printUpdatedStatus(userController.updateById(id, user));
                 break;
@@ -223,8 +202,8 @@ public class UserView {
             case Constants.EXIT_EMPLOYEE_UPDATER:
                 while (!isUpdating) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isUpdating = (logout == Constants.LOGOUT) ? true : false;         
+                    logout = scanner.next();
+                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;         
                 }
                 break;
                                   
@@ -248,7 +227,8 @@ public class UserView {
         System.out.print("Enter the ID to User\n \" Format:Employee_01 \" : ");
         String id = getId(scanner);
         System.out.println((userController.isDeletedById(id))
-                                        ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
+                                        ? Messages.DELETED_SUCCESSFULLY 
+                                        : Messages.FAILED_TO_DELETE);
         logger.info("User Deleted");
     }
 
@@ -268,10 +248,12 @@ public class UserView {
         System.out.print("Enter Employee Id : ");
         String userId = getId(scanner);
         User user = userController.getById(userId);
+        System.out.println(user);
 
         System.out.print("Enter Lead Id     : ");
         String leadId = getId(scanner);
         Lead lead = userController.getLeadById(leadId);
+        System.out.println("lead is---------------" +lead);
         
         if (null != user) {
             lead.setEmployeeId(userId);
@@ -298,6 +280,7 @@ public class UserView {
         String name = "";
         boolean isNotValid = false;
 
+        scanner.skip("\r\n");
         while (!isNotValid) {
             System.out.print("Name                 : ");
             name = scanner.nextLine();
@@ -327,7 +310,7 @@ public class UserView {
 
         while (!isNotValid) {
             System.out.print("Email ID             : ");
-            emailId = scanner.nextLine();
+            emailId = scanner.next();
 
             if (userController.isValidEmailId(emailId)) {
                 isNotValid = true;
@@ -354,7 +337,7 @@ public class UserView {
 
         while (!isNotValid) {
             System.out.print("Phone Number         : ");
-            phoneNumber = scanner.nextLine();
+            phoneNumber = scanner.next();
 
             if (userController.isValidPhoneNumber(phoneNumber)) {
                 isNotValid = true;
@@ -381,7 +364,7 @@ public class UserView {
 
         while (!isNotValid) {
             System.out.print("Password             : ");
-            password = scanner.nextLine();
+            password = scanner.next();
 
             if (userController.isValidPassword(password)) {
                 isNotValid = true;
@@ -407,8 +390,7 @@ public class UserView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter Id             : ");
-            id = scanner.nextLine();
+            id = scanner.next();
 
             if (userController.isValidId(id)) {
                 isNotValid = true;
@@ -433,28 +415,6 @@ public class UserView {
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
         }
-    }
-
-    /**
-     * <h1> Get choice </h1>
-     * <p>
-     * Gets the choice from the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return choice - choice of the User
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.error(Messages.INVALID_INPUT);
-            scanner.next();  // clears the scanner buffer
-        }
-        return choice;
     }
 
     /**

@@ -1,17 +1,40 @@
-2022-10-14 11:28:16,572 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-14 12:00:39,304 ERROR c.i.v.LeadView [main] 
->>>>> Wrong Id Format, Give the proper Id! <<<<<
-
-2022-10-14 14:55:26,339 ERROR c.i.v.UserView [main] 
->>>>> Wrong Email Format, Give the proper Email! <<<<<
-
-2022-10-14 15:18:35,947 ERROR c.i.v.UserView [main] 
->>>>> Wrong Phone Number Format, Give the proper Phone Number! <<<<<
-
-2022-10-14 15:22:04,358 ERROR c.i.v.LeadView [main] Input Mismatch Exception
-2022-10-14 15:22:04,372 ERROR c.i.v.LeadView [main] Input Mismatch Exception
-2022-10-14 15:22:13,178 ERROR c.i.v.CRMView [main] 
->>>>> Wrong Id Format, Give the proper Id! <<<<<
-
+2022-10-15 10:36:26,828 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 10:46:23,449 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 10:46:49,120 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 10:46:50,699 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 10:52:52,845 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 11:22:09,239 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 11:24:32,979 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 11:27:55,809 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 11:32:32,478 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 12:06:59,191 ERROR c.i.v.CRMView [main] 
+>>>>> INVALID INPUT <<<<<
+2022-10-15 12:20:44,406 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 12:26:04,709 ERROR c.i.v.UserView [main] 
+>>>>> INVALID INPUT <<<<<
+2022-10-15 14:28:58,646 ERROR c.i.v.CRMView [main] 
+>>>>> WRONG ID FORMAT <<<<<
+2022-10-15 14:49:28,915 ERROR c.i.v.UserView [main] 
+>>>>> WRONG PHONE NUMBER FORMAT <<<<<
+2022-10-15 15:08:01,119 ERROR c.i.v.UserView [main] 
+>>>>> WRONG EMAIL ID FORMAT <<<<<
+2022-10-15 15:08:06,112 ERROR c.i.v.UserView [main] 
+>>>>> WRONG EMAIL ID FORMAT <<<<<
+2022-10-15 15:08:34,666 ERROR c.i.v.UserView [main] 
+>>>>> WRONG PASSWORD FORMAT <<<<<
+2022-10-15 16:14:33,592 ERROR c.i.v.UserView [main] 
+>>>>> WRONG PHONE NUMBER FORMAT <<<<<
+2022-10-15 17:03:11,133 ERROR c.i.v.UserView [main] 
+>>>>> WRONG EMAIL ID FORMAT <<<<<
+2022-10-15 17:27:17,449 ERROR c.i.v.UserView [main] 
+>>>>> WRONG EMAIL ID FORMAT <<<<<

@@ -47,27 +47,32 @@ public class CRMView {
         Scanner scanner = new Scanner(System.in);
         printWelcomeMessage();
         String userId = "";
-        byte logout;
+        String logout;
+        String loginChoice;
         boolean isActive = false;
         boolean isValid = false;
-        byte loginChoice;
 
-        while (!isActive) {
+        while (!isActive) {        
             printUserMenu();
-            loginChoice = getChoice(scanner);
+            loginChoice = scanner.next();
+	    isValid = false;
                        
             switch (loginChoice) {
             case Constants.EMPLOYEE:
-                 while (!isValid)
+                 while (!isValid) {
                      userId = getId(scanner);
- 
+                    
                      if (isValidUser(userId)) {
                          logger.info("Logging in as Employee");
                          leadView.openEmployeeDashboard(scanner, userId);
                          isValid = true;
                      } else {
                          System.out.println(Messages.USER_NOT_FOUND);
+                         System.out.println(Messages.EXIT_MENU);
+                         logout = scanner.next();
+                         isValid = (logout.equals(Constants.LOGOUT)) ? true : false;  
                      }
+                 }
                  break;
                
             case Constants.MANAGER:
@@ -78,8 +83,8 @@ public class CRMView {
             case Constants.CRM_EXIT:
                 while (!isActive){
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isActive = (logout == Constants.LOGOUT) ? true : false; 
+                    logout = scanner.next();
+                    isActive = (logout.equals(Constants.LOGOUT)) ? true : false;                     
                 } 
                 break;
                  
@@ -88,28 +93,6 @@ public class CRMView {
             }  
         }
     } 
-
-    /**
-     * <h1> Get Choice </h1>
-     * <p>
-     * Gets the Choice From the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return byte - choice to perform
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.error(Messages.INVALID_INPUT);
-            scanner.next();
-        }
-        return choice;
-    }
 
     /**
      * Validates the login Details
@@ -122,10 +105,13 @@ public class CRMView {
         if (null != users) {
             for (User user : users) {
                 userId = user.getId();
+
                 if (userId.equals(id)) {
                     isValidUser = true;
-                }
+                } 
             }
+        } else {
+            System.out.println("No User Present");
         }
         return isValidUser;
     } 
@@ -142,14 +128,14 @@ public class CRMView {
      */
     private String getId(Scanner scanner) {
         String id = " ";
-        boolean isNotValid = false;
-        scanner.skip("\r\n");
-        while (!isNotValid) {
-            System.out.print("Enter Id             : ");
-            id = scanner.nextLine();
+        boolean isNotValid = true;
+
+        while (isNotValid) {
+            System.out.print("\nEnter Id             : ");
+            id = scanner.next();
 
             if (userController.isValidId(id)) {
-                isNotValid = true;
+                isNotValid = false;
             } else { 
                 logger.error(Messages.WRONG_ID_FORMAT);
             }  

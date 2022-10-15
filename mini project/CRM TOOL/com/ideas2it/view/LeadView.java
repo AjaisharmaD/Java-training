@@ -56,13 +56,13 @@ public class LeadView {
      */
     public void openEmployeeDashboard(Scanner scanner, String userId) {
         boolean isActive = false;
-        byte operationChoice; 
-        byte logout;   
+        String operationChoice; 
+        String logout;   
         printWelcomeMessage();     
 
         while (!isActive) {
             printLeadMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
                    
             switch (operationChoice) {
             case Constants.LEAD:
@@ -84,8 +84,8 @@ public class LeadView {
             case Constants.EXIT:
                 while (!isActive) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isActive = (logout == Constants.LOGOUT) ? true : false;        
+                    logout = scanner.next();
+                    isActive = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 } 
                 break;
                    
@@ -107,13 +107,13 @@ public class LeadView {
      */
     private void openLeadOperations(Scanner scanner, String userId) {
         boolean isOpened = false;
-        byte operationChoice; 
-        byte logout;   
+        String operationChoice; 
+        String logout;   
         printLeadTitle();     
                 
         while (!isOpened) {
             printOperationMenu();
-            operationChoice = getChoice(scanner);
+            operationChoice = scanner.next();
                    
             switch (operationChoice) {
             case Constants.ADDER:
@@ -139,8 +139,8 @@ public class LeadView {
             case Constants.EXIT_LEAD:
                 while (!isOpened) {
                     System.out.println(Messages.EXIT_MENU);
-                    logout = getChoice(scanner);
-                    isOpened = (logout == Constants.LOGOUT) ? true : false;        
+                    logout = scanner.next();
+                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 } 
                 break;
                    
@@ -168,39 +168,17 @@ public class LeadView {
         String status;
         String createdDate;
 
-        int count = 0;
-        boolean isRight = false;
-
-        while (!isRight) {
-            try {
-                System.out.print("\nEnter the Lead count to add: ");
-                count = scanner.nextInt();
-                isRight = true;
-            } catch (InputMismatchException e) {
-                logger.warn(Messages.INVALID_INPUT);
-                scanner.next();
-                continue;
-            }
-        }
-        scanner.skip("\r\n");
-
-        for (int index = 0; index < count; index++) {
-            System.out.println("\n====== Enter Lead 0" + (index + 1) 
-                                                       + " Details ======\n");
-            name = getName(scanner);
-            email = getEmailId(scanner);     
-            phoneNumber = getPhoneNumber(scanner); 
-            companyName = getCompanyName(scanner);
-            status = getStatus(scanner, lead);
-            createdDate = getCreatedDate();
-            scanner.skip("\r\n");
-            lead = new Lead(name, email, phoneNumber,companyName, status,
-                                          createdDate);
-            lead.setEmployeeId(userId);
-            System.out.println((leadController.create(lead) != null) 
+        name = getName(scanner);
+        email = getEmailId(scanner);     
+        phoneNumber = getPhoneNumber(scanner); 
+        companyName = getCompanyName(scanner);
+        status = getStatus(scanner, lead, userId);
+        createdDate = getCreatedDate();
+        lead = new Lead(name, email, phoneNumber,companyName, status,
+                                                        createdDate, userId);
+        System.out.println((leadController.create(lead) != null) 
                                           ? Messages.ADDED_SUCCESSFULLY 
                                           : Messages.FAILED_TO_ADD);
-        }
     }
 
     /**   
@@ -267,19 +245,18 @@ public class LeadView {
         scanner.skip("\r\n");
         String id = getId(scanner);   
         boolean isUpdating = false;
-        byte updaterChoice;
-        byte logout;
+        String updaterChoice;
+        String logout;
         Lead lead = leadController.getById(id);
 
         if (lead != null) {
             if (lead.getEmployeeId().equals(userId)) {
                 while (!isUpdating) {
                     printUpdaterMenu();
-                    updaterChoice = getChoice(scanner);
+                    updaterChoice = scanner.next();
                      
                     switch (updaterChoice) {
                     case Constants.NAME:
-                        scanner.skip("\r\n");
                         lead.setName(getName(scanner));
                         printUpdatedStatus(leadController.updateById(id, lead));
                         break;
@@ -303,16 +280,15 @@ public class LeadView {
                         break;
    
                     case Constants.STATUS:
-                        scanner.skip("\r\n");
-                        lead.setStatus(getStatus(scanner, lead));
+                        lead.setStatus(getStatus(scanner, lead, userId));
                         printUpdatedStatus(leadController.updateById(id, lead));
                         break;
 
                     case Constants.EXIT_LEAD:
                         while (!isUpdating) {
                             System.out.println(Messages.EXIT_MENU);
-                            logout = getChoice(scanner);
-                            isUpdating = (logout == Constants.LOGOUT) ? true : false;                    
+                            logout = scanner.next();
+                            isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
                         } 
                         break;
                                   
@@ -372,7 +348,8 @@ public class LeadView {
     private String getName(Scanner scanner) {
         String name = "";
         boolean isNotValid = false;
-
+   
+        scanner.skip("\r\n");
         while (!isNotValid) {
             System.out.print("Name                 : ");
             name = scanner.nextLine();
@@ -477,15 +454,15 @@ public class LeadView {
      *
      * @return status - Status of a Lead
      */
-    private String getStatus(Scanner scanner, Lead lead) {
+    private String getStatus(Scanner scanner, Lead lead, String userId) {
         boolean isSelecting = false;
-        byte logout;
+        String logout;
         String status = "";
-        byte statusChoice;
+        String statusChoice;
 
         while (!isSelecting) {
             printStatusMenu();
-            statusChoice = getChoice(scanner);
+            statusChoice = scanner.next();
 
             switch (statusChoice) {
             case Constants.NEW:
@@ -586,28 +563,6 @@ public class LeadView {
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
         }
-    }
-
-    /**
-     * <h1> Get choice </h1>
-     * <p>
-     * Gets the choice from the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return choice - choice of the User
-     */
-    private byte getChoice(Scanner scanner) {
-        byte choice = 0;
-
-        try {
-            choice = scanner.nextByte();
-        } catch (InputMismatchException e) {
-            logger.error(Messages.INVALID_INPUT);
-            scanner.next();  // clears the scanner buffer
-        }
-        return choice;
     }
 
     /**
