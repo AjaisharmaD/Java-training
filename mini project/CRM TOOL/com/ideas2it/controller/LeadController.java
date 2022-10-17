@@ -74,8 +74,8 @@ public class LeadController {
      * Updates the Details of a Single Lead
      * </p>
      *
-     * @param id       - key to update the Lead
-     * @param lead     - updated Lead 
+     * @param id   - key to update the Lead
+     * @param lead - updated Lead 
      *
      * @return lead - the Update details of lead
      */

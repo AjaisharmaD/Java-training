@@ -43,12 +43,12 @@ public class UserView {
      * @param scanner - object of a Scanner class
      */
     public void openManagerDashboard(Scanner scanner) { 
-        boolean isActive = false;
+        boolean isOpen = false;
         String logout;
         String operationChoice;
         printWelcomeMessage();
 
-        while (!isActive) {
+        while (!isOpen) {
             printOperationMenu();
             operationChoice = scanner.next();
             
@@ -78,7 +78,9 @@ public class UserView {
                 break;
 
             case Constants.EXIT_OPERATION:
-                isActive = true;
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpen = (logout.equals(Constants.LOGOUT)) ? true : false;
                 break;
                    
             default:
@@ -152,6 +154,7 @@ public class UserView {
         if (null != userController.getById(id)) {
             System.out.println(userController.getById(id));
             System.out.println("--------------X--------------\n");
+
         } else {
             logger.warn(Messages.USER_NOT_FOUND);
         }
@@ -200,11 +203,7 @@ public class UserView {
                 break;
 
             case Constants.EXIT_EMPLOYEE_UPDATER:
-                while (!isUpdating) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;         
-                }
+                isUpdating = true;         
                 break;
                                   
             default:
@@ -256,7 +255,7 @@ public class UserView {
         System.out.println("lead is---------------" +lead);
         
         if (null != user) {
-            lead.setEmployeeId(userId);
+            lead.setUserId(userId);
             leadController.updateById(leadId, lead);
         }
 

@@ -51,16 +51,16 @@ public class  ContactService {
      *
      * @return List - Details of Contact
      */
-    public List<Contact> getAll() {    
+    public List<Contact> getAll() {  
+        Map<String, Contact> map = contactDao.fetchAll();  
         List<Contact> contacts = new ArrayList<>();
 
-        if (!contactDao.fetchAll().isEmpty()) {
-            for (Map.Entry<String, Contact> contactEntry : contactDao.fetchAll().entrySet()) {
+        if (null != map) {
+            for (Map.Entry<String, Contact> contactEntry : map.entrySet()) {
                 contacts.add(contactEntry.getValue());
             }  
-            return contacts;
         }
-        return null;
+        return contacts;
     }
 
     /**

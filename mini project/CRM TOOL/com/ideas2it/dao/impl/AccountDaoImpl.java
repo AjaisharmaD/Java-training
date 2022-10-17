@@ -37,7 +37,7 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Map<String, Account> fetchAll() {
-        if (!accountMap.isEmpty()) {
+        if (null != accountMap) {
             return accountMap;
         }
         return null;
@@ -48,7 +48,7 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account fetchById(String name) {
-        if (!accountMap.isEmpty()) {
+        if (null != accountMap) {
             if (accountMap.containsKey(name)) {
                 return accountMap.get(name);
             }
@@ -61,7 +61,7 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account updateById(String name, Account account) {
-        if (!accountMap.isEmpty()) {
+        if (null != accountMap) {
             if (accountMap.containsKey(name)) {
                 return accountMap.replace(name, account);
             }
@@ -74,7 +74,7 @@ public class AccountDaoImpl implements AccountDao {
      */
     @Override
     public Account deleteById(String name) {
-        if (!accountMap.isEmpty()) {
+        if (null != accountMap) {
             if (accountMap.containsKey(name)) {
                 return accountMap.remove(name);
             }

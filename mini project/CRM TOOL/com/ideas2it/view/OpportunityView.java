@@ -51,12 +51,12 @@ public class OpportunityView {
      * </p>
      */
     public void showOpportunityDashboard(Scanner scanner) {
-        boolean isOpened = false;
+        boolean isOpen = false;
         String operationChoice; 
         String logout;   
         printOpportunityTitle();
                 
-        while (!isOpened) {
+        while (!isOpen) {
             printOperationMenu();
             operationChoice = scanner.next();
                    
@@ -82,11 +82,9 @@ public class OpportunityView {
                 break;
               
             case Constants.EXIT_OPERATION:
-                while (!isOpened) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
-                } 
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpen = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 break;
                    
             default:
@@ -125,7 +123,7 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class
      * @param contact    - contact to create Opportunity 
      */
-    public void createFromContact(Scanner scanner, Contact contact) {
+    public void createFromContact(Scanner scanner, Contact contact, String userId) {
         Opportunity opportunity = new Opportunity();
         opportunity.setAccountName(contact.getAccountName());
         opportunity.setName(contact.getName());
@@ -146,9 +144,10 @@ public class OpportunityView {
      */
     private void displayAll() {
         System.out.println("\n========== OPPORTUNITY DETAILS ==========\n");
+        List<Opportunity> opportunities = opportunityController.getAll();
 
-        if (opportunityController.getAll() != null) {
-            for (Opportunity opportunity : opportunityController.getAll()) {
+        if (!opportunities.isEmpty()) {
+            for (Opportunity opportunity : opportunities) {
                 System.out.println(opportunity);
                 System.out.println("\n------------------X------------------");
             }
@@ -171,9 +170,10 @@ public class OpportunityView {
         System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = getId(scanner);
+        Opportunity opportunity = opportunityController.getById(id);
 
-        if (opportunityController.getById(id) != null) {
-            System.out.println(opportunityController.getById(id));
+        if (null != opportunity) {
+            System.out.println(opportunity);
             System.out.println("\n------------------X------------------");
         } else {
             logger.info(Messages.OPPORTUNITY_NOT_FOUND);
@@ -231,11 +231,7 @@ public class OpportunityView {
                 break;
                            
             case Constants.EXIT:
-                while (!isUpdating) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
-                } 
+                isUpdating = true;
                 break;
                                   
             default:

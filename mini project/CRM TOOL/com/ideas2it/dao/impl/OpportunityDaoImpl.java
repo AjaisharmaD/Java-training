@@ -37,7 +37,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Map<String, Opportunity> fetchAll() {
-        if (!opportunityMap.isEmpty()) {
+        if (null != opportunityMap) {
             return opportunityMap;
         }
         return null;
@@ -48,7 +48,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity fetchById(String id) {
-        if (!opportunityMap.isEmpty()) {
+        if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.get(id);
             }
@@ -61,7 +61,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity updateById(String id, Opportunity opportunity) {
-        if (!opportunityMap.isEmpty()) {
+        if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.replace(id, opportunity);
             }
@@ -74,7 +74,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity deleteById(String id) {
-        if (!opportunityMap.isEmpty()) {
+        if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.remove(id);
             }

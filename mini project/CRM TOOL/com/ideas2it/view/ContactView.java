@@ -55,7 +55,7 @@ public class ContactView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void showContactDashboard(Scanner scanner) {
+    public void showContactDashboard(Scanner scanner, String userId) {
         boolean isOpened = false;
         String operationChoice; 
         String logout;
@@ -67,7 +67,7 @@ public class ContactView {
                    
             switch (operationChoice) {
             case Constants.ADDER:
-                create(scanner);
+                create(scanner, userId);
                 break;
 
             case Constants.PROJECTOR:
@@ -87,11 +87,9 @@ public class ContactView {
                 break;
               
             case Constants.EXIT_LEAD:
-                while (!isOpened) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
-                } 
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 break;
                    
             default:
@@ -108,7 +106,7 @@ public class ContactView {
      *
      * @param scanner - scanner to get input from console
      */
-    public void create(Scanner scanner) {
+    public void create(Scanner scanner, String userId) {
         Contact contact = new Contact();
         contact.setName(getName(scanner));
         contact.setAccountName(getAccountName(scanner));
@@ -116,10 +114,10 @@ public class ContactView {
         contact.setPhoneNumber(getPhoneNumber(scanner));
         contact.setTitle(getTitle(scanner));
         createAccountOrAddContact(scanner, contact);
-        opportunityView.createFromContact(scanner, contact);
+        opportunityView.createFromContact(scanner, contact, userId);
         System.out.println(contactController.create(contact) != null 
-                                 ? Messages.ADDED_SUCCESSFULLY
-                                 : Messages.FAILED_TO_ADD);
+                                            ? Messages.ADDED_SUCCESSFULLY
+                                            : Messages.FAILED_TO_ADD);
     }
 
     /**
@@ -133,17 +131,19 @@ public class ContactView {
      *
      * @return status - Status of the Lead
      */
-    public String createFromLead(Scanner scanner, Lead lead) {
+    public String createFromLead(Scanner scanner, Lead lead, String userId) {
         Contact contact = new Contact();
         contact.setName(lead.getName());
         contact.setAccountName(lead.getCompanyName());
         contact.setEmailId(lead.getEmailId());
         contact.setPhoneNumber(lead.getPhoneNumber());
         contact.setTitle(getTitle(scanner));
-        opportunityView.createFromContact(scanner, contact);
+        contact.setUserId(lead.getUserId());
+        createAccountOrAddContact(scanner, contact);
+        opportunityView.createFromContact(scanner, contact, userId);
         return contactController.create(contact) != null 
-                                 ? Status.Converted.toString()
-                                 : Messages.FAILED_TO_ADD;
+                                ? Status.Converted.toString()
+                                : Messages.FAILED_TO_ADD;
     }
 
     /**
@@ -161,15 +161,17 @@ public class ContactView {
         List<Account> accounts = accountController.getAll();
         String accountName = "";
 
-        if (null != accounts) {
+        if (!accounts.isEmpty()) {
             for (Account account : accounts) {
                 accountName = account.getName();
 
                 if (accountName.equals(contact.getAccountName())) {
+                    System.out.println("Adding contact to account");
                     account.setContact(contact);
                 }
             }
         } else {
+            System.out.println("Account creation");
             accountView.createFromContact(scanner, contact);
         }
     }
@@ -182,9 +184,10 @@ public class ContactView {
      */
     private void displayAll() {
         System.out.println("\n========== CONTACT DETAILS ==========\n");
+        List<Contact> contacts = contactController.getAll();
 
-        if (contactController.getAll() != null) {
-            for (Contact contact : contactController.getAll()) {
+        if (!contacts.isEmpty()) {
+            for (Contact contact : contacts) {
                 System.out.println(contact);
                 System.out.println("\n-----------------X-----------------");
             }
@@ -207,9 +210,10 @@ public class ContactView {
         System.out.print("Enter the ID to contact\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine();
+        Contact contact = contactController.getById(id);
 
-        if (contactController.getById(id) != null) {
-            System.out.println(contactController.getById(id));
+        if (null != contact) {
+            System.out.println(contact);
             System.out.println("\n-----------------X-----------------");
         } else {
             logger.info(Messages.CONTACT_NOT_FOUND);
@@ -271,11 +275,7 @@ public class ContactView {
                 break;
                            
             case Constants.EXIT_LEAD:
-                while (!isUpdating) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
-                } 
+                isUpdating = true;
                 break;
                                   
             default:
@@ -483,7 +483,7 @@ public class ContactView {
         StringBuilder OperationMenu = new StringBuilder();
         OperationMenu.append("\nPress \" ").append(Constants.ADDER)
                      .append(" \" for Create\n")
-                     .append("\nPress \" ").append(Constants.PROJECTOR)
+                     .append("Press \" ").append(Constants.PROJECTOR)
                      .append(" \" for View\n")
                      .append("Press \" ").append(Constants.FINDER)
                      .append(" \" for Search\n")

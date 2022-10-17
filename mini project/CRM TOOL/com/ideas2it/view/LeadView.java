@@ -55,12 +55,12 @@ public class LeadView {
      * @param scanner - object of a Scanner class
      */
     public void openEmployeeDashboard(Scanner scanner, String userId) {
-        boolean isActive = false;
+        boolean isOpen = false;
         String operationChoice; 
         String logout;   
         printWelcomeMessage();     
 
-        while (!isActive) {
+        while (!isOpen) {
             printLeadMenu();
             operationChoice = scanner.next();
                    
@@ -74,7 +74,7 @@ public class LeadView {
                 break;
                               
             case Constants.CONTACT:
-                contactView.showContactDashboard(scanner);
+                contactView.showContactDashboard(scanner, userId);
                 break;
 
             case Constants.OPPORTUNITY:
@@ -82,11 +82,9 @@ public class LeadView {
                 break;
                   
             case Constants.EXIT:
-                while (!isActive) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isActive = (logout.equals(Constants.LOGOUT)) ? true : false;        
-                } 
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpen = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 break;
                    
             default:
@@ -106,12 +104,12 @@ public class LeadView {
      * @param scanner - object of a Scanner class
      */
     private void openLeadOperations(Scanner scanner, String userId) {
-        boolean isOpened = false;
+        boolean isOpen = false;
         String operationChoice; 
         String logout;   
         printLeadTitle();     
                 
-        while (!isOpened) {
+        while (!isOpen) {
             printOperationMenu();
             operationChoice = scanner.next();
                    
@@ -136,12 +134,10 @@ public class LeadView {
                 deleteById(scanner, userId);
                 break;
             
-            case Constants.EXIT_LEAD:
-                while (!isOpened) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
-                } 
+            case Constants.EXIT_LEAD:  
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpen = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 break;
                    
             default:
@@ -215,16 +211,11 @@ public class LeadView {
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
         scanner.skip("\r\n");
         String id = getId(scanner);
-    
         Lead lead = leadController.getById(id);
 
         if (null != lead) {
-            if (lead.getEmployeeId().equals(userId)) {
-                System.out.println("\n" + lead);
-                System.out.println("\n--------------X---------------\n");
-            } else  {
-                logger.warn(Messages.NOT_ASSIGNED);
-            }
+            System.out.println("\n" + lead);
+            System.out.println("\n--------------X---------------");
         } else {
             logger.warn(Messages.LEAD_NOT_FOUND);
         }
@@ -250,55 +241,47 @@ public class LeadView {
         Lead lead = leadController.getById(id);
 
         if (lead != null) {
-            if (lead.getEmployeeId().equals(userId)) {
-                while (!isUpdating) {
-                    printUpdaterMenu();
-                    updaterChoice = scanner.next();
-                     
-                    switch (updaterChoice) {
-                    case Constants.NAME:
-                        lead.setName(getName(scanner));
-                        printUpdatedStatus(leadController.updateById(id, lead));
-                        break;
+            while (!isUpdating) {
+                printUpdaterMenu();
+                updaterChoice = scanner.next();
+                  
+                switch (updaterChoice) {
+                case Constants.NAME:
+                    lead.setName(getName(scanner));
+                    printUpdatedStatus(leadController.updateById(id, lead));
+                    break;
                     
-                    case Constants.EMAIL:
-                        scanner.skip("\r\n");
-                        lead.setEmailId(getEmailId(scanner));
-                        printUpdatedStatus(leadController.updateById(id, lead));
-                        break;
+                case Constants.EMAIL:
+                    scanner.skip("\r\n");
+                    lead.setEmailId(getEmailId(scanner));
+                    printUpdatedStatus(leadController.updateById(id, lead));
+                    break;
                          
-                    case Constants.PHONE_NUMBER:
-                        scanner.skip("\r\n");
-                        lead.setPhoneNumber(getPhoneNumber(scanner));
-                        printUpdatedStatus(leadController.updateById(id, lead));
-                        break;
+                case Constants.PHONE_NUMBER:
+                    scanner.skip("\r\n");
+                    lead.setPhoneNumber(getPhoneNumber(scanner));
+                    printUpdatedStatus(leadController.updateById(id, lead));
+                    break;
                         
-                    case Constants.COMPANY_NAME:
-                        scanner.skip("\r\n");
-                        lead.setCompanyName(getCompanyName(scanner));
-                        printUpdatedStatus(leadController.updateById(id, lead));
-                        break;
+                case Constants.COMPANY_NAME:
+                    scanner.skip("\r\n");
+                    lead.setCompanyName(getCompanyName(scanner));
+                    printUpdatedStatus(leadController.updateById(id, lead));
+                    break;
    
-                    case Constants.STATUS:
-                        lead.setStatus(getStatus(scanner, lead, userId));
-                        printUpdatedStatus(leadController.updateById(id, lead));
-                        break;
+                case Constants.STATUS:
+                    lead.setStatus(getStatus(scanner, lead, userId));
+                    printUpdatedStatus(leadController.updateById(id, lead));
+                    break;
 
-                    case Constants.EXIT_LEAD:
-                        while (!isUpdating) {
-                            System.out.println(Messages.EXIT_MENU);
-                            logout = scanner.next();
-                            isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;                    
-                        } 
-                        break;
+                case Constants.EXIT_LEAD:
+                    isUpdating = true;
+                    break;
                                   
-                    default:
-                        logger.warn(Messages.INVALID_CHOICE);  
-                    }            
-                }      
-            } else {
-                logger.warn(Messages.NOT_ASSIGNED);
-            } 
+                default:
+                    logger.warn(Messages.INVALID_CHOICE);  
+                }                
+            }  
         } else  {
             logger.warn(Messages.LEAD_NOT_FOUND);
         }  
@@ -321,7 +304,7 @@ public class LeadView {
         Lead lead = leadController.getById(id);
 
         if (null != lead) {
-            if (lead.getEmployeeId().equals(userId)) {
+            if (lead.getUserId().equals(userId)) {
                 if (leadController.isDeletedById(id)) { 
                     logger.info(Messages.DELETED_SUCCESSFULLY);
                 } else {
@@ -455,45 +438,45 @@ public class LeadView {
      * @return status - Status of a Lead
      */
     private String getStatus(Scanner scanner, Lead lead, String userId) {
-        boolean isSelecting = false;
+        boolean isSelected = false;
         String logout;
         String status = "";
         String statusChoice;
 
-        while (!isSelecting) {
+        while (!isSelected) {
             printStatusMenu();
             statusChoice = scanner.next();
 
             switch (statusChoice) {
             case Constants.NEW:
                 status = Status.New.toString();
-                isSelecting = true;
+                isSelected = true;
                 break;
 
             case Constants.CONTACTED:
                 status = Status.Contacted.toString();
-                isSelecting = true;
+                isSelected = true;
                 break;
 
             case Constants.WORKING:
                 status = Status.Working.toString();
-                isSelecting = true;
+                isSelected = true;
                 break;
 
             case Constants.QUALIFIED:
                 status = Status.Qualified.toString();
-                isSelecting = true;
+                isSelected = true;
                 break;
 
             case Constants.UNQUALIFIED:
                 status = Status.Unqualified.toString();
-                isSelecting = true; 
+                isSelected = true; 
                 break;
 
             case Constants.CONVERTED:               
                 if (lead != null) {
-                    status = contactView.createFromLead(scanner, lead);
-                    isSelecting = true; 
+                    status = contactView.createFromLead(scanner, lead, userId);
+                    isSelected = true; 
                 } else {
                     logger.warn("Tried to convert the lead which not present");
                 } 
@@ -521,7 +504,6 @@ public class LeadView {
         boolean isNotValid = false;
 
         while (!isNotValid) {
-            System.out.print("Enter Id             : ");
             id = scanner.nextLine();
 
             if (leadController.isValidId(id)) {

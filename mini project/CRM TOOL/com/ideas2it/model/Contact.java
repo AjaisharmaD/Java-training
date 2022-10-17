@@ -14,6 +14,7 @@ import java.util.List;
  * @since   05-10-2022
  */   
 public class Contact {
+
     private String id;
     private String name;
     private String accountName;

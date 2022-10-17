@@ -51,16 +51,17 @@ public class  AccountService {
      *
      * @return List - Details of Account
      */
-    public List<Account> getAll() {    
+    public List<Account> getAll() {   
+        Map<String, Account> map = accountDao.fetchAll();
         List<Account> accounts = new ArrayList<>();
+        Account account;
 
-        if (!accountDao.fetchAll().isEmpty()) {
-            for (Map.Entry<String, Account> accountEntry : accountDao.fetchAll().entrySet()) {
+        if (null != map) {
+            for (Map.Entry<String, Account> accountEntry : map.entrySet()) {
                 accounts.add(accountEntry.getValue());
             }  
-            return accounts;
         }
-        return null;
+        return accounts;
     }
 
     /**

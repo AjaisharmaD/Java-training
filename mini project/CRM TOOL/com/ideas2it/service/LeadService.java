@@ -73,7 +73,7 @@ public class LeadService {
 
                 lead = leadMap.getValue();
 
-                if (lead.getEmployeeId().equals(userId)) {
+                if (lead.getUserId().equals(userId)) {
                     leads.add(lead);
                 }
             }
@@ -92,7 +92,14 @@ public class LeadService {
      * @return Lead - Details of Single lead 
      */
     public Lead getById(String id) {
-        return leadDao.fetchById(id);
+        Lead lead = leadDao.fetchById(id);
+
+        if (null != lead) {
+            if (lead.getUserId().equals(id)) {
+                return lead;
+            }
+        }
+        return lead;
     }
 
     /**

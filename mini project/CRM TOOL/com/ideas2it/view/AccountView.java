@@ -60,6 +60,10 @@ public class AccountView {
             operationChoice = scanner.next();
                    
             switch (operationChoice) {
+            case Constants.ADDER:
+                create(scanner);
+                break;
+
             case Constants.PROJECTOR:
                 displayAll();
                 break;
@@ -77,11 +81,9 @@ public class AccountView {
                 break;
               
             case Constants.EXIT_OPERATION:
-                while (!isOpened) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
-                } 
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isOpened = (logout.equals(Constants.LOGOUT)) ? true : false;        
                 break;
                    
             default:
@@ -90,16 +92,36 @@ public class AccountView {
         }
     }
 
+
     /**
-     * <h1> Convert To Account </h1>
+     * <h1> Create Account from Contact </h1>
      * <p>
-     * Converts the lead into Account
+     * Converts the contact into Account
      * </p>
      *
      * @param scanner - scanner to get input from console
      * @param lead    - lead to convert as Account 
+     */
+    public void create(Scanner scanner) {
+        Account account = new Account();
+        account.setName(getName(scanner));
+        account.setWebsite(getWebsite(scanner));
+        account.setEmailId(getEmailId(scanner));
+        account.setPhoneNumber(getPhoneNumber(scanner));
+        account.setType(getType(scanner));
+        System.out.println(accountController.create(account) != null
+                                            ? Messages.ADDED_SUCCESSFULLY
+                                            : Messages.FAILED_TO_ADD);
+    }
+
+    /**
+     * <h1> Create Account from Contact </h1>
+     * <p>
+     * Converts the contact into Account
+     * </p>
      *
-     * @return status - status of the Lead 
+     * @param scanner - scanner to get input from console
+     * @param lead    - lead to convert as Account 
      */
     public void createFromContact(Scanner scanner, Contact contact) {
         Account account = new Account();
@@ -109,8 +131,8 @@ public class AccountView {
         account.setPhoneNumber(getPhoneNumber(scanner));
         account.setType(getType(scanner));
         System.out.println(accountController.create(account) != null
-                                 ? Messages.ADDED_SUCCESSFULLY
-                                 : Messages.FAILED_TO_ADD);
+                                            ? Messages.ADDED_SUCCESSFULLY
+                                            : Messages.FAILED_TO_ADD);
     }
 
     /**   
@@ -120,10 +142,11 @@ public class AccountView {
      * </p>
      */
     private void displayAll() {
-        System.out.println("\n========== ACCOUNTS DETAILS ==========\n");
+        System.out.println("\n========== ACCOUNTS DETAILS ==========\n"); 
+        List<Account> accounts = accountController.getAll();
 
-        if (accountController.getAll() != null) {
-            for (Account account : accountController.getAll()) {
+        if (!accounts.isEmpty()) {
+            for (Account account : accounts) {
                 System.out.println(account);
                 System.out.println("\n-------------X-------------");
             }
@@ -147,8 +170,10 @@ public class AccountView {
         System.out.print("Enter the Account Name       : ");
         scanner.skip("\r\n");
         String id = scanner.nextLine(); 
-        if (accountController.getById(id) != null) {
-            System.out.println(accountController.getById(id));
+        Account account = accountController.getById(id);   
+     
+        if (null != account) {
+            System.out.println(account);
             System.out.println("\n-------------X-------------");
         } else {
             logger.info(Messages.ACCOUNT_NOT_FOUND);
@@ -180,41 +205,32 @@ public class AccountView {
                      
             switch (updaterChoice) {
             case Constants.NAME:
-                scanner.skip("\r\n");
                 account.setName(getName(scanner));
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                     
             case Constants.WEBSITE:
-                scanner.skip("\r\n");
                 account.setWebsite(getWebsite(scanner));                              
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
 
             case Constants.EMAIL:
-                scanner.skip("\r\n");
                 account.setEmailId(getEmailId(scanner));
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                          
             case Constants.PHONE_NUMBER:
-                scanner.skip("\r\n");
                 account.setPhoneNumber(getPhoneNumber(scanner));
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                            
             case Constants.TYPE:
-                scanner.skip("\r\n");
                 account.setType(getType(scanner));
                 printUpdatedStatus(accountController.updateById(id, account));
                 break;
                            
             case Constants.EXIT_LEAD:
-                while (!isUpdating) {
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isUpdating = (logout.equals(Constants.LOGOUT)) ? true : false;      
-                } 
+                isUpdating = true;
                 break;
                                   
             default:
@@ -238,7 +254,8 @@ public class AccountView {
         scanner.skip("\r\n");
         String id = scanner.nextLine();
         System.out.println((accountController.isDeletedById(id)) 
-                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
+                                             ? Messages.DELETED_SUCCESSFULLY
+                                             : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");
     }       
 
@@ -284,6 +301,7 @@ public class AccountView {
         String website = "";
         boolean isNotValid = false;
 
+        scanner.skip("\r\n");
         while (!isNotValid) {
             System.out.print("Website              : ");
             website = scanner.nextLine();

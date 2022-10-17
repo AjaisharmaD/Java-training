@@ -51,16 +51,16 @@ public class  OpportunityService {
      *
      * @return List - Details of Opportunity
      */
-    public List<Opportunity> getAll() {    
+    public List<Opportunity> getAll() {
+        Map<String, Opportunity> map = opportunityDao.fetchAll();    
         List<Opportunity> opportunities = new ArrayList<>();
 
-        if (!opportunityDao.fetchAll().isEmpty()) {
-            for (Map.Entry<String, Opportunity> opportunityEntry : opportunityDao.fetchAll().entrySet()) {
+        if (null != map) {
+            for (Map.Entry<String, Opportunity> opportunityEntry : map.entrySet()) {
                 opportunities.add(opportunityEntry.getValue());
             }  
-            return opportunities;
         }
-        return null;
+        return opportunities;
     }
 
     /**

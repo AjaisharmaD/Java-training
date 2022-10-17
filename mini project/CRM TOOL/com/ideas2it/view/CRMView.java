@@ -81,11 +81,9 @@ public class CRMView {
                  break;
              
             case Constants.CRM_EXIT:
-                while (!isActive){
-                    System.out.println(Messages.EXIT_MENU);
-                    logout = scanner.next();
-                    isActive = (logout.equals(Constants.LOGOUT)) ? true : false;                     
-                } 
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isActive = (logout.equals(Constants.LOGOUT)) ? true : false;                     
                 break;
                  
             default:

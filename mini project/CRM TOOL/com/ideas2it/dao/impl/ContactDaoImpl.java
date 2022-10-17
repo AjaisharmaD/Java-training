@@ -37,7 +37,7 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Map<String, Contact> fetchAll() {
-        if (!contactMap.isEmpty()) {
+        if (null != contactMap) {
             return contactMap;
         }
         return null;
@@ -48,7 +48,7 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact fetchById(String id) {
-        if (!contactMap.isEmpty()) {
+        if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.get(id);
             }
@@ -61,7 +61,7 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact updateById(String id, Contact contact) {
-        if (!contactMap.isEmpty()) {
+        if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.replace(id, contact);
             }
@@ -74,7 +74,7 @@ public class ContactDaoImpl implements ContactDao {
      */
     @Override
     public Contact deleteById(String id) {
-        if (!contactMap.isEmpty()) {
+        if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.remove(id);
             }

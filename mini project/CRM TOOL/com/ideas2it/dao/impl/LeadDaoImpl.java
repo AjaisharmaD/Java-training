@@ -75,7 +75,7 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead deleteById(String id) {
-        if (!leadMap.isEmpty()) {
+        if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.remove(id);
             }
