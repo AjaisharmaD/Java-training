@@ -70,7 +70,7 @@ public class LeadView {
                 break;
                  
             case Constants.ACCOUNT:
-                accountView.showAccountDashboard(scanner, contactView, opportunityView);
+                accountView.showAccountDashboard(scanner);
                 break;
                               
             case Constants.CONTACT:

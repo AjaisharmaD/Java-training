@@ -1,0 +1,79 @@
+2022-10-17 10:36:34,144 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 10:39:45,947 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 10:40:10,265 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 10:43:46,138 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 11:07:20,430 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 11:50:08,197 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 11:51:07,739 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 11:51:40,609 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 12:08:36,626 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 12:09:13,217 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 12:09:34,576 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 12:10:21,471 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 12:24:59,525 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 12:25:21,318 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 12:25:36,260 INFO c.i.v.LeadView [main] 
+>>>>> LEAD NOT FOUND <<<<<
+2022-10-17 12:38:05,540 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 12:38:34,158 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 12:38:50,270 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 12:38:57,828 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 12:40:52,585 INFO c.i.v.ContactView [main] 
+>>>>> CONTACT NOT FOUND <<<<<
+2022-10-17 12:41:08,739 INFO c.i.v.OpportunityView [main] 
+>>>>> OPPORTUNITY NOT FOUND <<<<<
+2022-10-17 12:41:18,193 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 12:41:25,783 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:41:18,891 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 18:41:44,464 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 18:42:31,139 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 18:42:52,559 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 18:43:08,304 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:48:08,819 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 18:48:52,191 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 18:49:07,766 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 18:49:24,986 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 18:49:36,880 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:50:10,271 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:51:55,445 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:51:59,794 INFO c.i.v.AccountView [main] 
+>>>>> ACCOUNT NOT FOUND <<<<<
+2022-10-17 18:52:56,056 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 18:53:55,616 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 18:54:13,902 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 18:54:42,920 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 18:55:40,730 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 19:00:32,392 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 19:00:56,337 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 19:01:15,600 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 19:02:33,624 INFO c.i.v.ContactView [main] 
+>>>>> CONTACT NOT FOUND <<<<<
+2022-10-17 19:02:40,422 INFO c.i.v.OpportunityView [main] 
+>>>>> OPPORTUNITY NOT FOUND <<<<<
+2022-10-17 19:03:17,615 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 19:05:21,631 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 19:05:53,994 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 19:06:58,592 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 19:07:24,342 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 19:07:40,825 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 19:09:05,508 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-10-17 19:13:19,529 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-17 19:13:49,565 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-17 19:16:52,472 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-17 19:17:55,957 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
