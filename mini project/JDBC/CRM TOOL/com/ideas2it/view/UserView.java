@@ -74,7 +74,7 @@ public class UserView {
                 break;
 
             case Constants.ASSIGN_LEAD:
-                assignLead(scanner);
+                //assignLead(scanner);
                 break;
 
             case Constants.EXIT_OPERATION:
@@ -110,10 +110,10 @@ public class UserView {
         emailId = getEmailId(scanner);
         phoneNumber = getPhoneNumber(scanner);
         password = getPassword(scanner);
-        System.out.println((userController
-                            .create(new User(name, emailId, phoneNumber),
-                            password) == false) ? Messages.ADDED_SUCCESSFULLY 
-                            : Messages.FAILED_TO_ADD);   
+        System.out.println((userController.create(new User(name, emailId,
+                                           phoneNumber), password) == false) 
+                                           ? Messages.ADDED_SUCCESSFULLY 
+                                           : Messages.FAILED_TO_ADD);   
     }
 
     /**
@@ -147,11 +147,12 @@ public class UserView {
     public void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH EMPLOYEE ==========\n");  
         System.out.print("Enter the User's Id to Search: ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
+        int id = scanner.nextInt();
+ 
+        User user = userController.getById(id);
         
-        if (null != userController.getById(id)) {
-            System.out.println(userController.getById(id));
+        if (null != user) {
+            System.out.println(user);
             System.out.println("--------------X--------------\n");
 
         } else {
@@ -171,43 +172,47 @@ public class UserView {
     public void updateById(Scanner scanner) {
         System.out.println("\n========== UPDATE EMPLOYEE ==========\n"); 
         System.out.print("Enter the User's Id to Edit: ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
-        String logout;
+        int id = scanner.nextInt();
+        String columnName;
         String updaterChoice;
         boolean isUpdating = false;
 
         User user = userController.getById(id);
 
-        while (!isUpdating) {
-            printUpdaterMenu();
-            updaterChoice = scanner.next();
-                                 
-            switch (updaterChoice) {
-            case Constants.NAME:
-                user.setName(getName(scanner));
-                printUpdatedStatus(userController.updateById(id, user));
-                break;
-                    
-            case Constants.EMAIL:
-                scanner.skip("\r\n");
-                user.setEmailId(getEmailId(scanner));
-                printUpdatedStatus(userController.updateById(id, user));
-                break;
-                         
-            case Constants.PHONE_NUMBER:
-                scanner.skip("\r\n");
-                user.setPhoneNumber(getPhoneNumber(scanner));
-                printUpdatedStatus(userController.updateById(id, user));
-                break;
+        if (null != user) {
+            System.out.println(user);
+            System.out.println("--------------X--------------\n");
 
-            case Constants.EXIT_EMPLOYEE_UPDATER:
-                isUpdating = true;         
-                break;
+            while (!isUpdating) {
+                printUpdaterMenu();
+                updaterChoice = scanner.next();
+                                 
+                switch (updaterChoice) {
+                case Constants.NAME:
+                    columnName = "name";
+                    printUpdatedStatus(userController.updateById(id, columnName, getName(scanner)));
+                    break;
+                    
+                case Constants.EMAIL:
+                    columnName = "email";
+                    scanner.skip("\r\n");
+                    printUpdatedStatus(userController.updateById(id, columnName, getEmailId(scanner)));
+                    break;
+                         
+                case Constants.PHONE_NUMBER:
+                    columnName = "phone_number";
+                    scanner.skip("\r\n");
+                    printUpdatedStatus(userController.updateById(id, columnName, getPhoneNumber(scanner)));
+                    break;
+
+                case Constants.EXIT_EMPLOYEE_UPDATER:
+                    isUpdating = true;         
+                    break;
                                   
-            default:
-                logger.warn(Messages.INVALID_CHOICE);  
-            } 
+                default:
+                    logger.warn(Messages.INVALID_CHOICE);  
+                } 
+            }
         }
     }
 
@@ -222,11 +227,9 @@ public class UserView {
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE EMPLOYEE ==========\n");
-        System.out.print("Enter the ID to User\n \" Format:Employee_01 \" : ");
-        String id = getId(scanner);
-        System.out.println((userController.isDeletedById(id))
-                                        ? Messages.DELETED_SUCCESSFULLY 
-                                        : Messages.FAILED_TO_DELETE);
+        System.out.print("Enter the ID to User : ");
+        int id = scanner.nextInt();
+        System.out.println((userController.isDeletedById(id))? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("User Deleted");
     }
 
@@ -237,19 +240,19 @@ public class UserView {
      * </p>
      *
      * @param scanner - object of a Scanner class
-     */
+ 
     private void assignLead(Scanner scanner) {
         LeadController leadController = new LeadController();
         System.out.println("\n========== ASSIGN LEAD ==========\n");
 
         scanner.skip("\r\n");
         System.out.print("Enter Employee Id : ");
-        String userId = getId(scanner);
+        int userId = scanner.nextInt();
         User user = userController.getById(userId);
         System.out.println(user);
 
         System.out.print("Enter Lead Id     : ");
-        String leadId = getId(scanner);
+        int leadId = scanner.nextInt();
         Lead lead = userController.getLeadById(leadId);
         System.out.println("lead is---------------" +lead);
         
@@ -263,6 +266,7 @@ public class UserView {
             userController.updateById(userId, user); 
         }
     }
+    */
 
     /**
      * <h1> Get Name </h1>
@@ -374,32 +378,6 @@ public class UserView {
     }
 
     /**
-     * <h1> Get ID </h1>
-     * <p>
-     * Gets the Id of the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return id     - a valid Id 
-     */
-    private String getId(Scanner scanner) {
-        String id = " ";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            id = scanner.next();
-
-            if (userController.isValidId(id)) {
-                isNotValid = true;
-            } else { 
-                logger.error(Messages.WRONG_ID_FORMAT);
-            }  
-        }
-        return id; 
-    }
-
-    /**
      * <h1> Print Update Status </h1>
      * <p>
      * Prints the Update Status of the User
@@ -407,8 +385,8 @@ public class UserView {
      *
      * @param user - Update user
      */
-    private void printUpdatedStatus(User user) {
-        if (user != null) {
+    private void printUpdatedStatus(boolean status) {
+        if (status == true) {
             logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);

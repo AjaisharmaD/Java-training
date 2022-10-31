@@ -61,7 +61,7 @@ public class ContactController {
      *
      * @return contact - Details of a Single contact
      */
-    public Contact getById(String id) {
+    public Contact getById(int id) {
         return contactService.getById(id);
     }
 
@@ -76,7 +76,7 @@ public class ContactController {
      *
      * @return Contact - the Update details of contact
      */
-    public Contact updateById(String id, Contact contact) {
+    public Contact updateById(int id, Contact contact) {
         return contactService.updateById(id, contact);
     }
 
@@ -90,7 +90,7 @@ public class ContactController {
      *
      * @return boolean - Status of the Delated contact
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         return contactService.isDeletedById(id);
     }
 

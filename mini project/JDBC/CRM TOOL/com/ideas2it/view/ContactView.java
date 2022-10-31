@@ -55,7 +55,7 @@ public class ContactView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void showContactDashboard(Scanner scanner, String userId) {
+    public void showContactDashboard(Scanner scanner, int userId) {
         boolean isOpened = false;
         String operationChoice; 
         String logout;
@@ -106,7 +106,7 @@ public class ContactView {
      *
      * @param scanner - scanner to get input from console
      */
-    public void create(Scanner scanner, String userId) {
+    public void create(Scanner scanner, int userId) {
         Contact contact = new Contact();
         contact.setName(getName(scanner));
         contact.setAccountName(getAccountName(scanner));
@@ -131,7 +131,7 @@ public class ContactView {
      *
      * @return status - Status of the Lead
      */
-    public String createFromLead(Scanner scanner, Lead lead, String userId) {
+    public String createFromLead(Scanner scanner, Lead lead, int userId) {
         Contact contact = new Contact();
         contact.setName(lead.getName());
         contact.setAccountName(lead.getCompanyName());
@@ -207,9 +207,8 @@ public class ContactView {
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH contact ==========\n");  
-        System.out.print("Enter the ID to contact\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        System.out.print("Enter the ID to search contact : ");
+        int id = scanner.nextInt();
         Contact contact = contactController.getById(id);
 
         if (null != contact) {
@@ -231,9 +230,8 @@ public class ContactView {
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE CONTACT  ==========\n");
-        System.out.print("Enter the ID to Contact\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = scanner.nextLine();   
+        System.out.print("Enter the ID to update Contact : ");
+        int id = scanner.nextInt(); 
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
@@ -296,11 +294,11 @@ public class ContactView {
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE CONTACT  ==========\n");
-        System.out.print("Enter the ID to Delete Contact\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = scanner.nextLine();
+        System.out.print("Enter the ID to Delete Contact : ");
+        int id = scanner.nextInt();
         System.out.println((contactController.isDeletedById(id)) 
-                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
+                                   ? Messages.DELETED_SUCCESSFULLY 
+                                   : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");
     }          
 

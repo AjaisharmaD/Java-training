@@ -14,7 +14,6 @@ import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
 import com.ideas2it.model.Contact;
 
-
 /**
  * <h1> Account View </h1>
  * <p>
@@ -168,8 +167,8 @@ public class AccountView {
         System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
         System.out.print("Enter the Account Name       : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine(); 
-        Account account = accountController.getById(id);   
+        String name = scanner.nextLine(); 
+        Account account = accountController.getById(name);   
      
         if (null != account) {
             System.out.println(account);
@@ -192,11 +191,11 @@ public class AccountView {
         System.out.println("\n========== UPDATE ACCOUNT  ==========\n");
         System.out.print("Enter the Account Name         : ");
         scanner.skip("\r\n");
-        String id = scanner.next();    //change to acc name  
+        String name = scanner.nextLine();    //change to acc name  
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
-        Account account = accountController.getById(id);
+        Account account = accountController.getById(name);
 
         while (!isUpdating) {
             printUpdaterMenu();
@@ -205,27 +204,27 @@ public class AccountView {
             switch (updaterChoice) {
             case Constants.NAME:
                 account.setName(getName(scanner));
-                printUpdatedStatus(accountController.updateById(id, account));
+                printUpdatedStatus(accountController.updateById(name, account));
                 break;
                     
             case Constants.WEBSITE:
                 account.setWebsite(getWebsite(scanner));                              
-                printUpdatedStatus(accountController.updateById(id, account));
+                printUpdatedStatus(accountController.updateById(name, account));
                 break;
 
             case Constants.EMAIL:
                 account.setEmailId(getEmailId(scanner));
-                printUpdatedStatus(accountController.updateById(id, account));
+                printUpdatedStatus(accountController.updateById(name, account));
                 break;
                          
             case Constants.PHONE_NUMBER:
                 account.setPhoneNumber(getPhoneNumber(scanner));
-                printUpdatedStatus(accountController.updateById(id, account));
+                printUpdatedStatus(accountController.updateById(name, account));
                 break;
                            
             case Constants.TYPE:
                 account.setType(getType(scanner));
-                printUpdatedStatus(accountController.updateById(id, account));
+                printUpdatedStatus(accountController.updateById(name, account));
                 break;
                            
             case Constants.EXIT_LEAD:
@@ -251,8 +250,8 @@ public class AccountView {
         System.out.println("\n========== DELETE ACCOUNT  ==========\n");
         System.out.print("Enter the ID \n \" Format:Account_01 \" : ");
         scanner.skip("\r\n");
-        String id = scanner.nextLine();
-        System.out.println((accountController.isDeletedById(id)) 
+        String name = scanner.nextLine();
+        System.out.println((accountController.isDeletedById(name)) 
                                              ? Messages.DELETED_SUCCESSFULLY
                                              : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");

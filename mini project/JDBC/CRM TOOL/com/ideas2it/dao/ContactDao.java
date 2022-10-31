@@ -30,7 +30,7 @@ public interface ContactDao {
      *   
      * @return contact  - Details of Contact
      */
-    public Contact insert(String contactId, Contact contact);
+    public Contact insert(int contactId, Contact contact);
 
     /**   
      * <h1> Get Details of contact </h1>
@@ -40,7 +40,7 @@ public interface ContactDao {
      *
      * @return Map - Details of contacts 
      */
-    public Map<String, Contact> fetchAll();
+    public Map<Integer, Contact> fetchAll();
 
     /**
      * <h1> Get Details of Contact by Id </h1>
@@ -52,7 +52,7 @@ public interface ContactDao {
      *
      * @return Contact - Details of single Contact
      */
-    public Contact fetchById(String id);
+    public Contact fetchById(int id);
 
     /**
      * <h1> Update Details of Contact </h1>
@@ -65,7 +65,7 @@ public interface ContactDao {
      *
      * @return contact -  updated Details of Contact
      */
-     public Contact updateById(String id, Contact contact);
+     public Contact updateById(int id, Contact contact);
 
     /**
      * <h1> Delete Details of Contact </h1>
@@ -77,5 +77,5 @@ public interface ContactDao {
      *
      * @return Contact -  Delated Details of Contact
      */
-    public Contact deleteById(String id);
+    public Contact deleteById(int id);
 }

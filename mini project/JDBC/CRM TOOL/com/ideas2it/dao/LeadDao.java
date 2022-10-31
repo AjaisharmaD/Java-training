@@ -30,7 +30,7 @@ public interface LeadDao {
      *   
      * @return Lead  - Details of Leads
      */
-    public Lead insert(String leadId, Lead lead);
+    public Lead insert(int leadId, Lead lead);
 
     /**   
      * <h1> Get Details of Lead by Id </h1>
@@ -40,7 +40,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public Map<String, Lead> fetchAll();
+    public Map<Integer, Lead> fetchAll();
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -52,7 +52,7 @@ public interface LeadDao {
      *
      * @return Lead - Details of single Lead
      */
-    public Lead fetchById(String id);
+    public Lead fetchById(int id);
 
     /**
      * <h1> Update Details of Lead </h1>
@@ -65,7 +65,7 @@ public interface LeadDao {
      *
      * @return Lead -  updated Details of Lead
      */
-     public Lead updateById(String id, Lead lead);
+     public Lead updateById(int id, Lead lead);
 
     /**
      * <h1> Delete Details of Lead </h1>
@@ -77,5 +77,5 @@ public interface LeadDao {
      *
      * @return Lead -  Delated Details of Lead
      */
-    public Lead deleteById(String id);
+    public Lead deleteById(int id);
 }

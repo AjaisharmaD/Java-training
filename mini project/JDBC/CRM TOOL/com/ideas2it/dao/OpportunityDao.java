@@ -30,7 +30,7 @@ public interface OpportunityDao {
      *   
      * @return Opportunity  - Details of Opportunity
      */
-    public Opportunity insert(String OpportunityId, Opportunity opportunity);
+    public Opportunity insert(int OpportunityId, Opportunity opportunity);
 
     /**   
      * <h1> Get Details of Opportunity </h1>
@@ -40,7 +40,7 @@ public interface OpportunityDao {
      *
      * @return Map - Details of Opportunitys 
      */
-    public Map<String, Opportunity> fetchAll();
+    public Map<Integer, Opportunity> fetchAll();
 
     /**
      * <h1> Get Details of Opportunity by Id </h1>
@@ -52,7 +52,7 @@ public interface OpportunityDao {
      *
      * @return Opportunity - Details of single Opportunity
      */
-    public Opportunity fetchById(String id);
+    public Opportunity fetchById(int id);
 
     /**
      * <h1> Update Details of Opportunity </h1>
@@ -65,7 +65,7 @@ public interface OpportunityDao {
      *
      * @return Opportunity -  updated Details of Opportunity
      */
-     public Opportunity updateById(String id, Opportunity opportunity);
+     public Opportunity updateById(int id, Opportunity opportunity);
 
     /**
      * <h1> Delete Details of Opportunity </h1>
@@ -77,5 +77,5 @@ public interface OpportunityDao {
      *
      * @return Opportunity -  Delated Details of Opportunity
      */
-    public Opportunity deleteById(String id);
+    public Opportunity deleteById(int id);
 }

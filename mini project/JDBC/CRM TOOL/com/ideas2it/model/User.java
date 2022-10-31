@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @since   07-09-2022
  */   
 public class User { 
-    private String id;
+    private int id;
     private String name;
     private String phoneNumber;
     private String emailId;
@@ -28,7 +28,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -52,7 +52,7 @@ public class User {
         leads.add(lead);
     }
    
-    public String getId() {
+    public int getId() {
         return id;
     }
     

@@ -61,8 +61,8 @@ public class AccountController {
      *
      * @return Account - Details of a Single Account
      */
-    public Account getById(String id) {
-        return accountService.getById(id);
+    public Account getById(String name) {
+        return accountService.getById(name);
     }
 
     /**
@@ -72,12 +72,12 @@ public class AccountController {
      * </p>
      *
      * @param id       - key to update the Account
-     * @param account     - updated Account 
+     * @param account  - updated Account 
      *
      * @return Account - the Update details of Account
      */
-    public Account updateById(String id, Account account) {
-        return accountService.updateById(id, account);
+    public Account updateById(String name, Account account) {
+        return accountService.updateById(name, account);
     }
 
     /**
@@ -90,8 +90,8 @@ public class AccountController {
      *
      * @return boolean - Status of the Delated Account
      */
-    public boolean isDeletedById(String id) {
-        return accountService.isDeletedById(id);
+    public boolean isDeletedById(String name) {
+        return accountService.isDeletedById(name);
     }
 
 }

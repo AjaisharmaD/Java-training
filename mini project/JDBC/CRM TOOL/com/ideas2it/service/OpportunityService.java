@@ -39,7 +39,7 @@ public class  OpportunityService {
      * @return Opportunity - Opportunity detail which is inserted into the Map
      */
     public Opportunity create(Opportunity opportunity) {
-       String id = opportunity.getId();
+       int id = opportunity.getId();
        return opportunityDao.insert(id, opportunity);
     } 
 
@@ -52,11 +52,11 @@ public class  OpportunityService {
      * @return List - Details of Opportunity
      */
     public List<Opportunity> getAll() {
-        Map<String, Opportunity> map = opportunityDao.fetchAll();    
+        Map<Integer, Opportunity> map = opportunityDao.fetchAll();    
         List<Opportunity> opportunities = new ArrayList<>();
 
         if (null != map) {
-            for (Map.Entry<String, Opportunity> opportunityEntry : map.entrySet()) {
+            for (Map.Entry<Integer, Opportunity> opportunityEntry : map.entrySet()) {
                 opportunities.add(opportunityEntry.getValue());
             }  
         }
@@ -73,7 +73,7 @@ public class  OpportunityService {
      *
      * @return Opportunity - Details of Opportunity
      */
-    public Opportunity getById(String id) {
+    public Opportunity getById(int id) {
         return opportunityDao.fetchById(id);
     }
 
@@ -88,7 +88,7 @@ public class  OpportunityService {
      *  
      * @return Opportunity - Details of Single lead
      */
-    public Opportunity updateById(String id, Opportunity opportunity) {
+    public Opportunity updateById(int id, Opportunity opportunity) {
         return opportunityDao.updateById(id, opportunity);
     }
 
@@ -102,7 +102,7 @@ public class  OpportunityService {
      *
      * @return boolean - Status of the Deleted Opportunity
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         if (opportunityDao.deleteById(id) != null) {
             return true;
         }

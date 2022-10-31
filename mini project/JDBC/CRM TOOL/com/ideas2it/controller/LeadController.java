@@ -50,7 +50,7 @@ public class LeadController {
      *
      * @return List - Details of Leads
      */
-    public List<Lead> getAll(String userId) {
+    public List<Lead> getAll(int userId) {
         return leadService.getAll(userId);
     }    
 
@@ -64,7 +64,7 @@ public class LeadController {
      *
      * @return Lead - Details of a Single Lead
      */
-    public Lead getById(String id) {
+    public Lead getById(int id) {
         return leadService.getById(id);
     }
 
@@ -79,7 +79,7 @@ public class LeadController {
      *
      * @return lead - the Update details of lead
      */
-    public Lead updateById(String id, Lead lead) {
+    public Lead updateById(int id, Lead lead) {
         return leadService.updateById(id, lead);
     }
 
@@ -93,7 +93,7 @@ public class LeadController {
      *
      * @return boolean - Status of the Delated Lead
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         return leadService.isDeletedById(id);
     }
 
@@ -201,11 +201,12 @@ public class LeadController {
      *
      * @param id       - id to be Validated  
      * @return boolean  - Status of the Id
-     */
+
     public boolean isValidId(String id) {
         if (validationUtils.isValidId(id)) {
             return true;
         }
         return false;
     }
+     */
 }

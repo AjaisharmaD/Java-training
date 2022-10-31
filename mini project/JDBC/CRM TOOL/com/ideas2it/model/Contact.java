@@ -15,17 +15,17 @@ import java.util.List;
  */   
 public class Contact {
 
-    private String id;
+    private int id;
     private String name;
     private String accountName;
     private String email;
     private String phoneNumber;
     private String title;
-    private String userId;
+    private int userId;
 
     List<Opportunity> opportunities = new ArrayList<>(); 
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,11 +53,11 @@ public class Contact {
         opportunities.add(opportunity);
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -85,7 +85,7 @@ public class Contact {
         return opportunities;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

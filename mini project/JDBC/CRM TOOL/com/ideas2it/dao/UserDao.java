@@ -25,13 +25,11 @@ public interface UserDao {
      * Inserts the Details of Users 
      * <p>
      *
-     * @param employeeId - ID of an employee
      * @param employee   - employee Details to add 
-     * @param password   - password to login
      *
      * @return User  - Details of an User
      */
-    public boolean insert(String userId, User user, String password);
+    public boolean insert(User user);
 
     /**
      * <h1> Get Details of users </h1>
@@ -53,7 +51,7 @@ public interface UserDao {
      *
      * @return User - Details of a Single User
      */
-    public User fetchById(String id);
+    public User fetchById(int id);
 
     /**
      * <h1> Update Details of User </h1>
@@ -64,9 +62,9 @@ public interface UserDao {
      * @param id    - key to store the Updated Details of User
      * @param User  - updated Details of User
      *
-     * @return User - updated Details of User
+     * @return int  - int value of row affected
      */
-    public User updateById(String id, User user);
+    public int updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Delete Details of User </h1>
@@ -78,5 +76,5 @@ public interface UserDao {
      *
      * @return User - Deleted Details of User
      */
-    public User deleteById(String id);
+    public int deleteById(int id);
 }

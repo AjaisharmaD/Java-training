@@ -14,17 +14,17 @@ import java.util.List;
  * @since   07-10-2022
  */
 public class Opportunity {
-    private String id;
+    private int id;
     private String name;
     private String accountName;
     private Double amount; 
     private String closedDate;
     private String stage;
-    private String userId;
+    private int userId;
 
     private List<Contact> contacts = new ArrayList<>(); 
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -52,11 +52,11 @@ public class Opportunity {
         this.contacts.add(contact);
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -84,7 +84,7 @@ public class Opportunity {
         return contacts;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

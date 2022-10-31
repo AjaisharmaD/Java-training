@@ -52,7 +52,7 @@ public interface AccountDao {
      *
      * @return Account - Details of single Account
      */
-    public Account fetchById(String id);
+    public Account fetchById(String name);
 
     /**
      * <h1> Update Details of Account </h1>
@@ -65,7 +65,7 @@ public interface AccountDao {
      *
      * @return Account -  updated Details of Account
      */
-     public Account updateById(String id, Account account);
+     public Account updateById(String name, Account account);
 
     /**
      * <h1> Delete Details of Account </h1>
@@ -77,5 +77,5 @@ public interface AccountDao {
      *
      * @return Account -  Delated Details of Account
      */
-    public Account deleteById(String id);
+    public Account deleteById(String name);
 }

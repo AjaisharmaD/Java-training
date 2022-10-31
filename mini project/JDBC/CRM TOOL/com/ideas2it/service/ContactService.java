@@ -39,7 +39,7 @@ public class  ContactService {
      * @return Contact - contact detail which is inserted into the Map
      */
     public Contact create(Contact contact) {
-       String id = contact.getId();
+       int id = contact.getId();
        return contactDao.insert(id, contact);
     } 
 
@@ -52,11 +52,11 @@ public class  ContactService {
      * @return List - Details of Contact
      */
     public List<Contact> getAll() {  
-        Map<String, Contact> map = contactDao.fetchAll();  
+        Map<Integer, Contact> map = contactDao.fetchAll();  
         List<Contact> contacts = new ArrayList<>();
 
         if (null != map) {
-            for (Map.Entry<String, Contact> contactEntry : map.entrySet()) {
+            for (Map.Entry<Integer, Contact> contactEntry : map.entrySet()) {
                 contacts.add(contactEntry.getValue());
             }  
         }
@@ -73,7 +73,7 @@ public class  ContactService {
      *
      * @return contact - Details of contact
      */
-    public Contact getById(String id) {
+    public Contact getById(int id) {
         return contactDao.fetchById(id);
     }
 
@@ -88,7 +88,7 @@ public class  ContactService {
      *  
      * @return Contact - Details of Single lead
      */
-    public Contact updateById(String id, Contact contact) {
+    public Contact updateById(int id, Contact contact) {
         return contactDao.updateById(id, contact);
     }
 
@@ -102,7 +102,7 @@ public class  ContactService {
      *
      * @return boolean - Status of the Deleted contact
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         if (contactDao.deleteById(id) != null) {
             return true;
         }

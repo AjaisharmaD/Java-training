@@ -21,13 +21,13 @@ import com.ideas2it.model.Contact;
  * @since   03-10-2022
  */
 public class ContactDaoImpl implements ContactDao {
-    private static Map<String, Contact> contactMap = new HashMap<>();
+    private static Map<Integer, Contact> contactMap = new HashMap<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Contact insert(String id, Contact contact) {
+    public Contact insert(int id, Contact contact) {
         contactMap.put(id, contact);
         return contactMap.get(id);
     }
@@ -36,7 +36,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Contact> fetchAll() {
+    public Map<Integer, Contact> fetchAll() {
         if (null != contactMap) {
             return contactMap;
         }
@@ -47,7 +47,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public Contact fetchById(String id) {
+    public Contact fetchById(int id) {
         if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.get(id);
@@ -60,7 +60,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public Contact updateById(String id, Contact contact) {
+    public Contact updateById(int id, Contact contact) {
         if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.replace(id, contact);
@@ -73,7 +73,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public Contact deleteById(String id) {
+    public Contact deleteById(int id) {
         if (null != contactMap) {
             if (contactMap.containsKey(id)) {
                 return contactMap.remove(id);

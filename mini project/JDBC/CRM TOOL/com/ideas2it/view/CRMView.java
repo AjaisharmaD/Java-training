@@ -46,7 +46,7 @@ public class CRMView {
     public void startCRM() {
         Scanner scanner = new Scanner(System.in);
         printWelcomeMessage();
-        String userId = "";
+        int userId ;
         String logout;
         String loginChoice;
         boolean isActive = false;
@@ -60,7 +60,8 @@ public class CRMView {
             switch (loginChoice) {
             case Constants.EMPLOYEE:
                  while (!isValid) {
-                     userId = getId(scanner);
+                     System.out.print("Enter employee ID: ");
+                     userId = scanner.nextInt();
                     
                      if (isValidUser(userId)) {
                          logger.info("Logging in as Employee");
@@ -95,50 +96,16 @@ public class CRMView {
     /**
      * Validates the login Details
      */
-    public boolean isValidUser(String id) {
+    public boolean isValidUser(int id) {
         boolean isValidUser = false;
-        String userId = "";
-        List<User> users = userController.getAll();
+        User user = userController.getById(id);
 
-        if (null != users) {
-            for (User user : users) {
-                userId = user.getId();
-
-                if (userId.equals(id)) {
-                    isValidUser = true;
-                } 
-            }
+        if (null != user) {
+            isValidUser = true;
         } else {
             System.out.println("No User Present");
         }
         return isValidUser;
-    } 
-
-    /**
-     * <h1> Get ID </h1>
-     * <p>
-     * Gets the Id of the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return id     - a valid Id 
-     */
-    private String getId(Scanner scanner) {
-        String id = " ";
-        boolean isNotValid = true;
-
-        while (isNotValid) {
-            System.out.print("\nEnter Id             : ");
-            id = scanner.next();
-
-            if (userController.isValidId(id)) {
-                isNotValid = false;
-            } else { 
-                logger.error(Messages.WRONG_ID_FORMAT);
-            }  
-        }
-        return id; 
     }
 
     /**

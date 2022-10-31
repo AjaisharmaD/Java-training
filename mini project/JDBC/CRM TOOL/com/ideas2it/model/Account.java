@@ -19,7 +19,7 @@ public class Account {
     private String email;
     private String phoneNumber;
     private String type;
-    private String userId;
+    private int userId;
 
     private List<Contact> contacts = new ArrayList<>(); 
     private List<Opportunity> opportunities = new ArrayList<>();
@@ -52,7 +52,7 @@ public class Account {
         this.opportunities.add(opportunity);
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -84,7 +84,7 @@ public class Account {
         return opportunities;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

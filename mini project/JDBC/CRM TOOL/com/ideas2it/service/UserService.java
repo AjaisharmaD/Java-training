@@ -22,23 +22,10 @@ import com.ideas2it.model.User;
  * @since   19-09-2022
  */
 public class UserService {
-    private static int idCount = 0;
     private UserDao userDao;
 
     public UserService() {
         this.userDao = new UserDaoImpl();
-    }
-
-    /**
-     * <h1> Id generator </h1>
-     * <p>
-     * Generates the Id for User
-     * </p>
-     * 
-     * @return String - generated Id
-     */
-    private String generateId() {
-        return Constants.EMPLOYEE_ID + (++idCount);   
     }
 
     /**
@@ -53,7 +40,8 @@ public class UserService {
      * @return boolean - true if the Details of an user added otherwise false
      */
     public boolean create(User user, String password) {
-        return userDao.insert(generateId(), user, password);
+        user.setPassword(password);
+        return userDao.insert(user);
     }
 
     /**
@@ -83,7 +71,7 @@ public class UserService {
      *
      * @return user - Details of a Single User
      */
-    public User getById(String id) {
+    public User getById(int id) {
         return userDao.fetchById(id);
     }
 
@@ -96,10 +84,11 @@ public class UserService {
      * @param id    - key to update the Details of User
      * @param user  - updated User Details
      *
-     * @return User - Details of a Single User
+     * @return boolean - status of the id
      */
-    public User updateById(String id, User user) {
-        return userDao.updateById(id, user);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return (userDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+
     }
 
     /**
@@ -112,10 +101,7 @@ public class UserService {
      *
      * @return boolean - true if the Details of User are Deleted otherwise false
      */
-    public boolean isDeletedById(String id) {
-        if (userDao.deleteById(id) != null) {
-            return true;
-        }
-        return false;
+    public boolean isDeletedById(int id) {
+        return (userDao.deleteById(id) <= 0) ? false : true;
     }
 }

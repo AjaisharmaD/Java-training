@@ -54,7 +54,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void openEmployeeDashboard(Scanner scanner, String userId) {
+    public void openEmployeeDashboard(Scanner scanner, int userId) {
         boolean isOpen = false;
         String operationChoice; 
         String logout;   
@@ -103,7 +103,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void openLeadOperations(Scanner scanner, String userId) {
+    private void openLeadOperations(Scanner scanner, int userId) {
         boolean isOpen = false;
         String operationChoice; 
         String logout;   
@@ -155,7 +155,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void create(Scanner scanner, String userId) {
+    private void create(Scanner scanner, int userId) {
         Lead lead = null;
         String name;
         String email;
@@ -171,7 +171,7 @@ public class LeadView {
         status = getStatus(scanner, lead, userId);
         createdDate = getCreatedDate();
         lead = new Lead(name, email, phoneNumber,companyName, status,
-                                                        createdDate, userId);
+                                                createdDate, userId);
         System.out.println((leadController.create(lead) != null) 
                                           ? Messages.ADDED_SUCCESSFULLY 
                                           : Messages.FAILED_TO_ADD);
@@ -183,7 +183,7 @@ public class LeadView {
      * Method will Display all the Details of Lead
      * </p>
      */
-    private void displayAll(Scanner scanner, String userId) {
+    private void displayAll(Scanner scanner, int userId) {
         System.out.println("\n========== LEAD DETAILS ==========\n");
         List<Lead> leads = leadController.getAll(userId);
 
@@ -206,11 +206,11 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void displayById(Scanner scanner, String userId) {
+    private void displayById(Scanner scanner, int userId) {
         System.out.println("\n========== SEARCH LEAD ==========\n");  
-        System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
+        System.out.print("Enter the ID to Lead: ");
+
+        int id = scanner.nextInt();
         Lead lead = leadController.getById(id);
 
         if (null != lead) {
@@ -230,11 +230,10 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void updateById(Scanner scanner, String userId) {  
+    private void updateById(Scanner scanner, int userId) {  
         System.out.println("\n========== UPDATE LEAD  ==========\n");
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);   
+        int id = scanner.nextInt();  
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
@@ -296,15 +295,14 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void deleteById(Scanner scanner, String userId) {
+    private void deleteById(Scanner scanner, int userId) {
         System.out.println("\n========== DELETE LEAD  ==========\n");
         System.out.print("Enter the ID to Delete Lead\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
+        int id = scanner.nextInt(); 
         Lead lead = leadController.getById(id);
 
         if (null != lead) {
-            if (lead.getUserId().equals(userId)) {
+            if (lead.getUserId() == userId) {
                 if (leadController.isDeletedById(id)) { 
                     logger.info(Messages.DELETED_SUCCESSFULLY);
                 } else {
@@ -437,7 +435,7 @@ public class LeadView {
      *
      * @return status - Status of a Lead
      */
-    private String getStatus(Scanner scanner, Lead lead, String userId) {
+    private String getStatus(Scanner scanner, Lead lead, int userId) {
         boolean isSelected = false;
         String logout;
         String status = "";
@@ -498,7 +496,7 @@ public class LeadView {
      * @param scanner - object of a Scanner class
      *
      * @return id     - a valid Id 
-     */
+
     private String getId(Scanner scanner) {
         String id = " ";
         boolean isNotValid = false;
@@ -514,6 +512,7 @@ public class LeadView {
         }
         return id; 
     }
+     */
 
     /**
      * <h1> Get Created Date </h1>

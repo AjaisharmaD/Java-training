@@ -61,7 +61,7 @@ public class OpportunityController {
      *
      * @return Opportunity - Details of a Single Opportunity
      */
-    public Opportunity getById(String id) {
+    public Opportunity getById(int id) {
         return opportunityService.getById(id);
     }
 
@@ -76,7 +76,7 @@ public class OpportunityController {
      *
      * @return Opportunity - the Update details of Opportunity
      */
-    public Opportunity updateById(String id, Opportunity opportunity) {
+    public Opportunity updateById(int id, Opportunity opportunity) {
         return opportunityService.updateById(id, opportunity);
     }
 
@@ -90,7 +90,7 @@ public class OpportunityController {
      *
      * @return boolean - Status of the Delated Opportunity
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         return opportunityService.isDeletedById(id);
     }
 

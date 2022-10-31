@@ -21,13 +21,13 @@ import com.ideas2it.model.Lead;
  * @since   19-09-2022
  */
 public class LeadDaoImpl implements LeadDao {
-    private static Map<String, Lead> leadMap = new HashMap<>();
+    private static Map<Integer, Lead> leadMap = new HashMap<>();
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Lead insert(String id, Lead lead) {
+    public Lead insert(int id, Lead lead) {
         lead.setId(id);
         leadMap.put(id, lead);
         return leadMap.get(id);
@@ -37,7 +37,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Lead> fetchAll() {
+    public Map<Integer, Lead> fetchAll() {
         if (null != leadMap) {
             return leadMap;
         }
@@ -48,7 +48,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead fetchById(String id) {
+    public Lead fetchById(int id) {
         if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.get(id);
@@ -61,7 +61,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead updateById(String id, Lead lead) {
+    public Lead updateById(int id, Lead lead) {
         if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.replace(id, lead);
@@ -74,7 +74,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead deleteById(String id) {
+    public Lead deleteById(int id) {
         if (null != leadMap) {
             if (leadMap.containsKey(id)) {
                 return leadMap.remove(id);

@@ -11,17 +11,17 @@ package com.ideas2it.model;
  * @since   24-08-2022
  */
 public class Lead {
-    private String id;
+    private int id;
     private String name;
     private String phoneNumber;
     private String emailId;
     private String createdDate;
     private String companyName;
     private String status;
-    private String userId;
+    private int userId;
 
     public Lead(String name, String emailId, String phoneNumber,
-                       String companyName, String status, String createdDate, String userId) {
+                       String companyName, String status, String createdDate, int userId) {
         this.name = name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
@@ -31,7 +31,7 @@ public class Lead {
         this.userId = userId;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,11 +59,11 @@ public class Lead {
         this.createdDate = createdDate;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
     
@@ -91,7 +91,7 @@ public class Lead {
         return createdDate;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

@@ -123,7 +123,7 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class
      * @param contact    - contact to create Opportunity 
      */
-    public void createFromContact(Scanner scanner, Contact contact, String userId) {
+    public void createFromContact(Scanner scanner, Contact contact, int userId) {
         Opportunity opportunity = new Opportunity();
         opportunity.setAccountName(contact.getAccountName());
         opportunity.setName(contact.getName());
@@ -168,8 +168,7 @@ public class OpportunityView {
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH OPPORTUNITY ==========\n");  
         System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
+        int id = scanner.nextInt();
         Opportunity opportunity = opportunityController.getById(id);
 
         if (null != opportunity) {
@@ -192,8 +191,7 @@ public class OpportunityView {
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE OPPORTUNITY  ==========\n");
         System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);   
+        int id = scanner.nextInt();  
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
@@ -252,8 +250,7 @@ public class OpportunityView {
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE opportunity  ==========\n");
         System.out.print("Enter the ID to Delete opportunity\n \" Format:Lead_01 \" : ");
-        scanner.skip("\r\n");
-        String id = getId(scanner);
+        int id = scanner.nextInt();
         System.out.println((opportunityController.isDeletedById(id)) 
                                    ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
         logger.info("Lead Deleted");
@@ -413,7 +410,7 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class
      *
      * @return id     - a valid Id 
-     */
+     
     private String getId(Scanner scanner) {
         String id = " ";
         boolean isNotValid = false;
@@ -430,6 +427,7 @@ public class OpportunityView {
         }
         return id; 
     }
+    */
 
     /**
      * <h1> Print Update Status </h1>

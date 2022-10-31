@@ -37,8 +37,8 @@ public class LeadService {
      * 
      * @return String - generated Id
      */
-    private String generateId() {   
-        return Constants.LEAD_ID + (++idCount);  
+    private int generateId() {   
+        return  (++idCount);  
     }
     
     /**
@@ -60,20 +60,20 @@ public class LeadService {
      * <p>
      * Gets the Details of all Leads 
      * </p>
-     *
+     * 
      * @return List - Details of Leads 
      */
-    public List<Lead> getAll(String userId) {   
-         Map<String, Lead> map = leadDao.fetchAll();
+    public List<Lead> getAll(int userId) {   
+         Map<Integer, Lead> map = leadDao.fetchAll();
          List<Lead> leads = new ArrayList<>();
          Lead lead;
 
          if (null != map) {
-            for (Map.Entry<String, Lead> leadMap : map.entrySet()) {
+            for (Map.Entry<Integer, Lead> leadMap : map.entrySet()) {
 
                 lead = leadMap.getValue();
 
-                if (lead.getUserId().equals(userId)) {
+                if (lead.getUserId() == userId) {
                     leads.add(lead);
                 }
             }
@@ -91,11 +91,11 @@ public class LeadService {
      *
      * @return Lead - Details of Single lead 
      */
-    public Lead getById(String id) {
+    public Lead getById(int id) {
         Lead lead = leadDao.fetchById(id);
 
         if (null != lead) {
-            if (lead.getUserId().equals(id)) {
+            if (lead.getUserId() == id) {
                 return lead;
             }
         }
@@ -113,7 +113,7 @@ public class LeadService {
      *  
      * @return Lead    - Details of Single lead
      */
-    public Lead updateById(String id, Lead lead) {
+    public Lead updateById(int id, Lead lead) {
         return leadDao.updateById(id, lead);
     }
 
@@ -127,7 +127,7 @@ public class LeadService {
      *
      * @return boolean - Status of the Deleted Lead
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         if (leadDao.deleteById(id) != null) {
             return true;
         }

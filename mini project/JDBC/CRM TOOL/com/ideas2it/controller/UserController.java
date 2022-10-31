@@ -68,7 +68,7 @@ public class UserController {
      *
      * @return User - Details of a Single User
      */
-    public User getById(String id) {
+    public User getById(int id) {
         return userService.getById(id);
     }
 
@@ -82,7 +82,7 @@ public class UserController {
      *
      * @return Lead - Details of a Single Lead
      */
-    public Lead getLeadById(String id) {
+    public Lead getLeadById(int id) {
         return leadService.getById(id);
     }
 
@@ -92,13 +92,13 @@ public class UserController {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param id        - key to update the Details of Users
-     * @param user  - updated Details of Users
+     * @param id       - key to update the Details of Users
+     * @param user     - updated Details of Users
      *
-     * @return User - Updated details of a Single User
+     * @return boolean - updated status of given id
      */
-    public User updateById(String id, User user) {
-        return userService.updateById(id, user);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return userService.updateById(id, columnName, columnValue);
     }
 
     /**
@@ -111,7 +111,7 @@ public class UserController {
      *
      * @return boolean - true if the Details of User are Removed otherwise false
      */
-    public boolean isDeletedById(String id) {
+    public boolean isDeletedById(int id) {
         return userService.isDeletedById(id);
     }
 
@@ -174,22 +174,6 @@ public class UserController {
      */
     public boolean isValidPassword(String password) {
         if (validationUtils.isValidPassword(password)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * <h1> Valid ID </h1>
-     * <p>
-     * This method will get the Id and checks whether the given Id is valid or not
-     * </p>
-     *
-     * @param id       - id to be Validated  
-     * @return boolean - Status of the Id
-     */
-    public boolean isValidId(String id) {
-        if (validationUtils.isValidId(id)) {
             return true;
         }
         return false;

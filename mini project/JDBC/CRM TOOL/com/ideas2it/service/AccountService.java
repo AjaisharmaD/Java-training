@@ -74,8 +74,8 @@ public class  AccountService {
      *
      * @return Account - Details of Account
      */
-    public Account getById(String id) {
-        return accountDao.fetchById(id);
+    public Account getById(String name) {
+        return accountDao.fetchById(name);
     }
 
     /**
@@ -89,8 +89,8 @@ public class  AccountService {
      *  
      * @return Account - Details of Single lead
      */
-    public Account updateById(String id, Account account) {
-        return accountDao.updateById(id, account);
+    public Account updateById(String name, Account account) {
+        return accountDao.updateById(name, account);
     }
 
     /**
@@ -103,8 +103,8 @@ public class  AccountService {
      *
      * @return boolean - Status of the Deleted Account
      */
-    public boolean isDeletedById(String id) {
-        if (accountDao.deleteById(id) != null) {
+    public boolean isDeletedById(String name) {
+        if (accountDao.deleteById(name) != null) {
             return true;
         }
         return false;

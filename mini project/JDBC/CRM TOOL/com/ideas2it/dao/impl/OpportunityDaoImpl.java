@@ -21,13 +21,13 @@ import com.ideas2it.model.Opportunity;
  * @since   03-10-2022
  */
 public class OpportunityDaoImpl implements OpportunityDao {
-    private static Map<String, Opportunity> opportunityMap = new HashMap<>();
+    private static Map<Integer, Opportunity> opportunityMap = new HashMap<>();
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Opportunity insert(String id, Opportunity opportunity) {
+    public Opportunity insert(int id, Opportunity opportunity) {
         opportunityMap.put(id, opportunity);
         return opportunityMap.get(id);
     }
@@ -36,7 +36,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Opportunity> fetchAll() {
+    public Map<Integer, Opportunity> fetchAll() {
         if (null != opportunityMap) {
             return opportunityMap;
         }
@@ -47,7 +47,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public Opportunity fetchById(String id) {
+    public Opportunity fetchById(int id) {
         if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.get(id);
@@ -60,7 +60,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public Opportunity updateById(String id, Opportunity opportunity) {
+    public Opportunity updateById(int id, Opportunity opportunity) {
         if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.replace(id, opportunity);
@@ -73,7 +73,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public Opportunity deleteById(String id) {
+    public Opportunity deleteById(int id) {
         if (null != opportunityMap) {
             if (opportunityMap.containsKey(id)) {
                 return opportunityMap.remove(id);
