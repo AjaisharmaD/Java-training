@@ -21,13 +21,12 @@ public class Lead {
     private int userId;
 
     public Lead(String name, String emailId, String phoneNumber,
-                       String companyName, String status, String createdDate, int userId) {
+                       String companyName, String status, int userId) {
         this.name = name;
         this.emailId = emailId;
         this.phoneNumber = phoneNumber;
         this.companyName = companyName;
         this.status = status;
-        this.createdDate = createdDate;
         this.userId = userId;
     }
 

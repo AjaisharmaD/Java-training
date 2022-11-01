@@ -22,23 +22,10 @@ import com.ideas2it.model.Lead;
  * @since   16-09-2022
  */
 public class LeadService {
-    private static int idCount = 0;
     private LeadDao leadDao;
     
     public LeadService() {
         this.leadDao = new LeadDaoImpl(); 
-    }
-   
-    /**
-     * <h1> Id generator </h1>
-     * <p>
-     * Generates the Id for Lead
-     * </p>
-     * 
-     * @return String - generated Id
-     */
-    private int generateId() {   
-        return  (++idCount);  
     }
     
     /**
@@ -47,12 +34,12 @@ public class LeadService {
      * Creates the Details of Leads 
      * </p>
      *
-     * @param lead  - lead details to add 
+     * @param lead     - lead details to add 
      *
-     * @return Lead - lead detail which is inserted into the map
+     * @return boolean - status of the lead
      */
-    public Lead create(Lead lead) {
-       return leadDao.insert(generateId(), lead);
+    public boolean create(Lead lead) {
+       return leadDao.insert(lead);
     } 
 
     /**   
@@ -64,21 +51,12 @@ public class LeadService {
      * @return List - Details of Leads 
      */
     public List<Lead> getAll(int userId) {   
-         Map<Integer, Lead> map = leadDao.fetchAll();
-         List<Lead> leads = new ArrayList<>();
-         Lead lead;
+         List<Lead> leads = leadDao.fetchAll();
 
-         if (null != map) {
-            for (Map.Entry<Integer, Lead> leadMap : map.entrySet()) {
-
-                lead = leadMap.getValue();
-
-                if (lead.getUserId() == userId) {
-                    leads.add(lead);
-                }
-            }
+         if (null != leads) {
+            return leads;
         }
-        return leads;    
+        return null;    
     }
 
     /**
@@ -92,14 +70,7 @@ public class LeadService {
      * @return Lead - Details of Single lead 
      */
     public Lead getById(int id) {
-        Lead lead = leadDao.fetchById(id);
-
-        if (null != lead) {
-            if (lead.getUserId() == id) {
-                return lead;
-            }
-        }
-        return lead;
+        return leadDao.fetchById(id);
     }
 
     /**
@@ -108,13 +79,14 @@ public class LeadService {
      * Updates the Details of a Single Lead
      * </p>
      *
-     * @param id       - key to update the Lead
-     * @param lead     - an updated Lead 
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *  
-     * @return Lead    - Details of Single lead
+     * @return Lead    - Status of the Updated lead
      */
-    public Lead updateById(int id, Lead lead) {
-        return leadDao.updateById(id, lead);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return (leadDao.updateById(id, columnName, columnValue) <=0) ? false : true;
     }
 
     /**
@@ -128,9 +100,6 @@ public class LeadService {
      * @return boolean - Status of the Deleted Lead
      */
     public boolean isDeletedById(int id) {
-        if (leadDao.deleteById(id) != null) {
-            return true;
-        }
-        return false;
+        return (leadDao.deleteById(id) <= 0) ? false : true;
     }
 }

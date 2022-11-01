@@ -111,7 +111,7 @@ public class UserView {
         phoneNumber = getPhoneNumber(scanner);
         password = getPassword(scanner);
         System.out.println((userController.create(new User(name, emailId,
-                                           phoneNumber), password) == false) 
+                                           phoneNumber), password) != true) 
                                            ? Messages.ADDED_SUCCESSFULLY 
                                            : Messages.FAILED_TO_ADD);   
     }
@@ -124,9 +124,10 @@ public class UserView {
      */
     public void displayAll() {
         System.out.println("\n========== EMPLOYEE DETAILS ==========\n");
+        List<User> users = userController.getAll();
 
-        if (null != userController.getAll()) {
-            for (User user : userController.getAll()) {
+        if (null != users) {
+            for (User user : users) {
                 System.out.println(user);
                 System.out.println("--------------X--------------\n");
             }
@@ -205,7 +206,13 @@ public class UserView {
                     printUpdatedStatus(userController.updateById(id, columnName, getPhoneNumber(scanner)));
                     break;
 
-                case Constants.EXIT_EMPLOYEE_UPDATER:
+                case Constants.PASSWORD:
+                    columnName = "password";
+                    scanner.skip("\r\n");
+                    printUpdatedStatus(userController.updateById(id, columnName, getPassword(scanner)));
+                    break;
+
+                case Constants.EXIT:
                     isUpdating = true;         
                     break;
                                   
@@ -433,7 +440,7 @@ public class UserView {
                      .append(" \" for Email\n")
                      .append("press \" ").append(Constants.PHONE_NUMBER)
                      .append(" \" for Phone Number\n")
-                     .append("press \" ").append(Constants.EXIT_EMPLOYEE_UPDATER)
+                     .append("press \" ").append(Constants.EXIT)
                      .append(" \" for Exit\n")
                      .append("Enter your Updater: "); 
         System.out.println(choicePrinter);

@@ -17,7 +17,7 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(Constants.URL, Constants.USERNAME, Constants.PASSWORD);
+                connection = DriverManager.getConnection(Constants.URL, Constants.USERNAME, Constants.SQL_PASSWORD);
             }
         } catch (SQLException e) {
             System.out.println(e);

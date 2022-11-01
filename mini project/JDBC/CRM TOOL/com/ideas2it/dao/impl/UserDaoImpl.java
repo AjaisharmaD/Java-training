@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -28,30 +27,32 @@ import com.ideas2it.model.User;
  * @since   19-09-2022
  */
 public class UserDaoImpl implements UserDao {
-    private Connection connection;
-    private Statement statement;
-    //private PreparedStatement preparedStatement;
+     Connection connection;
+     PreparedStatement statement; 
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean insert(User user) {
+        boolean status = false;
+
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.createStatement();
-            String query = "INSERT INTO user (name,email,phone_number,password)" 
-                                    +"VALUES ('"+user.getName()+"','"
-                                                +user.getEmailId()+"','"
-                                                +user.getPhoneNumber()+"','"
-                                                +user.getPassword()+"')";
-            return statement.execute(query);
-        } catch (SQLException e) {
-            System.out.println(e);
+            statement = connection.prepareStatement("INSERT INTO user (name,"
+                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+            statement.setString(1,user.getName());
+            statement.setString(2,user.getEmailId());
+            statement.setString(3,user.getPhoneNumber());
+            statement.setString(4,user.getPassword());
+            status = statement.execute();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return true;
+        return status;
     }
 
     /**
@@ -59,22 +60,26 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public List<User> fetchAll() {
+        ResultSet resultSet = null;
         User user;
         List<User> userList = new ArrayList<>();
-        String query = "SELECT * FROM user";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
+            statement = connection.prepareStatement("SELECT * FROM user");
+            resultSet = statement.executeQuery();
        
-            while (rs.next()) {
-                user = new User(rs.getString("name"),rs.getString("email"),rs.getString("phone_number"));
-                user.setId(rs.getInt("id"));
+            while (resultSet.next()) {
+                user = new User(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"));
+                user.setId(resultSet.getInt("id"));
                 userList.add(user);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -86,23 +91,27 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User fetchById(int id) {
+        ResultSet resultSet = null;
         User user = null;
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.createStatement();
-            String query = "SELECT * FROM user WHERE id ="+id;
-            ResultSet rs = statement.executeQuery(query);
+            statement = connection.prepareStatement("SELECT * FROM user WHERE id =?");
+            statement.setInt(1,id);
+            resultSet = statement.executeQuery();
             
-            if (null != rs) {
-                while(rs.next()) {
-                    user = new User(rs.getString("name"),rs.getString("email"),rs.getString("phone_number"));
-                    user.setId(rs.getInt("id"));
+            if (null != resultSet) {
+                while(resultSet.next()) {
+                    user = new User(resultSet.getString("name"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone_number"));
+                    user.setId(resultSet.getInt("id"));
                 }
-                return user;
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -114,19 +123,22 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public int updateById(int id, String columnName, String columnValue) {
-        int status = 0;
+        int rowCount = 0; 
+        String query = "UPDATE user SET "+columnName+" = ? WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.createStatement();
-            String query = "UPDATE user SET "+columnName+" = '"+columnValue+"' WHERE id = "+id;
-            status = statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println(e);
+            statement = connection.prepareStatement(query);
+            statement.setString(1,columnValue);
+            statement.setInt(2,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return rowCount;
     }
 
     /**
@@ -134,18 +146,19 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public int deleteById(int id) {
-        int status = 0;
+        int rowCount = 0;
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.createStatement();
-            String query = "DELETE FROM user WHERE id = "+id;
-            status = statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println(e);
+            statement = connection.prepareStatement("DELETE FROM user WHERE id = ?");
+            statement.setInt(1,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return rowCount;
     }
 }

@@ -25,9 +25,9 @@ public interface UserDao {
      * Inserts the Details of Users 
      * <p>
      *
-     * @param employee   - employee Details to add 
+     * @param user     - user object to update
      *
-     * @return User  - Details of an User
+     * @return boolean - status of the user
      */
     public boolean insert(User user);
 
@@ -37,7 +37,7 @@ public interface UserDao {
      * Fetchs the Details of users  
      * </p>
      *
-     * @return Map - Details of users
+     * @return List - list of User details
      */
     public List<User> fetchAll();
 
@@ -47,7 +47,7 @@ public interface UserDao {
      * Fetchs the Details of Users by Id
      * </p>
      * 
-     * @param id    - User's Id to search the Details of User
+     * @param id    - User's Id to search the Detail
      *
      * @return User - Details of a Single User
      */
@@ -59,10 +59,11 @@ public interface UserDao {
      * Updates the Details of Users 
      * </p>
      *
-     * @param id    - key to store the Updated Details of User
-     * @param User  - updated Details of User
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return int  - int value of row affected
+     * @return int  - count of rows affected
      */
     public int updateById(int id, String columnName, String columnValue);
 
@@ -72,9 +73,9 @@ public interface UserDao {
      * Deletes the Details of User 
      * </p>
      *
-     * @param id    - key to Delete the Details of User
+     * @param id    - id to delete the user
      *
-     * @return User - Deleted Details of User
+     * @return int  - count of rows affected
      */
     public int deleteById(int id);
 }

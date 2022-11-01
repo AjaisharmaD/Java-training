@@ -1,11 +1,17 @@
 package com.ideas2it.dao.impl;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.dao.AccountDao;
+import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.model.Account;
 
 /**
@@ -21,64 +27,138 @@ import com.ideas2it.model.Account;
  * @since   03-10-2022
  */
 public class AccountDaoImpl implements AccountDao {
-    private static Map<String, Account> accountMap = new HashMap<>();
+     Connection connection;
+     PreparedStatement statement; 
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Account insert(String name, Account account) {
-        accountMap.put(name, account);
-        return accountMap.get(name);
-    }
+    public boolean insert(Account account) {
+        boolean status = false;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Map<String, Account> fetchAll() {
-        if (null != accountMap) {
-            return accountMap;
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("INSERT INTO account (name,"
+                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+            statement.setString(1,account.getName());
+            statement.setString(2,account.getEmailId());
+            statement.setString(3,account.getPhoneNumber());
+            statement.setString(4,account.getPassword());
+            status = statement.execute();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return status;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Account fetchById(String name) {
-        if (null != accountMap) {
-            if (accountMap.containsKey(name)) {
-                return accountMap.get(name);
-            }
-        } 
-        return null;
-    }
+    public List<Account> fetchAll() {
+        ResultSet resultSet = null;
+        Account account;
+        List<Account> accountList = new ArrayList<>();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Account updateById(String name, Account account) {
-        if (null != accountMap) {
-            if (accountMap.containsKey(name)) {
-                return accountMap.replace(name, account);
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM account");
+            resultSet = statement.executeQuery();
+       
+            while (resultSet.next()) {
+                account = new Account(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"));
+                account.setId(resultSet.getInt("id"));
+                accountList.add(account);
             }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return accountList;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Account deleteById(String name) {
-        if (null != accountMap) {
-            if (accountMap.containsKey(name)) {
-                return accountMap.remove(name);
+    public Account fetchById(int id) {
+        ResultSet resultSet = null;
+        Account account = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM account WHERE id =?");
+            statement.setInt(1,id);
+            resultSet = statement.executeQuery();
+            
+            if (null != resultSet) {
+                while(resultSet.next()) {
+                    account = new Account(resultSet.getString("name"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone_number"));
+                    account.setId(resultSet.getInt("id"));
+                }
             }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return account;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int updateById(int id, String columnName, String columnValue) {
+        int rowCount = 0; 
+        String query = "UPDATE account SET "+columnName+" = ? WHERE id = ?";
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1,columnValue);
+            statement.setInt(2,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return rowCount;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int deleteById(int id) {
+        int rowCount = 0;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("DELETE FROM account WHERE id = ?");
+            statement.setInt(1,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return rowCount;
     }
 }

@@ -39,8 +39,7 @@ public class  AccountService {
      * @return Account - account detail which is inserted into the Map
      */
     public Account create(Account account) {
-       String name = account.getName();
-       return accountDao.insert(name, account);
+       return accountDao.insert(account);
     } 
 
     /**   
@@ -52,16 +51,12 @@ public class  AccountService {
      * @return List - Details of Account
      */
     public List<Account> getAll() {   
-        Map<String, Account> map = accountDao.fetchAll();
-        List<Account> accounts = new ArrayList<>();
-        Account account;
+        List<Account> accounts = accountDao.fetchAll();
 
-        if (null != map) {
-            for (Map.Entry<String, Account> accountEntry : map.entrySet()) {
-                accounts.add(accountEntry.getValue());
-            }  
+        if (null != accounts) {
+            return accounts;
         }
-        return accounts;
+        return null;
     }
 
     /**
@@ -84,13 +79,14 @@ public class  AccountService {
      * Updates the Details of a Account
      * </p>
      *
-     * @param id       - key to update the Account
-     * @param account  - an updated Account
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *  
      * @return Account - Details of Single lead
      */
-    public Account updateById(String name, Account account) {
-        return accountDao.updateById(name, account);
+    public Account updateById(int id, String columnName, String columnValue) {
+        return accountDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
@@ -103,10 +99,7 @@ public class  AccountService {
      *
      * @return boolean - Status of the Deleted Account
      */
-    public boolean isDeletedById(String name) {
-        if (accountDao.deleteById(name) != null) {
-            return true;
-        }
-        return false;
+    public boolean isDeletedById(int id) {
+        return accountDao.deleteById(id) <= 0) ? false : true;
     }
 }

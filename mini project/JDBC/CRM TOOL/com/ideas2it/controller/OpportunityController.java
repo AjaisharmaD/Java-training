@@ -32,9 +32,9 @@ public class OpportunityController {
      *
      * @param Opportunity  - Opportunity details to add 
      *
-     * @return Opportunity - Details of a added Opportunity
+     * @return boolean - status of opportuntiy
      */
-    public Opportunity create(Opportunity opportunity) {
+    public boolean create(Opportunity opportunity) {
         return opportunityService.create(opportunity);
     }
 
@@ -74,10 +74,10 @@ public class OpportunityController {
      * @param id           - key to update the Opportunity
      * @param opportunity  - updated Opportunity 
      *
-     * @return Opportunity - the Update details of Opportunity
+     * @return boolean - status of opportuntiy
      */
-    public Opportunity updateById(int id, Opportunity opportunity) {
-        return opportunityService.updateById(id, opportunity);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return opportunityService.updateById(id, columnName, columnValue);
     }
 
     /**

@@ -25,12 +25,11 @@ public interface ContactDao {
      * Inserts the Details of Contact 
      * </p>
      *
-     * @param ContactId - Id of a Contact
      * @param Contact   - Details of Contact to add 
      *   
-     * @return contact  - Details of Contact
+     * @return boolean  - status of contact
      */
-    public Contact insert(int contactId, Contact contact);
+    public boolean insert(Contact contact);
 
     /**   
      * <h1> Get Details of contact </h1>
@@ -38,9 +37,9 @@ public interface ContactDao {
      * Gets the Details of contact
      * </p>  
      *
-     * @return Map - Details of contacts 
+     * @return List - list of Contact Details
      */
-    public Map<Integer, Contact> fetchAll();
+    public List<Contact> fetchAll();
 
     /**
      * <h1> Get Details of Contact by Id </h1>
@@ -50,7 +49,7 @@ public interface ContactDao {
      * 
      * @param id       - Contact's Id to search the Contact
      *
-     * @return Contact - Details of single Contact
+     * @return Contact - Details of a Contact
      */
     public Contact fetchById(int id);
 
@@ -60,12 +59,13 @@ public interface ContactDao {
      * Updates the Details of Contact 
      * </p>
      *
-     * @param id       - key to update the Contact
-     * @param Contact  - updated Details of Contact
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return contact -  updated Details of Contact
+     * @return int        - count of rows affected
      */
-     public Contact updateById(int id, Contact contact);
+     public int updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Delete Details of Contact </h1>
@@ -73,9 +73,9 @@ public interface ContactDao {
      * Deletes the Details of Contact 
      * </p>
      *
-     * @param id       - key to Remove the Details of Contact
+     * @param id   - key to Remove the Details of Contact
      *
-     * @return Contact -  Delated Details of Contact
+     * @return int - count of rows affected
      */
-    public Contact deleteById(int id);
+    public int deleteById(int id);
 }

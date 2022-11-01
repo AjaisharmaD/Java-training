@@ -25,12 +25,11 @@ public interface OpportunityDao {
      * Inserts the Details of Opportunity 
      * </p>
      *
-     * @param OpportunityId - Id of a Opportunity
-     * @param Opportunity   - Details of Opportunity to add 
+     * @param Opportunity  - Details of Opportunity to add 
      *   
-     * @return Opportunity  - Details of Opportunity
+     * @return boolean     - status of the opportunity
      */
-    public Opportunity insert(int OpportunityId, Opportunity opportunity);
+    public boolean insert(Opportunity opportunity);
 
     /**   
      * <h1> Get Details of Opportunity </h1>
@@ -38,9 +37,9 @@ public interface OpportunityDao {
      * Gets the Details of Opportunity
      * </p>  
      *
-     * @return Map - Details of Opportunitys 
+     * @return List - list of opportunity details
      */
-    public Map<Integer, Opportunity> fetchAll();
+    public List<Opportunity> fetchAll();
 
     /**
      * <h1> Get Details of Opportunity by Id </h1>
@@ -60,12 +59,13 @@ public interface OpportunityDao {
      * Updates the Details of Opportunity 
      * </p>
      *
-     * @param id           - key to update the Opportunity
-     * @param Opportunity  - updated Details of Opportunity
+     * @param id          - id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return Opportunity -  updated Details of Opportunity
+     * @return int        - count of rows affected
      */
-     public Opportunity updateById(int id, Opportunity opportunity);
+     public int updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Delete Details of Opportunity </h1>
@@ -75,7 +75,7 @@ public interface OpportunityDao {
      *
      * @param id           - key to Remove the Details of Opportunity
      *
-     * @return Opportunity -  Delated Details of Opportunity
+     * @return int  - count of rows affected
      */
-    public Opportunity deleteById(int id);
+    public int deleteById(int id);
 }

@@ -36,11 +36,10 @@ public class  ContactService {
      *
      * @param contact  - contact details to add 
      *
-     * @return Contact - contact detail which is inserted into the Map
+     * @return boolean - status of contact
      */
-    public Contact create(Contact contact) {
-       int id = contact.getId();
-       return contactDao.insert(id, contact);
+    public boolean create(Contact contact) {
+       return contactDao.insert(contact);
     } 
 
     /**   
@@ -52,15 +51,12 @@ public class  ContactService {
      * @return List - Details of Contact
      */
     public List<Contact> getAll() {  
-        Map<Integer, Contact> map = contactDao.fetchAll();  
-        List<Contact> contacts = new ArrayList<>();
+        List<Contact> contacts = contactDao.fetchAll();
 
-        if (null != map) {
-            for (Map.Entry<Integer, Contact> contactEntry : map.entrySet()) {
-                contacts.add(contactEntry.getValue());
-            }  
+        if (null != contacts) {
+            return contacts;  
         }
-        return contacts;
+        return null;
     }
 
     /**
@@ -86,10 +82,10 @@ public class  ContactService {
      * @param id       - key to update the contact
      * @param contact  - an updated contact
      *  
-     * @return Contact - Details of Single lead
+     * @return boolean - status of contact
      */
-    public Contact updateById(int id, Contact contact) {
-        return contactDao.updateById(id, contact);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return (contactDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
@@ -103,9 +99,6 @@ public class  ContactService {
      * @return boolean - Status of the Deleted contact
      */
     public boolean isDeletedById(int id) {
-        if (contactDao.deleteById(id) != null) {
-            return true;
-        }
-        return false;
+        return (contactDao.deleteById(id) <= 0) ? false : true;
     }
 }

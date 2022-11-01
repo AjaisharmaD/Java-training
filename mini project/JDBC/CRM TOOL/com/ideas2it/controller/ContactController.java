@@ -32,7 +32,7 @@ public class ContactController {
      *
      * @param contact  - contact details to add 
      *
-     * @return Contact - Details of a added Contact
+     * @return boolean - status of contact
      */
     public Contact create(Contact contact) {
         return contactService.create(contact);
@@ -71,13 +71,14 @@ public class ContactController {
      * Updates the Details of a Single contact
      * </p>
      *
-     * @param id       - key to update the contact
-     * @param contact  - updated contact 
+     * @param id          - id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return Contact - the Update details of contact
+     * @return boolean - updated status of contact
      */
-    public Contact updateById(int id, Contact contact) {
-        return contactService.updateById(id, contact);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return contactService.updateById(id, columnName, columnValue);
     }
 
     /**

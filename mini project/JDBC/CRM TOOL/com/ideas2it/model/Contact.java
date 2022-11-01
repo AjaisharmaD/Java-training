@@ -20,7 +20,7 @@ public class Contact {
     private String accountName;
     private String email;
     private String phoneNumber;
-    private String title;
+    private String role;
     private int userId;
 
     List<Opportunity> opportunities = new ArrayList<>(); 
@@ -45,8 +45,8 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public void setOpportunity(Opportunity opportunity) {
@@ -77,8 +77,8 @@ public class Contact {
         return phoneNumber;
     } 
 
-    public String getTitle() {
-        return title;
+    public String getRole() {
+        return role;
     }
 
     public List<Opportunity> getOpportunity() {
@@ -96,7 +96,7 @@ public class Contact {
                .append("\nAccount Name     :").append(accountName)
                .append("\nEmail            :").append(email)
                .append("\nPhone Number     :").append(phoneNumber)
-               .append("\nTitle            :").append(title);
+               .append("\nRole            :").append(role);
         return contact.toString();
     }
 }

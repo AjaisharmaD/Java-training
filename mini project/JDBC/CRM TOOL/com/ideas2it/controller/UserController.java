@@ -92,8 +92,9 @@ public class UserController {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param id       - key to update the Details of Users
-     * @param user     - updated Details of Users
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
      * @return boolean - updated status of given id
      */

@@ -1,14 +1,18 @@
-2022-10-31 10:37:51,874 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 10:45:05,922 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 10:47:58,520 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 11:20:25,825 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 11:22:25,777 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 11:35:09,740 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 11:50:42,104 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 11:52:10,003 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 12:04:44,317 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 12:06:50,760 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 12:19:54,404 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 17:02:30,685 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-10-31 17:02:57,599 INFO c.i.v.UserView [main] 
+2022-11-01 13:06:21,316 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-01 13:06:59,766 INFO c.i.v.UserView [main] 
+>>>>> FAILED TO UPDATE <<<<<
+2022-11-01 14:38:07,150 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-01 14:38:22,631 INFO c.i.v.UserView [main] 
+>>>>> FAILED TO UPDATE <<<<<
+2022-11-01 14:39:12,456 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-01 14:39:23,898 INFO c.i.v.UserView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-01 14:39:41,495 INFO c.i.v.UserView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-01 18:20:00,090 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-01 18:20:30,142 INFO c.i.v.LeadView [main] Date created successfully
+2022-11-01 18:23:38,535 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-01 18:39:53,962 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-01 18:40:27,531 INFO c.i.v.LeadView [main] Date created successfully
+2022-11-01 18:45:20,660 INFO c.i.v.LeadView [main] 
 >>>>> UPDATED SUCCESSFULLY <<<<<

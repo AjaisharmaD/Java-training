@@ -1,6 +1,6 @@
 package com.ideas2it.enums;
 
-public enum Title {
+public enum Role {
     CEO,
     Founder,
     President,

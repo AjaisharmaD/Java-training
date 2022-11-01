@@ -171,8 +171,9 @@ public class LeadView {
         status = getStatus(scanner, lead, userId);
         createdDate = getCreatedDate();
         lead = new Lead(name, email, phoneNumber,companyName, status,
-                                                createdDate, userId);
-        System.out.println((leadController.create(lead) != null) 
+                                                              userId);
+        lead.setCreatedDate(createdDate);
+        System.out.println((leadController.create(lead)) != true 
                                           ? Messages.ADDED_SUCCESSFULLY 
                                           : Messages.FAILED_TO_ADD);
     }
@@ -233,11 +234,14 @@ public class LeadView {
     private void updateById(Scanner scanner, int userId) {  
         System.out.println("\n========== UPDATE LEAD  ==========\n");
         System.out.print("Enter the ID to Lead\n \" Format:Lead_01 \" : ");
-        int id = scanner.nextInt();  
+        int id = scanner.nextInt();
+        String columnName = ""; 
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
         Lead lead = leadController.getById(id);
+        System.out.println("\n" + lead);
+        System.out.println("\n--------------X---------------");
 
         if (lead != null) {
             while (!isUpdating) {
@@ -246,31 +250,31 @@ public class LeadView {
                   
                 switch (updaterChoice) {
                 case Constants.NAME:
-                    lead.setName(getName(scanner));
-                    printUpdatedStatus(leadController.updateById(id, lead));
+                    columnName = "name";
+                    printUpdatedStatus(leadController.updateById(id, columnName, getName(scanner)));
                     break;
                     
                 case Constants.EMAIL:
+                    columnName = "email";
                     scanner.skip("\r\n");
-                    lead.setEmailId(getEmailId(scanner));
-                    printUpdatedStatus(leadController.updateById(id, lead));
+                    printUpdatedStatus(leadController.updateById(id, columnName, getEmailId(scanner)));
                     break;
                          
                 case Constants.PHONE_NUMBER:
+                    columnName = "phone_number";
                     scanner.skip("\r\n");
-                    lead.setPhoneNumber(getPhoneNumber(scanner));
-                    printUpdatedStatus(leadController.updateById(id, lead));
+                    printUpdatedStatus(leadController.updateById(id, columnName, getPhoneNumber(scanner)));
                     break;
                         
                 case Constants.COMPANY_NAME:
+                    columnName = "company_name";
                     scanner.skip("\r\n");
-                    lead.setCompanyName(getCompanyName(scanner));
-                    printUpdatedStatus(leadController.updateById(id, lead));
+                    printUpdatedStatus(leadController.updateById(id, columnName, getCompanyName(scanner)));
                     break;
    
                 case Constants.STATUS:
-                    lead.setStatus(getStatus(scanner, lead, userId));
-                    printUpdatedStatus(leadController.updateById(id, lead));
+                    columnName = "status";
+                    printUpdatedStatus(leadController.updateById(id, columnName, getStatus(scanner, lead, userId)));
                     break;
 
                 case Constants.EXIT_LEAD:
@@ -538,8 +542,8 @@ public class LeadView {
      *
      * @param lead - Update lead
      */
-    private void printUpdatedStatus(Lead lead) {
-        if (lead != null) {
+    private void printUpdatedStatus(boolean status) {
+        if (status) {
             logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);

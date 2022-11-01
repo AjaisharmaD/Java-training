@@ -25,12 +25,12 @@ public interface AccountDao {
      * Inserts the Details of account 
      * </p>
      *
-     * @param name      - name of a Account
-     * @param account   - Details of Account to add 
+     * @param name     - name of a Account
+     * @param account  - Details of Account to add 
      *   
-     * @return Account  - Details of Account
+     * @return boolean - status of the account
      */
-    public Account insert(String name, Account account);
+    public boolean insert(Account account);
 
     /**   
      * <h1> Get Details of Account </h1>
@@ -38,9 +38,9 @@ public interface AccountDao {
      * Gets the Details of Account
      * </p>  
      *
-     * @return Map - Details of Accounts 
+     * @return List - list of account
      */
-    public Map<String, Account> fetchAll();
+    public List<Account> fetchAll();
 
     /**
      * <h1> Get Details of Account by Id </h1>
@@ -52,7 +52,7 @@ public interface AccountDao {
      *
      * @return Account - Details of single Account
      */
-    public Account fetchById(String name);
+    public Account fetchById(int id);
 
     /**
      * <h1> Update Details of Account </h1>
@@ -60,12 +60,13 @@ public interface AccountDao {
      * Updates the Details of Account 
      * </p>
      *
-     * @param id       - key to update the Account
-     * @param Account  - updated Details of Account
+     * @param id          - Account id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return Account -  updated Details of Account
+     * @return int        - count of rows affected
      */
-     public Account updateById(String name, Account account);
+     public int updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Delete Details of Account </h1>
@@ -73,9 +74,8 @@ public interface AccountDao {
      * Deletes the Details of Account 
      * </p>
      *
-     * @param id       - key to Remove the Details of Account
-     *
-     * @return Account -  Delated Details of Account
+     * @param id   - id to delete the account
+     * @return int - count of rows affected
      */
-    public Account deleteById(String name);
+    public Account deleteById(int id);
 }

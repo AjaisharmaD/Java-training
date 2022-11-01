@@ -37,7 +37,7 @@ public class UserService {
      * @param user     - Details of User to add 
      * @param password - password to login
      *
-     * @return boolean - true if the Details of an user added otherwise false
+     * @return boolean - status of the user 
      */
     public boolean create(User user, String password) {
         user.setPassword(password);
@@ -81,14 +81,14 @@ public class UserService {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param id    - key to update the Details of User
-     * @param user  - updated User Details
+     * @param id          - User id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
      * @return boolean - status of the id
      */
     public boolean updateById(int id, String columnName, String columnValue) {
         return (userDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
-
     }
 
     /**

@@ -68,7 +68,7 @@ public class CRMView {
                          leadView.openEmployeeDashboard(scanner, userId);
                          isValid = true;
                      } else {
-                         System.out.println(Messages.USER_NOT_FOUND);
+                         logger.info(Messages.USER_NOT_FOUND);
                          System.out.println(Messages.EXIT_MENU);
                          logout = scanner.next();
                          isValid = (logout.equals(Constants.LOGOUT)) ? true : false;  
@@ -103,7 +103,7 @@ public class CRMView {
         if (null != user) {
             isValidUser = true;
         } else {
-            System.out.println("No User Present");
+            logger.info("No User Present");
         }
         return isValidUser;
     }

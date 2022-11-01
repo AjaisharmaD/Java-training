@@ -25,12 +25,11 @@ public interface LeadDao {
      * Inserts the Details of Leads 
      * </p>
      *
-     * @param leadId - Id of a lead 
-     * @param lead   - Details of Leads to add 
+     * @param lead      - Details of Leads to add 
      *   
-     * @return Lead  - Details of Leads
+     * @return boolean  - status of the lead
      */
-    public Lead insert(int leadId, Lead lead);
+    public boolean insert(Lead lead);
 
     /**   
      * <h1> Get Details of Lead by Id </h1>
@@ -40,7 +39,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public Map<Integer, Lead> fetchAll();
+    public List<Lead> fetchAll();
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -60,12 +59,13 @@ public interface LeadDao {
      * Updates the Details of Lead 
      * </p>
      *
-     * @param id    - key to update the Lead
-     * @param lead  - updated Details of Lead
+     * @param id          - lead id to update
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
-     * @return Lead -  updated Details of Lead
+     * @return int - int value of rows affected
      */
-     public Lead updateById(int id, Lead lead);
+     public int updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Delete Details of Lead </h1>
@@ -75,7 +75,7 @@ public interface LeadDao {
      *
      * @param id    - key to Remove the Details of Lead
      *
-     * @return Lead -  Delated Details of Lead
+     * @return int - int value of rows affected
      */
-    public Lead deleteById(int id);
+    public int deleteById(int id);
 }

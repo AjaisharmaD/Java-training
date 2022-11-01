@@ -10,7 +10,7 @@ import com.ideas2it.controller.AccountController;
 import com.ideas2it.controller.ContactController;
 import com.ideas2it.controller.LeadController;
 import com.ideas2it.enums.Status;
-import com.ideas2it.enums.Title;
+import com.ideas2it.enums.Role;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
 import com.ideas2it.model.Lead;
@@ -112,10 +112,10 @@ public class ContactView {
         contact.setAccountName(getAccountName(scanner));
         contact.setEmailId(getEmailId(scanner));
         contact.setPhoneNumber(getPhoneNumber(scanner));
-        contact.setTitle(getTitle(scanner));
+        contact.setRole(getRole(scanner));
         createAccountOrAddContact(scanner, contact);
         opportunityView.createFromContact(scanner, contact, userId);
-        System.out.println(contactController.create(contact) != null 
+        System.out.println(contactController.create(contact) != true 
                                             ? Messages.ADDED_SUCCESSFULLY
                                             : Messages.FAILED_TO_ADD);
     }
@@ -137,11 +137,11 @@ public class ContactView {
         contact.setAccountName(lead.getCompanyName());
         contact.setEmailId(lead.getEmailId());
         contact.setPhoneNumber(lead.getPhoneNumber());
-        contact.setTitle(getTitle(scanner));
+        contact.setRole(getRole(scanner));
         contact.setUserId(lead.getUserId());
         createAccountOrAddContact(scanner, contact);
         opportunityView.createFromContact(scanner, contact, userId);
-        return contactController.create(contact) != null 
+        return contactController.create(contact) != true 
                                 ? Status.Converted.toString()
                                 : Messages.FAILED_TO_ADD;
     }
@@ -186,7 +186,7 @@ public class ContactView {
         System.out.println("\n========== CONTACT DETAILS ==========\n");
         List<Contact> contacts = contactController.getAll();
 
-        if (!contacts.isEmpty()) {
+        if (null != contacts) {
             for (Contact contact : contacts) {
                 System.out.println(contact);
                 System.out.println("\n-----------------X-----------------");
@@ -232,6 +232,7 @@ public class ContactView {
         System.out.println("\n========== UPDATE CONTACT  ==========\n");
         System.out.print("Enter the ID to update Contact : ");
         int id = scanner.nextInt(); 
+        String columnName;
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
@@ -243,33 +244,27 @@ public class ContactView {
                      
             switch (updaterChoice) {
             case Constants.NAME:
+                columnName = "name";
                 scanner.skip("\r\n");
-                contact.setName(getName(scanner));
-                printUpdatedStatus(contactController.updateById(id, contact));
-                break;
-                    
-            case Constants.ACCOUNT_NAME:
-                scanner.skip("\r\n");
-                contact.setAccountName(getAccountName(scanner));
-                printUpdatedStatus(contactController.updateById(id, contact));
+                printUpdatedStatus(contactController.updateById(id, columnName,getName(scanner)));
                 break;
 
             case Constants.EMAIL:
+                columnName = "email";
                 scanner.skip("\r\n");
-                contact.setEmailId(getEmailId(scanner));
-                printUpdatedStatus(contactController.updateById(id, contact));
+                printUpdatedStatus(contactController.updateById(id, columnName, getEmailId(scanner)));
                 break;
                          
             case Constants.PHONE_NUMBER:
+                columnName = "phone_number";
                 scanner.skip("\r\n");
-                contact.setPhoneNumber(getPhoneNumber(scanner));
-                printUpdatedStatus(contactController.updateById(id, contact));
+                printUpdatedStatus(contactController.updateById(id, columnName, getPhoneNumber(scanner)));
                 break;
                            
-            case Constants.TITLE:
+            case Constants.ROLE:
+                columnName = "role";
                 scanner.skip("\r\n");
-                contact.setTitle(getTitle(scanner));
-                printUpdatedStatus(contactController.updateById(id, contact));
+                printUpdatedStatus(contactController.updateById(id, columnName, getRole(scanner)));
                 break;
                            
             case Constants.EXIT_LEAD:
@@ -420,37 +415,37 @@ public class ContactView {
      *
      * @return title - title of a Contact
      */
-    private String getTitle(Scanner scanner) {
-        System.out.print("Title               : ");
-        String title = "";
-        printTitleMenu();
-        String titleChoice = scanner.next();
+    private String getRole(Scanner scanner) {
+        System.out.print("Role                : ");
+        String role = "";
+        printRoleMenu();
+        String roleChoice = scanner.next();
 
-        switch (titleChoice) {
+        switch (roleChoice) {
         case Constants.CEO:
-            title = Title.CEO.toString();
+            role = Role.CEO.toString();
             break;
 
         case Constants.FOUNDER:
-            title = Title.Founder.toString();
+            role = Role.Founder.toString();
             break;
 
         case Constants.PRESIDENT:
-            title = Title.President.toString();
+            role = Role.President.toString();
             break;
 
         case Constants.VICE_PRESIDENT:
-            title = Title.VicePresident.toString();
+            role = Role.VicePresident.toString();
             break;
 
         case Constants.DIRECTOR:
-            title = Title.Director.toString();
+            role = Role.Director.toString();
             break;
 
         default:
             logger.warn(Messages.INVALID_CHOICE);
         }
-        return title;
+        return role;
     }
 
     /**
@@ -463,8 +458,8 @@ public class ContactView {
      *
      * @return contact - Update contact
      */
-    private void printUpdatedStatus(Contact contact) {
-        if (contact != null) {
+    private void printUpdatedStatus(boolean status) {
+        if (status) {
             logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);
@@ -509,10 +504,8 @@ public class ContactView {
                    .append(" \" for Email\n")
                    .append("press \" ").append(Constants.PHONE_NUMBER)
                    .append(" \" for Phone Number\n")
-                   .append("press \" ").append(Constants.TITLE)
-                   .append(" \" for Type\n")
-                   .append("press \" ").append(Constants.ACCOUNT_NAME)
-                   .append(" \" for Owner Name\n")
+                   .append("press \" ").append(Constants.ROLE)
+                   .append(" \" for Role\n")
                    .append("press \" ").append(Constants.EXIT_LEAD)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
@@ -520,28 +513,28 @@ public class ContactView {
     }
 
     /**
-     * <h1> Print Title Menu </h1>
+     * <h1> Print Role Menu </h1>
      * <p>
-     * Prints the Menu for Contact Title
+     * Prints the Menu for Contact Role
      * </p>
      */
-    private void printTitleMenu() {
-        StringBuilder titleMenu = new StringBuilder();
-        titleMenu.append("\n+------------------------------------+")
-                 .append("\n|               \"TITLE\"              |")
-                 .append("\n| press \" ").append(Constants.CEO)
-                 .append(" \" for CEO                |\n")
-                 .append("| press \" ").append(Constants.FOUNDER)
-                 .append(" \" for Founder            |\n")
-                 .append("| press \" ").append(Constants.PRESIDENT)
-                 .append(" \" for President          |\n")
-                 .append("| press \" ").append(Constants.VICE_PRESIDENT)
-                 .append(" \" for Vice President     |\n")
-                 .append("| press \" ").append(Constants.DIRECTOR)
-                 .append(" \" for Director           |\n")
-                 .append("+------------------------------------+\n")
-                 .append("Enter your Choice: ");
-        System.out.print(titleMenu);
+    private void printRoleMenu() {
+        StringBuilder roleMenu = new StringBuilder();
+        roleMenu.append("\n+------------------------------------+")
+                .append("\n|               \"ROLE\"              |")
+                .append("\n| press \" ").append(Constants.CEO)
+                .append(" \" for CEO                |\n")
+                .append("| press \" ").append(Constants.FOUNDER)
+                .append(" \" for Founder            |\n")
+                .append("| press \" ").append(Constants.PRESIDENT)
+                .append(" \" for President          |\n")
+                .append("| press \" ").append(Constants.VICE_PRESIDENT)
+                .append(" \" for Vice President     |\n")
+                .append("| press \" ").append(Constants.DIRECTOR)
+                .append(" \" for Director           |\n")
+                .append("+------------------------------------+\n")
+                .append("Enter your Choice: ");
+        System.out.print(roleMenu);
     }
 
     /**

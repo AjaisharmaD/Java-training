@@ -42,13 +42,15 @@ public class Constants {
     public final static String STATUS = "5";
     public final static String EXIT_LEAD = "6";
 
+    public final static String PASSWORD = "4";
+
     public final static String TYPE = "4";
     public final static String WEBSITE = "5";
 
-    public final static String TITLE = "4";
+    public final static String ROLE = "4";
     public final static String ACCOUNT_NAME = "5";
 
-    public final static String EXIT_EMPLOYEE_UPDATER = "4";
+    //public final static String EXIT_EMPLOYEE_UPDATER = "4";
 
     public final static String NEW = "1";
     public final static String CONTACTED = "2";
@@ -89,5 +91,5 @@ public class Constants {
 
     public final static String URL = "jdbc:mysql://localhost:3306/samplecrm";
     public final static String USERNAME = "root";
-    public final static String PASSWORD = "8940134223";
+    public final static String SQL_PASSWORD = "8940134223";
 }

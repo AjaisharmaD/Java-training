@@ -36,9 +36,9 @@ public class LeadController {
      *
      * @param lead     - lead Object to add 
      *
-     * @return Lead    - Details of a added Lead
+     * @return boolean - status of the lead
      */
-    public Lead create(Lead lead) {
+    public boolean create(Lead lead) {
         return leadService.create(lead);
     }
 
@@ -74,13 +74,14 @@ public class LeadController {
      * Updates the Details of a Single Lead
      * </p>
      *
-     * @param id   - key to update the Lead
-     * @param lead - updated Lead 
+     * @param id          - Lead id to update the Detail
+     * @param columnName  - name of the Column to update the Value
+     * @param columnValue - value to be updated in Column
      *
      * @return lead - the Update details of lead
      */
-    public Lead updateById(int id, Lead lead) {
-        return leadService.updateById(id, lead);
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return leadService.updateById(id, columnName, columnValue);
     }
 
     /**

@@ -109,7 +109,7 @@ public class OpportunityView {
         opportunity.setStage(getStage(scanner));
         String closedDate = getClosedDate(opportunity.getStage());
         opportunity.setClosedDate(closedDate);
-        System.out.println(opportunityController.create(opportunity) != null 
+        System.out.println(opportunityController.create(opportunity) != true
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
     }
@@ -131,7 +131,7 @@ public class OpportunityView {
         opportunity.setStage(getStage(scanner));
         String closedDate = getClosedDate(opportunity.getStage());
         opportunity.setClosedDate(closedDate);
-        System.out.println(opportunityController.create(opportunity) != null 
+        System.out.println(opportunityController.create(opportunity) != true
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
     }
@@ -146,7 +146,7 @@ public class OpportunityView {
         System.out.println("\n========== OPPORTUNITY DETAILS ==========\n");
         List<Opportunity> opportunities = opportunityController.getAll();
 
-        if (!opportunities.isEmpty()) {
+        if (null != opportunities) {
             for (Opportunity opportunity : opportunities) {
                 System.out.println(opportunity);
                 System.out.println("\n------------------X------------------");
@@ -194,6 +194,7 @@ public class OpportunityView {
         int id = scanner.nextInt();  
         boolean isUpdating = false;
         String updaterChoice;
+        String columnName;
         String logout;
         Opportunity opportunity = opportunityController.getById(id);
 
@@ -203,29 +204,21 @@ public class OpportunityView {
                      
             switch (updaterChoice) {
             case Constants.NAME:
+                columnName = "name";
                 scanner.skip("\r\n");
-                opportunity.setName(getName(scanner));
-                printUpdatedStatus(opportunityController.updateById(id, opportunity));
-                break;
-                    
-            case Constants.OPPORTUNITY_ACCOUNT_NAME:
-                scanner.skip("\r\n");
-                opportunity.setAccountName(getAccountName(scanner));
-                printUpdatedStatus(opportunityController.updateById(id, opportunity));
+                printUpdatedStatus(opportunityController.updateById(id, columnName, getName(scanner)));
                 break;
                            
             case Constants.STAGE:
+                columnName = "stage";
                 scanner.skip("\r\n");
-                String stage = getStage(scanner);
-                opportunity.setStage(stage);
-                opportunity.setClosedDate(getClosedDate(stage));
-                printUpdatedStatus(opportunityController.updateById(id, opportunity));
+                printUpdatedStatus(opportunityController.updateById(id, columnName, getStage(scanner)));
                 break;
 
             case Constants.AMOUNT:
+                columnName = "amount";
                 scanner.skip("\r\n");
-                opportunity.setAmount(getAmount(scanner));
-                printUpdatedStatus(opportunityController.updateById(id, opportunity));
+                printUpdatedStatus(opportunityController.updateById(id, columnName, getAmount(scanner)));
                 break;
                            
             case Constants.EXIT:
@@ -437,8 +430,8 @@ public class OpportunityView {
      *
      * @return opportunity - Update opportunity
      */
-    private void printUpdatedStatus(Opportunity opportunity) {
-        if (opportunity != null) {
+    private void printUpdatedStatus(boolean status) {
+        if (status) {
             logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);

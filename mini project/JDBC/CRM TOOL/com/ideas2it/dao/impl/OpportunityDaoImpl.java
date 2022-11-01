@@ -1,11 +1,17 @@
 package com.ideas2it.dao.impl;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.dao.OpportunityDao;
+import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.model.Opportunity;
 
 /**
@@ -21,26 +27,63 @@ import com.ideas2it.model.Opportunity;
  * @since   03-10-2022
  */
 public class OpportunityDaoImpl implements OpportunityDao {
-    private static Map<Integer, Opportunity> opportunityMap = new HashMap<>();
-    
+     Connection connection;
+     PreparedStatement statement; 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public Opportunity insert(int id, Opportunity opportunity) {
-        opportunityMap.put(id, opportunity);
-        return opportunityMap.get(id);
+    public boolean insert(Opportunity opportunity) {
+        boolean status = false;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("INSERT INTO opportunity (name,"
+                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+            statement.setString(1,opportunity.getName());
+            statement.setString(2,opportunity.getEmailId());
+            statement.setString(3,opportunity.getPhoneNumber());
+            statement.setString(4,opportunity.getPassword());
+            status = statement.execute();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return status;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<Integer, Opportunity> fetchAll() {
-        if (null != opportunityMap) {
-            return opportunityMap;
+    public List<Opportunity> fetchAll() {
+        ResultSet resultSet = null;
+        Opportunity opportunity;
+        List<Opportunity> opportunityList = new ArrayList<>();
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM opportunity");
+            resultSet = statement.executeQuery();
+       
+            while (resultSet.next()) {
+                opportunity = new Opportunity(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"));
+                opportunity.setId(resultSet.getInt("id"));
+                opportunityList.add(opportunity);
+            }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return opportunityList;
     }
 
     /**
@@ -48,37 +91,74 @@ public class OpportunityDaoImpl implements OpportunityDao {
      */
     @Override
     public Opportunity fetchById(int id) {
-        if (null != opportunityMap) {
-            if (opportunityMap.containsKey(id)) {
-                return opportunityMap.get(id);
+        ResultSet resultSet = null;
+        Opportunity opportunity = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM opportunity WHERE id =?");
+            statement.setInt(1,id);
+            resultSet = statement.executeQuery();
+            
+            if (null != resultSet) {
+                while(resultSet.next()) {
+                    opportunity = new Opportunity(resultSet.getString("name"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone_number"));
+                    opportunity.setId(resultSet.getInt("id"));
+                }
             }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return opportunity;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Opportunity updateById(int id, Opportunity opportunity) {
-        if (null != opportunityMap) {
-            if (opportunityMap.containsKey(id)) {
-                return opportunityMap.replace(id, opportunity);
-            }
+    public int updateById(int id, String columnName, String columnValue) {
+        int rowCount = 0; 
+        String query = "UPDATE opportunity SET "+columnName+" = ? WHERE id = ?";
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1,columnValue);
+            statement.setInt(2,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return rowCount;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Opportunity deleteById(int id) {
-        if (null != opportunityMap) {
-            if (opportunityMap.containsKey(id)) {
-                return opportunityMap.remove(id);
-            }
+    public int deleteById(int id) {
+        int rowCount = 0;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("DELETE FROM opportunity WHERE id = ?");
+            statement.setInt(1,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return rowCount;
     }
 }

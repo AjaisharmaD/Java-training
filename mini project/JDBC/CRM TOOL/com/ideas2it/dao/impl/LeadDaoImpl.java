@@ -1,11 +1,17 @@
 package com.ideas2it.dao.impl;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.dao.LeadDao;
+import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.model.Lead;
 
 /**
@@ -21,27 +27,70 @@ import com.ideas2it.model.Lead;
  * @since   19-09-2022
  */
 public class LeadDaoImpl implements LeadDao {
-    private static Map<Integer, Lead> leadMap = new HashMap<>();
+     Connection connection;
+     PreparedStatement statement; 
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Lead insert(int id, Lead lead) {
-        lead.setId(id);
-        leadMap.put(id, lead);
-        return leadMap.get(id);
+    public boolean insert(Lead lead) {
+        boolean status = false;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("INSERT INTO lead_info (name,"
+                            +"email,phone_number,company_name,status,user_id,created_by) VALUES (?,?,?,?,?,?,?)"); 
+            statement.setString(1,lead.getName());
+            statement.setString(2,lead.getEmailId());
+            statement.setString(3,lead.getPhoneNumber());
+            statement.setString(4,lead.getCompanyName());
+            statement.setString(5,lead.getStatus());
+            statement.setInt(6,lead.getUserId());
+            statement.setInt(7,lead.getUserId());
+            status = statement.execute();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return status;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<Integer, Lead> fetchAll() {
-        if (null != leadMap) {
-            return leadMap;
+    public List<Lead> fetchAll() {
+        ResultSet resultSet = null;
+        Lead lead;
+        List<Lead> leadList = new ArrayList<>();
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM lead_info");
+            resultSet = statement.executeQuery();
+       
+            while (resultSet.next()) {
+                lead = new Lead(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"),
+                                resultSet.getString("company_name"),
+                                resultSet.getString("status"),
+                                resultSet.getInt("user_id"));
+                lead.setCreatedDate(                                resultSet.getString("created_date_time"));
+                lead.setId(resultSet.getInt("id"));
+                leadList.add(lead);
+            }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return leadList;
     }
 
     /**
@@ -49,37 +98,76 @@ public class LeadDaoImpl implements LeadDao {
      */
     @Override
     public Lead fetchById(int id) {
-        if (null != leadMap) {
-            if (leadMap.containsKey(id)) {
-                return leadMap.get(id);
+        ResultSet resultSet = null;
+        Lead lead = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM lead_info WHERE id =?");
+            statement.setInt(1,id);
+            resultSet = statement.executeQuery();
+            
+            if (null != resultSet) {
+                while(resultSet.next()) {
+                    lead = new Lead(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"),
+                                resultSet.getString("company_name"),
+                                resultSet.getString("status"),
+                                resultSet.getInt("user_id"));
+                    lead.setId(resultSet.getInt("id"));
+                }
             }
+            statement.close();
+            resultSet.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return lead;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Lead updateById(int id, Lead lead) {
-        if (null != leadMap) {
-            if (leadMap.containsKey(id)) {
-                return leadMap.replace(id, lead);
-            }
+    public int updateById(int id, String columnName, String columnValue) {
+        int rowCount = 0; 
+        String query = "UPDATE lead_info SET "+columnName+" = ? WHERE id = ?";
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1,columnValue);
+            statement.setInt(2,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return rowCount;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Lead deleteById(int id) {
-        if (null != leadMap) {
-            if (leadMap.containsKey(id)) {
-                return leadMap.remove(id);
-            }
+    public int deleteById(int id) {
+        int rowCount = 0;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement("DELETE FROM lead_info WHERE id = ?");
+            statement.setInt(1,id);
+            rowCount = statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
-        return null;
+        return rowCount;
     }
 }

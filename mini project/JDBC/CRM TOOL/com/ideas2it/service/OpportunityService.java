@@ -36,11 +36,10 @@ public class  OpportunityService {
      *
      * @param Opportunity  - Opportunity details to add 
      *
-     * @return Opportunity - Opportunity detail which is inserted into the Map
+     * @return boolean -  status of opportunity
      */
-    public Opportunity create(Opportunity opportunity) {
-       int id = opportunity.getId();
-       return opportunityDao.insert(id, opportunity);
+    public boolean create(Opportunity opportunity) {
+       return opportunityDao.insert(opportunity);
     } 
 
     /**   
@@ -52,15 +51,12 @@ public class  OpportunityService {
      * @return List - Details of Opportunity
      */
     public List<Opportunity> getAll() {
-        Map<Integer, Opportunity> map = opportunityDao.fetchAll();    
-        List<Opportunity> opportunities = new ArrayList<>();
+        List<Opportunity> opportunities = opportunityDao.fetchAll();  
 
-        if (null != map) {
-            for (Map.Entry<Integer, Opportunity> opportunityEntry : map.entrySet()) {
-                opportunities.add(opportunityEntry.getValue());
-            }  
+        if (null != opportunities;) {
+            return opportunities;
         }
-        return opportunities;
+        return null;
     }
 
     /**
@@ -86,10 +82,10 @@ public class  OpportunityService {
      * @param id           - key to update the Opportunity
      * @param Opportunity  - an updated Opportunity
      *  
-     * @return Opportunity - Details of Single lead
+     * @return boolean - status of the id
      */
-    public Opportunity updateById(int id, Opportunity opportunity) {
-        return opportunityDao.updateById(id, opportunity);
+    public boolean updateById(int id, Opportunity opportunity) {
+        return opportunityDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
@@ -103,9 +99,6 @@ public class  OpportunityService {
      * @return boolean - Status of the Deleted Opportunity
      */
     public boolean isDeletedById(int id) {
-        if (opportunityDao.deleteById(id) != null) {
-            return true;
-        }
-        return false;
+        return opportunityDao.deleteById(id) <= 0) ? false : true;
     }
 }
