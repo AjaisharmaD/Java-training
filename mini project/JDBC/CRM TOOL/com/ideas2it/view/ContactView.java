@@ -107,15 +107,10 @@ public class ContactView {
      * @param scanner - scanner to get input from console
      */
     public void create(Scanner scanner, int userId) {
-        Contact contact = new Contact();
-        contact.setName(getName(scanner));
-        contact.setAccountName(getAccountName(scanner));
-        contact.setEmailId(getEmailId(scanner));
-        contact.setPhoneNumber(getPhoneNumber(scanner));
-        contact.setRole(getRole(scanner));
-        createAccountOrAddContact(scanner, contact);
+        Contact contact = new Contact(getName(scanner), getEmailId(scanner), getPhoneNumber(scanner), getAccountName(scanner) ,getRole(scanner));
+        int accountID = createAccountOrAddContact(scanner, contact);
         opportunityView.createFromContact(scanner, contact, userId);
-        System.out.println(contactController.create(contact) != true 
+        System.out.println((contactController.create(contact)) != true 
                                             ? Messages.ADDED_SUCCESSFULLY
                                             : Messages.FAILED_TO_ADD);
     }
@@ -132,16 +127,15 @@ public class ContactView {
      * @return status - Status of the Lead
      */
     public String createFromLead(Scanner scanner, Lead lead, int userId) {
-        Contact contact = new Contact();
-        contact.setName(lead.getName());
-        contact.setAccountName(lead.getCompanyName());
-        contact.setEmailId(lead.getEmailId());
-        contact.setPhoneNumber(lead.getPhoneNumber());
-        contact.setRole(getRole(scanner));
-        contact.setUserId(lead.getUserId());
-        createAccountOrAddContact(scanner, contact);
+        logger.info("creating Contact.....");
+        Contact contact = new Contact(lead.getName(),lead.getEmailId(), 
+                                                     lead.getPhoneNumber(), 
+                                                     getAccountName(scanner),
+                                                     getRole(scanner));
+        int accountId = createAccountOrAddContact(scanner, contact);
+        contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
-        return contactController.create(contact) != true 
+        return (contactController.create(contact)) != true 
                                 ? Status.Converted.toString()
                                 : Messages.FAILED_TO_ADD;
     }
@@ -157,9 +151,10 @@ public class ContactView {
      *
      * @return status - status of the Lead 
      */
-    public void createAccountOrAddContact(Scanner scanner, Contact contact) {
+    public int createAccountOrAddContact(Scanner scanner, Contact contact) {
         List<Account> accounts = accountController.getAll();
         String accountName = "";
+        int id = 0;
 
         if (!accounts.isEmpty()) {
             for (Account account : accounts) {
@@ -168,12 +163,14 @@ public class ContactView {
                 if (accountName.equals(contact.getAccountName())) {
                     System.out.println("Adding contact to account");
                     account.setContact(contact);
+                    id = account.getId();
                 }
             }
         } else {
             System.out.println("Account creation");
-            accountView.createFromContact(scanner, contact);
+            id = accountView.createFromContact(scanner, contact);
         }
+        return id;
     }
 
     /**   
@@ -260,6 +257,12 @@ public class ContactView {
                 scanner.skip("\r\n");
                 printUpdatedStatus(contactController.updateById(id, columnName, getPhoneNumber(scanner)));
                 break;
+
+            case Constants.ACCOUNT_NAME:
+                columnName = "account_name";
+                scanner.skip("\r\n");
+                printUpdatedStatus(contactController.updateById(id, columnName, getAccountName(scanner)));
+                break;
                            
             case Constants.ROLE:
                 columnName = "role";
@@ -337,9 +340,10 @@ public class ContactView {
     private String getAccountName(Scanner scanner) {
         String name = "";
         boolean isNotValid = false;
-
+ 
+        scanner.skip("\r\n");
         while (!isNotValid) {
-            System.out.print("Name                 : ");
+            System.out.print("Account Name         : ");
             name = scanner.nextLine();
 
             if (leadController.isValidCompanyName(name)) {

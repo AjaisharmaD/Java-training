@@ -40,11 +40,11 @@ public class OpportunityDaoImpl implements OpportunityDao {
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("INSERT INTO opportunity (name,"
-                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+                            +"amount,stage,account_id) VALUES (?,?,?,?)"); 
             statement.setString(1,opportunity.getName());
-            statement.setString(2,opportunity.getEmailId());
-            statement.setString(3,opportunity.getPhoneNumber());
-            statement.setString(4,opportunity.getPassword());
+            statement.setDouble(2,opportunity.getAmount());
+            statement.setString(3,opportunity.getStage());
+            statement.setInt(4,opportunity.getAccountId());
             status = statement.execute();
             statement.close();
         } catch (SQLException exception) {
@@ -71,8 +71,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
        
             while (resultSet.next()) {
                 opportunity = new Opportunity(resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
+                                resultSet.getDouble("amount"),
+                                resultSet.getString("statge"));
                 opportunity.setId(resultSet.getInt("id"));
                 opportunityList.add(opportunity);
             }
@@ -102,9 +102,9 @@ public class OpportunityDaoImpl implements OpportunityDao {
             
             if (null != resultSet) {
                 while(resultSet.next()) {
-                    opportunity = new Opportunity(resultSet.getString("name"),
-                                    resultSet.getString("email"),
-                                    resultSet.getString("phone_number"));
+                opportunity = new Opportunity(resultSet.getString("name"),
+                                resultSet.getDouble("amount"),
+                                resultSet.getString("statge"));
                     opportunity.setId(resultSet.getInt("id"));
                 }
             }

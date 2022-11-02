@@ -14,15 +14,24 @@ import java.util.List;
  * @since   03-10-2022
  */   
 public class Account {
+    private int id;
     private String name;
     private String website;
-    private String email;
-    private String phoneNumber;
     private String type;
     private int userId;
 
+    public Account(String name, String website, String type) {
+        this.name = name;
+        this.website = website;
+        this.type = type;
+    }
+
     private List<Contact> contacts = new ArrayList<>(); 
     private List<Opportunity> opportunities = new ArrayList<>();
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -30,14 +39,6 @@ public class Account {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public void setEmailId(String email) {
-        this.email = email;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public void setType(String type) {
@@ -56,20 +57,16 @@ public class Account {
         this.userId = userId;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getWebsite() {
         return website;
-    }
-
-    public String getEmailId() {
-        return email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public String getType() {
@@ -91,10 +88,9 @@ public class Account {
     @Override
     public String toString() {
         StringBuilder account = new StringBuilder();
-        account.append("\nName         :").append(name)
+        account.append("\nId           :").append(id)
+               .append("\nName         :").append(name)
                .append("\nWebsite      :").append(website)
-               .append("\nEmail        :").append(email)
-               .append("\nPhone Number :").append(phoneNumber)
                .append("\nType         :").append(type);
         return account.toString();
     }

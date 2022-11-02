@@ -25,12 +25,11 @@ public interface AccountDao {
      * Inserts the Details of account 
      * </p>
      *
-     * @param name     - name of a Account
      * @param account  - Details of Account to add 
      *   
-     * @return boolean - status of the account
+     * @return int     - id of the account inserted  
      */
-    public boolean insert(Account account);
+    public int insert(Account account);
 
     /**   
      * <h1> Get Details of Account </h1>
@@ -77,5 +76,5 @@ public interface AccountDao {
      * @param id   - id to delete the account
      * @return int - count of rows affected
      */
-    public Account deleteById(int id);
+    public int deleteById(int id);
 }

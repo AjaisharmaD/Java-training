@@ -40,11 +40,13 @@ public class ContactDaoImpl implements ContactDao {
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("INSERT INTO contact (name,"
-                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+                            +"email,phone,role,account_id,account_name) VALUES (?,?,?,?,?,?)"); 
             statement.setString(1,contact.getName());
             statement.setString(2,contact.getEmailId());
             statement.setString(3,contact.getPhoneNumber());
-            statement.setString(4,contact.getPassword());
+            statement.setString(4,contact.getRole());
+            statement.setInt(5,contact.getAccountId());
+            statement.setString(6,contact.getAccountName());
             status = statement.execute();
             statement.close();
         } catch (SQLException exception) {
@@ -71,8 +73,10 @@ public class ContactDaoImpl implements ContactDao {
        
             while (resultSet.next()) {
                 contact = new Contact(resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
+                                      resultSet.getString("email"),
+                                      resultSet.getString("phone"),
+                                      resultSet.getString("account_name"),
+                                      resultSet.getString("role"));
                 contact.setId(resultSet.getInt("id"));
                 contactList.add(contact);
             }
@@ -102,9 +106,11 @@ public class ContactDaoImpl implements ContactDao {
             
             if (null != resultSet) {
                 while(resultSet.next()) {
-                    contact = new Contact(resultSet.getString("name"),
-                                    resultSet.getString("email"),
-                                    resultSet.getString("phone_number"));
+                contact = new Contact(resultSet.getString("name"),
+                                      resultSet.getString("email"),
+                                      resultSet.getString("phone"),
+                                      resultSet.getString("account_name"),
+                                      resultSet.getString("role"));
                     contact.setId(resultSet.getInt("id"));
                 }
             }

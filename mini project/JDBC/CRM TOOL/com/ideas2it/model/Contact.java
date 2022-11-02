@@ -14,14 +14,22 @@ import java.util.List;
  * @since   05-10-2022
  */   
 public class Contact {
-
     private int id;
     private String name;
-    private String accountName;
     private String email;
     private String phoneNumber;
     private String role;
+    private String accountName;
+    private int accountId;
     private int userId;
+
+    public Contact(String name, String email, String phoneNumber, String accountName, String role) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.accountName = accountName;
+        this.role = role;
+    }
 
     List<Opportunity> opportunities = new ArrayList<>(); 
 
@@ -33,10 +41,6 @@ public class Contact {
         this.name = name;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    } 
-
     public void setEmailId(String email) {
         this.email = email;
     }
@@ -45,8 +49,16 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public void setOpportunity(Opportunity opportunity) {
@@ -65,10 +77,6 @@ public class Contact {
         return name;
     }
 
-    public String getAccountName() {
-        return accountName;
-    }
-
     public String getEmailId() {
         return email;
     }
@@ -77,8 +85,16 @@ public class Contact {
         return phoneNumber;
     } 
 
+    public String getAccountName(){
+        return accountName;
+    }
+
     public String getRole() {
         return role;
+    }
+
+    public int getAccountId() {
+        return accountId;
     }
 
     public List<Opportunity> getOpportunity() {
@@ -93,10 +109,9 @@ public class Contact {
     public String toString() {
         StringBuilder contact = new StringBuilder();
         contact.append("\nName             :").append(name)
-               .append("\nAccount Name     :").append(accountName)
                .append("\nEmail            :").append(email)
                .append("\nPhone Number     :").append(phoneNumber)
-               .append("\nRole            :").append(role);
+               .append("\nRole             :").append(role);
         return contact.toString();
     }
 }

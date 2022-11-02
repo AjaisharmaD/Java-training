@@ -1,18 +1,23 @@
-2022-11-01 13:06:21,316 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-11-01 13:06:59,766 INFO c.i.v.UserView [main] 
->>>>> FAILED TO UPDATE <<<<<
-2022-11-01 14:38:07,150 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-11-01 14:38:22,631 INFO c.i.v.UserView [main] 
->>>>> FAILED TO UPDATE <<<<<
-2022-11-01 14:39:12,456 INFO c.i.v.CRMView [main] Logging in as Manager
-2022-11-01 14:39:23,898 INFO c.i.v.UserView [main] 
+2022-11-02 14:40:39,394 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-02 14:41:53,494 INFO c.i.v.LeadView [main] Date created successfully
+2022-11-02 14:55:47,741 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-02 14:58:27,063 INFO c.i.v.LeadView [main] 
 >>>>> UPDATED SUCCESSFULLY <<<<<
-2022-11-01 14:39:41,495 INFO c.i.v.UserView [main] 
+2022-11-02 18:10:02,796 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-02 18:10:43,860 INFO c.i.v.LeadView [main] 
 >>>>> UPDATED SUCCESSFULLY <<<<<
-2022-11-01 18:20:00,090 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-01 18:20:30,142 INFO c.i.v.LeadView [main] Date created successfully
-2022-11-01 18:23:38,535 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-01 18:39:53,962 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-01 18:40:27,531 INFO c.i.v.LeadView [main] Date created successfully
-2022-11-01 18:45:20,660 INFO c.i.v.LeadView [main] 
+2022-11-02 18:12:28,818 INFO c.i.v.LeadView [main] Date created successfully
+2022-11-02 18:13:10,326 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-02 18:14:01,456 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-02 18:17:27,568 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-02 18:21:09,830 INFO c.i.v.LeadView [main] 
+>>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-02 19:50:20,461 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-02 19:50:59,555 INFO c.i.v.LeadView [main] Date created successfully
+2022-11-02 19:51:14,340 INFO c.i.v.ContactView [main] creating Contact.....
+2022-11-02 19:52:43,382 INFO c.i.v.AccountView [main] creating Account.....
+2022-11-02 19:52:53,303 INFO c.i.v.OpportunityView [main] creating Opportunity.....
+2022-11-02 19:53:10,927 INFO c.i.v.LeadView [main] 
 >>>>> UPDATED SUCCESSFULLY <<<<<

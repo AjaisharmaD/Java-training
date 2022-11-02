@@ -53,7 +53,7 @@ public class  OpportunityService {
     public List<Opportunity> getAll() {
         List<Opportunity> opportunities = opportunityDao.fetchAll();  
 
-        if (null != opportunities;) {
+        if (null != opportunities) {
             return opportunities;
         }
         return null;
@@ -84,8 +84,8 @@ public class  OpportunityService {
      *  
      * @return boolean - status of the id
      */
-    public boolean updateById(int id, Opportunity opportunity) {
-        return opportunityDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return (opportunityDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
@@ -99,6 +99,6 @@ public class  OpportunityService {
      * @return boolean - Status of the Deleted Opportunity
      */
     public boolean isDeletedById(int id) {
-        return opportunityDao.deleteById(id) <= 0) ? false : true;
+        return (opportunityDao.deleteById(id) <= 0) ? false : true;
     }
 }

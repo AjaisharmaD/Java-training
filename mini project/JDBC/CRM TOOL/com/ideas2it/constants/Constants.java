@@ -44,13 +44,12 @@ public class Constants {
 
     public final static String PASSWORD = "4";
 
-    public final static String TYPE = "4";
-    public final static String WEBSITE = "5";
+    public final static String TYPE = "3";
+    public final static String WEBSITE = "2";
+    public final static String EXIT_ACCOUNT_UPDATER = "4";
 
     public final static String ROLE = "4";
     public final static String ACCOUNT_NAME = "5";
-
-    //public final static String EXIT_EMPLOYEE_UPDATER = "4";
 
     public final static String NEW = "1";
     public final static String CONTACTED = "2";
@@ -71,13 +70,11 @@ public class Constants {
     public final static String DIRECTOR = "5";
 
     public final static String MEETING_SCHEDULED = "1";
-    public final static String PROPOSAL = "2";
-    public final static String NEGOTIATION = "3";
-    public final static String CLOSED = "5";
+    public final static String CLOSED_WON = "2";
+    public final static String CLOSED_LOST = "3";
 
-    public final static String OPPORTUNITY_ACCOUNT_NAME = "2";
     public final static String STAGE = "3";
-    public final static String AMOUNT = "4";
+    public final static String AMOUNT = "2";
 
     public final static String NAME_PATTERN = "^([\\D]{0,20}[\s.]?){2}[\\D]{0,20}$";
     public final static String EMAIL_ID_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";

@@ -34,25 +34,33 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public boolean insert(Account account) {
-        boolean status = false;
+    public int insert(Account account) {
+        int id = 0;
+        PreparedStatement preparedStatement;
 
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("INSERT INTO account (name,"
-                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+                            +"website,type) VALUES (?,?,?)"); 
             statement.setString(1,account.getName());
-            statement.setString(2,account.getEmailId());
-            statement.setString(3,account.getPhoneNumber());
-            statement.setString(4,account.getPassword());
-            status = statement.execute();
+            statement.setString(2,account.getWebsite());
+            statement.setString(3,account.getType());
+            statement.execute();
+
+            preparedStatement = connection.prepareStatement("SELECT MAX(id) FROM account");
+            ResultSet resultSet = preparedStatement.executeQuery();
+ 
+            while (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
             statement.close();
+            preparedStatement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return id;
     }
 
     /**
@@ -71,8 +79,8 @@ public class AccountDaoImpl implements AccountDao {
        
             while (resultSet.next()) {
                 account = new Account(resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
+                                      resultSet.getString("website"),
+                                      resultSet.getString("type"));
                 account.setId(resultSet.getInt("id"));
                 accountList.add(account);
             }
@@ -103,8 +111,8 @@ public class AccountDaoImpl implements AccountDao {
             if (null != resultSet) {
                 while(resultSet.next()) {
                     account = new Account(resultSet.getString("name"),
-                                    resultSet.getString("email"),
-                                    resultSet.getString("phone_number"));
+                                          resultSet.getString("website"),
+                                          resultSet.getString("type"));
                     account.setId(resultSet.getInt("id"));
                 }
             }

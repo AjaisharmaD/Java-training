@@ -32,9 +32,9 @@ public class AccountController {
      *
      * @param account  - account details to add 
      *
-     * @return Account - Details of a added account
+     * @return boolean - status of account
      */
-    public boolean create(Account account) {
+    public int create(Account account) {
         return accountService.create(account);
     }
 

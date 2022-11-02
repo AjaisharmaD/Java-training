@@ -102,13 +102,9 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class 
      */
     public void create(Scanner scanner) {
-        Opportunity opportunity = new Opportunity();
-        opportunity.setAccountName(getAccountName(scanner));
-        opportunity.setName(getName(scanner));
-        opportunity.setAmount(getAmount(scanner));
-        opportunity.setStage(getStage(scanner));
-        String closedDate = getClosedDate(opportunity.getStage());
-        opportunity.setClosedDate(closedDate);
+        Opportunity opportunity = new Opportunity(getName(scanner), getAmount(scanner), getStage(scanner));
+        //String closedDate = getClosedDate(opportunity.getStage());
+        //opportunity.setClosedDate(closedDate);
         System.out.println(opportunityController.create(opportunity) != true
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
@@ -124,13 +120,11 @@ public class OpportunityView {
      * @param contact    - contact to create Opportunity 
      */
     public void createFromContact(Scanner scanner, Contact contact, int userId) {
-        Opportunity opportunity = new Opportunity();
-        opportunity.setAccountName(contact.getAccountName());
-        opportunity.setName(contact.getName());
-        opportunity.setAmount(getAmount(scanner));
-        opportunity.setStage(getStage(scanner));
-        String closedDate = getClosedDate(opportunity.getStage());
-        opportunity.setClosedDate(closedDate);
+        logger.info("creating Opportunity.....");
+        Opportunity opportunity = new Opportunity(contact.getName(), getAmount(scanner), getStage(scanner));
+        opportunity.setAccountId(contact.getAccountId());
+        //String closedDate = getClosedDate(opportunity.getStage());
+        //opportunity.setClosedDate(closedDate);
         System.out.println(opportunityController.create(opportunity) != true
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
@@ -159,7 +153,8 @@ public class OpportunityView {
    /**
      * <h1> Display opportunity By Id </h1>
      * <p>
-     * Method is used to serach the Details of opportunity by calling the opportunity Id
+     * Method is used to serach the Details of opportunity 
+     * by calling the opportunity Id
      * This will Display the Details of a opportunity
      * </p>
      *
@@ -167,7 +162,7 @@ public class OpportunityView {
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH OPPORTUNITY ==========\n");  
-        System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the ID to opportunity : ");
         int id = scanner.nextInt();
         Opportunity opportunity = opportunityController.getById(id);
 
@@ -190,7 +185,7 @@ public class OpportunityView {
      */
     private void updateById(Scanner scanner) {  
         System.out.println("\n========== UPDATE OPPORTUNITY  ==========\n");
-        System.out.print("Enter the ID to opportunity\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the ID to opportunity : ");
         int id = scanner.nextInt();  
         boolean isUpdating = false;
         String updaterChoice;
@@ -208,17 +203,17 @@ public class OpportunityView {
                 scanner.skip("\r\n");
                 printUpdatedStatus(opportunityController.updateById(id, columnName, getName(scanner)));
                 break;
+
+            case Constants.AMOUNT:
+                columnName = "amount";
+                scanner.skip("\r\n");
+                printUpdatedStatus(opportunityController.updateById(id, columnName, getAmount(scanner).toString()));
+                break;
                            
             case Constants.STAGE:
                 columnName = "stage";
                 scanner.skip("\r\n");
                 printUpdatedStatus(opportunityController.updateById(id, columnName, getStage(scanner)));
-                break;
-
-            case Constants.AMOUNT:
-                columnName = "amount";
-                scanner.skip("\r\n");
-                printUpdatedStatus(opportunityController.updateById(id, columnName, getAmount(scanner)));
                 break;
                            
             case Constants.EXIT:
@@ -250,33 +245,6 @@ public class OpportunityView {
     }          
 
     /**
-     * <h1> Get Account Name </h1>
-     * <p>
-     * Gets the Name and checks whether the Name is Valid or not
-     * </p> 
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return name   - a Valid Name
-     */
-    private String getAccountName(Scanner scanner) {
-        String name = "";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            System.out.print("Name                 : ");
-            name = scanner.nextLine();
-
-            if (leadController.isValidCompanyName(name)) {
-                break;
-            } else { 
-                logger.warn(Messages.WRONG_COMPANY_NAME_FORMAT);
-            }  
-        }
-        return name;
-    }
-
-    /**
      * <h1> Get Name </h1>
      * <p>
      * Gets the Name and checks whether the Name is Valid or not
@@ -301,70 +269,6 @@ public class OpportunityView {
             }  
         }
         return name;
-    }
-
-    /**
-     * <h1> Get Stage </h1>
-     * <p>
-     * Gets the Stage of the opportunity
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return stage  - stage of a opportunity
-     */
-    private String getStage(Scanner scanner) {
-        System.out.print("Stage               : ");
-        String stage = "";
-        printStageMenu();
-        String stageChoice = scanner.next();
-
-        switch (stageChoice) {
-        case Constants.MEETING_SCHEDULED:
-            stage = Stage.MeetingScheduled.toString();
-            break;
-
-        case Constants.PROPOSAL:
-            stage = Stage.Proposal.toString();
-            break;
-
-        case Constants.NEGOTIATION:
-            stage = Stage.Negotiation.toString();
-            break;
-
-        case Constants.QUALIFIED:
-            stage = Stage.Qualified.toString();
-            break;
-
-        case Constants.CLOSED:
-            stage = Stage.Closed.toString();
-            break;
-
-        default:
-            logger.warn(Messages.INVALID_CHOICE);
-        }
-        return stage;
-    }
-
-    /**
-     * <h1> Get Closed Date </h1>
-     * <p>
-     * Gets the Date for Closed date
-     * </p>
-     *  
-     * @param stage - Stage of the Opportunity
-     *
-     * @return date - a Valid Closed Date
-     */
-    private String getClosedDate(String stage) {
-        String closedDate = "Not Closed Yet";
-
-        if (stage.equals(Stage.Closed.toString())) {
-            LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
-            closedDate = formatter.format(date); 
-        }
-        return closedDate;
     }
 
     /**
@@ -393,6 +297,63 @@ public class OpportunityView {
         }
         return amount;
     }
+
+    /**
+     * <h1> Get Stage </h1>
+     * <p>
+     * Gets the Stage of the opportunity
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return stage  - stage of a opportunity
+     */
+    private String getStage(Scanner scanner) {
+        System.out.print("Stage               : ");
+        String stage = "";
+        printStageMenu();
+        String stageChoice = scanner.next();
+
+        switch (stageChoice) {
+        case Constants.MEETING_SCHEDULED:
+            stage = Stage.Meeting_Scheduled.toString();
+            break;
+
+        case Constants.CLOSED_WON:
+            stage = Stage.Closed_won.toString();
+            break;
+
+        case Constants.CLOSED_LOST:
+            stage = Stage.Closed_lost.toString();
+            break;
+
+        default:
+            logger.warn(Messages.INVALID_CHOICE);
+        }
+        return stage;
+    }
+
+    /**
+     * <h1> Get Closed Date </h1>
+     * <p>
+     * Gets the Date for Closed date
+     * </p>
+     *  
+     * @param stage - Stage of the Opportunity
+     *
+     * @return date - a Valid Closed Date
+     
+    private String getClosedDate(String stage) {
+        String closedDate = "Not Closed Yet";
+
+        if (stage.equals(Stage.Closed_won.toString() || Stage.Closed_lost.toString() )) {
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
+            closedDate = formatter.format(date); 
+        }
+        return closedDate;
+    }
+    */
 
     /**
      * <h1> Get ID </h1>
@@ -470,12 +431,10 @@ public class OpportunityView {
         StringBuilder updaterMenu = new StringBuilder();
         updaterMenu.append("\npress \" ").append(Constants.NAME)
                    .append(" \" for Name\n")
-                   .append("press \" ").append(Constants.OPPORTUNITY_ACCOUNT_NAME)
-                   .append(" \" for Account Name\n")
-                   .append("press \" ").append(Constants.STAGE)
-                   .append(" \" for Stage\n")
                    .append("press \" ").append(Constants.AMOUNT)
                    .append(" \" for Amount\n")
+                   .append("press \" ").append(Constants.STAGE)
+                   .append(" \" for Stage\n")
                    .append("press \" ").append(Constants.EXIT)
                    .append(" \" for Exit\n")
                    .append("Enter your Updater: "); 
@@ -493,14 +452,10 @@ public class OpportunityView {
         stageMenu.append("\n+=======================================+ ")
                  .append("\n| press \" ").append(Constants.MEETING_SCHEDULED)
                  .append(" \" for Meeting Scheduled    |\n")
-                 .append("| press \" ").append(Constants.PROPOSAL)
-                 .append(" \" for Proposal             |\n")
-                 .append("| press \" ").append(Constants.NEGOTIATION)
-                 .append(" \" for Negotiation          |\n")
-                 .append("| press \" ").append(Constants.QUALIFIED)
-                 .append(" \" for Qualified            |\n")
-                 .append("| press \" ").append(Constants.CLOSED)
-                 .append(" \" for Closed               |\n")
+                 .append("| press \" ").append(Constants.CLOSED_WON)
+                 .append(" \" for Closed Won           |\n")
+                 .append("| press \" ").append(Constants.CLOSED_LOST)
+                 .append(" \" for Closed Lost          |\n")
                  .append("+=======================================+\n")
                  .append("Enter your Choice: ");
         System.out.print(stageMenu);

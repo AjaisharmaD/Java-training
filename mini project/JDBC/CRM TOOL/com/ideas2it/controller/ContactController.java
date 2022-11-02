@@ -34,7 +34,7 @@ public class ContactController {
      *
      * @return boolean - status of contact
      */
-    public Contact create(Contact contact) {
+    public boolean create(Contact contact) {
         return contactService.create(contact);
     }
 

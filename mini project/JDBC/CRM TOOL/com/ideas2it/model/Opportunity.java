@@ -16,11 +16,17 @@ import java.util.List;
 public class Opportunity {
     private int id;
     private String name;
-    private String accountName;
     private Double amount; 
     private String closedDate;
     private String stage;
+    private int accountId;
     private int userId;
+
+    public Opportunity(String name, Double amount, String stage) {
+        this.name = name;
+        this.amount = amount;
+        this.stage = stage;
+    }
 
     private List<Contact> contacts = new ArrayList<>(); 
 
@@ -31,10 +37,6 @@ public class Opportunity {
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    } 
 
     public void setAmount(Double amount) {
        this.amount = amount;
@@ -52,6 +54,14 @@ public class Opportunity {
         this.contacts.add(contact);
     }
 
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -64,11 +74,7 @@ public class Opportunity {
         return name;
     }
 
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public Double getAmount(Double amount) {
+    public Double getAmount() {
        return amount;
     }
 
@@ -93,7 +99,6 @@ public class Opportunity {
         StringBuilder opportunity = new StringBuilder();
         opportunity.append("Id                : ").append(id)
                    .append("\nName              : ").append(name)
-                   .append("\nAccount Name      : ").append(accountName)
                    .append("\nAmount            : ").append(amount)
                    .append("\nStage             : ").append(stage)
                    .append("\nClosed Date       : ").append(closedDate);

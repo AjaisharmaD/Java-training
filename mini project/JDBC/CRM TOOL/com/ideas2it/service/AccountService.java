@@ -36,9 +36,9 @@ public class  AccountService {
      *
      * @param account  - account details to add 
      *
-     * @return Account - account detail which is inserted into the Map
+     * @return boolean - status of account
      */
-    public Account create(Account account) {
+    public int create(Account account) {
        return accountDao.insert(account);
     } 
 
@@ -69,8 +69,8 @@ public class  AccountService {
      *
      * @return Account - Details of Account
      */
-    public Account getById(String name) {
-        return accountDao.fetchById(name);
+    public Account getById(int id) {
+        return accountDao.fetchById(id);
     }
 
     /**
@@ -85,8 +85,8 @@ public class  AccountService {
      *  
      * @return Account - Details of Single lead
      */
-    public Account updateById(int id, String columnName, String columnValue) {
-        return accountDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+    public boolean updateById(int id, String columnName, String columnValue) {
+        return (accountDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
@@ -100,6 +100,6 @@ public class  AccountService {
      * @return boolean - Status of the Deleted Account
      */
     public boolean isDeletedById(int id) {
-        return accountDao.deleteById(id) <= 0) ? false : true;
+        return (accountDao.deleteById(id) <= 0) ? false : true;
     }
 }
