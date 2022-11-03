@@ -134,12 +134,13 @@ public class LeadDaoImpl implements LeadDao {
     @Override
     public int updateById(int id, String columnName, String columnValue) {
         int rowCount = 0; 
-        String query = "UPDATE lead_info SET "+columnName+" = ? WHERE id = ?";
+        String query = "UPDATE lead_info SET "+columnName+" = ?, updated_date_time = ? WHERE id = ?";
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1,columnValue);
-            statement.setInt(2,id);
+            statement.setString(2,'now()');
+            statement.setInt(3,id);
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {

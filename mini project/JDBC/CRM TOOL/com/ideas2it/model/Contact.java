@@ -19,8 +19,8 @@ public class Contact {
     private String email;
     private String phoneNumber;
     private String role;
-    private String accountName;
     private int accountId;
+    private String accountName;
     private int userId;
 
     public Contact(String name, String email, String phoneNumber, String accountName, String role) {
@@ -85,7 +85,7 @@ public class Contact {
         return phoneNumber;
     } 
 
-    public String getAccountName(){
+    public String getAccountName() {
         return accountName;
     }
 

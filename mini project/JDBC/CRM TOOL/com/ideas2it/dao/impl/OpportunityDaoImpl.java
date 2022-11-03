@@ -72,7 +72,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             while (resultSet.next()) {
                 opportunity = new Opportunity(resultSet.getString("name"),
                                 resultSet.getDouble("amount"),
-                                resultSet.getString("statge"));
+                                resultSet.getString("stage"));
                 opportunity.setId(resultSet.getInt("id"));
                 opportunityList.add(opportunity);
             }
@@ -104,7 +104,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
                 while(resultSet.next()) {
                 opportunity = new Opportunity(resultSet.getString("name"),
                                 resultSet.getDouble("amount"),
-                                resultSet.getString("statge"));
+                                resultSet.getString("stage"));
                     opportunity.setId(resultSet.getInt("id"));
                 }
             }

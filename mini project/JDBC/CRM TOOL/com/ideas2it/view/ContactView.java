@@ -107,8 +107,12 @@ public class ContactView {
      * @param scanner - scanner to get input from console
      */
     public void create(Scanner scanner, int userId) {
-        Contact contact = new Contact(getName(scanner), getEmailId(scanner), getPhoneNumber(scanner), getAccountName(scanner) ,getRole(scanner));
-        int accountID = createAccountOrAddContact(scanner, contact);
+        Contact contact = new Contact(getName(scanner), getEmailId(scanner), 
+                                                        getPhoneNumber(scanner),
+                                                        getAccountName(scanner), 
+                                                        getRole(scanner));
+        int accountId = createAccountOrAddContact(scanner, contact);
+        contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
         System.out.println((contactController.create(contact)) != true 
                                             ? Messages.ADDED_SUCCESSFULLY
@@ -128,16 +132,16 @@ public class ContactView {
      */
     public String createFromLead(Scanner scanner, Lead lead, int userId) {
         logger.info("creating Contact.....");
-        Contact contact = new Contact(lead.getName(),lead.getEmailId(), 
-                                                     lead.getPhoneNumber(), 
-                                                     getAccountName(scanner),
-                                                     getRole(scanner));
+        Contact contact = new Contact(lead.getName(), lead.getEmailId(), 
+                                                      lead.getPhoneNumber(), 
+                                                      getAccountName(scanner),
+                                                      getRole(scanner));
         int accountId = createAccountOrAddContact(scanner, contact);
         contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
         return (contactController.create(contact)) != true 
-                                ? Status.Converted.toString()
-                                : Messages.FAILED_TO_ADD;
+                                 ? Status.Converted.toString()
+                                 : Messages.FAILED_TO_ADD;
     }
 
     /**
@@ -156,14 +160,16 @@ public class ContactView {
         String accountName = "";
         int id = 0;
 
-        if (!accounts.isEmpty()) {
+        if (null != accounts) {
             for (Account account : accounts) {
                 accountName = account.getName();
 
                 if (accountName.equals(contact.getAccountName())) {
-                    System.out.println("Adding contact to account");
                     account.setContact(contact);
                     id = account.getId();
+                } else {
+                    System.out.println("Account creation");
+                    id = accountView.createFromContact(scanner, contact);
                 }
             }
         } else {
@@ -263,6 +269,7 @@ public class ContactView {
                 scanner.skip("\r\n");
                 printUpdatedStatus(contactController.updateById(id, columnName, getAccountName(scanner)));
                 break;
+ 
                            
             case Constants.ROLE:
                 columnName = "role";
@@ -328,34 +335,6 @@ public class ContactView {
     }
 
     /**
-     * <h1> Get Account Name </h1>
-     * <p>
-     * Gets the Account Name and checks whether the Account Name is Valid or not
-     * </p> 
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return name - a Valid Name
-     */
-    private String getAccountName(Scanner scanner) {
-        String name = "";
-        boolean isNotValid = false;
- 
-        scanner.skip("\r\n");
-        while (!isNotValid) {
-            System.out.print("Account Name         : ");
-            name = scanner.nextLine();
-
-            if (leadController.isValidCompanyName(name)) {
-                break;
-            } else { 
-                logger.warn(Messages.WRONG_COMPANY_NAME_FORMAT);
-            }  
-        }
-        return name;
-    }
-
-    /**
      * <h1> Get Email Id </h1>
      * <p>
      * Gets the Email and checks whether the Email is Valid or not
@@ -407,6 +386,34 @@ public class ContactView {
             }  
         }
         return phoneNumber;
+    }
+
+    /**
+     * <h1> Get Name </h1>
+     * <p>
+     * Gets the Name and checks whether the Name is Valid or not
+     * </p> 
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return name - a Valid Name
+     */
+    private String getAccountName(Scanner scanner) {
+        String name = "";
+        boolean isNotValid = false;
+
+        scanner.skip("\r\n");
+        while (!isNotValid) {
+            System.out.print("Name                 : ");
+            name = scanner.nextLine();
+
+            if (leadController.isValidCompanyName(name)) {
+                break;
+            } else { 
+                logger.warn(Messages.WRONG_NAME_FORMAT);
+            }  
+        }
+        return name;
     }
 
     /**

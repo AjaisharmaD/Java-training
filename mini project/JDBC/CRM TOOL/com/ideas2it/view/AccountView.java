@@ -122,6 +122,7 @@ public class AccountView {
         Account account = new Account(contact.getAccountName(),
                                       getWebsite(scanner), getType(scanner));
         int id = accountController.create(account);
+        System.out.println("account id " + id);
         System.out.println(0 != id ? Messages.ADDED_SUCCESSFULLY
                                    : Messages.FAILED_TO_ADD);
         return id;
@@ -241,7 +242,6 @@ public class AccountView {
                                              : Messages.FAILED_TO_DELETE);
         logger.info("Account Deleted");
     }       
-
 
     /**
      * <h1> Get Name </h1>
