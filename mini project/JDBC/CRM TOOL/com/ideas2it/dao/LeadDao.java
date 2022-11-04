@@ -27,9 +27,9 @@ public interface LeadDao {
      *
      * @param lead      - Details of Leads to add 
      *   
-     * @return boolean  - status of the lead
+     * @return int - count of row/s affected 
      */
-    public boolean insert(Lead lead);
+    public int insert(Lead lead);
 
     /**   
      * <h1> Get Details of Lead by Id </h1>

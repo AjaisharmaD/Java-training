@@ -75,7 +75,7 @@ public class UserView {
                 break;
 
             case Constants.ASSIGN_LEAD:
-                //assignLead(scanner);
+                assignLead(scanner);
                 break;
 
             case Constants.EXIT_OPERATION:
@@ -112,7 +112,7 @@ public class UserView {
         phoneNumber = getPhoneNumber(scanner);
         password = getPassword(scanner);
         System.out.println((userController.create(new User(name, emailId,
-                                           phoneNumber), password) != true) 
+                                           phoneNumber), password) != false) 
                                            ? Messages.ADDED_SUCCESSFULLY 
                                            : Messages.FAILED_TO_ADD);   
     }
@@ -192,25 +192,29 @@ public class UserView {
                 switch (updaterChoice) {
                 case Constants.NAME:
                     columnName = "name";
-                    printUpdatedStatus(userController.updateById(id, columnName, getName(scanner)));
+                    printUpdatedStatus(userController.updateById(id, 
+                                       columnName, getName(scanner)));
                     break;
                     
                 case Constants.EMAIL:
                     columnName = "email";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(userController.updateById(id, columnName, getEmailId(scanner)));
+                    printUpdatedStatus(userController.updateById(id, 
+                                       columnName, getEmailId(scanner)));
                     break;
                          
                 case Constants.PHONE_NUMBER:
                     columnName = "phone_number";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(userController.updateById(id, columnName, getPhoneNumber(scanner)));
+                    printUpdatedStatus(userController.updateById(id,
+                                       columnName, getPhoneNumber(scanner)));
                     break;
 
                 case Constants.PASSWORD:
                     columnName = "password";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(userController.updateById(id, columnName, getPassword(scanner)));
+                    printUpdatedStatus(userController.updateById(id,
+                                       columnName, getPassword(scanner)));
                     break;
 
                 case Constants.EXIT:
@@ -237,7 +241,9 @@ public class UserView {
         System.out.println("\n========== DELETE EMPLOYEE ==========\n");
         System.out.print("Enter the ID to User : ");
         int id = scanner.nextInt();
-        System.out.println((userController.isDeletedById(id))? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
+        System.out.println((userController.isDeletedById(id))
+                                          ? Messages.DELETED_SUCCESSFULLY 
+                                          : Messages.FAILED_TO_DELETE);
         logger.info("User Deleted");
     }
 
@@ -248,33 +254,61 @@ public class UserView {
      * </p>
      *
      * @param scanner - object of a Scanner class
- 
+     */
     private void assignLead(Scanner scanner) {
         LeadController leadController = new LeadController();
         System.out.println("\n========== ASSIGN LEAD ==========\n");
-
+        String id;
+        String choice;
+        String logout;
+        String columnName;
+        int userId;
+        int leadId;
+        User user;
+        Lead lead;
+        boolean isAssigning = false;
+        boolean isAssigned = false;
+ 
         scanner.skip("\r\n");
-        System.out.print("Enter Employee Id : ");
-        int userId = scanner.nextInt();
-        User user = userController.getById(userId);
-        System.out.println(user);
+        while (!isAssigning) {
+            System.out.println("press 1. Assign\n 2.exit");
+            choice = scanner.nextLine();
 
-        System.out.print("Enter Lead Id     : ");
-        int leadId = scanner.nextInt();
-        Lead lead = userController.getLeadById(leadId);
-        System.out.println("lead is---------------" +lead);
+            switch (choice) {
+            case "1":
+                while (!isAssigned) {
+                    System.out.print("Enter Employee Id : ");
+                    userId = scanner.nextInt();
+                    user = userController.getById(userId);
         
-        if (null != user) {
-            lead.setUserId(userId);
-            leadController.updateById(leadId, lead);
-        }
+                    if (null != user) {
+                       System.out.print("Enter Lead Id     : ");
+                       leadId = scanner.nextInt();
+                       lead = userController.getLeadById(leadId,userId);
 
-        if (null != lead) {
-            user.setLead(lead);
-            userController.updateById(userId, user); 
-        }
+                       while (!isAssigned) {
+                           if (null != lead) {
+                               columnName = "user_id";
+                               id = Integer.toString(userId);
+                               printUpdatedStatus(leadController.updateById(leadId, columnName, id));
+                               isAssigned = true;
+                           } else {
+                               logger.info(Messages.LEAD_NOT_FOUND);
+                           } 
+                       }
+                    } else {
+                       logger.info(Messages.USER_NOT_FOUND);
+                    } // if
+                } //while
+                break;
+            case "2":
+                System.out.println("press 1.exit\n press any number not continue");
+                logout = scanner.nextLine();
+                isAssigning = logout.equals(Constants.LOGOUT) ? true : false;
+                break;
+            } //switch
+        } //while
     }
-    */
 
     /**
      * <h1> Get Name </h1>
@@ -394,7 +428,7 @@ public class UserView {
      * @param user - Update user
      */
     private void printUpdatedStatus(boolean status) {
-        if (status == true) {
+        if (status != false) {
             logger.info(Messages.UPDATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_UPDATE);

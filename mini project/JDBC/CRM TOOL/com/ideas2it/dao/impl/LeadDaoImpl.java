@@ -34,8 +34,8 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public boolean insert(Lead lead) {
-        boolean status = false;
+    public int insert(Lead lead) {
+        int count = 0;
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -48,14 +48,14 @@ public class LeadDaoImpl implements LeadDao {
             statement.setString(5,lead.getStatus());
             statement.setInt(6,lead.getUserId());
             statement.setInt(7,lead.getUserId());
-            status = statement.execute();
+            count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return count;
     }
 
     /**
@@ -79,7 +79,7 @@ public class LeadDaoImpl implements LeadDao {
                                 resultSet.getString("company_name"),
                                 resultSet.getString("status"),
                                 resultSet.getInt("user_id"));
-                lead.setCreatedDate(                                resultSet.getString("created_date_time"));
+                lead.setCreatedDate(resultSet.getString("created_date_time"));
                 lead.setId(resultSet.getInt("id"));
                 leadList.add(lead);
             }
@@ -134,13 +134,12 @@ public class LeadDaoImpl implements LeadDao {
     @Override
     public int updateById(int id, String columnName, String columnValue) {
         int rowCount = 0; 
-        String query = "UPDATE lead_info SET "+columnName+" = ?, updated_date_time = ? WHERE id = ?";
+        String query = "UPDATE lead_info SET "+columnName+" = ?, updated_date_time = now() WHERE id = ?";
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1,columnValue);
-            statement.setString(2,'now()');
-            statement.setInt(3,id);
+            statement.setInt(2,id);
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {

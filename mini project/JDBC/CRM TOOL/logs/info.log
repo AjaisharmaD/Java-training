@@ -1,24 +1,16 @@
-2022-11-03 10:49:36,473 INFO c.i.v.LeadView [main] 
+2022-11-04 15:55:40,170 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-04 15:55:55,608 INFO c.i.v.UserView [main] 
 >>>>> UPDATED SUCCESSFULLY <<<<<
-2022-11-03 11:22:07,738 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 11:22:58,049 INFO c.i.v.LeadView [main] Date created successfully
-2022-11-03 11:23:09,030 INFO c.i.v.ContactView [main] creating Contact.....
-2022-11-03 11:24:50,910 INFO c.i.v.OpportunityView [main] creating Opportunity.....
-2022-11-03 11:29:17,369 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 11:29:37,188 INFO c.i.v.ContactView [main] creating Contact.....
-2022-11-03 11:29:46,889 INFO c.i.v.OpportunityView [main] creating Opportunity.....
-2022-11-03 11:36:45,612 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 11:36:57,282 INFO c.i.v.ContactView [main] creating Contact.....
-2022-11-03 11:37:05,403 INFO c.i.v.AccountView [main] creating Account.....
-2022-11-03 11:37:20,662 INFO c.i.v.OpportunityView [main] creating Opportunity.....
-2022-11-03 11:37:25,652 INFO c.i.v.LeadView [main] 
->>>>> UPDATED SUCCESSFULLY <<<<<
-2022-11-03 11:41:01,842 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 11:43:48,601 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 14:59:03,002 INFO c.i.v.LeadView [main] Date created successfully
-2022-11-03 16:46:11,371 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 16:46:44,254 INFO c.i.v.LeadView [main] 
->>>>> FAILED TO UPDATE <<<<<
-2022-11-03 16:49:33,485 INFO c.i.v.CRMView [main] Logging in as Employee
-2022-11-03 16:49:45,527 INFO c.i.v.LeadView [main] 
->>>>> UPDATED SUCCESSFULLY <<<<<
+2022-11-04 15:56:37,509 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 18:42:59,488 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 18:43:49,286 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 18:52:51,205 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 18:56:25,736 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:01:23,330 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:04:57,521 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:05:00,030 INFO c.i.v.LeadView [main] 
+>>>>> LEAD NOT FOUND <<<<<
+2022-11-04 19:07:45,439 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:33:21,500 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:34:35,635 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-04 19:35:13,081 INFO c.i.v.CRMView [main] Logging in as Employee

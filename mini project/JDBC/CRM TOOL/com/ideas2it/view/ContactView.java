@@ -114,7 +114,7 @@ public class ContactView {
         int accountId = createAccountOrAddContact(scanner, contact);
         contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
-        System.out.println((contactController.create(contact)) != true 
+        System.out.println((contactController.create(contact)) != false 
                                             ? Messages.ADDED_SUCCESSFULLY
                                             : Messages.FAILED_TO_ADD);
     }
@@ -139,7 +139,7 @@ public class ContactView {
         int accountId = createAccountOrAddContact(scanner, contact);
         contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
-        return (contactController.create(contact)) != true 
+        return (contactController.create(contact)) != false 
                                  ? Status.Converted.toString()
                                  : Messages.FAILED_TO_ADD;
     }

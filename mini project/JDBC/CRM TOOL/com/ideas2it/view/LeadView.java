@@ -162,18 +162,15 @@ public class LeadView {
         String phoneNumber;
         String companyName;
         String status;
-        String createdDate;
 
         name = getName(scanner);
         email = getEmailId(scanner);     
         phoneNumber = getPhoneNumber(scanner); 
         companyName = getCompanyName(scanner);
         status = getStatus(scanner, lead, userId);
-        createdDate = getCreatedDate();
         lead = new Lead(name, email, phoneNumber,companyName, status,
                                                               userId);
-        lead.setCreatedDate(createdDate);
-        System.out.println((leadController.create(lead)) != true 
+        System.out.println((leadController.create(lead)) != false 
                                           ? Messages.ADDED_SUCCESSFULLY 
                                           : Messages.FAILED_TO_ADD);
     }
@@ -188,7 +185,7 @@ public class LeadView {
         System.out.println("\n========== LEAD DETAILS ==========\n");
         List<Lead> leads = leadController.getAll(userId);
 
-        if (!leads.isEmpty()) {
+        if (null != leads) {
             for (Lead lead : leads) {
                 System.out.println(lead);
                 System.out.println("\n--------------X---------------\n");
@@ -212,7 +209,7 @@ public class LeadView {
         System.out.print("Enter the ID to Lead: ");
 
         int id = scanner.nextInt();
-        Lead lead = leadController.getById(id);
+        Lead lead = leadController.getById(id,userId);
 
         if (null != lead) {
             System.out.println("\n" + lead);
@@ -239,7 +236,7 @@ public class LeadView {
         boolean isUpdating = false;
         String updaterChoice;
         String logout;
-        Lead lead = leadController.getById(id);
+        Lead lead = leadController.getById(id,userId);
         System.out.println("\n" + lead);
         System.out.println("\n--------------X---------------");
 
@@ -251,30 +248,40 @@ public class LeadView {
                 switch (updaterChoice) {
                 case Constants.NAME:
                     columnName = "name";
-                    printUpdatedStatus(leadController.updateById(id, columnName, getName(scanner)));
+                    printUpdatedStatus(leadController.updateById(id, 
+                                           columnName, 
+                                           getName(scanner)));
                     break;
                     
                 case Constants.EMAIL:
                     columnName = "email";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(leadController.updateById(id, columnName, getEmailId(scanner)));
+                    printUpdatedStatus(leadController.updateById(id, 
+                                           columnName, 
+                                           getEmailId(scanner)));
                     break;
                          
                 case Constants.PHONE_NUMBER:
                     columnName = "phone_number";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(leadController.updateById(id, columnName, getPhoneNumber(scanner)));
+                    printUpdatedStatus(leadController.updateById(id, 
+                                           columnName, 
+                                           getPhoneNumber(scanner)));
                     break;
                         
                 case Constants.COMPANY_NAME:
                     columnName = "company_name";
                     scanner.skip("\r\n");
-                    printUpdatedStatus(leadController.updateById(id, columnName, getCompanyName(scanner)));
+                    printUpdatedStatus(leadController.updateById(id, 
+                                           columnName, 
+                                           getCompanyName(scanner)));
                     break;
    
                 case Constants.STATUS:
                     columnName = "status";
-                    printUpdatedStatus(leadController.updateById(id, columnName, getStatus(scanner, lead, userId)));
+                    printUpdatedStatus(leadController.updateById(id, 
+                                           columnName, 
+                                           getStatus(scanner, lead, userId)));
                     break;
 
                 case Constants.EXIT_LEAD:
@@ -301,9 +308,9 @@ public class LeadView {
      */
     private void deleteById(Scanner scanner, int userId) {
         System.out.println("\n========== DELETE LEAD  ==========\n");
-        System.out.print("Enter the ID to Delete Lead\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the ID to Delete Lead : ");
         int id = scanner.nextInt(); 
-        Lead lead = leadController.getById(id);
+        Lead lead = leadController.getById(id,userId);
 
         if (null != lead) {
             if (lead.getUserId() == userId) {
@@ -378,7 +385,8 @@ public class LeadView {
     /**
      * <h1> Get Phone Number </h1>
      * <p>
-     * Gets the Phone Number of the Lead and checks whether the Phone Number is Valid or not
+     * Gets the Phone Number of the Lead and 
+     * checks whether the Phone Number is Valid or not
      * </p>
      *
      * @param scanner - object of a Scanner class
@@ -405,7 +413,8 @@ public class LeadView {
     /**
      * <h1> Get Company Name </h1>
      * <p>
-     * Gets the Company Name of the Lead and checks whether the Company Name is Valid or not
+     * Gets the Company Name of the Lead and 
+     * checks whether the Company Name is Valid or not
      * </p> 
      *
      * @param scanner - object of a Scanner class
@@ -489,49 +498,6 @@ public class LeadView {
             }
         }
         return status;
-    }
-
-    /**
-     * <h1> Get ID </h1>
-     * <p>
-     * Gets the Id of the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return id     - a valid Id 
-
-    private String getId(Scanner scanner) {
-        String id = " ";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            id = scanner.nextLine();
-
-            if (leadController.isValidId(id)) {
-                isNotValid = true;
-            } else { 
-                logger.error(Messages.WRONG_ID_FORMAT);
-            }  
-        }
-        return id; 
-    }
-     */
-
-    /**
-     * <h1> Get Created Date </h1>
-     * <p>
-     * Gets the Created Date of the Lead
-     * </p>
-     *
-     * @return date - a Valid Start Date
-     */
-    private String getCreatedDate() {
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
-        String createdDate = formatter.format(date); 
-        logger.info("Date created successfully");
-        return createdDate;
     }
 
     /**

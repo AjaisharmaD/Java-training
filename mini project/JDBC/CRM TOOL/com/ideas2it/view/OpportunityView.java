@@ -102,10 +102,13 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class 
      */
     public void create(Scanner scanner) {
-        Opportunity opportunity = new Opportunity(getName(scanner), getAmount(scanner), getStage(scanner));
+        Opportunity opportunity = new Opportunity(getName(scanner), 
+                                                  getAmount(scanner), 
+                                                  getStage(scanner));
         //String closedDate = getClosedDate(opportunity.getStage());
         //opportunity.setClosedDate(closedDate);
-        System.out.println(opportunityController.create(opportunity) != true
+        System.out.println(opportunityController
+                                 .create(opportunity) != false
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
     }
@@ -119,16 +122,19 @@ public class OpportunityView {
      * @param scanner - object of a Scanner class
      * @param contact    - contact to create Opportunity 
      */
-    public void createFromContact(Scanner scanner, Contact contact, int userId) {
+    public void createFromContact(Scanner scanner, Contact contact,
+                                                         int userId) {
         logger.info("creating Opportunity.....");
-        Opportunity opportunity = new Opportunity(contact.getName(), getAmount(scanner), getStage(scanner));
+        Opportunity opportunity = new Opportunity(contact.getName(), 
+                                                  getAmount(scanner), 
+                                                  getStage(scanner));
         opportunity.setAccountId(contact.getAccountId());
         //String closedDate = getClosedDate(opportunity.getStage());
         //opportunity.setClosedDate(closedDate);
-        System.out.println(opportunityController.create(opportunity) != true
+        System.out.println(opportunityController.create(opportunity) != false
                                  ? Messages.ADDED_SUCCESSFULLY
                                  : Messages.FAILED_TO_ADD);
-    }
+    } 
 
     /**   
      * <h1> Display Details of opportunity </h1>
@@ -201,19 +207,22 @@ public class OpportunityView {
             case Constants.NAME:
                 columnName = "name";
                 scanner.skip("\r\n");
-                printUpdatedStatus(opportunityController.updateById(id, columnName, getName(scanner)));
+                printUpdatedStatus(opportunityController.updateById(id, 
+                                   columnName, getName(scanner)));
                 break;
 
             case Constants.AMOUNT:
                 columnName = "amount";
                 scanner.skip("\r\n");
-                printUpdatedStatus(opportunityController.updateById(id, columnName, getAmount(scanner).toString()));
+                printUpdatedStatus(opportunityController.updateById(id, 
+                                   columnName, getAmount(scanner).toString()));
                 break;
                            
             case Constants.STAGE:
                 columnName = "stage";
                 scanner.skip("\r\n");
-                printUpdatedStatus(opportunityController.updateById(id, columnName, getStage(scanner)));
+                printUpdatedStatus(opportunityController.updateById(id, 
+                                   columnName, getStage(scanner)));
                 break;
                            
             case Constants.EXIT:
@@ -237,10 +246,11 @@ public class OpportunityView {
      */
     private void deleteById(Scanner scanner) {
         System.out.println("\n========== DELETE opportunity  ==========\n");
-        System.out.print("Enter the ID to Delete opportunity\n \" Format:Lead_01 \" : ");
+        System.out.print("Enter the ID to Delete opportunity : ");
         int id = scanner.nextInt();
         System.out.println((opportunityController.isDeletedById(id)) 
-                                   ? Messages.DELETED_SUCCESSFULLY : Messages.FAILED_TO_DELETE);
+                                          ? Messages.DELETED_SUCCESSFULLY 
+                                          : Messages.FAILED_TO_DELETE);
         logger.info("Lead Deleted");
     }          
 
@@ -346,42 +356,13 @@ public class OpportunityView {
     private String getClosedDate(String stage) {
         String closedDate = "Not Closed Yet";
 
-        if (stage.equals(Stage.Closed_won.toString() || Stage.Closed_lost.toString() )) {
+        if (stage.equals(Stage.Closed_won.toString()) || stage.equals(Stage.Closed_lost.toString() )) {
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
             closedDate = formatter.format(date); 
         }
         return closedDate;
-    }
-    */
-
-    /**
-     * <h1> Get ID </h1>
-     * <p>
-     * Gets the Id of the user
-     * </p>
-     *
-     * @param scanner - object of a Scanner class
-     *
-     * @return id     - a valid Id 
-     
-    private String getId(Scanner scanner) {
-        String id = " ";
-        boolean isNotValid = false;
-
-        while (!isNotValid) {
-            System.out.print("Enter Id             : ");
-            id = scanner.nextLine();
-
-            if (leadController.isValidId(id)) {
-                isNotValid = true;
-            } else { 
-                logger.error(Messages.WRONG_ID_FORMAT);
-            }  
-        }
-        return id; 
-    }
-    */
+    } */
 
     /**
      * <h1> Print Update Status </h1>

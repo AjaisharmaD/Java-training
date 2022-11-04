@@ -1,6 +1,5 @@
 package com.ideas2it.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,12 @@ public class LeadService {
      * @return boolean - status of the lead
      */
     public boolean create(Lead lead) {
-       return leadDao.insert(lead);
+       boolean status = true;       
+
+       if (leadDao.insert(lead) <= 0) {
+           status = false;
+       }
+       return status;
     } 
 
     /**   
@@ -51,13 +55,18 @@ public class LeadService {
      * 
      * @return List - Details of Leads 
      */
-    public List<Lead> getAll(int userId) {   
-         List<Lead> leads = leadDao.fetchAll();
+    public List<Lead> getAll(int id) {   
+         List<Lead> listOfLead = leadDao.fetchAll();
+         List<Lead> leads = new ArrayList<>();
 
-         if (null != leads) {
-            return leads;
+         if (!listOfLead.isEmpty()) {
+            for (Lead lead : listOfLead) {
+                if (lead.getUserId() == id) {
+                    leads.add(lead);
+                }
+            }
         }
-        return null;    
+        return leads;    
     }
 
     /**
@@ -70,8 +79,15 @@ public class LeadService {
      *
      * @return Lead - Details of Single lead 
      */
-    public Lead getById(int id) {
-        return leadDao.fetchById(id);
+    public Lead getById(int id, int userId) {
+        Lead lead = leadDao.fetchById(id);
+
+        if (null != lead) {
+            if (lead.getUserId() == userId) {
+                return lead;
+            }
+        }
+        return null;
     }
 
     /**
@@ -102,7 +118,5 @@ public class LeadService {
      */
     public boolean isDeletedById(int id) {
         return (leadDao.deleteById(id) <= 0) ? false : true;
-    }
-eturn dateTime.toString();
     }
 }

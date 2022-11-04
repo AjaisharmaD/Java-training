@@ -39,7 +39,12 @@ public class  ContactService {
      * @return boolean - status of contact
      */
     public boolean create(Contact contact) {
-       return contactDao.insert(contact);
+       boolean status = true;
+
+       if (contactDao.insert(contact) <= 0) {
+           status = false;
+       } 
+       return status;
     } 
 
     /**   

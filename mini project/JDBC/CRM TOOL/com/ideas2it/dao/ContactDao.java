@@ -27,9 +27,9 @@ public interface ContactDao {
      *
      * @param Contact   - Details of Contact to add 
      *   
-     * @return boolean  - status of contact
+     * @return int   - count of row/s affected
      */
-    public boolean insert(Contact contact);
+    public int insert(Contact contact);
 
     /**   
      * <h1> Get Details of contact </h1>

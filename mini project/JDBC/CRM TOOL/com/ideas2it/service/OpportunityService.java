@@ -39,7 +39,12 @@ public class  OpportunityService {
      * @return boolean -  status of opportunity
      */
     public boolean create(Opportunity opportunity) {
-       return opportunityDao.insert(opportunity);
+       boolean status = true; 
+
+       if (opportunityDao.insert(opportunity) <= 0) {
+           status = false;
+       }
+       return status;
     } 
 
     /**   

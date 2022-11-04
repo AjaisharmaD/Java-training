@@ -34,8 +34,8 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public boolean insert(Contact contact) {
-        boolean status = false;
+    public int insert(Contact contact) {
+        int count = 0;
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -47,14 +47,14 @@ public class ContactDaoImpl implements ContactDao {
             statement.setString(4,contact.getRole());
             statement.setInt(5,contact.getAccountId());
             statement.setString(6,contact.getAccountName());
-            status = statement.execute();
+            count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return count;
     }
 
     /**

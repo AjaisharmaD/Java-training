@@ -40,8 +40,13 @@ public class UserService {
      * @return boolean - status of the user 
      */
     public boolean create(User user, String password) {
+        boolean status = true;
         user.setPassword(password);
-        return userDao.insert(user);
+
+        if (userDao.insert(user) <= 0) {
+            status = false;
+        }
+        return status;
     }
 
     /**

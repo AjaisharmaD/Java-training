@@ -34,8 +34,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public boolean insert(Opportunity opportunity) {
-        boolean status = false;
+    public int insert(Opportunity opportunity) {
+        int count = 0;
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -45,14 +45,14 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.setDouble(2,opportunity.getAmount());
             statement.setString(3,opportunity.getStage());
             statement.setInt(4,opportunity.getAccountId());
-            status = statement.execute();
+            count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return count;
     }
 
     /**

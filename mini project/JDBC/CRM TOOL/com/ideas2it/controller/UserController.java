@@ -82,8 +82,8 @@ public class UserController {
      *
      * @return Lead - Details of a Single Lead
      */
-    public Lead getLeadById(int id) {
-        return leadService.getById(id);
+    public Lead getLeadById(int id,int userId) {
+        return leadService.getById(id,userId);
     }
 
     /**

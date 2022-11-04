@@ -27,9 +27,9 @@ public interface UserDao {
      *
      * @param user     - user object to update
      *
-     * @return boolean - status of the user
+     * @return int - count of row/s affected
      */
-    public boolean insert(User user);
+    public int insert(User user);
 
     /**
      * <h1> Get Details of users </h1>

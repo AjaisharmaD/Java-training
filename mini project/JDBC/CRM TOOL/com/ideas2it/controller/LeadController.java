@@ -64,8 +64,8 @@ public class LeadController {
      *
      * @return Lead - Details of a Single Lead
      */
-    public Lead getById(int id) {
-        return leadService.getById(id);
+    public Lead getById(int id, int userId) {
+        return leadService.getById(id,userId);
     }
 
     /**

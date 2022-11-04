@@ -27,9 +27,9 @@ public interface OpportunityDao {
      *
      * @param Opportunity  - Details of Opportunity to add 
      *   
-     * @return boolean     - status of the opportunity
+     * @return int  - count of row/s affected
      */
-    public boolean insert(Opportunity opportunity);
+    public int insert(Opportunity opportunity);
 
     /**   
      * <h1> Get Details of Opportunity </h1>

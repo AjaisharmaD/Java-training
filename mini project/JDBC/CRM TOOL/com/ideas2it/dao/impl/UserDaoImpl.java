@@ -34,8 +34,8 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public boolean insert(User user) {
-        boolean status = false;
+    public int insert(User user) {
+        int count = 0;
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -45,14 +45,14 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2,user.getEmailId());
             statement.setString(3,user.getPhoneNumber());
             statement.setString(4,user.getPassword());
-            status = statement.execute();
+            count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return status;
+        return count;
     }
 
     /**
@@ -129,9 +129,16 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
-            statement.setString(1,columnValue);
-            statement.setInt(2,id);
-            rowCount = statement.executeUpdate();
+
+            if (columnName.equals("user_id")) {
+                statement.setInt(1,Integer.parseInt(columnValue));
+                statement.setInt(2,id);
+                rowCount = statement.executeUpdate();
+            } else {
+                statement.setString(1,columnValue);
+                statement.setInt(2,id);
+                rowCount = statement.executeUpdate();
+            }
             statement.close();
         } catch (SQLException exception) {
             System.out.println(exception);
@@ -139,7 +146,7 @@ public class UserDaoImpl implements UserDao {
             DatabaseConnection.closeConnection();
         }
         return rowCount;
-    }
+    }	
 
     /**
      * {@inheritDoc}
