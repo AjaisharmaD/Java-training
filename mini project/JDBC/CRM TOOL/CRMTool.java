@@ -1,10 +1,11 @@
 import com.ideas2it.view.CRMView;
 
-
 /**
  * <h1> CRM Tool <h1>
  * <p>
- * Start the CRM Tool 
+ * Initial point of the CRM Tool and 
+ * Calls the CRM View page which contains 
+ * the dashboard for the login
  * </p>
  *
  * @author  AJAISHARMA
@@ -16,7 +17,8 @@ public class CRMTool {
     /**
      * <h1> Main Method <h1>
      * <p>
-     * This method will call the CRM Tool's Dashboard to start.
+     * A main method used to call the start CRM method
+     * by creating a object for CRM View Class
      * </p>
      *
      * @param args - an Unused parameter.

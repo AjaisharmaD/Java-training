@@ -54,7 +54,7 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void openEmployeeDashboard(Scanner scanner, int userId) {
+    public void openEmployeeDashboard(Scanner scanner, User user) {
         boolean isOpen = false;
         String operationChoice; 
         String logout;   
@@ -66,7 +66,7 @@ public class LeadView {
                    
             switch (operationChoice) {
             case Constants.LEAD:
-                openLeadOperations(scanner, userId);
+                openLeadOperations(scanner, user);
                 break;
                  
             case Constants.ACCOUNT:
@@ -74,7 +74,7 @@ public class LeadView {
                 break;
                               
             case Constants.CONTACT:
-                contactView.showContactDashboard(scanner, userId);
+                contactView.showContactDashboard(scanner, user);
                 break;
 
             case Constants.OPPORTUNITY:
@@ -103,7 +103,9 @@ public class LeadView {
      *
      * @param scanner - object of a Scanner class
      */
-    private void openLeadOperations(Scanner scanner, int userId) {
+    private void openLeadOperations(Scanner scanner, User user) {
+        int userId = user.getId();
+        String userName = user.getName();
         boolean isOpen = false;
         String operationChoice; 
         String logout;   

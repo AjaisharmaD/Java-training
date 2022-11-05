@@ -250,7 +250,7 @@ public class UserView {
     /**
      * <h1> Assign Lead </h1>
      * <p>
-     * This method will Assign the Lead to the user
+     * Provides the dashboard to Assign Lead
      * </p>
      *
      * @param scanner - object of a Scanner class
@@ -258,56 +258,68 @@ public class UserView {
     private void assignLead(Scanner scanner) {
         LeadController leadController = new LeadController();
         System.out.println("\n========== ASSIGN LEAD ==========\n");
-        String id;
         String choice;
         String logout;
+        boolean isAssigning = false;
+ 
+        scanner.skip("\r\n");
+        while (!isAssigning) {
+            System.out.println("press 1. Assign\n press 2.exit");
+            choice = scanner.nextLine();
+
+            switch (choice) {
+            case "1":
+                assign(scanner);
+                break;
+            case "2":
+                isAssigning = true;
+                break;
+            } 
+        } 
+    }
+
+    /**
+     * <h1> Assign </h1>
+     * <p>
+     * Assigns the Lead to the User by specifying the Lead and User id
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     */
+    private void assign(Scanner scanner) {
+        LeadController leadController = new LeadController();
         String columnName;
         int userId;
         int leadId;
         User user;
         Lead lead;
-        boolean isAssigning = false;
         boolean isAssigned = false;
- 
-        scanner.skip("\r\n");
-        while (!isAssigning) {
-            System.out.println("press 1. Assign\n 2.exit");
-            choice = scanner.nextLine();
 
-            switch (choice) {
-            case "1":
-                while (!isAssigned) {
-                    System.out.print("Enter Employee Id : ");
-                    userId = scanner.nextInt();
-                    user = userController.getById(userId);
+        while (!isAssigned) {
+            System.out.print("Enter Employee Id : ");
+            userId = scanner.nextInt();
+            user = userController.getById(userId);
         
-                    if (null != user) {
-                       System.out.print("Enter Lead Id     : ");
-                       leadId = scanner.nextInt();
-                       lead = userController.getLeadById(leadId,userId);
+            if (null != user) {
+                System.out.print("Enter Lead Id     : ");
+                leadId = scanner.nextInt();
+                lead = userController.getLeadById(leadId,userId);
 
-                       while (!isAssigned) {
-                           if (null != lead) {
-                               columnName = "user_id";
-                               id = Integer.toString(userId);
-                               printUpdatedStatus(leadController.updateById(leadId, columnName, id));
-                               isAssigned = true;
-                           } else {
-                               logger.info(Messages.LEAD_NOT_FOUND);
-                           } 
-                       }
+                while (!isAssigned) {
+                    if (null != lead) {
+                        columnName = "user_id";
+                        printUpdatedStatus(leadController.updateById(leadId, 
+                                               columnName, 
+                                               Integer.toString(userId)));
+                        isAssigned = true;
                     } else {
-                       logger.info(Messages.USER_NOT_FOUND);
-                    } // if
-                } //while
-                break;
-            case "2":
-                System.out.println("press 1.exit\n press any number not continue");
-                logout = scanner.nextLine();
-                isAssigning = logout.equals(Constants.LOGOUT) ? true : false;
-                break;
-            } //switch
-        } //while
+                        logger.info(Messages.LEAD_NOT_FOUND);
+                    }  
+                }
+            } else {
+                logger.info(Messages.USER_NOT_FOUND);
+            } 
+        }
     }
 
     /**

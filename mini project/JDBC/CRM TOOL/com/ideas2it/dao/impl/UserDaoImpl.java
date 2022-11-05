@@ -74,6 +74,7 @@ public class UserDaoImpl implements UserDao {
                                 resultSet.getString("email"),
                                 resultSet.getString("phone_number"));
                 user.setId(resultSet.getInt("id"));
+                user.setPassword(resultSet.getString("password"));
                 userList.add(user);
             }
             statement.close();

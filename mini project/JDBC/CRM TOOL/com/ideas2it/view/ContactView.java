@@ -14,6 +14,7 @@ import com.ideas2it.enums.Role;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
 import com.ideas2it.model.Lead;
+import com.ideas2it.model.User;
 import com.ideas2it.model.Contact;
 import com.ideas2it.view.AccountView;
 import com.ideas2it.view.OpportunityView;
@@ -55,7 +56,8 @@ public class ContactView {
      *
      * @param scanner - object of a Scanner class
      */
-    public void showContactDashboard(Scanner scanner, int userId) {
+    public void showContactDashboard(Scanner scanner, User user) {
+        int userId = user.getId();
         boolean isOpened = false;
         String operationChoice; 
         String logout;
@@ -115,8 +117,8 @@ public class ContactView {
         contact.setAccountId(accountId);
         opportunityView.createFromContact(scanner, contact, userId);
         System.out.println((contactController.create(contact)) != false 
-                                            ? Messages.ADDED_SUCCESSFULLY
-                                            : Messages.FAILED_TO_ADD);
+                                             ? Messages.ADDED_SUCCESSFULLY
+                                             : Messages.FAILED_TO_ADD);
     }
 
     /**
@@ -160,19 +162,17 @@ public class ContactView {
         String accountName = "";
         int id = 0;
 
-        if (null != accounts) {
+        if (!accounts.isEmpty()) {
             for (Account account : accounts) {
                 accountName = account.getName();
 
                 if (accountName.equals(contact.getAccountName())) {
                     account.setContact(contact);
                     id = account.getId();
-                } else {
-                    System.out.println("Account creation");
-                    id = accountView.createFromContact(scanner, contact);
-                }
+                    break;
+                } 
             }
-        } else {
+        } else if (0 == id) {
             System.out.println("Account creation");
             id = accountView.createFromContact(scanner, contact);
         }
@@ -364,7 +364,8 @@ public class ContactView {
     /**
      * <h1> Get Phone Number </h1>
      * <p>
-     * Gets the Phone Number of the Lead and checks whether the Phone Number is Valid or not
+     * Gets the Phone Number of the Lead and 
+     * checks whether the Phone Number is Valid or not
      * </p>
      *
      * @param scanner - object of a Scanner class
@@ -404,7 +405,7 @@ public class ContactView {
 
         scanner.skip("\r\n");
         while (!isNotValid) {
-            System.out.print("Name                 : ");
+            System.out.print("\nAccount Name         : ");
             name = scanner.nextLine();
 
             if (leadController.isValidCompanyName(name)) {

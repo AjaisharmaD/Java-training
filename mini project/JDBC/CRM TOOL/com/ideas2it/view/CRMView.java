@@ -15,8 +15,10 @@ import com.ideas2it.model.User;
 /**
  * <h1> CRM Tool View </h1>
  * <p> 
- * This CRM View class used to provide a dashboard of
- * Login users as Manager and Employee
+ * Provides the Dashboard for Login and
+ * validates the user's credential to login and
+ * takes them to Employee Dashboard where they can do Operations
+ * helps the manager to Login and go to the Manager Dashboard
  * </p>
  *
  * @author  AJAISHARMA 
@@ -39,41 +41,23 @@ public class CRMView {
     /**
      * <h1> CRM Dashboard </h1>
      * <p>
-     * This method is used to login
-     * as User and Manager 
+     * Contains the login option for the Employees and manager 
      * </p>
      */
     public void startCRM() {
         Scanner scanner = new Scanner(System.in);
         printWelcomeMessage();
-        int userId ;
         String logout;
         String loginChoice;
         boolean isActive = false;
-        boolean isValid = false;
 
         while (!isActive) {        
             printUserMenu();
             loginChoice = scanner.next();
-	    isValid = false;
                        
             switch (loginChoice) {
             case Constants.EMPLOYEE:
-                 while (!isValid) {
-                     System.out.print("Enter employee ID: ");
-                     userId = scanner.nextInt();
-                    
-                     if (isValidUser(userId)) {
-                         logger.info("Logging in as Employee");
-                         leadView.openEmployeeDashboard(scanner, userId);
-                         isValid = true;
-                     } else {
-                         logger.info(Messages.USER_NOT_FOUND);
-                         System.out.println(Messages.EXIT_MENU);
-                         logout = scanner.next();
-                         isValid = (logout.equals(Constants.LOGOUT)) ? true : false;  
-                     }
-                 }
+                 login(scanner);
                  break;
                
             case Constants.MANAGER:
@@ -93,19 +77,110 @@ public class CRMView {
         }
     } 
 
+    private void login(Scanner scanner) {
+        User user;
+        String logout;
+        boolean isValid = false;
+
+        while (!isValid) {
+            user = validUser(scanner);
+
+            if (null != user) {
+                logger.info("Logging in as Employee");
+                leadView.openEmployeeDashboard(scanner, user);
+                isValid = true;
+            } else {
+                logger.info(Messages.USER_NOT_FOUND);
+                System.out.println(Messages.EXIT_MENU);
+                logout = scanner.next();
+                isValid = (logout.equals(Constants.LOGOUT)) ? true : false;  
+            }
+        }
+    }
+
     /**
      * Validates the login Details
      */
-    public boolean isValidUser(int id) {
-        boolean isValidUser = false;
-        User user = userController.getById(id);
+    private User validUser(Scanner scanner) {
+        List<User> users = userController.getAll();
+        boolean isValidEmail = false;
+        boolean isValidPassword = false;
 
-        if (null != user) {
-            isValidUser = true;
-        } else {
-            logger.info("No User Present");
+        if (!users.isEmpty()) {
+            for (User user : users) {
+                while (!isValidEmail) {
+                    if (getEmailId(scanner).equals(user.getEmailId())) {
+                        while(!isValidPassword) {
+                            if (getPassword(scanner).equals(user.getPassword())) {
+                                isValidEmail = true;
+                                isValidPassword = true;
+                                return user;
+                            } else {
+                                logger.info("Wrong password");
+                            }
+                        }    
+                    } else {
+                        logger.info("wrong mail Id");
+                    }
+                }
+            }
         }
-        return isValidUser;
+        return null;
+    }
+
+    /**
+     * <h1> Get Email Id </h1>
+     * <p>
+     * Gets the Email of the Lead and checks whether the Email is Valid or not
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return email - a Valid Email of the Lead
+     */
+    private String getEmailId(Scanner scanner) {
+        String emailId = "";
+        boolean isNotValid = false;
+        
+        scanner.skip("\r\n");
+        while (!isNotValid) {
+            System.out.print("Email ID             : ");
+            emailId = scanner.nextLine();
+
+            if (userController.isValidEmailId(emailId)) {
+                break;
+            } else { 
+                logger.warn(Messages.WRONG_EMAIL_ID_FORMAT);
+            }  
+        }
+        return emailId;
+    }
+
+    /**
+     * <h1> Get Password </h1>
+     * <p>
+     * Gets the Password of the User and checks whether the Password is Valid or not
+     * </p>
+     *
+     * @param scanner - object of a Scanner class
+     *
+     * @return password - a Valid Password of the User
+     */
+    private String getPassword(Scanner scanner) {
+        String password = "";
+        boolean isNotValid = false;
+
+        while (!isNotValid) {
+            System.out.print("Password             : ");
+            password = scanner.next();
+
+            if (userController.isValidPassword(password)) {
+                isNotValid = true;
+            } else { 
+                logger.error(Messages.WRONG_PASSWORD_FORMAT);
+            }  
+        }
+        return password;
     }
 
     /**
