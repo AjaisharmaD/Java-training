@@ -10,8 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.AccountDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Account;
 
 /**
@@ -27,8 +29,10 @@ import com.ideas2it.model.Account;
  * @since   03-10-2022
  */
 public class AccountDaoImpl implements AccountDao {
-     Connection connection;
-     PreparedStatement statement; 
+     private Connection connection;
+     private PreparedStatement statement; 
+     private CustomLogger logger = new CustomeLogger(AccountDaoImpl.class);
+     
     
     /**
      * {@inheritDoc}
@@ -56,7 +60,7 @@ public class AccountDaoImpl implements AccountDao {
             statement.close();
             preparedStatement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -67,7 +71,7 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Account> fetchAll() {
+    public List<Account> fetchAll() throws NotFoundException{
         ResultSet resultSet = null;
         Account account;
         List<Account> accountList = new ArrayList<>();
@@ -76,18 +80,23 @@ public class AccountDaoImpl implements AccountDao {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("SELECT * FROM account");
             resultSet = statement.executeQuery();
+
+            System.out.println(resultSet);
        
-            while (resultSet.next()) {
-                account = new Account(resultSet.getString("name"),
-                                      resultSet.getString("website"),
-                                      resultSet.getString("type"));
-                account.setId(resultSet.getInt("id"));
-                accountList.add(account);
+            if (null != resultSet) 
+                while (resultSet.next()) {
+                    account = new Account(resultSet.getString("name"),
+                                          resultSet.getString("website"),
+                                          resultSet.getString("type"));
+                    account.setId(resultSet.getInt("id"));
+                    accountList.add(account);
+            } else {
+                throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -98,7 +107,7 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public Account fetchById(int id) {
+    public Account fetchById(int id) throws NotFoundException {
         ResultSet resultSet = null;
         Account account = null;
 
@@ -115,11 +124,13 @@ public class AccountDaoImpl implements AccountDao {
                                           resultSet.getString("type"));
                     account.setId(resultSet.getInt("id"));
                 }
+            } else {
+                throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }

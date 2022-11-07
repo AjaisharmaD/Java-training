@@ -2,6 +2,7 @@ package com.ideas2it.controller;
 
 import java.util.List;
 
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Account;
 import com.ideas2it.service.AccountService;
 
@@ -47,7 +48,7 @@ public class AccountController {
      *
      * @return List - Details of Accounts
      */
-    public List<Account> getAll() {
+    public List<Account> getAll()  throws NotFoundException {
         return accountService.getAll();
     }    
 
@@ -61,7 +62,7 @@ public class AccountController {
      *
      * @return Account - Details of a Single Account
      */
-    public Account getById(int id) {
+    public Account getById(int id) throws NotFoundException {
         return accountService.getById(id);
     }
 

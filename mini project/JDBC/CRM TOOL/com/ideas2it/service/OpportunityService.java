@@ -7,6 +7,7 @@ import java.util.Map;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.dao.OpportunityDao;
 import com.ideas2it.dao.impl.OpportunityDaoImpl;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Opportunity;
 
 /**
@@ -55,7 +56,7 @@ public class  OpportunityService {
      *
      * @return List - Details of Opportunity
      */
-    public List<Opportunity> getAll() {
+    public List<Opportunity> getAll() throws NotFoundException {
         List<Opportunity> opportunities = opportunityDao.fetchAll();  
 
         if (null != opportunities) {
@@ -74,7 +75,7 @@ public class  OpportunityService {
      *
      * @return Opportunity - Details of Opportunity
      */
-    public Opportunity getById(int id) {
+    public Opportunity getById(int id) throws NotFoundException {
         return opportunityDao.fetchById(id);
     }
 

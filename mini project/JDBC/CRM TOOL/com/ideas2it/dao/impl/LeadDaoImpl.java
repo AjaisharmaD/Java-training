@@ -10,8 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Lead;
 
 /**
@@ -27,8 +29,9 @@ import com.ideas2it.model.Lead;
  * @since   19-09-2022
  */
 public class LeadDaoImpl implements LeadDao {
-     Connection connection;
-     PreparedStatement statement; 
+     private Connection connection;
+     private PreparedStatement statement; 
+     private CustomLogger logger = new CustomLogger(LeadDaoImpl.class);
     
     /**
      * {@inheritDoc}
@@ -62,7 +65,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Lead> fetchAll() {
+    public List<Lead> fetchAll() throws NotFoundException {
         ResultSet resultSet = null;
         Lead lead;
         List<Lead> leadList = new ArrayList<>();
@@ -71,17 +74,21 @@ public class LeadDaoImpl implements LeadDao {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("SELECT * FROM lead_info");
             resultSet = statement.executeQuery();
-       
-            while (resultSet.next()) {
-                lead = new Lead(resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone_number"),
-                                resultSet.getString("company_name"),
-                                resultSet.getString("status"),
-                                resultSet.getInt("user_id"));
-                lead.setCreatedDate(resultSet.getString("created_date_time"));
-                lead.setId(resultSet.getInt("id"));
-                leadList.add(lead);
+           
+            if (null != resultSet) {
+                while (resultSet.next()) {
+                    lead = new Lead(resultSet.getString("name"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone_number"),
+                                    resultSet.getString("company_name"),
+                                    resultSet.getString("status"),
+                                    resultSet.getInt("user_id"));
+                    lead.setCreatedDate(resultSet.getString("created_date_time"));
+                    lead.setId(resultSet.getInt("id"));
+                    leadList.add(lead);
+                }
+            } else {
+                throw new NotFoundException(Messages.LEAD_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
@@ -97,7 +104,7 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public Lead fetchById(int id) {
+    public Lead fetchById(int id) throws NotFoundException {
         ResultSet resultSet = null;
         Lead lead = null;
 
@@ -117,6 +124,8 @@ public class LeadDaoImpl implements LeadDao {
                                 resultSet.getInt("user_id"));
                     lead.setId(resultSet.getInt("id"));
                 }
+            } else {
+                throw new NotFoundException(Messages.LEAD_NOT_FOUND);
             }
             statement.close();
             resultSet.close();

@@ -1,0 +1,7 @@
+2022-10-27 10:04:03,913 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-27 10:05:11,995 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-27 10:06:01,271 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-27 10:06:30,096 INFO c.i.v.LeadView [main] Date created successfully
+2022-10-27 14:05:51,048 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-10-27 14:08:53,115 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-10-27 14:09:37,504 INFO c.i.v.LeadView [main] Date created successfully

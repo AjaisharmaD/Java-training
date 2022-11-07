@@ -7,6 +7,7 @@ import java.util.Map;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.dao.impl.UserDaoImpl;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.User;
 
 /**
@@ -57,13 +58,18 @@ public class UserService {
      *
      * @return List - Details of users
      */
-    public List<User> getAll() {
-        List<User> users = userDao.fetchAll();
+    public List<User> getAll() throws NotFoundException {
+        List<User> userList = userDao.fetchAll();
+        List<User> users = new ArrayList<>();
 
-        if(null != users) {
-            return users;
+        if(!userList.isEmpty()) { 
+            for (User user : userList) {
+                if (!user.getIsDeleted()) {
+                     users.add(user);
+                }
+            }
         }
-        return null;
+        return users;
     }
 
     /**
@@ -76,8 +82,15 @@ public class UserService {
      *
      * @return user - Details of a Single User
      */
-    public User getById(int id) {
-        return userDao.fetchById(id);
+    public User getById(int id) throws NotFoundException {
+        User user = userDao.fetchById(id);
+       
+        if (null != user) {
+            if(!user.getIsDeleted()) {
+                return user;
+            }
+        } 
+        return null;
     }
 
     /**

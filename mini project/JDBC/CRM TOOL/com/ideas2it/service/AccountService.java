@@ -7,6 +7,7 @@ import java.util.Map;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.dao.AccountDao;
 import com.ideas2it.dao.impl.AccountDaoImpl;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Account;
 
 /**
@@ -50,7 +51,7 @@ public class  AccountService {
      *
      * @return List - Details of Account
      */
-    public List<Account> getAll() {   
+    public List<Account> getAll() throws NotFoundException {   
         List<Account> accounts = accountDao.fetchAll();
 
         if (null != accounts) {
@@ -69,7 +70,7 @@ public class  AccountService {
      *
      * @return Account - Details of Account
      */
-    public Account getById(int id) {
+    public Account getById(int id) throws NotFoundException {
         return accountDao.fetchById(id);
     }
 

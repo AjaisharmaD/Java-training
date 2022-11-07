@@ -10,8 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.User;
 
 /**
@@ -59,7 +61,7 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public List<User> fetchAll() {
+    public List<User> fetchAll() throws NotFoundException {
         ResultSet resultSet = null;
         User user;
         List<User> userList = new ArrayList<>();
@@ -69,13 +71,18 @@ public class UserDaoImpl implements UserDao {
             statement = connection.prepareStatement("SELECT * FROM user");
             resultSet = statement.executeQuery();
        
-            while (resultSet.next()) {
-                user = new User(resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
-                user.setId(resultSet.getInt("id"));
-                user.setPassword(resultSet.getString("password"));
-                userList.add(user);
+            if (null != resultSet) {
+                while (resultSet.next()) {
+                    user = new User(resultSet.getString("name"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone_number"));
+                    user.setIsDeleted(resultSet.getBoolean("is_deleted"));
+                    user.setId(resultSet.getInt("id"));
+                    user.setPassword(resultSet.getString("password"));
+                    userList.add(user);
+                }
+            } else {
+                throw new NotFoundException(Messages.USER_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
@@ -91,7 +98,7 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public User fetchById(int id) {
+    public User fetchById(int id) throws NotFoundException {
         ResultSet resultSet = null;
         User user = null;
 
@@ -106,8 +113,11 @@ public class UserDaoImpl implements UserDao {
                     user = new User(resultSet.getString("name"),
                                     resultSet.getString("email"),
                                     resultSet.getString("phone_number"));
+                    user.setIsDeleted(resultSet.getBoolean("is_deleted"));
                     user.setId(resultSet.getInt("id"));
                 }
+            } else {
+                throw new NotFoundException(Messages.USER_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
@@ -158,7 +168,7 @@ public class UserDaoImpl implements UserDao {
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("DELETE FROM user WHERE id = ?");
+            statement = connection.prepareStatement("UPDATE user SET is_deleted = 1 WHERE id = ?");
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();

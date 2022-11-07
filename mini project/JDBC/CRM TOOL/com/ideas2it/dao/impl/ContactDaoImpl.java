@@ -10,8 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.ContactDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Contact;
 
 /**
@@ -27,8 +29,9 @@ import com.ideas2it.model.Contact;
  * @since   03-10-2022
  */
 public class ContactDaoImpl implements ContactDao {
-     Connection connection;
-     PreparedStatement statement; 
+     private Connection connection;
+     private PreparedStatement statement; 
+     private CustomLogger logger = new CustomLogger(ContactDaoImpl.class);
 
     /**
      * {@inheritDoc}
@@ -40,7 +43,8 @@ public class ContactDaoImpl implements ContactDao {
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("INSERT INTO contact (name,"
-                            +"email,phone,role,account_id,account_name) VALUES (?,?,?,?,?,?)"); 
+                                         +"email,phone,role,account_id,"
+                                         +"account_name) VALUES (?,?,?,?,?,?)"); 
             statement.setString(1,contact.getName());
             statement.setString(2,contact.getEmailId());
             statement.setString(3,contact.getPhoneNumber());
@@ -50,7 +54,7 @@ public class ContactDaoImpl implements ContactDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -61,7 +65,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Contact> fetchAll() {
+    public List<Contact> fetchAll() throws NotFoundException {
         ResultSet resultSet = null;
         Contact contact;
         List<Contact> contactList = new ArrayList<>();
@@ -70,20 +74,24 @@ public class ContactDaoImpl implements ContactDao {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("SELECT * FROM contact");
             resultSet = statement.executeQuery();
-       
-            while (resultSet.next()) {
-                contact = new Contact(resultSet.getString("name"),
-                                      resultSet.getString("email"),
-                                      resultSet.getString("phone"),
-                                      resultSet.getString("account_name"),
-                                      resultSet.getString("role"));
-                contact.setId(resultSet.getInt("id"));
-                contactList.add(contact);
+           
+            if (null != resultSet) {
+                while (resultSet.next()) {
+                    contact = new Contact(resultSet.getString("name"),
+                                          resultSet.getString("email"),
+                                          resultSet.getString("phone"),
+                                          resultSet.getString("account_name"),
+                                          resultSet.getString("role"));
+                    contact.setId(resultSet.getInt("id"));
+                    contactList.add(contact);
+                }
+            } else {
+                throw new NotFoundException(Messages.CONTACT_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -94,7 +102,7 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public Contact fetchById(int id) {
+    public Contact fetchById(int id) throws NotFoundException {
         ResultSet resultSet = null;
         Contact contact = null;
 
@@ -113,11 +121,13 @@ public class ContactDaoImpl implements ContactDao {
                                       resultSet.getString("role"));
                     contact.setId(resultSet.getInt("id"));
                 }
+            } else {
+                throw new NotFoundException(Messages.CONTACT_NOT_FOUND);
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -140,7 +150,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -161,7 +171,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error(exception);
         } finally {
             DatabaseConnection.closeConnection();
         }

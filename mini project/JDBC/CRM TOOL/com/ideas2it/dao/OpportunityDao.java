@@ -3,6 +3,7 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Opportunity;
 
 /**
@@ -39,7 +40,7 @@ public interface OpportunityDao {
      *
      * @return List - list of opportunity details
      */
-    public List<Opportunity> fetchAll();
+    public List<Opportunity> fetchAll() throws NotFoundException;
 
     /**
      * <h1> Get Details of Opportunity by Id </h1>
@@ -51,7 +52,7 @@ public interface OpportunityDao {
      *
      * @return Opportunity - Details of single Opportunity
      */
-    public Opportunity fetchById(int id);
+    public Opportunity fetchById(int id) throws NotFoundException;
 
     /**
      * <h1> Update Details of Opportunity </h1>

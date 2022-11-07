@@ -3,6 +3,7 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Lead;
  
 /**
@@ -39,7 +40,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public List<Lead> fetchAll();
+    public List<Lead> fetchAll() throws NotFoundException;
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -51,7 +52,7 @@ public interface LeadDao {
      *
      * @return Lead - Details of single Lead
      */
-    public Lead fetchById(int id);
+    public Lead fetchById(int id) throws NotFoundException;
 
     /**
      * <h1> Update Details of Lead </h1>
