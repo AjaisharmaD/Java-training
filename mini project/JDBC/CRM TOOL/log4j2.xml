@@ -23,7 +23,7 @@
     </RollingFile>
 
     <RollingFile name="RollingFileError" fileName="logs/error.log"
-                 filePattern="logs/$${date:yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log.">
+                 filePattern="logs/$${date:yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.">
 
         <PatternLayout>
             <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>

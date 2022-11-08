@@ -2,6 +2,8 @@ package com.ideas2it.controller;
 
 import java.util.List; 
 
+import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
 import com.ideas2it.service.LeadService;
@@ -24,11 +26,13 @@ public class UserController {
     private UserService userService;
     private LeadService leadService;
     private ValidationUtils validationUtils;
+    private CustomLogger logger;
     
     public UserController() {
         this.userService = new UserService();
         this.leadService = new LeadService();
         this.validationUtils = new ValidationUtils();
+        this.logger = new CustomLogger(UserController.class);
     }
 
     /**
@@ -55,7 +59,14 @@ public class UserController {
      * @return List - Details of Users
      */
     public List<User> getAll() {
-        return userService.getAll();
+        try {
+            return userService.getAll();
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -69,7 +80,14 @@ public class UserController {
      * @return User - Details of a Single User
      */
     public User getById(int id) {
-        return userService.getById(id);
+        try {
+            return userService.getById(id);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -83,7 +101,15 @@ public class UserController {
      * @return Lead - Details of a Single Lead
      */
     public Lead getLeadById(int id,int userId) {
-        return leadService.getById(id,userId);
+        try {
+            return leadService.getById(id,userId);
+        } catch (NotFoundException leadNotFoundException) {
+            logger.error(leadNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
+        
     }
 
     /**

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
-import com.ideas2it.controller.UserController;
+import com.ideas2it.controller.CRMController;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.view.LeadView;
 import com.ideas2it.view.UserView;
@@ -29,13 +29,13 @@ public class CRMView {
     private CustomLogger logger;
     private LeadView leadView;
     private UserView userView;
-    private UserController userController;
+    private CRMController crmController;
 
     public CRMView() {
         this.logger = new CustomLogger(CRMView.class);
         this.leadView = new LeadView();
         this.userView = new UserView();
-        this.userController = new UserController();
+        this.crmController = new CRMController();
     }
     
     /**
@@ -83,7 +83,7 @@ public class CRMView {
         boolean isValid = false;
 
         while (!isValid) {
-            user = validUser(scanner);
+            user = crmController.validUser(getEmailId(scanner), getPassword(scanner));
 
             if (null != user) {
                 logger.info("Logging in as Employee");
@@ -100,7 +100,7 @@ public class CRMView {
 
     /**
      * Validates the login Details
-     */
+
     private User validUser(Scanner scanner) {
         List<User> users = userController.getAll();
         boolean isValidEmail = false;
@@ -109,9 +109,9 @@ public class CRMView {
         if (!users.isEmpty()) {
             for (User user : users) {
                 while (!isValidEmail) {
-                    if (getEmailId(scanner).equals(user.getEmailId())) {
+                    if (.equals(user.getEmailId())) {
                         while(!isValidPassword) {
-                            if (getPassword(scanner).equals(user.getPassword())) {
+                            if (.equals(user.getPassword())) {
                                 isValidEmail = true;
                                 isValidPassword = true;
                                 return user;
@@ -127,6 +127,7 @@ public class CRMView {
         }
         return null;
     }
+     */
 
     /**
      * <h1> Get Email Id </h1>
@@ -147,7 +148,7 @@ public class CRMView {
             System.out.print("Email ID             : ");
             emailId = scanner.nextLine();
 
-            if (userController.isValidEmailId(emailId)) {
+            if (crmController.isValidEmailId(emailId)) {
                 break;
             } else { 
                 logger.warn(Messages.WRONG_EMAIL_ID_FORMAT);
@@ -174,7 +175,7 @@ public class CRMView {
             System.out.print("Password             : ");
             password = scanner.next();
 
-            if (userController.isValidPassword(password)) {
+            if (crmController.isValidPassword(password)) {
                 isNotValid = true;
             } else { 
                 logger.error(Messages.WRONG_PASSWORD_FORMAT);

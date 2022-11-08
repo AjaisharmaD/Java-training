@@ -3,7 +3,6 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Account;
 
 /**
@@ -40,7 +39,7 @@ public interface AccountDao {
      *
      * @return List - list of account
      */
-    public List<Account> fetchAll() throws NotFoundException;
+    public List<Account> fetchAll();
 
     /**
      * <h1> Get Details of Account by Id </h1>
@@ -52,7 +51,7 @@ public interface AccountDao {
      *
      * @return Account - Details of single Account
      */
-    public Account fetchById(int id) throws NotFoundException;
+    public Account fetchById(int id);
 
     /**
      * <h1> Update Details of Account </h1>

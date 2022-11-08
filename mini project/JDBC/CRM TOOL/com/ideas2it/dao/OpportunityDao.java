@@ -40,7 +40,7 @@ public interface OpportunityDao {
      *
      * @return List - list of opportunity details
      */
-    public List<Opportunity> fetchAll() throws NotFoundException;
+    public List<Opportunity> fetchAll();
 
     /**
      * <h1> Get Details of Opportunity by Id </h1>
@@ -52,7 +52,7 @@ public interface OpportunityDao {
      *
      * @return Opportunity - Details of single Opportunity
      */
-    public Opportunity fetchById(int id) throws NotFoundException;
+    public Opportunity fetchById(int id);
 
     /**
      * <h1> Update Details of Opportunity </h1>

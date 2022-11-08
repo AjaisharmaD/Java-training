@@ -2,6 +2,8 @@ package com.ideas2it.controller;
 
 import java.util.List;
 
+import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Opportunity;
 import com.ideas2it.service.OpportunityService;
 
@@ -19,9 +21,11 @@ import com.ideas2it.service.OpportunityService;
  */
 public class OpportunityController {
     private OpportunityService opportunityService;
+    private CustomLogger logger;
 
     public OpportunityController() {
         this.opportunityService = new OpportunityService();
+        this.logger = new CustomLogger(OpportunityController.class);
     }
 
     /**
@@ -48,7 +52,14 @@ public class OpportunityController {
      * @return List - Details of Opportunitys
      */
     public List<Opportunity> getAll() {
-        return opportunityService.getAll();
+        try {
+            return opportunityService.getAll();
+        } catch(NotFoundException opportunityNotFoundException) {
+            logger.error(opportunityNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }    
 
     /**
@@ -62,7 +73,14 @@ public class OpportunityController {
      * @return Opportunity - Details of a Single Opportunity
      */
     public Opportunity getById(int id) {
-        return opportunityService.getById(id);
+        try {
+            return opportunityService.getById(id);
+        } catch(NotFoundException opportunityNotFoundException) {
+            logger.error(opportunityNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -93,5 +111,4 @@ public class OpportunityController {
     public boolean isDeletedById(int id) {
         return opportunityService.isDeletedById(id);
     }
-
 }

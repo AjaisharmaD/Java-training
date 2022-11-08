@@ -3,7 +3,6 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Contact;
 
 /**
@@ -40,7 +39,7 @@ public interface ContactDao {
      *
      * @return List - list of Contact Details
      */
-    public List<Contact> fetchAll() throws NotFoundException;
+    public List<Contact> fetchAll();
 
     /**
      * <h1> Get Details of Contact by Id </h1>
@@ -52,7 +51,7 @@ public interface ContactDao {
      *
      * @return Contact - Details of a Contact
      */
-    public Contact fetchById(int id) throws NotFoundException;
+    public Contact fetchById(int id);
 
     /**
      * <h1> Update Details of Contact </h1>

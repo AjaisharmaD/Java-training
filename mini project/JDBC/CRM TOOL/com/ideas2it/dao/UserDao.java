@@ -3,7 +3,6 @@ package com.ideas2it.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.User;
 
 /**
@@ -40,7 +39,7 @@ public interface UserDao {
      *
      * @return List - list of User details
      */
-    public List<User> fetchAll() throws NotFoundException;
+    public List<User> fetchAll();
 
     /**
      * <h1> Get Details of User by Id </h1>
@@ -52,7 +51,7 @@ public interface UserDao {
      *
      * @return User - Details of a Single User
      */
-    public User fetchById(int id) throws NotFoundException;
+    public User fetchById(int id);
 
     /**
      * <h1> Update Details of User </h1>

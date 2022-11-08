@@ -3,6 +3,7 @@ package com.ideas2it.controller;
 import java.util.List;
 
 import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
 import com.ideas2it.service.AccountService;
 
@@ -20,9 +21,11 @@ import com.ideas2it.service.AccountService;
  */
 public class AccountController {
     private AccountService accountService;
+    private CustomLogger logger;
 
     public AccountController() {
         this.accountService = new AccountService();
+        this.logger = new CustomLogger(AccountController.class);
     }
 
     /**
@@ -33,7 +36,7 @@ public class AccountController {
      *
      * @param account  - account details to add 
      *
-     * @return boolean - status of account
+     * @return int    - id of the account
      */
     public int create(Account account) {
         return accountService.create(account);
@@ -48,8 +51,15 @@ public class AccountController {
      *
      * @return List - Details of Accounts
      */
-    public List<Account> getAll()  throws NotFoundException {
-        return accountService.getAll();
+    public List<Account> getAll() {
+        try {
+            return accountService.getAll();
+        } catch (NotFoundException accountNotFoundException) {
+            logger.error(accountNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }    
 
     /**
@@ -62,8 +72,15 @@ public class AccountController {
      *
      * @return Account - Details of a Single Account
      */
-    public Account getById(int id) throws NotFoundException {
-        return accountService.getById(id);
+    public Account getById(int id) {
+        try {
+            return accountService.getById(id);
+        } catch (NotFoundException accountNotFoundException) {
+            logger.error(accountNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**

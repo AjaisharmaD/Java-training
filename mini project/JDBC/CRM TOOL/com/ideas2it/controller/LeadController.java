@@ -3,6 +3,8 @@ package com.ideas2it.controller;
 import java.time.DateTimeException;
 import java.util.List;
 
+import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.service.LeadService;
 import com.ideas2it.utils.ValidationUtils;
@@ -22,10 +24,12 @@ import com.ideas2it.utils.ValidationUtils;
 public class LeadController {
     private LeadService leadService;
     private ValidationUtils validationUtils; 
+    private CustomLogger logger;
 
     public LeadController() {
         this.leadService = new LeadService();
         this.validationUtils = new ValidationUtils();
+        this.logger = new CustomLogger(LeadController.class);
     }
        
     /**
@@ -51,7 +55,14 @@ public class LeadController {
      * @return List - Details of Leads
      */
     public List<Lead> getAll(int userId) {
-        return leadService.getAll(userId);
+        try {
+            return leadService.getAll(userId);
+        } catch(NotFoundException leadNotFoundException) {
+            logger.error(leadNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }    
 
     /**
@@ -65,7 +76,14 @@ public class LeadController {
      * @return Lead - Details of a Single Lead
      */
     public Lead getById(int id, int userId) {
-        return leadService.getById(id,userId);
+        try {
+            return leadService.getById(id,userId);
+        } catch(NotFoundException leadNotFoundException) {
+            logger.error(leadNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**

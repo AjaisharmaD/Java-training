@@ -10,10 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.OpportunityDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
-import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Opportunity;
 
 /**
@@ -29,8 +28,13 @@ import com.ideas2it.model.Opportunity;
  * @since   03-10-2022
  */
 public class OpportunityDaoImpl implements OpportunityDao {
-     Connection connection;
-     PreparedStatement statement; 
+     private Connection connection;
+     private PreparedStatement statement;    
+     private CustomLogger logger;
+
+     public OpportunityDaoImpl() {
+         logger = new CustomLogger(OpportunityDaoImpl.class);
+     }
 
     /**
      * {@inheritDoc}
@@ -50,7 +54,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL opportunity create");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -61,7 +65,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Opportunity> fetchAll() throws NotFoundException {
+    public List<Opportunity> fetchAll() {
         ResultSet resultSet = null;
         Opportunity opportunity;
         List<Opportunity> opportunityList = new ArrayList<>();
@@ -70,22 +74,18 @@ public class OpportunityDaoImpl implements OpportunityDao {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement("SELECT * FROM opportunity");
             resultSet = statement.executeQuery();
-       
-            if (null != resultSet) {
-                while (resultSet.next()) {
-                    opportunity = new Opportunity(resultSet.getString("name"),
-                                    resultSet.getDouble("amount"),
-                                    resultSet.getString("stage"));
-                    opportunity.setId(resultSet.getInt("id"));
-                    opportunityList.add(opportunity);
-                }
-            } else {
-                throw new NotFoundException(Messages.OPPORTUNITY_NOT_FOUND);
-            }
+
+            while (resultSet.next()) {
+                opportunity = new Opportunity(resultSet.getString("name"),
+                                              resultSet.getDouble("amount"),
+                                              resultSet.getString("stage"));
+                opportunity.setId(resultSet.getInt("id"));
+                opportunityList.add(opportunity);
+            } 
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL opportunity get all");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -96,7 +96,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
      * {@inheritDoc}
      */
     @Override
-    public Opportunity fetchById(int id) throws NotFoundException {
+    public Opportunity fetchById(int id) {
         ResultSet resultSet = null;
         Opportunity opportunity = null;
 
@@ -106,20 +106,16 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
             
-            if (null != resultSet) {
-                while(resultSet.next()) {
+            if (resultSet.next()) {
                 opportunity = new Opportunity(resultSet.getString("name"),
-                                resultSet.getDouble("amount"),
-                                resultSet.getString("stage"));
-                    opportunity.setId(resultSet.getInt("id"));
-                }
-            } else {
-                throw new NotFoundException(Messages.LEAD_NOT_FOUND);
+                                              resultSet.getDouble("amount"),
+                                              resultSet.getString("stage"));
+                opportunity.setId(resultSet.getInt("id"));
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL opportunity get by id");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -142,7 +138,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@SQL opportunity Update ");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -163,7 +159,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL opportunity DELETE");
         } finally {
             DatabaseConnection.closeConnection();
         }

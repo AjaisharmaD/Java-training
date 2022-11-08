@@ -1,8 +1,2 @@
-2022-10-17 11:51:18,576 ERROR c.i.v.UserView [main] 
->>>>> WRONG PHONE NUMBER FORMAT <<<<<
-2022-10-17 12:08:44,502 ERROR c.i.v.UserView [main] 
->>>>> WRONG EMAIL ID FORMAT <<<<<
-2022-10-17 12:09:58,181 ERROR c.i.v.LeadView [main] 
->>>>> WRONG ID FORMAT <<<<<
-2022-10-17 12:38:12,282 ERROR c.i.v.UserView [main] 
->>>>> WRONG EMAIL ID FORMAT <<<<<
+2022-11-08 17:27:27,988 ERROR c.i.c.UserController [main] 
+>>>>> USER NOT FOUND <<<<<

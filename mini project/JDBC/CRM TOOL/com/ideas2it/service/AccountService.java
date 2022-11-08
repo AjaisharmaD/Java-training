@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.AccountDao;
 import com.ideas2it.dao.impl.AccountDaoImpl;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.model.Account;
+import com.ideas2it.model.User;
 
 /**
  * <h1> Account Service </h1>
@@ -54,10 +56,11 @@ public class  AccountService {
     public List<Account> getAll() throws NotFoundException {   
         List<Account> accounts = accountDao.fetchAll();
 
-        if (null != accounts) {
+        if (!accounts.isEmpty()) {
             return accounts;
+        } else {
+            throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
         }
-        return null;
     }
 
     /**
@@ -71,7 +74,13 @@ public class  AccountService {
      * @return Account - Details of Account
      */
     public Account getById(int id) throws NotFoundException {
-        return accountDao.fetchById(id);
+        Account account = accountDao.fetchById(id);
+        
+        if (null != account) {
+            return account;
+        } else {
+            throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
+        }
     }
 
     /**
@@ -87,7 +96,9 @@ public class  AccountService {
      * @return Account - Details of Single lead
      */
     public boolean updateById(int id, String columnName, String columnValue) {
-        return (accountDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+        return (accountDao.updateById(id, columnName, columnValue) <= 0) 
+                                                                 ? false 
+                                                                 : true;
     }
 
     /**

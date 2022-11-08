@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.dao.impl.UserDaoImpl;
 import com.ideas2it.exception.NotFoundException;
@@ -68,6 +69,8 @@ public class UserService {
                      users.add(user);
                 }
             }
+        } else {
+            throw new NotFoundException(Messages.USER_NOT_FOUND);
         }
         return users;
     }
@@ -89,6 +92,8 @@ public class UserService {
             if(!user.getIsDeleted()) {
                 return user;
             }
+        } else {
+            throw new NotFoundException(Messages.USER_NOT_FOUND);
         } 
         return null;
     }

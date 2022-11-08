@@ -10,10 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
-import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.User;
 
 /**
@@ -29,8 +28,14 @@ import com.ideas2it.model.User;
  * @since   19-09-2022
  */
 public class UserDaoImpl implements UserDao {
-     Connection connection;
-     PreparedStatement statement; 
+     private Connection connection;
+     private PreparedStatement statement; 
+     private CustomLogger logger;
+
+     public UserDaoImpl() {
+         logger = new CustomLogger(UserDaoImpl.class);
+     }
+ 
 
     /**
      * {@inheritDoc}
@@ -50,7 +55,7 @@ public class UserDaoImpl implements UserDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL user create");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -61,7 +66,7 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public List<User> fetchAll() throws NotFoundException {
+    public List<User> fetchAll() {
         ResultSet resultSet = null;
         User user;
         List<User> userList = new ArrayList<>();
@@ -71,23 +76,19 @@ public class UserDaoImpl implements UserDao {
             statement = connection.prepareStatement("SELECT * FROM user");
             resultSet = statement.executeQuery();
        
-            if (null != resultSet) {
-                while (resultSet.next()) {
-                    user = new User(resultSet.getString("name"),
-                                    resultSet.getString("email"),
-                                    resultSet.getString("phone_number"));
-                    user.setIsDeleted(resultSet.getBoolean("is_deleted"));
-                    user.setId(resultSet.getInt("id"));
-                    user.setPassword(resultSet.getString("password"));
-                    userList.add(user);
-                }
-            } else {
-                throw new NotFoundException(Messages.USER_NOT_FOUND);
+            while (resultSet.next()) {
+                user = new User(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"));
+                user.setIsDeleted(resultSet.getBoolean("is_deleted"));
+                user.setId(resultSet.getInt("id"));
+                user.setPassword(resultSet.getString("password"));
+                userList.add(user);
             }
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL user get all");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -98,7 +99,7 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public User fetchById(int id) throws NotFoundException {
+    public User fetchById(int id) {
         ResultSet resultSet = null;
         User user = null;
 
@@ -108,21 +109,17 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
             
-            if (null != resultSet) {
-                while(resultSet.next()) {
-                    user = new User(resultSet.getString("name"),
-                                    resultSet.getString("email"),
-                                    resultSet.getString("phone_number"));
-                    user.setIsDeleted(resultSet.getBoolean("is_deleted"));
-                    user.setId(resultSet.getInt("id"));
-                }
-            } else {
-                throw new NotFoundException(Messages.USER_NOT_FOUND);
-            }
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone_number"));
+                user.setIsDeleted(resultSet.getBoolean("is_deleted"));
+                user.setId(resultSet.getInt("id"));
+            } 
             statement.close();
             resultSet.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL user get by id");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -152,7 +149,7 @@ public class UserDaoImpl implements UserDao {
             }
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL user update");
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -173,7 +170,7 @@ public class UserDaoImpl implements UserDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception);
+            logger.error("@ SQL user delete");
         } finally {
             DatabaseConnection.closeConnection();
         }

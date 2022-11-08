@@ -1,0 +1,5 @@
+2022-11-07 15:43:18,608 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-07 15:43:29,427 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-07 15:43:41,370 INFO c.i.v.UserView [main] User Deleted
+2022-11-07 15:47:32,787 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-07 15:47:41,748 INFO c.i.v.UserView [main] User Deleted

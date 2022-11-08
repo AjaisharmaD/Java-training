@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.ContactDao;
 import com.ideas2it.dao.impl.ContactDaoImpl;
 import com.ideas2it.exception.NotFoundException;
@@ -59,10 +60,11 @@ public class  ContactService {
     public List<Contact> getAll() throws NotFoundException {  
         List<Contact> contacts = contactDao.fetchAll();
 
-        if (null != contacts) {
+        if (!contacts.isEmpty()) {
             return contacts;  
+        } else {
+            throw new NotFoundException(Messages.CONTACT_NOT_FOUND); 
         }
-        return null;
     }
 
     /**
@@ -76,7 +78,13 @@ public class  ContactService {
      * @return contact - Details of contact
      */
     public Contact getById(int id) throws NotFoundException {
-        return contactDao.fetchById(id);
+        Contact contact = contactDao.fetchById(id);
+
+        if (null != contact) {
+            return contact;
+        } else {
+            throw new NotFoundException(Messages.CONTACT_NOT_FOUND); 
+        }
     }
 
     /**

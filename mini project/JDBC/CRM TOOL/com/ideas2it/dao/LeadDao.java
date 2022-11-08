@@ -40,7 +40,7 @@ public interface LeadDao {
      *
      * @return Map - Details of Leads 
      */
-    public List<Lead> fetchAll() throws NotFoundException;
+    public List<Lead> fetchAll();
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -52,7 +52,7 @@ public interface LeadDao {
      *
      * @return Lead - Details of single Lead
      */
-    public Lead fetchById(int id) throws NotFoundException;
+    public Lead fetchById(int id);
 
     /**
      * <h1> Update Details of Lead </h1>

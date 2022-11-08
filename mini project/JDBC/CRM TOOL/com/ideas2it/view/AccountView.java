@@ -137,19 +137,16 @@ public class AccountView {
      */
     private void displayAll() {
         System.out.println("\n========== ACCOUNTS DETAILS ==========\n"); 
-        try {
-            List<Account> accounts = accountController.getAll();
 
-            if (null != accounts) {
-                for (Account account : accounts) {
-                    System.out.println(account);
-                    System.out.println("\n-------------X-------------");
-                }
-            } else {
-                logger.info(Messages.ACCOUNT_NOT_FOUND);
+        List<Account> accounts = accountController.getAll();
+
+        if (null != accounts) {
+            for (Account account : accounts) {
+                System.out.println(account);
+                System.out.println("\n-------------X-------------");
             }
-        } catch (NotFoundExcption accountNotFoundException) {
-            System.out.println(accountNotFoundException.getMessage());
+        } else {
+            logger.info(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -165,20 +162,16 @@ public class AccountView {
      */
     private void displayById(Scanner scanner) {
         System.out.println("\n========== SEARCH ACCOUNT ==========\n");  
-        try {
-            System.out.print("Enter the Account Id to search : ");
-            scanner.skip("\r\n");
-            int id = scanner.nextInt(); 
-            Account account = accountController.getById(id);   
-     
-            if (null != account) {
-                System.out.println(account);
-                System.out.println("\n-------------X-------------");
-            } else {
-                logger.info(Messages.ACCOUNT_NOT_FOUND);
-            }
-        } catch (NotFoundException accountNotFoundException) {
-            System.out.println(accountNotFoundException.getMessage());
+        System.out.print("Enter the Account Id to search : ");
+        scanner.skip("\r\n");
+        int id = scanner.nextInt(); 
+        Account account = accountController.getById(id);   
+   
+        if (null != account) {
+            System.out.println(account);
+            System.out.println("\n-------------X-------------");
+        } else {
+            logger.info(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 

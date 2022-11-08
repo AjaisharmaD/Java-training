@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.dao.impl.LeadDaoImpl;
 import com.ideas2it.exception.NotFoundException;
@@ -39,12 +40,12 @@ public class LeadService {
      *
      * @return boolean - status of the lead
      */
-    public boolean create(Lead lead) throws NotFoundException {
+    public boolean create(Lead lead) {
        boolean status = true;       
 
        if (leadDao.insert(lead) <= 0) {
            status = false;
-       }
+       } 
        return status;
     } 
 
@@ -66,6 +67,9 @@ public class LeadService {
                     leads.add(lead);
                 }
             }
+            
+        } else {
+            throw new NotFoundException(Messages.LEAD_NOT_FOUND);
         }
         return leads;    
     }
@@ -80,13 +84,15 @@ public class LeadService {
      *
      * @return Lead - Details of Single lead 
      */
-    public Lead getById(int id, int userId) {
+    public Lead getById(int id, int userId) throws NotFoundException {
         Lead lead = leadDao.fetchById(id);
 
         if (null != lead) {
             if (lead.getUserId() == userId) {
                 return lead;
             }
+        } else {
+            throw new NotFoundException(Messages.LEAD_NOT_FOUND);
         }
         return null;
     }

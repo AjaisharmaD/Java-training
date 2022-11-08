@@ -2,6 +2,8 @@ package com.ideas2it.controller;
 
 import java.util.List;
 
+import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Contact;
 import com.ideas2it.service.ContactService;
 
@@ -19,9 +21,11 @@ import com.ideas2it.service.ContactService;
  */
 public class ContactController {
     private ContactService contactService;
+    private CustomLogger logger;
 
     public ContactController() {
         this.contactService = new ContactService();
+        this.logger = new CustomLogger(ContactController.class);
     }
 
     /**
@@ -48,7 +52,14 @@ public class ContactController {
      * @return List - Details of contacts
      */
     public List<Contact> getAll() {
-        return contactService.getAll();
+        try {
+            return contactService.getAll();
+        } catch(NotFoundException contactNotFoundException) {
+            logger.error(contactNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }    
 
     /**
@@ -62,7 +73,14 @@ public class ContactController {
      * @return contact - Details of a Single contact
      */
     public Contact getById(int id) {
-        return contactService.getById(id);
+        try {
+            return contactService.getById(id);
+        } catch(NotFoundException contactNotFoundException) {
+            logger.error(contactNotFoundException.getMessage());
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
     }
 
     /**
