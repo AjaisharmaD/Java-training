@@ -14,7 +14,7 @@ import com.ideas2it.service.CRMService;
  * @since   16-09-2022
  */
 public class CRMController {
-    private CRMService crmSevice;
+    private CRMService crmService;
     
     public CRMController() {
         this.crmService = new CRMService();
