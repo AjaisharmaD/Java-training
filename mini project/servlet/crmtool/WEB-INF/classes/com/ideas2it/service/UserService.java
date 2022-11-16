@@ -109,8 +109,8 @@ public class UserService {
      *
      * @return boolean - status of the id
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return (userDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+    public boolean updateById(User user) {
+        return (userDao.updateById(user) <= 0) ? false : true;
     }
 
     /**

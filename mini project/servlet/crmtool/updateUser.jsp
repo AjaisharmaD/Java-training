@@ -1,11 +1,14 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<h1>Details of the User</h1>
+<h2> Update User </h2>
 
 <form action="Search">
-<lable>Search ID:</lable>
+<lable>Enter ID:</lable>
 <input type="text" name="id">
 <input type="submit" value="Search">
 </form>
+
+<p>${user}</p>
 
 <br><br>
 <table>
@@ -23,9 +26,17 @@
     </tr>
 </table>
 <br><br>
-<a href="UserDashboard">
-    <button id="backbtn">Back</button>
-</a>
+
+<form action="UpdateUser" method="post">
+ID:<input type="text" name ="id" value=${user.getId()}><br><br>
+NAME:<input type="text" name ="name" value=${user.getName()}><br><br>
+EMAIL:<input type="email" name ="email" value=${user.getEmailId()}><br><br>
+PHONE NUMBER:<input type="" name ="phone" value=${user.getPhoneNumber()}><br><br>
+<input type = "submit" value = "Save">
+<input type = "reset" value= "Reset">
+<input type = "submit" formaction="userDashboard.jsp" value= "Close">
+</form>
+<h3>${status}</h3>
 
 <style>
 table,th,tr,td {
@@ -60,9 +71,4 @@ h1 {
 }
 
 </style>
-
-<br>
-<br>
-
-</p>
 </html>

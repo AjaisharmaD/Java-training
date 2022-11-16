@@ -129,23 +129,18 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public int updateById(int id, String columnName, String columnValue) {
+    public int updateById(User user) {
         int rowCount = 0; 
-        String query = "UPDATE user SET "+columnName+" = ? WHERE id = ?";
+        String query = "UPDATE user SET name=?, email=?, phone_name=? WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
-
-            if (columnName.equals("user_id")) {
-                statement.setInt(1,Integer.parseInt(columnValue));
-                statement.setInt(2,id);
-                rowCount = statement.executeUpdate();
-            } else {
-                statement.setString(1,columnValue);
-                statement.setInt(2,id);
-                rowCount = statement.executeUpdate();
-            }
+            statement.setString(1,user.getName());
+            statement.setString(2,user.getEmailId());
+            statement.setString(3,user.getPhoneNumber());
+            statement.setInt(4,user.getId());
+            rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
             logger.error("@ SQL user update");

@@ -54,11 +54,10 @@ public class UserController extends HttpServlet {
             logger.info("in create user");
             create(request, response);
             break;
-        /*
-        case "/Update":
+
+        case "/UpdateUser":
             updateById(request, response);
             break;
-        */
         }
     }
 
@@ -68,7 +67,7 @@ public class UserController extends HttpServlet {
         logger.info("choice is "+choice);
         
         switch (choice) {
-        case "/ViewAll":
+        case "/UserDashboard":
             getAll(request, response);
             break;
  
@@ -95,16 +94,13 @@ public class UserController extends HttpServlet {
      */
     private void create(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
-        logger.info("in create method");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
 
-        logger.info(name +" "+ email+" "+phone);
         User user = new User(name, email, phone);
         user.setPassword(password);
-        logger.info(user.toString());
         boolean isCreated = userService.create(user);
 
         if (isCreated) {
@@ -134,10 +130,14 @@ public class UserController extends HttpServlet {
             List<User> users = userService.getAll();
             request.setAttribute("users", users);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("viewAll.jsp");
+                                   .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
+            request.setAttribute("users", Messages.USER_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("userDashboard.jsp");
+            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
@@ -209,8 +209,28 @@ public class UserController extends HttpServlet {
      *
      * @return boolean - updated status of given id
      */
-    private boolean updateById(int id, String columnName, String columnValue) {
-        return userService.updateById(id, columnName, columnValue);
+    private void updateById(HttpServletRequest request, 
+          HttpServletResponse response) throws IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        User user = new User(name, email, phone);
+        user.setId(id);
+        boolean isUpdated = userService.updateById(user);
+
+        if (isUpdated) {
+            request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateUser.jsp");
+            requestDispatcher.include(request, response);
+        } else {
+            request.setAttribute("status", Messages.FAILED_TO_CREATE);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateUser.jsp");
+            requestDispatcher.include(request, response);
+        }
     }
 
     /**
