@@ -131,7 +131,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int updateById(User user) {
         int rowCount = 0; 
-        String query = "UPDATE user SET name=?, email=?, phone_name=? WHERE id = ?";
+        String query = "UPDATE user SET name=?, email=?, phone_number=? WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -140,7 +140,10 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2,user.getEmailId());
             statement.setString(3,user.getPhoneNumber());
             statement.setInt(4,user.getId());
+            logger.info(user.toString());
             rowCount = statement.executeUpdate();
+            String s1 = String.valueOf(rowCount);
+            logger.info("rows affected by updates "+s1);
             statement.close();
         } catch (SQLException exception) {
             logger.error("@ SQL user update");

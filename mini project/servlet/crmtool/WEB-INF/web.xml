@@ -26,7 +26,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
+        <url-pattern>/SearchToUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDashboard</servlet-name>
         <url-pattern>/UpdateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDashboard</servlet-name>
+        <url-pattern>/SearchToDelete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDashboard</servlet-name>
+        <url-pattern>/Delete</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

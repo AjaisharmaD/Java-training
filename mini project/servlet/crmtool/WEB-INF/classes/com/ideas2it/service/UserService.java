@@ -9,6 +9,7 @@ import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.dao.impl.UserDaoImpl;
 import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.User;
 
 /**
@@ -25,9 +26,11 @@ import com.ideas2it.model.User;
  */
 public class UserService {
     private UserDao userDao;
+    private CustomLogger logger;
 
     public UserService() {
         this.userDao = new UserDaoImpl();
+        logger = new CustomLogger(UserService.class);
     }
 
     /**
@@ -110,6 +113,7 @@ public class UserService {
      * @return boolean - status of the id
      */
     public boolean updateById(User user) {
+         logger.info("update service");
         return (userDao.updateById(user) <= 0) ? false : true;
     }
 

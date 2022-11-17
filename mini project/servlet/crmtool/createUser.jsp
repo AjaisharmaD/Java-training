@@ -9,8 +9,10 @@ PHONE NUMBER:<input type="" name ="phone"><br><br>
 PASSWORD:<input type="text" name ="password"><br><br>
 <input type = "submit" value = "Create">
 <input type = "reset" value= "Reset">
-<input type = "submit" formaction="userDashboard.jsp" value= "Close">
 </form>
+<a href="UserDashboard">
+    <button> Close </button>
+</a>
 <h3>${status}</h3>
 
 </html>

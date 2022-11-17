@@ -47,7 +47,6 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
         String choice = request.getServletPath();
-        logger.info("choice is "+choice);
  
         switch (choice) {
         case "/CreateUser":
@@ -64,7 +63,6 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
         String choice = request.getServletPath();
-        logger.info("choice is "+choice);
         
         switch (choice) {
         case "/UserDashboard":
@@ -74,10 +72,18 @@ public class UserController extends HttpServlet {
         case "/Search":
             getById(request, response);
             break;
-         /*
+
+        case "/SearchToUpdate":
+            getByIdToUpdate(request, response);
+            break;
+
+        case "/SearchToDelete":
+            getByIdToDelete(request, response);
+            break;
+
         case "/Delete":
             deleteById(request, response);
-            break;*/
+            break;
         }
     }
 
@@ -124,7 +130,7 @@ public class UserController extends HttpServlet {
      *
      * @return List - Details of Users
      */
-    private List<User> getAll(HttpServletRequest request,
+    private void getAll(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
         try {
             List<User> users = userService.getAll();
@@ -141,7 +147,6 @@ public class UserController extends HttpServlet {
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
-        return null;
     }
 
     /**
@@ -154,7 +159,7 @@ public class UserController extends HttpServlet {
      *
      * @return User - Details of a Single User
      */
-    private User getById(HttpServletRequest request,
+    private void getById(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -172,7 +177,66 @@ public class UserController extends HttpServlet {
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
-        return null;
+    }
+
+    /**
+     * <h1> Get Details of Users by Id To Update </h1>
+     * <p>
+     * Gets the Details of a User by Id
+     * </p>
+     *
+     * @param id    - User's Id to search the User
+     *
+     * @return User - Details of a Single User
+     */
+    private void getByIdToUpdate(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            User user = userService.getById(id);
+            request.setAttribute("user", user);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateUser.jsp");
+            requestDispatcher.include(request, response);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("user", Messages.USER_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateUser.jsp");
+            requestDispatcher.include(request, response);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    }
+
+    /**
+     * <h1> Get Details of Users by Id To Update </h1>
+     * <p>
+     * Gets the Details of a User by Id
+     * </p>
+     *
+     * @param id    - User's Id to search the User
+     *
+     * @return User - Details of a Single User
+     */
+    private void getByIdToDelete(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            User user = userService.getById(id);
+            request.setAttribute("user", user);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteUser.jsp");
+            requestDispatcher.include(request, response);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("user", Messages.USER_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteUser.jsp");
+            requestDispatcher.include(request, response);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
     }
 
     /**
@@ -221,12 +285,12 @@ public class UserController extends HttpServlet {
         boolean isUpdated = userService.updateById(user);
 
         if (isUpdated) {
-            request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
+            request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("updateUser.jsp");
             requestDispatcher.include(request, response);
         } else {
-            request.setAttribute("status", Messages.FAILED_TO_CREATE);
+            request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("updateUser.jsp");
             requestDispatcher.include(request, response);
@@ -243,8 +307,26 @@ public class UserController extends HttpServlet {
      *
      * @return boolean - true if the Details of User are Removed otherwise false
      */
-    private  boolean isDeletedById(int id) {
-        return userService.isDeletedById(id);
+    private  void deleteById(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean isDeleted = userService.isDeletedById(id);
+
+            if(isDeleted) {
+                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
+                RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteUser.jsp");
+                requestDispatcher.include(request, response);            
+            } else {
+                request.setAttribute("status", Messages.FAILED_TO_DELETE);
+                RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteUser.jsp");
+                requestDispatcher.include(request, response);    
+            }
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
     }
 
     /**
