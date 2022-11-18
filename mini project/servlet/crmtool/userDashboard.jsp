@@ -33,6 +33,10 @@
 </body>
 
 <style>
+* {
+    margin:0;
+    padding:0 0;
+}
 body {
     background-color: #FBEAEB;
 }
@@ -80,7 +84,7 @@ td {
     z-index:95;
     background-color: #2F3C7E;
     border-radius: 10px;
-    border:3px solid #2F3C7E;
+    border:2px solid #2F3C7E;
     right:20%;
     padding:14px 30px;
 }
