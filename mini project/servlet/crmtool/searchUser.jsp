@@ -1,38 +1,50 @@
 <html>
-<h1>Details of the User</h1>
+<body>
+<div class="navbar">
+    <h1>Details of the User</h1>
+</div>
 
-<form action="Search">
-<lable>Search ID:</lable>
-<input type="text" name="id">
-<input type="submit" value="Search">
-</form>
-
-<br><br>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Email Id</th>
-        <th>Phone Number</th>
-    </tr>
-    <tr>
-        <td>${user.getId()}</td>
-        <td>${user.getName()}</td>
-        <td>${user.getEmailId()}</td>
-        <td>${user.getPhoneNumber()}</td>
-    </tr>
-</table>
-<br><br>
-<a href="UserDashboard">
-    <button id="backbtn">Back</button>
-</a>
-
+<div class="table">
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email Id</th>
+            <th>Phone Number</th>
+        </tr>
+        <tr>
+            <td>${user.getId()}</td>
+            <td>${user.getName()}</td>
+            <td>${user.getEmailId()}</td>
+            <td>${user.getPhoneNumber()}</td>
+        </tr>
+    </table>
+</div>
+<div class="buttons">
+    <div class="left-button">
+        <form action="SearchToUpdate">
+            <input type="hidden" value=${user.getId()} name="id" />
+            <input class="button" type="submit" value="Update" />
+        </form>
+        <form action="SearchToDelete">
+            <input type="hidden" value=${user.getId()} name="id" />
+            <input class="button" type="submit" value="Delete" />
+        </form>
+        <form action="UserDashboard">
+            <input class="button" type="submit" value="Back"/>
+        </form>
+    </div>
+</div>
+</body>
 <style>
-table,th,tr,td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    margin: 0 auto;
-    width: 900px;
+* {
+    margin: 0px;
+    padding: 0px 0px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 10%;
 }
 
 th {
@@ -44,25 +56,41 @@ td {
     height: 30px;
 }
 
-lable{
-    margin-left:545px;
+body {
+    background:#FBEAEB;
 }
 
-h1 {
+.navbar {
     text-align: center;
+    overflow: auto;
+    background-color: #FFD132;
+    padding: 1%;
+    margin-bottom: 5%;
 }
 
-#backbtn {
-    position:fixed;
-    z-index:99;
-    bottom:400px;
-    right:250px;
+.left-button form {
+    display: inline-block;
+    margin-right: 5%;
 }
 
+.buttons {
+    margin-left: 30%;
+}
+
+.button {
+    background-color: #2F3C7E;
+    border-radius: 10px;
+    border:2px solid #2F3C7E;
+    padding:14px 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.button:hover {
+    background: #FFD132;
+    color: #101820FF;
+    font-weight: bold;
+}
 </style>
 
-<br>
-<br>
-
-</p>
 </html>

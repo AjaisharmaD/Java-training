@@ -167,7 +167,7 @@ public class UserController extends HttpServlet {
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
-            requestDispatcher.include(request, response);
+            requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("user", Messages.USER_NOT_FOUND);

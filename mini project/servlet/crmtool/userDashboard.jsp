@@ -2,13 +2,22 @@
 <html>
 <body>
 <div class="navbar">
-    <a href="createUser.jsp">Create</a>
-    <a href="searchUser.jsp">Search</a>
-    <a href="updateUser.jsp">Update</a>
-    <a href="deleteUser.jsp">Delete</a>
-    <a href="assignUser.jsp">Assign</a>
+    <div class="nav-left">
+        <a href="createUser.jsp">Create</a>
+        <a href="updateUser.jsp">Update</a>
+        <a href="deleteUser.jsp">Delete</a>
+        <a href="assignUser.jsp">Assign</a>
+    </div>
+    <div class="nav-center">
+        <a href="index.jsp">HOME</a>
+    </div>
+    <div class="nav-right">
+        <form action="Search" class="searchform">
+            <input type="text" name="id" placeholder="Enter Id" />
+            <input type="submit" value="Search" class="search">
+        </form>
+    </div>
 </div>
-<br><br>
 <table>
     <tr>
         <th>Id</th>
@@ -34,9 +43,10 @@
 
 <style>
 * {
-    margin:0;
-    padding:0 0;
+    margin:0px;
+    padding:0px 0px;
 }
+
 body {
     background-color: #FBEAEB;
 }
@@ -44,9 +54,24 @@ body {
 .navbar {
     overflow: auto;
     background-color: #FFD132;
+    padding: 1%;
+    margin-bottom: 5%;
 }
 
-.navbar a{
+.nav-right {
+    font-weight: bold;
+    float: right;
+    color: black;
+    text-decoration:none;
+}
+
+.nav-right a {
+    text-align: center;
+    padding: 14px 16px;
+}
+
+.nav-left a {
+    font-weight: bold;
     float: left;
     display: block;
     color: black;
@@ -55,14 +80,49 @@ body {
     text-decoration:none;
 }
 
-.navbar a:hover {
-    background: #2F3C7E;
+.nav-center a {
+    font-weight: bold;
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 
-table,th,tr,td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    margin: 0 auto;
+.nav-left  a:hover {
+    background: #2F3C7E;
+    color: white;
+}
+
+.nav-right a:hover {
+    background: #2F3C7E;
+    color: white;
+}
+
+
+.navbar .search {
+    float: right; 
+    background-color: #2F3C7E;
+    color: white;
+    font-weight: bold;
+}
+
+.search:hover {
+    background: #FFD132;
+    color: #101820FF;
+    font-weight: bold;
+}
+
+.searchform {
+    border: 2px solid #2F3C7E;
+}
+
+input {
+    padding: 5.2% 10px;
+    border: 0px;
 }
 
 table {
@@ -87,10 +147,14 @@ td {
     border:2px solid #2F3C7E;
     right:20%;
     padding:14px 30px;
+    font-weight: bold;
+    color: white;
 }
 
 .backbtn:hover {
     background: #FFD132;
+    color: #101820FF;
+    font-weight: bold;
 }
 
 </style>

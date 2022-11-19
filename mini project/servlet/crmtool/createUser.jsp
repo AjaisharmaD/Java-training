@@ -15,105 +15,76 @@
     overflow: auto;
     background-color: #FFD132;
     text-align: center;
+    padding: 1%;
 }
 
-div {
-    margin-bottom: 30px;
+.form {
+    border-radius: 5px;
+    padding: 7% 25%;
 }
 
-input {
-    padding: 10px 35px;
-    text-align: right;
-    margin-bottom: 10px;
+input[type=text],input[type=email] {
+    width:100%;
     border: 1px solid black;
-    border-radius: 8px;
-align-items: center;
+    border-radius: 2%;
+    padding: 1%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
 }
 
-#button {
-    padding: 10px 35px;
-    border-radius: 10px;
+.btndiv {
+    padding-left: 8%;
+}
+
+.btndiv .button {
+    padding: 3% 7%;
+    margin-left: 5%;
     background-color: #2F3C7E;
     border-radius: 10px;
-    border:2px solid #2F3C7E;
+    border: 1px;
 }
 
-#button:hover {
-    background: #FFD132;
-}
-
-button {
-    left: 60%;
-    position: relative; 
-}
-
-#form {
-    border: 2px solid black;
-    margin-left:30%;
-    margin-right:30%;
-    margin-top: 7%; 
-}
-
-.label {
-    float: left;
-    width: 30%;
-    margin-top: 6px;
-}
-
-.textbox {
-    float: left;
-    width: 80%;
-    margin-top: 6px;
-}
-
-table {
-    margin-left: 65px;
-    text-align: right;
+.button:hover {
+    background-color: #FFD132;
+    border: 3px solid #2F3C7E;
 }
 
 h2 {
     text-align: center;
-    padding-top:3%;
 }
-
+.status h3 {
+    text-align: center;
+}
 </style>
 </head>
 
 <body> 
-<div id="form" >
-
+<div class="form">
 <form action="CreateUser" method="post">
 <h2> Enter the Details </h2>
-<table>
-    <tr>
-        <td class="lable">NAME:</td>
-        <td class="textbox"><input type="text" name ="name" /></td>
-    </tr>
-   <br>
-        <tr>
-        <td>EMAIL:</td>
-        <td><input type="email" name ="email" /></td>
-        </tr>
-<br>
-         
-        <tr>
-        <td>PHONE NUMBER:</td>
-        <td><input type="" name ="phone" /></td>
-        </tr>
-<br>    
-        <tr>
-        <td>PASSWORD:</td>
-        <td><input type="text" name ="password" /></td>
-        </tr>
-    </table>
-<br>
-    <input id="button" type = "submit" value = "Create" />
-    <input id="button"  type = "reset" value= "Reset" />
+        <label for="name">NAME:</label>
+        <input id="name" type="text" name ="name" autofocus/>
+
+        <label for="email">EMAIL:</label>
+        <input id="email" type="email" name ="email" />
+
+        <label for="phone">PHONE NUMBER:</label>
+        <input id="phone" type="text" name ="phone" />
+        
+        <label for="password">PASSWORD:</label>
+        <input id="password" type="text" name ="password" />
+    <div class="btndiv">
+        <input class="button" type = "submit" value = "Create" />
+        <input class="button"  type = "reset" value= "Reset" />
+        <a href="UserDashboard">
+            <button class="button"> Back </button>
+        </a>
+    </div>
 </form>
 </div>
-    <a href="UserDashboard">
-        <button id="button"> Close </button>
-    </a>
+<div class="status">
 <h3>${status}</h3>
+<div>
 </body>
 </html>
