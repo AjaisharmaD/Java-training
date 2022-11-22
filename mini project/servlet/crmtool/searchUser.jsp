@@ -26,7 +26,7 @@
             <input type="hidden" value=${user.getId()} name="id" />
             <input class="button" type="submit" value="Update" />
         </form>
-        <form action="SearchToDelete">
+        <form action="Delete">
             <input type="hidden" value=${user.getId()} name="id" />
             <input class="button" type="submit" value="Delete" />
         </form>
@@ -35,6 +35,8 @@
         </form>
     </div>
 </div>
+
+<h3>${status}</h3>
 </body>
 <style>
 * {

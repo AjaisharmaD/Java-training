@@ -1,59 +1,103 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
+<body>
+<div class="navbar">
 <h2> Update User </h2>
+</div>
 
-<form action="SearchToUpdate">
-<lable>Enter ID:</lable>
-<input type="text" name="id">
-<input type="submit" value="Search">
-</form>
-
-<p>${user}</p>
+<div class="form">
 
 <form action="UpdateUser" method="post">
-ID:<input type="text" name ="id" value=${user.getId()}><br><br>
-NAME:<input type="text" name ="name" value=${user.getName()}><br><br>
-EMAIL:<input type="email" name ="email" value=${user.getEmailId()}><br><br>
-PHONE NUMBER:<input type="" name ="phone" value=${user.getPhoneNumber()}><br><br>
-<input type = "submit" value = "Save">
-<input type = "reset" value= "Reset">
+        <label for="id">ID:</label>
+        <input class="input" id="id" type="text" name="id" value=${user.getId()} readonly />
+
+        <label for="name">NAME:</label>
+        <input class="input" id="name" type="text" name ="name" value=${user.getName()} />
+
+        <label for="email">EMAIL:</label>
+        <input class="input" id="email" type="email" name ="email" value=${user.getEmailId()} />
+
+        <label for="phone">PHONE NUMBER:</label>
+        <input class="input" id="phone" type="text" name ="phone" value=${user.getPhoneNumber()} />  
+<div class="btndiv">
+    <input class="button" type = "submit" value = "Update" />
+    <input class="button" type = "reset" value= "Reset" />
+    <span>
+    <a href="UserDashboard"><button>Back</button></a>
+    </span>
+
+</div>
 </form>
-<a href="UserDashboard">
-    <button id="backbtn">Back</button>
-</a>
+
+
+
+</div>
+
+<div class="status">
 <h3>${status}</h3>
-
+</div>
+</body>
 <style>
-table,th,tr,td {
+* {
+    margin: 0px;
+    padding: 0px 0px;
+}
+
+body {
+    background:#FBEAEB;
+}
+
+.navbar {
+    overflow: auto;
+    background-color: #FFD132;
+    text-align: center;
+    padding: 1%;
+}
+
+.form {
+    padding: 7% 25%;
+    display: inline-block;
+}
+
+.input {
+    width:100%;
     border: 1px solid black;
-    border-collapse: collapse;
-    margin: 0 auto;
-    width: 900px;
+    border-radius: 2%;
+    padding: 1%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
 }
 
-th {
-    background-color: #89CFF0;
+.btndiv {
+    padding-left: 8%;
 }
 
-td {
+.button {
+    padding: 2% 5%;
+    margin-left: 5%;
+    background-color: #2F3C7E;
+    border-radius: 10px;
+    border: 1px;
+    color: white;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #FFD132;
+    border: 3px solid #2F3C7E;
+}
+
+.backbtn {
+    float: right;
+    right: 5%;
+}
+
+h2 {
     text-align: center;
-    height: 30px;
 }
-
-lable{
-    margin-left:545px;
-}
-
-h1 {
+.status h3 {
     text-align: center;
 }
-
-#backbtn {
-    position:fixed;
-    z-index:99;
-    bottom:400px;
-    right:250px;
-}
-
 </style>
 </html>

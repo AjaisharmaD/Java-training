@@ -50,7 +50,6 @@ public class UserController extends HttpServlet {
  
         switch (choice) {
         case "/CreateUser":
-            logger.info("in create user");
             create(request, response);
             break;
 
@@ -75,10 +74,6 @@ public class UserController extends HttpServlet {
 
         case "/SearchToUpdate":
             getByIdToUpdate(request, response);
-            break;
-
-        case "/SearchToDelete":
-            getByIdToDelete(request, response);
             break;
 
         case "/Delete":
@@ -210,36 +205,6 @@ public class UserController extends HttpServlet {
     }
 
     /**
-     * <h1> Get Details of Users by Id To Update </h1>
-     * <p>
-     * Gets the Details of a User by Id
-     * </p>
-     *
-     * @param id    - User's Id to search the User
-     *
-     * @return User - Details of a Single User
-     */
-    private void getByIdToDelete(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            User user = userService.getById(id);
-            request.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteUser.jsp");
-            requestDispatcher.include(request, response);
-        } catch (NotFoundException userNotFoundException) {
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("user", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteUser.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-    }
-
-    /**
      * <h1> Get Details of Lead by Id </h1>
      * <p>
      * Gets the Details of a Single Lead by Id
@@ -287,12 +252,12 @@ public class UserController extends HttpServlet {
         if (isUpdated) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
+                                      .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
+                                      .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -316,12 +281,12 @@ public class UserController extends HttpServlet {
             if(isDeleted) {
                 request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteUser.jsp");
+                                      .getRequestDispatcher("searchUser.jsp");
                 requestDispatcher.include(request, response);            
             } else {
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteUser.jsp");
+                                      .getRequestDispatcher("searchUser.jsp");
                 requestDispatcher.include(request, response);    
             }
         } catch (Exception exception) {

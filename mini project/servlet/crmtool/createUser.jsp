@@ -1,14 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-<div class="navbar">
-    <h1> Create User </h1>
-</div>
-
 <style>
 * {
     margin: 0px;
     padding: 0px 0px;
+}
+
+body {
+    background:#FBEAEB;
 }
 
 .navbar {
@@ -37,15 +37,28 @@ input[type=text],input[type=email] {
     padding-left: 8%;
 }
 
-.btndiv .button {
+.button {
     padding: 3% 7%;
-    margin-left: 5%;
+    margin-left: 10%;
     background-color: #2F3C7E;
     border-radius: 10px;
     border: 1px;
 }
 
 .button:hover {
+    background-color: #FFD132;
+    border: 3px solid #2F3C7E;
+}
+
+.back {
+    padding: 1% 3%;
+    background-color: #2F3C7E;
+    border-radius: 10px;
+    border: 1px;
+    float: left;
+}
+
+.back:hover {
     background-color: #FFD132;
     border: 3px solid #2F3C7E;
 }
@@ -58,8 +71,14 @@ h2 {
 }
 </style>
 </head>
+<body>
+<div class="navbar">
+        <form action="UserDashboard">
+            <input type="submit" value="Back" class="back">
+        </form>
+    <h1> Create User </h1>
+</div>
 
-<body> 
 <div class="form">
 <form action="CreateUser" method="post">
 <h2> Enter the Details </h2>
@@ -77,14 +96,13 @@ h2 {
     <div class="btndiv">
         <input class="button" type = "submit" value = "Create" />
         <input class="button"  type = "reset" value= "Reset" />
-        <a href="UserDashboard">
-            <button class="button"> Back </button>
-        </a>
     </div>
 </form>
 </div>
+
 <div class="status">
 <h3>${status}</h3>
-<div>
+</div>
+
 </body>
 </html>

@@ -109,8 +109,8 @@ public class LeadService {
      *  
      * @return Lead    - Status of the Updated lead
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return (leadDao.updateById(id, columnName, columnValue) <=0) ? false : true;
+    public boolean updateById(Lead lead) {
+        return (leadDao.updateById(lead) <=0) ? false : true;
     }
 
     /**

@@ -44,7 +44,7 @@ public class CRMController extends HttpServlet {
         User user = validUser(email, password);
         if (null != user) {
             request.setAttribute("name", user.getName());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("ModuleDashboard.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.forward(request, response);
         } else {
             request.setAttribute("status", "Wrong Credintials");

@@ -66,7 +66,7 @@ public interface LeadDao {
      *
      * @return int - int value of rows affected
      */
-     public int updateById(int id, String columnName, String columnValue);
+     public int updateById(Lead lead);
 
     /**
      * <h1> Delete Details of Lead </h1>

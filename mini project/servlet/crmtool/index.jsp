@@ -6,11 +6,11 @@
 <div class="leftdiv">
 <p> Please Click any of those button to login:-</p>
 <a href="UserDashboard">
-    <button> Manager </button>
+    <button class="button">Manager</button>
 </a>
 
 <a href="userLogin.jsp" >
-    <button> Employee </button>
+    <button class="button"> Employee </button>
 </a><br>
 </div>
 
@@ -20,7 +20,7 @@
 </body>
 
 <style>
-button {
+.button {
     border: 3px solid black;
     background-color: #FFE39F;
     border-radius: 12px;

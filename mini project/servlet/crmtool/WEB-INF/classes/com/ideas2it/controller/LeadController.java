@@ -1,8 +1,17 @@
 package com.ideas2it.controller;
 
 import java.time.DateTimeException;
+import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.RequestDispatcher;
+
+import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
@@ -21,7 +30,7 @@ import com.ideas2it.utils.ValidationUtils;
  * @version 1.2
  * @since   24-08-2022
  */
-public class LeadController {
+public class LeadController extends HttpServlet {
     private LeadService leadService;
     private ValidationUtils validationUtils; 
     private CustomLogger logger;
@@ -31,7 +40,49 @@ public class LeadController {
         this.validationUtils = new ValidationUtils();
         this.logger = new CustomLogger(LeadController.class);
     }
+
+    protected void doPost(HttpServletRequest request, 
+          HttpServletResponse response) throws IOException, ServletException {
+        String choice = request.getServletPath();
+
+        switch (choice) {
+        case "/CreateLead":
+            create(request, response);
+            break;
+
+        case "/UpdateUser":
+            updateById(request, response);
+            break;
+        }
+    }
        
+    protected void doGet(HttpServletRequest request, 
+          HttpServletResponse response) throws IOException, ServletException {
+        String choice = request.getServletPath();
+        
+        switch (choice) {
+        case "/LeadDashboard":
+            getAll(request, response);
+            break;
+ 
+        case "/Search":
+            getById(request, response);
+            break;
+
+        case "/SearchToUpdate":
+            getByIdToUpdate(request, response);
+            break;
+
+        case "/SearchToDelete":
+            getByIdToDelete(request, response);
+            break;
+
+        case "/Delete":
+            deleteById(request, response);
+            break;
+        }
+    }
+
     /**
      * <h1> Create Lead </h1>
      * <p>
@@ -42,8 +93,27 @@ public class LeadController {
      *
      * @return boolean - status of the lead
      */
-    public boolean create(Lead lead) {
-        return leadService.create(lead);
+    private void create(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String companyName = request.getParameter("companyName");
+        String status = request.getParameter("status");
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        boolean isCreated = leadService.create(new Lead(name, email, phone, companyName, status, userId));
+
+        if (isCreated) {
+            request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("createLead.jsp");
+            requestDispatcher.include(request, response);
+        } else {
+            request.setAttribute("status", Messages.FAILED_TO_CREATE);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("createLead.jsp");
+            requestDispatcher.include(request, response);
+        }
     }
 
     /**   
@@ -54,15 +124,25 @@ public class LeadController {
      *
      * @return List - Details of Leads
      */
-    public List<Lead> getAll(int userId) {
+
+    private void getAll(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
         try {
-            return leadService.getAll(userId);
-        } catch(NotFoundException leadNotFoundException) {
-            logger.error(leadNotFoundException.getMessage());
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            List<Lead> leads = leadService.getAll(userId);
+            request.setAttribute("leads", leads);
+            RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("leadDashboard.jsp");
+            requestDispatcher.include(request, response);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("leads", Messages.LEAD_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("leadDashboard.jsp");
+            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
-        return null;
     }    
 
     /**
@@ -75,16 +155,88 @@ public class LeadController {
      *
      * @return Lead - Details of a Single Lead
      */
-    public Lead getById(int id, int userId) {
+    private void getById(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
         try {
-            return leadService.getById(id,userId);
-        } catch(NotFoundException leadNotFoundException) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            Lead lead = leadService.getById(id, userId);
+            request.setAttribute("lead", lead);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("searchLead.jsp");
+            requestDispatcher.forward(request, response);
+        } catch (NotFoundException leadNotFoundException) {
             logger.error(leadNotFoundException.getMessage());
+            request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("searchLead.jsp");
+            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
-        return null;
     }
+
+    /**
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of a Single Lead by Id
+     * </p>
+     * 
+     * @param id    - Lead's Id to search the lead
+     *
+     * @return Lead - Details of a Single Lead
+     */
+    private void getByIdToUpdate(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            Lead lead = leadService.getById(id, userId);
+            request.setAttribute("lead", lead);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateLead.jsp");
+            requestDispatcher.include(request, response);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateLead.jsp");
+            requestDispatcher.include(request, response);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    }
+
+    /**
+     * <h1> Get Details of Lead by Id </h1>
+     * <p>
+     * Gets the Details of a Single Lead by Id
+     * </p>
+     * 
+     * @param id    - Lead's Id to search the lead
+     *
+     * @return Lead - Details of a Single Lead
+     */
+    private void getByIdToDelete(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            Lead lead = leadService.getById(id, userId);
+            request.setAttribute("lead", lead);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteLead.jsp");
+            requestDispatcher.include(request, response);
+        } catch (NotFoundException userNotFoundException) {
+            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteLead.jsp");
+            requestDispatcher.include(request, response);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    } 
 
     /**
      * <h1> Update Details of Lead By Id </h1>
@@ -98,8 +250,31 @@ public class LeadController {
      *
      * @return lead - the Update details of lead
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return leadService.updateById(id, columnName, columnValue);
+    private void updateById(HttpServletRequest request, 
+          HttpServletResponse response) throws IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String companyName = request.getParameter("companyName");
+        String status = request.getParameter("status");
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        Lead lead = new Lead(name, email, phone, companyName, status, userId);
+        lead.setId(id);
+
+        boolean isUpdated = leadService.updateById(lead);
+
+        if (isUpdated) {
+            request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateLead.jsp");
+            requestDispatcher.include(request, response);
+        } else {
+            request.setAttribute("status", Messages.FAILED_TO_UPDATE);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("updateLead.jsp");
+            requestDispatcher.include(request, response);
+        }
     }
 
     /**
@@ -112,8 +287,26 @@ public class LeadController {
      *
      * @return boolean - Status of the Delated Lead
      */
-    public boolean isDeletedById(int id) {
-        return leadService.isDeletedById(id);
+    private  void deleteById(HttpServletRequest request,
+          HttpServletResponse response) throws IOException, ServletException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean isDeleted = leadService.isDeletedById(id);
+
+            if(isDeleted) {
+                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
+                RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteLead.jsp");
+                requestDispatcher.include(request, response);            
+            } else {
+                request.setAttribute("status", Messages.FAILED_TO_DELETE);
+                RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("deleteLead.jsp");
+                requestDispatcher.include(request, response);    
+            }
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
     }
 
     /**

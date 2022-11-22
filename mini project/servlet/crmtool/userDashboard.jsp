@@ -2,18 +2,17 @@
 <html>
 <body>
 <div class="navbar">
-    <div class="nav-left">
+    <div class="nav-left">    
+        <a href="index.jsp">HOME</a>
         <a href="createUser.jsp">Create</a>
-        <a href="updateUser.jsp">Update</a>
-        <a href="deleteUser.jsp">Delete</a>
         <a href="assignUser.jsp">Assign</a>
     </div>
     <div class="nav-center">
-        <a href="index.jsp">HOME</a>
+        <h2> User Details </h2>
     </div>
     <div class="nav-right">
         <form action="Search" class="searchform">
-            <input type="text" name="id" placeholder="Enter Id" />
+            <input class="search-input" type="text" name="id" placeholder="Enter Id" />
             <input type="submit" value="Search" class="search">
         </form>
     </div>
@@ -36,9 +35,7 @@
 </table>
 <br><br>
 
-<a href="userDashboard.jsp">
-    <button class="backbtn">Back</button>
-</a>
+<h2>${status}</h2>
 </body>
 
 <style>
@@ -70,6 +67,17 @@ body {
     padding: 14px 16px;
 }
 
+.nav-center h2 {
+    font-weight: bold;
+    position: absolute;
+    left: 43%;
+    display: flex;
+    color: black;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+}
+
 .nav-left a {
     font-weight: bold;
     float: left;
@@ -78,18 +86,6 @@ body {
     text-align:center;
     padding: 14px 16px;
     text-decoration:none;
-}
-
-.nav-center a {
-    font-weight: bold;
-    position: absolute;
-    right: 50%;
-    left: 50%;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
 }
 
 .nav-left  a:hover {
@@ -102,8 +98,7 @@ body {
     color: white;
 }
 
-
-.navbar .search {
+.navbar .search{
     float: right; 
     background-color: #2F3C7E;
     color: white;
@@ -126,6 +121,7 @@ input {
 }
 
 table {
+    padding: 5% 10%;
     width:100%;
 }
 
