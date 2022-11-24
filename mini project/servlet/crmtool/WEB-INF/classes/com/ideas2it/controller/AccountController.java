@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
+import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
@@ -87,8 +88,8 @@ public class AccountController extends HttpServlet{
     private void create(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
         String name = request.getParameter("name");
-        String email = request.getParameter("website");
-        String phone = request.getParameter("type");
+        String website = request.getParameter("website");
+        String type = request.getParameter("type");
 
         Account account = new Account(name, website, type);
         boolean isCreated = accountService.create(account);
@@ -118,7 +119,7 @@ public class AccountController extends HttpServlet{
     private void getAll(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
         try {
-            List<User> users = accountService.getAll();
+            List<Account> accounts = accountService.getAll();
             request.setAttribute("accounts", accounts);
             RequestDispatcher requestDispatcher = request
                                    .getRequestDispatcher("accountDashboard.jsp");
@@ -174,7 +175,7 @@ public class AccountController extends HttpServlet{
      *
      * @return Account - Details of a Single Account
      */
-    private void getById(HttpServletRequest request,
+    private void getByIdToUpdate(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -213,7 +214,7 @@ public class AccountController extends HttpServlet{
         String type = request.getParameter("type");
 
         Account account = new Account(name, website, type);
-    
+        account.setId(id);
         boolean isUpdated = accountService.updateById(account);
 
         if (isUpdated) {
@@ -263,5 +264,4 @@ public class AccountController extends HttpServlet{
     public boolean isDeletedById(int id) {
         return accountService.isDeletedById(id);
     }
-
 }

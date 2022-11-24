@@ -41,8 +41,8 @@ public class  AccountService {
      *
      * @return boolean - status of account
      */
-    public int create(Account account) {
-       return accountDao.insert(account);
+    public boolean create(Account account) {
+       return (accountDao.insert(account) <= 0) ? false : true;
     } 
 
     /**   
@@ -95,10 +95,8 @@ public class  AccountService {
      *  
      * @return Account - Details of Single lead
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return (accountDao.updateById(id, columnName, columnValue) <= 0) 
-                                                                 ? false 
-                                                                 : true;
+    public boolean updateById(Account account) {
+        return (accountDao.updateById(account) <= 0) ? false : true;
     }
 
     /**

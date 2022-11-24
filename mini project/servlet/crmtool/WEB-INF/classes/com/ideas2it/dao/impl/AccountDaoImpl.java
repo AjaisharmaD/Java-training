@@ -136,15 +136,17 @@ public class AccountDaoImpl implements AccountDao {
      * {@inheritDoc}
      */
     @Override
-    public int updateById(int id, String columnName, String columnValue) {
+    public int updateById(Account account) {
         int rowCount = 0; 
-        String query = "UPDATE account SET "+columnName+" = ? WHERE id = ?";
+        String query = "UPDATE account SET name = ?, website = ?, type = ? WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
-            statement.setString(1,columnValue);
-            statement.setInt(2,id);
+            statement.setString(1, account.getName());
+            statement.setString(2, account.getWebsite());
+            statement.setString(3, account.getType());
+            statement.setInt(4, account.getId());
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {

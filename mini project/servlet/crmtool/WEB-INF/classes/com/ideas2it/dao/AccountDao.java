@@ -65,7 +65,7 @@ public interface AccountDao {
      *
      * @return int        - count of rows affected
      */
-     public int updateById(int id, String columnName, String columnValue);
+     public int updateById(Account account);
 
     /**
      * <h1> Delete Details of Account </h1>
