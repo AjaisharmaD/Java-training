@@ -42,19 +42,21 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int insert(User user) {
         int count = 0;
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO user (name, email,phone_number")
+             .append(",password) VALUES (?,?,?,?)");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("INSERT INTO user (name,"
-                            +"email,phone_number,password) VALUES (?,?,?,?)"); 
+            statement = connection.prepareStatement(query.toString()); 
             statement.setString(1,user.getName());
             statement.setString(2,user.getEmailId());
             statement.setString(3,user.getPhoneNumber());
             statement.setString(4,user.getPassword());
             count = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL user create");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -69,10 +71,12 @@ public class UserDaoImpl implements UserDao {
         ResultSet resultSet = null;
         User user;
         List<User> userList = new ArrayList<>();
+   
+        String query = "SELECT * FROM user";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM user");
+            statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
        
             while (resultSet.next()) {
@@ -86,8 +90,8 @@ public class UserDaoImpl implements UserDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL user get all");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -102,9 +106,10 @@ public class UserDaoImpl implements UserDao {
         ResultSet resultSet = null;
         User user = null;
 
+        String query = "SELECT * FROM user WHERE id =?";
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM user WHERE id =?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
             
@@ -117,8 +122,8 @@ public class UserDaoImpl implements UserDao {
             } 
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL user get by id");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -131,22 +136,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int updateById(User user) {
         int rowCount = 0; 
-        String query = "UPDATE user SET name=?, email=?, phone_number=? WHERE id = ?";
+        StringBuilder query = new Stringbuilder();
+        query.append("UPDATE user SET name=?, email=?,")
+             .append("phone_number=? WHERE id = ?");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query.toString());
             statement.setString(1,user.getName());
             statement.setString(2,user.getEmailId());
             statement.setString(3,user.getPhoneNumber());
             statement.setInt(4,user.getId());
-            logger.info(user.toString());
             rowCount = statement.executeUpdate();
             String s1 = String.valueOf(rowCount);
-            logger.info("rows affected by updates "+s1);
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL user update");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -159,15 +164,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int deleteById(int id) {
         int rowCount = 0;
+        String query = "UPDATE user SET is_deleted = 1 WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("UPDATE user SET is_deleted = 1 WHERE id = ?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL user delete");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }

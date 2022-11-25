@@ -53,8 +53,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.setInt(4,opportunity.getAccountId());
             count = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL opportunity create");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -84,8 +84,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
             } 
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL opportunity get all");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -114,8 +114,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL opportunity get by id");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -137,8 +137,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.setInt(2,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@SQL opportunity Update ");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -158,8 +158,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL opportunity DELETE");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }

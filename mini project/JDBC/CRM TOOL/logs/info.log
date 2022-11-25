@@ -1,1 +1,8 @@
-2022-11-11 10:02:44,093 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-25 11:38:02,217 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-25 11:39:25,550 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-25 11:42:09,602 INFO c.i.v.CRMView [main] 
+>>>>> USER NOT FOUND <<<<<
+2022-11-25 11:42:52,347 INFO c.i.v.CRMView [main] Logging in as Manager
+2022-11-25 11:45:43,821 INFO c.i.v.CRMView [main] Logging in as Employee
+2022-11-25 11:45:46,902 INFO c.i.v.LeadView [main] 
+>>>>> LEAD NOT FOUND <<<<<

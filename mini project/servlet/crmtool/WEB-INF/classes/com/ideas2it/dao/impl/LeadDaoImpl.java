@@ -42,11 +42,14 @@ public class LeadDaoImpl implements LeadDao {
     @Override
     public int insert(Lead lead) {
         int count = 0;
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO lead_info (name,")
+             .append("email,phone_number,company_name,")
+             .append("status,user_id,created_by) VALUES (?,?,?,?,?,?,?)");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("INSERT INTO lead_info (name,"
-                            +"email,phone_number,company_name,status,user_id,created_by) VALUES (?,?,?,?,?,?,?)"); 
+            statement = connection.prepareStatement(query.toString()); 
             statement.setString(1,lead.getName());
             statement.setString(2,lead.getEmailId());
             statement.setString(3,lead.getPhoneNumber());
@@ -56,8 +59,8 @@ public class LeadDaoImpl implements LeadDao {
             statement.setInt(7,lead.getUserId());
             count = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            System.out.println("@SQL LEAD Create");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -72,10 +75,13 @@ public class LeadDaoImpl implements LeadDao {
         ResultSet resultSet = null;
         Lead lead;
         List<Lead> leadList = new ArrayList<>();
+        String query = "SELECT * FROM lead_info where user_id= ?";
+        logger.error("lead dao is running");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM lead_info");
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
            
             while (resultSet.next()) {
@@ -91,8 +97,8 @@ public class LeadDaoImpl implements LeadDao {
             } 
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            System.out.println("@ SQL lead get all");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -109,7 +115,7 @@ public class LeadDaoImpl implements LeadDao {
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM lead_info WHERE id =?");
+            statement = connection.prepareStatement("SELECT * FROM lead_info WHERE user_id =?");
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
             
@@ -124,8 +130,8 @@ public class LeadDaoImpl implements LeadDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            System.out.println("@ SQL lead get by id");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -138,7 +144,11 @@ public class LeadDaoImpl implements LeadDao {
     @Override
     public int updateById(Lead lead) {
         int rowCount = 0; 
-        String query = "UPDATE lead_info SET name = ?, email=?, phone_number=?, company_name=?, status=?, updated_date_time = now() WHERE id = ?";
+        StringBuilder query = new StringBuilder();       
+        query.append("UPDATE lead_info SET name = ?, email=?,")
+             .append("phone_number=?, company_name=?, status=?,")
+             .append("updated_date_time = now() WHERE id = ?");
+
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
@@ -150,8 +160,8 @@ public class LeadDaoImpl implements LeadDao {
             statement.setInt(6, lead.getId());
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            System.out.println("@ SQL lead update ");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -164,15 +174,16 @@ public class LeadDaoImpl implements LeadDao {
     @Override
     public int deleteById(int id) {
         int rowCount = 0;
+        String query = "DELETE FROM lead_info WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("DELETE FROM lead_info WHERE id = ?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            System.out.println("@ SQL lead delete");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }

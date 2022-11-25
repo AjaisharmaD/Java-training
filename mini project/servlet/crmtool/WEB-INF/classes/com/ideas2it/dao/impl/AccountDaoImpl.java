@@ -43,11 +43,13 @@ public class AccountDaoImpl implements AccountDao {
     public int insert(Account account) {
         int id = 0;
         PreparedStatement preparedStatement;
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO account (name,")
+             .append("website,type) VALUES (?,?,?)");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("INSERT INTO account (name,"
-                            +"website,type) VALUES (?,?,?)"); 
+            statement = connection.prepareStatement(query.toString()); 
             statement.setString(1,account.getName());
             statement.setString(2,account.getWebsite());
             statement.setString(3,account.getType());
@@ -61,8 +63,8 @@ public class AccountDaoImpl implements AccountDao {
             }
             statement.close();
             preparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL Account create");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -77,10 +79,11 @@ public class AccountDaoImpl implements AccountDao {
         ResultSet resultSet = null;
         Account account;
         List<Account> accountList = new ArrayList<>();
+        String query = "SELECT * FROM account";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM account");
+            statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
             System.out.println(resultSet);
@@ -94,8 +97,8 @@ public class AccountDaoImpl implements AccountDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL Account Get All");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -109,10 +112,11 @@ public class AccountDaoImpl implements AccountDao {
     public Account fetchById(int id) {
         ResultSet resultSet = null;
         Account account = null;
+        String query = "SELECT * FROM account WHERE id =?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM account WHERE id =?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
 
@@ -124,8 +128,8 @@ public class AccountDaoImpl implements AccountDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL Account Get By Id");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -138,19 +142,21 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public int updateById(Account account) {
         int rowCount = 0; 
-        String query = "UPDATE account SET name = ?, website = ?, type = ? WHERE id = ?";
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE account SET name = ?, website = ?,")
+             .append("type = ? WHERE id = ?");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query.toString());
             statement.setString(1, account.getName());
             statement.setString(2, account.getWebsite());
             statement.setString(3, account.getType());
             statement.setInt(4, account.getId());
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@SQL Account update");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -163,15 +169,16 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public int deleteById(int id) {
         int rowCount = 0;
+        String query = "DELETE FROM account WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("DELETE FROM account WHERE id = ?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@SQL account Delete");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }

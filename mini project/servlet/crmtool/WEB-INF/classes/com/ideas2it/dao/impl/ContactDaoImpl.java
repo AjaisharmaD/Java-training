@@ -42,12 +42,14 @@ public class ContactDaoImpl implements ContactDao {
     @Override
     public int insert(Contact contact) {
         int count = 0;
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO contact (name,")
+             .append("email,phone,role,account_id,")
+             .append("account_name) VALUES (?,?,?,?,?,?)");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("INSERT INTO contact (name,"
-                                         +"email,phone,role,account_id,"
-                                         +"account_name) VALUES (?,?,?,?,?,?)"); 
+            statement = connection.prepareStatement(query.toString()); 
             statement.setString(1,contact.getName());
             statement.setString(2,contact.getEmailId());
             statement.setString(3,contact.getPhoneNumber());
@@ -56,8 +58,8 @@ public class ContactDaoImpl implements ContactDao {
             statement.setString(6,contact.getAccountName());
             count = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@SQL contact Create");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -72,10 +74,11 @@ public class ContactDaoImpl implements ContactDao {
         ResultSet resultSet = null;
         Contact contact;
         List<Contact> contactList = new ArrayList<>();
+        String query = "SELECT * FROM contact";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM contact");
+            statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
            
             while (resultSet.next()) {
@@ -89,8 +92,8 @@ public class ContactDaoImpl implements ContactDao {
             }
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL contact get all");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -104,10 +107,11 @@ public class ContactDaoImpl implements ContactDao {
     public Contact fetchById(int id) {
         ResultSet resultSet = null;
         Contact contact = null;
+        String query = "SELECT * FROM contact WHERE id =?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM contact WHERE id =?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             resultSet = statement.executeQuery();
             
@@ -121,8 +125,8 @@ public class ContactDaoImpl implements ContactDao {
             } 
             statement.close();
             resultSet.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL contact get id");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -144,8 +148,8 @@ public class ContactDaoImpl implements ContactDao {
             statement.setInt(2,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL contact update");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -158,15 +162,16 @@ public class ContactDaoImpl implements ContactDao {
     @Override
     public int deleteById(int id) {
         int rowCount = 0;
+        String query = "DELETE FROM contact WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("DELETE FROM contact WHERE id = ?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();
-        } catch (SQLException exception) {
-            logger.error("@ SQL contact delete");
+        } catch (SQLException sqlException) {
+            logger.error(sqlException);
         } finally {
             DatabaseConnection.closeConnection();
         }

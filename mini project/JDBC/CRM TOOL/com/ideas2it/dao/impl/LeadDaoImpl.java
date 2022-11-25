@@ -68,14 +68,14 @@ public class LeadDaoImpl implements LeadDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Lead> fetchAll() {
+    public List<Lead> fetchAll(int id) {
         ResultSet resultSet = null;
         Lead lead;
         List<Lead> leadList = new ArrayList<>();
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM lead_info");
+            statement = connection.prepareStatement("SELECT * FROM lead_info where user_id ="+id);
             resultSet = statement.executeQuery();
            
             while (resultSet.next()) {

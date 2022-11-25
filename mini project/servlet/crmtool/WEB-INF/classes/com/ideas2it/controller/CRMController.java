@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
@@ -44,6 +45,8 @@ public class CRMController extends HttpServlet {
         User user = validUser(email, password);
         if (null != user) {
             request.setAttribute("name", user.getName());
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", user.getId());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.forward(request, response);
         } else {

@@ -58,14 +58,12 @@ public class LeadService {
      * @return List - Details of Leads 
      */
     public List<Lead> getAll(int id) throws NotFoundException {   
-         List<Lead> listOfLead = leadDao.fetchAll();
+         List<Lead> listOfLead = leadDao.fetchAll(id);
          List<Lead> leads = new ArrayList<>();
 
          if (!listOfLead.isEmpty()) {
             for (Lead lead : listOfLead) {
-                if (lead.getUserId() == id) {
                     leads.add(lead);
-                }
             }
             
         } else {

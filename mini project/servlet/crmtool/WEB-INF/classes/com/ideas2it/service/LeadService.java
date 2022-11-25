@@ -9,6 +9,7 @@ import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.dao.impl.LeadDaoImpl;
 import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 
 /**
@@ -25,9 +26,11 @@ import com.ideas2it.model.Lead;
  */
 public class LeadService {
     private LeadDao leadDao;
+    private CustomLogger logger;
     
     public LeadService() {
         this.leadDao = new LeadDaoImpl(); 
+        this.logger = new CustomLogger(LeadService.class);
     }
     
     /**
@@ -60,6 +63,7 @@ public class LeadService {
     public List<Lead> getAll(int id) throws NotFoundException {   
          List<Lead> listOfLead = leadDao.fetchAll();
          List<Lead> leads = new ArrayList<>();
+         logger.info("service is running");
 
          if (!listOfLead.isEmpty()) {
             for (Lead lead : listOfLead) {

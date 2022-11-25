@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
@@ -59,9 +60,11 @@ public class LeadController extends HttpServlet {
     protected void doGet(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
         String choice = request.getServletPath();
+
+        logger.info("do get is running");
         
         switch (choice) {
-        case "/LeadDashboard":
+        case "/get-lead":
             getAll(request, response);
             break;
  
@@ -71,10 +74,6 @@ public class LeadController extends HttpServlet {
 
         case "/SearchToUpdate":
             getByIdToUpdate(request, response);
-            break;
-
-        case "/SearchToDelete":
-            getByIdToDelete(request, response);
             break;
 
         case "/Delete":
@@ -129,16 +128,18 @@ public class LeadController extends HttpServlet {
           HttpServletResponse response) throws IOException, ServletException {
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
-            List<Lead> leads = leadService.getAll(userId);
+            HttpSession session = request.getSession();
+            int id = Integer.parseInt(session.getAttribute("userId").toString());
+            logger.info("get all is running the id stored in id"+ id);
+            List<Lead> leads = leadService.getAll(id);
             request.setAttribute("leads", leads);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("leadDashboard.jsp");
-            requestDispatcher.include(request, response);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
+            requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("leads", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("leadDashboard.jsp");
+                                   .getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -206,37 +207,6 @@ public class LeadController extends HttpServlet {
             logger.error(exception.getMessage());
         }
     }
-
-    /**
-     * <h1> Get Details of Lead by Id </h1>
-     * <p>
-     * Gets the Details of a Single Lead by Id
-     * </p>
-     * 
-     * @param id    - Lead's Id to search the lead
-     *
-     * @return Lead - Details of a Single Lead
-     */
-    private void getByIdToDelete(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            Lead lead = leadService.getById(id, userId);
-            request.setAttribute("lead", lead);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
-            requestDispatcher.include(request, response);
-        } catch (NotFoundException userNotFoundException) {
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-    } 
 
     /**
      * <h1> Update Details of Lead By Id </h1>
