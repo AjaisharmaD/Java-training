@@ -8,7 +8,7 @@
         <servlet-class>com.ideas2it.controller.UserController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ModuleDashboard</servlet-name>
+        <servlet-name>LeadDashboard</servlet-name>
         <servlet-class>com.ideas2it.controller.LeadController</servlet-class>
     </servlet>
 
@@ -42,8 +42,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>ModuleDashboard</servlet-name>
-        <url-pattern>/all-leads</url-pattern>
+        <servlet-name>LeadDashboard</servlet-name>
+        <url-pattern>/leads</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

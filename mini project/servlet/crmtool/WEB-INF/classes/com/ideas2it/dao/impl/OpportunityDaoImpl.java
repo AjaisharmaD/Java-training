@@ -42,11 +42,13 @@ public class OpportunityDaoImpl implements OpportunityDao {
     @Override
     public int insert(Opportunity opportunity) {
         int count = 0;
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO opportunity (name,")
+             .append("amount, stage, account_id) VALUES (?, ?, ?, ?)");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("INSERT INTO opportunity (name,"
-                            +"amount,stage,account_id) VALUES (?,?,?,?)"); 
+            statement = connection.prepareStatement(query.toString()); 
             statement.setString(1,opportunity.getName());
             statement.setDouble(2,opportunity.getAmount());
             statement.setString(3,opportunity.getStage());
@@ -54,7 +56,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -69,10 +71,12 @@ public class OpportunityDaoImpl implements OpportunityDao {
         ResultSet resultSet = null;
         Opportunity opportunity;
         List<Opportunity> opportunityList = new ArrayList<>();
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT id, name, amount, statge FROM opportunity");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM opportunity");
+            statement = connection.prepareStatement(query.toString());
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -85,7 +89,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -99,11 +103,14 @@ public class OpportunityDaoImpl implements OpportunityDao {
     public Opportunity fetchById(int id) {
         ResultSet resultSet = null;
         Opportunity opportunity = null;
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT id, name, amount, statge")
+             .append("FROM opportunity WHERE id = ?");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM opportunity WHERE id =?");
-            statement.setInt(1,id);
+            statement = connection.prepareStatement(query.toString());
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -115,7 +122,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -138,7 +145,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -159,7 +166,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }

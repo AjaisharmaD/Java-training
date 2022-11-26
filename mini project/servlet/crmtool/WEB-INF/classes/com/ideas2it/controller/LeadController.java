@@ -60,11 +60,13 @@ public class LeadController extends HttpServlet {
     protected void doGet(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
         String choice = request.getServletPath();
+        logger.info(choice);
 
         logger.info("do get is running");
         
         switch (choice) {
-        case "/get-lead":
+        case "/leads":
+        logger.info("calling get all leads");
             getAll(request, response);
             break;
  
@@ -126,12 +128,21 @@ public class LeadController extends HttpServlet {
 
     private void getAll(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("inside get all");
+
         try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
             HttpSession session = request.getSession();
-            int id = Integer.parseInt(session.getAttribute("userId").toString());
-            logger.info("get all is running the id stored in id"+ id);
-            List<Lead> leads = leadService.getAll(id);
+            logger.info("after session created");
+            String id = session.getAttribute("userId").toString();
+            int userId = Integer.parserInt(id);
+            logger.info("user Id to get All leads " +id);
+            List<Lead> leads = leadService.getAll(userId);
+    
+            if(leads.isEmpty()){
+                logger.info("leads is empty");
+            } else { 
+                logger.info("leads is not empty");
+            }
             request.setAttribute("leads", leads);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.forward(request, response);
@@ -143,6 +154,10 @@ public class LeadController extends HttpServlet {
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
+            request.setAttribute("leads", "Exception");
+            RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("moduleDashboard.jsp");
+            requestDispatcher.include(request, response);
         }
     }    
 

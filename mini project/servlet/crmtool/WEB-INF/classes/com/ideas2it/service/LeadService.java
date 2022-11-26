@@ -61,7 +61,7 @@ public class LeadService {
      * @return List - Details of Leads 
      */
     public List<Lead> getAll(int id) throws NotFoundException {   
-         List<Lead> listOfLead = leadDao.fetchAll();
+         List<Lead> listOfLead = leadDao.fetchAll(id);
          List<Lead> leads = new ArrayList<>();
          logger.info("service is running");
 

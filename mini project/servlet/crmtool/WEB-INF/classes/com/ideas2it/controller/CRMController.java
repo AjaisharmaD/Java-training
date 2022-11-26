@@ -39,14 +39,20 @@ public class CRMController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        logger.info("inside crm controller");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         User user = validUser(email, password);
+            logger.info("user is not null and the user is"+user.toString());
         if (null != user) {
             request.setAttribute("name", user.getName());
+            logger.info("user is not null and name of the user is"+user.getName());
+            logger.info("user is not null and Id of the user is"+user.getId());
             HttpSession session = request.getSession();
             session.setAttribute("userId", user.getId());
+            logger.info("session Userid is"+ session.getAttribute("userId").toString());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.forward(request, response);
         } else {

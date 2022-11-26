@@ -59,7 +59,7 @@ public class ContactDaoImpl implements ContactDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -93,7 +93,7 @@ public class ContactDaoImpl implements ContactDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -126,7 +126,7 @@ public class ContactDaoImpl implements ContactDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -149,7 +149,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -171,7 +171,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }

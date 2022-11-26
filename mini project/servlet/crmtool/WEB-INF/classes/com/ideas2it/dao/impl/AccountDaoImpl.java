@@ -45,17 +45,18 @@ public class AccountDaoImpl implements AccountDao {
         PreparedStatement preparedStatement;
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO account (name,")
-             .append("website,type) VALUES (?,?,?)");
+             .append("website, type) VALUES (?, ?, ?)");
 
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query.toString()); 
-            statement.setString(1,account.getName());
-            statement.setString(2,account.getWebsite());
-            statement.setString(3,account.getType());
+            statement.setString(1, account.getName());
+            statement.setString(2, account.getWebsite());
+            statement.setString(3, account.getType());
             statement.execute();
+            String maxQuery = "SELECT MAX(id) FROM account";
 
-            preparedStatement = connection.prepareStatement("SELECT MAX(id) FROM account");
+            preparedStatement = connection.prepareStatement(maxQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
  
             while (resultSet.next()) {
@@ -64,7 +65,7 @@ public class AccountDaoImpl implements AccountDao {
             statement.close();
             preparedStatement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -79,7 +80,7 @@ public class AccountDaoImpl implements AccountDao {
         ResultSet resultSet = null;
         Account account;
         List<Account> accountList = new ArrayList<>();
-        String query = "SELECT * FROM account";
+        String query = "SELECT id, name, website, type FROM account";
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -98,7 +99,7 @@ public class AccountDaoImpl implements AccountDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -112,12 +113,14 @@ public class AccountDaoImpl implements AccountDao {
     public Account fetchById(int id) {
         ResultSet resultSet = null;
         Account account = null;
-        String query = "SELECT * FROM account WHERE id =?";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT id, name, website, type")
+             .append("FROM account WHERE id =?");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement(query);
-            statement.setInt(1,id);
+            statement = connection.prepareStatement(query.toString());
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -129,7 +132,7 @@ public class AccountDaoImpl implements AccountDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -156,7 +159,7 @@ public class AccountDaoImpl implements AccountDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -174,11 +177,11 @@ public class AccountDaoImpl implements AccountDao {
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
-            statement.setInt(1,id);
+            statement.setInt(1, id);
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException);
+            logger.error(sqlException.toString());
         } finally {
             DatabaseConnection.closeConnection();
         }

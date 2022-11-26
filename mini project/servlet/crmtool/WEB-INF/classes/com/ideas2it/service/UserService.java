@@ -45,6 +45,7 @@ public class UserService {
      * @return boolean - status of the user 
      */
     public boolean create(User user) {
+        logger.info("User service create is running");
         boolean status = true;
 
         if (userDao.insert(user) <= 0) {
@@ -62,6 +63,7 @@ public class UserService {
      * @return List - Details of users
      */
     public List<User> getAll() throws NotFoundException {
+        logger.info("user service get all user....");
         List<User> userList = userDao.fetchAll();
         List<User> users = new ArrayList<>();
 
@@ -88,6 +90,7 @@ public class UserService {
      * @return user - Details of a Single User
      */
     public User getById(int id) throws NotFoundException {
+        logger.info("user service get user by id");
         User user = userDao.fetchById(id);
        
         if (null != user) {
@@ -113,7 +116,7 @@ public class UserService {
      * @return boolean - status of the id
      */
     public boolean updateById(User user) {
-         logger.info("update service");
+        logger.info("user service update user");
         return (userDao.updateById(user) <= 0) ? false : true;
     }
 
@@ -128,6 +131,7 @@ public class UserService {
      * @return boolean - true if the Details of User are Deleted otherwise false
      */
     public boolean isDeletedById(int id) {
+        logger.info("user service delete user by id");
         return (userDao.deleteById(id) <= 0) ? false : true;
     }
 }

@@ -46,14 +46,17 @@ public class UserController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("user controller do post is running");
         String choice = request.getServletPath();
  
         switch (choice) {
         case "/CreateUser":
+            logger.info("calling create user");
             create(request, response);
             break;
 
         case "/UpdateUser":
+            logger.info("calling update user");
             updateById(request, response);
             break;
         }
@@ -61,22 +64,27 @@ public class UserController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("User Controller do get is running");
         String choice = request.getServletPath();
         
         switch (choice) {
         case "/UserDashboard":
+            logger.info("calling get all user");
             getAll(request, response);
             break;
  
         case "/Search":
+            logger.info("calling get user by id");
             getById(request, response);
             break;
 
         case "/SearchToUpdate":
+            logger.info("calling get user by id to update");
             getByIdToUpdate(request, response);
             break;
 
         case "/Delete":
+            logger.info("calling delete by id");
             deleteById(request, response);
             break;
         }
@@ -95,6 +103,7 @@ public class UserController extends HttpServlet {
      */
     private void create(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("creting the user");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -102,14 +111,23 @@ public class UserController extends HttpServlet {
 
         User user = new User(name, email, phone);
         user.setPassword(password);
+
+        if (null != user) {
+            logger.info("user is ot null");
+        } else {
+            logger.info("user is null"); 
+        }
+
         boolean isCreated = userService.create(user);
 
         if (isCreated) {
+            logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("createUser.jsp");
             requestDispatcher.include(request, response);
         } else {
+            logger.info(Messages.FAILED_TO_CREATE);
             request.setAttribute("status", Messages.FAILED_TO_CREATE);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("createUser.jsp");
@@ -127,13 +145,23 @@ public class UserController extends HttpServlet {
      */
     private void getAll(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("getting all users");
+
         try {
             List<User> users = userService.getAll();
+
+            if (users.isEmpty()) {
+                logger.info("user list is empty");
+            } else {
+                logger.info("user list is not empty");
+            }
+
             request.setAttribute("users", users);
             RequestDispatcher requestDispatcher = request
                                    .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (NotFoundException userNotFoundException) {
+            logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("users", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
@@ -156,14 +184,22 @@ public class UserController extends HttpServlet {
      */
     private void getById(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("gettin user by Id");
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
+
+            if (null != user) {
+                logger.info("user is not null");
+            } else {
+                logger.info("user is null");
+            }
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
             requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
+            logger.info("Messages.USER_NOT_FOUND");
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("user", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
@@ -186,14 +222,22 @@ public class UserController extends HttpServlet {
      */
     private void getByIdToUpdate(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("Getting user by id to update");
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
+
+            if (null != user) {
+                logger.info("user is not null");
+            } else {
+                logger.info("user is null");
+            }
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("updateUser.jsp");
             requestDispatcher.include(request, response);
         } catch (NotFoundException userNotFoundException) {
+            logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("user", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
@@ -240,6 +284,7 @@ public class UserController extends HttpServlet {
      */
     private void updateById(HttpServletRequest request, 
           HttpServletResponse response) throws IOException, ServletException {
+        logger.info("update user by id");
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -247,6 +292,13 @@ public class UserController extends HttpServlet {
 
         User user = new User(name, email, phone);
         user.setId(id);
+
+        if (null != user) {
+            logger.info("user is nor null");
+        } else {
+            logger.info("user is null");
+        }
+
         boolean isUpdated = userService.updateById(user);
 
         if (isUpdated) {
@@ -279,11 +331,13 @@ public class UserController extends HttpServlet {
             boolean isDeleted = userService.isDeletedById(id);
 
             if(isDeleted) {
+                logger.info(Messages.DELETED_SUCCESSFULLY);
                 request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
                 RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
                 requestDispatcher.include(request, response);            
             } else {
+                logger.info(Messages.FAILED_TO_DELETE);
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
                 RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
