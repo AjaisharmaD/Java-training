@@ -22,15 +22,15 @@
 </div>
 <div class="buttons">
     <div class="left-button">
-        <form action="SearchToUpdate">
+        <form action="search-to-update">
             <input type="hidden" value=${user.getId()} name="id" />
             <input class="button" type="submit" value="Update" />
         </form>
-        <form action="Delete">
+        <form action="delete">
             <input type="hidden" value=${user.getId()} name="id" />
             <input class="button" type="submit" value="Delete" />
         </form>
-        <form action="UserDashboard">
+        <form action="user-dashboard">
             <input class="button" type="submit" value="Back"/>
         </form>
     </div>

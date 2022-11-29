@@ -50,12 +50,12 @@ public class UserController extends HttpServlet {
         String choice = request.getServletPath();
  
         switch (choice) {
-        case "/CreateUser":
+        case "/create-user":
             logger.info("calling create user");
             create(request, response);
             break;
 
-        case "/UpdateUser":
+        case "/update-user":
             logger.info("calling update user");
             updateById(request, response);
             break;
@@ -68,22 +68,22 @@ public class UserController extends HttpServlet {
         String choice = request.getServletPath();
         
         switch (choice) {
-        case "/UserDashboard":
+        case "/user-dashboard":
             logger.info("calling get all user");
             getAll(request, response);
             break;
  
-        case "/Search":
+        case "/search":
             logger.info("calling get user by id");
             getById(request, response);
             break;
 
-        case "/SearchToUpdate":
+        case "/search-to-update":
             logger.info("calling get user by id to update");
             getByIdToUpdate(request, response);
             break;
 
-        case "/Delete":
+        case "/delete":
             logger.info("calling delete by id");
             deleteById(request, response);
             break;

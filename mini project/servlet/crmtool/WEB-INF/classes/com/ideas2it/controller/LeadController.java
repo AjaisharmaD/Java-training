@@ -47,11 +47,11 @@ public class LeadController extends HttpServlet {
         String choice = request.getServletPath();
 
         switch (choice) {
-        case "/CreateLead":
+        case "/create-lead":
             create(request, response);
             break;
 
-        case "/UpdateUser":
+        case "/update-user":
             updateById(request, response);
             break;
         }
@@ -70,15 +70,15 @@ public class LeadController extends HttpServlet {
             getAll(request, response);
             break;
  
-        case "/Search":
+        case "/search":
             getById(request, response);
             break;
 
-        case "/SearchToUpdate":
+        case "/search-to-update":
             getByIdToUpdate(request, response);
             break;
 
-        case "/Delete":
+        case "/delete":
             deleteById(request, response);
             break;
         }
@@ -134,7 +134,8 @@ public class LeadController extends HttpServlet {
             HttpSession session = request.getSession();
             logger.info("after session created");
             String id = session.getAttribute("userId").toString();
-            int userId = Integer.parserInt(id);
+            int userId = Integer.parseInt(id);
+            String name = request.getParameter("name");
             logger.info("user Id to get All leads " +id);
             List<Lead> leads = leadService.getAll(userId);
     
@@ -144,8 +145,9 @@ public class LeadController extends HttpServlet {
                 logger.info("leads is not empty");
             }
             request.setAttribute("leads", leads);
+            request.setAttribute("name", name);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
-            requestDispatcher.forward(request, response);
+            requestDispatcher.include(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("leads", Messages.LEAD_NOT_FOUND);

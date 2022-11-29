@@ -5,7 +5,7 @@
 
 <div class="leftdiv">
 <p> Please Click any of those button to login:-</p>
-<a href="UserDashboard">
+<a href="user-dashboard">
     <button class="button">Manager</button>
 </a>
 

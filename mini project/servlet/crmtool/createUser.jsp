@@ -23,7 +23,7 @@ body {
     padding: 7% 25%;
 }
 
-input[type=text],input[type=email] {
+input[type=text],input[type=email], input[type=password] {
     width:100%;
     border: 1px solid black;
     border-radius: 2%;
@@ -73,14 +73,14 @@ h2 {
 </head>
 <body>
 <div class="navbar">
-        <form action="UserDashboard">
+        <form action="user-dashboard">
             <input type="submit" value="Back" class="back">
         </form>
     <h1> Create User </h1>
 </div>
 
 <div class="form">
-<form action="CreateUser" method="post">
+<form action="create-user" method="post">
 <h2> Enter the Details </h2>
         <label for="name">NAME:</label>
         <input id="name" type="text" name ="name" autofocus/>
@@ -92,7 +92,7 @@ h2 {
         <input id="phone" type="text" name ="phone" />
         
         <label for="password">PASSWORD:</label>
-        <input id="password" type="text" name ="password" />
+        <input id="password" type="password" name ="password" />
     <div class="btndiv">
         <input class="button" type = "submit" value = "Create" />
         <input class="button"  type = "reset" value= "Reset" />

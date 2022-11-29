@@ -11,7 +11,7 @@
         <h2> User Details </h2>
     </div>
     <div class="nav-right">
-        <form action="Search" class="searchform">
+        <form action="search" class="searchform">
             <input class="search-input" type="text" name="id" placeholder="Enter Id" />
             <input type="submit" value="Search" class="search">
         </form>

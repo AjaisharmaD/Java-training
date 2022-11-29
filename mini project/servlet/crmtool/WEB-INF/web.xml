@@ -14,31 +14,31 @@
 
     <servlet-mapping>
         <servlet-name>UserLogin</servlet-name>
-        <url-pattern>/UserLogin</url-pattern>
+        <url-pattern>/user-login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/UserDashboard</url-pattern>
+        <url-pattern>/user-dashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/CreateUser</url-pattern>
+        <url-pattern>/create-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/Search</url-pattern>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/SearchToUpdate</url-pattern>
+        <url-pattern>/search-to-update</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/UpdateUser</url-pattern>
+        <url-pattern>/update-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/Delete</url-pattern>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

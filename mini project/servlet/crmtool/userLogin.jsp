@@ -1,20 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<body>
-<p> Please give your Credentials to Login </p><br>
-<div class="form">
-<form action = "UserLogin" method = "post">
-    <lable>Email Id: </lable>
-    <input class="input" type = "email" name= "email" autofocus autocomplete="on">
-    <lable>Password: </lable>
-    <input class="input" type = "password" name = "password">
-    <div class="btndiv">
-        <input class="button" type = "submit" value ="Login">
-    </div>
-</form>
-<div>
-<p>${status}</p>
-</body>
 <style>
 body {
     background: #FBEAEB;
@@ -54,4 +39,19 @@ body {
     border: 3px solid #2F3C7E;
 }
 </style>
+<body>
+<p> Please give your Credentials to Login </p><br>
+<div class="form">
+<form action = "user-login" method = "post">
+    <lable>Email Id: </lable>
+    <input class="input" type = "email" name= "email" autofocus autocomplete="on"/>
+    <lable>Password: </lable>
+    <input class="input" type = "password" name = "password"/>
+    <div class="btndiv">
+        <input class="button" type = "submit" value ="Login"/>
+    </div>
+</form>
+<div>
+<p>${status}</p>
+</body>
 </html>

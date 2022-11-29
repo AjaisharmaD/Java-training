@@ -7,7 +7,7 @@
 
 <div class="form">
 
-<form action="UpdateUser" method="post">
+<form action="update-user" method="post">
         <label for="id">ID:</label>
         <input class="input" id="id" type="text" name="id" value=${user.getId()} readonly />
 
@@ -23,7 +23,7 @@
     <input class="button" type = "submit" value = "Update" />
     <input class="button" type = "reset" value= "Reset" />
     <span>
-    <a href="UserDashboard"><button>Back</button></a>
+    <a href="user-dashboard" class="button">Back</a>
     </span>
 
 </div>

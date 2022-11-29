@@ -96,11 +96,12 @@ public class UserService {
         if (null != user) {
             if(!user.getIsDeleted()) {
                 return user;
+            } else {
+                throw new NotFoundException(Messages.USER_NOT_FOUND);
             }
         } else {
             throw new NotFoundException(Messages.USER_NOT_FOUND);
         } 
-        return null;
     }
 
     /**
