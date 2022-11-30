@@ -56,11 +56,15 @@ input[type=text],input[type=email], input[type=password] {
     border-radius: 10px;
     border: 1px;
     float: left;
+    font-weight: bold;
+    color: white;
 }
 
 .back:hover {
     background-color: #FFD132;
     border: 3px solid #2F3C7E;
+    font-weight: bold;
+    color: black;
 }
 
 h2 {
@@ -73,9 +77,9 @@ h2 {
 </head>
 <body>
 <div class="navbar">
-        <form action="user-dashboard">
-            <input type="submit" value="Back" class="back">
-        </form>
+    <form action="user-dashboard">
+        <input type="submit" value="Back" class="back">
+    </form>
     <h1> Create User </h1>
 </div>
 

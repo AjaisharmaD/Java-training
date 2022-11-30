@@ -3,19 +3,15 @@
         <servlet-name>UserLogin</servlet-name>
         <servlet-class>com.ideas2it.controller.CRMController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>UserDashboard</servlet-name>
-        <servlet-class>com.ideas2it.controller.UserController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>LeadDashboard</servlet-name>
-        <servlet-class>com.ideas2it.controller.LeadController</servlet-class>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>UserLogin</servlet-name>
         <url-pattern>/user-login</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserDashboard</servlet-name>
+        <servlet-class>com.ideas2it.controller.UserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
         <url-pattern>/user-dashboard</url-pattern>
@@ -41,10 +37,15 @@
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LeadDashboard</servlet-name>
+        <servlet-class>com.ideas2it.controller.LeadController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LeadDashboard</servlet-name>
-        <url-pattern>/leads</url-pattern>
+        <url-pattern>/get-leads</url-pattern>
     </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

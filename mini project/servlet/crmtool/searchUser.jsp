@@ -1,9 +1,11 @@
 <html>
 <body>
 <div class="navbar">
+    <form action="user-dashboard">
+        <input type="submit" value="Back" class="back">
+    </form>
     <h1>Details of the User</h1>
 </div>
-
 <div class="table">
     <table>
         <tr>
@@ -30,12 +32,9 @@
             <input type="hidden" value=${user.getId()} name="id" />
             <input class="button" type="submit" value="Delete" />
         </form>
-        <form action="user-dashboard">
-            <input class="button" type="submit" value="Back"/>
-        </form>
     </div>
 </div>
-
+<h3>${message}</h3>
 <h3>${status}</h3>
 </body>
 <style>
@@ -65,9 +64,14 @@ body {
 .navbar {
     text-align: center;
     overflow: auto;
+    dispaly: inline;
     background-color: #FFD132;
     padding: 1%;
     margin-bottom: 5%;
+}
+
+.navbar h1 {
+    margin-right: 10%;
 }
 
 .left-button form {
@@ -76,7 +80,7 @@ body {
 }
 
 .buttons {
-    margin-left: 30%;
+    margin-left: 37%;
 }
 
 .button {
@@ -92,6 +96,23 @@ body {
     background: #FFD132;
     color: #101820FF;
     font-weight: bold;
+}
+
+.back {
+    padding: 1% 3%;
+    background-color: #2F3C7E;
+    border-radius: 10px;
+    border: 1px;
+    float: left;
+    font-weight: bold;
+    color: white;
+}
+
+.back:hover {
+    background-color: #FFD132;
+    border: 3px solid #2F3C7E;
+    font-weight: bold;
+    color: black;
 }
 </style>
 

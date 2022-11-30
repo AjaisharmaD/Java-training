@@ -125,32 +125,20 @@ public class LeadController extends HttpServlet {
      *
      * @return List - Details of Leads
      */
-
     private void getAll(HttpServletRequest request,
           HttpServletResponse response) throws IOException, ServletException {
-        logger.info("inside get all");
-
         try {
             HttpSession session = request.getSession();
-            logger.info("after session created");
             String id = session.getAttribute("userId").toString();
             int userId = Integer.parseInt(id);
             String name = request.getParameter("name");
-            logger.info("user Id to get All leads " +id);
             List<Lead> leads = leadService.getAll(userId);
-    
-            if(leads.isEmpty()){
-                logger.info("leads is empty");
-            } else { 
-                logger.info("leads is not empty");
-            }
             request.setAttribute("leads", leads);
-            request.setAttribute("name", name);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
-            requestDispatcher.include(request, response);
+            requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
-            request.setAttribute("leads", Messages.LEAD_NOT_FOUND);
+            request.setAttribute("message", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
                                    .getRequestDispatcher("moduleDashboard.jsp");
             requestDispatcher.include(request, response);
@@ -158,7 +146,7 @@ public class LeadController extends HttpServlet {
             logger.error(exception.getMessage());
             request.setAttribute("leads", "Exception");
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("moduleDashboard.jsp");
+                                   .getRequestDispatcher("moduledashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }    
@@ -185,7 +173,7 @@ public class LeadController extends HttpServlet {
             requestDispatcher.forward(request, response);
         } catch (NotFoundException leadNotFoundException) {
             logger.error(leadNotFoundException.getMessage());
-            request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
+            request.setAttribute("message", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchLead.jsp");
             requestDispatcher.include(request, response);

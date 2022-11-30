@@ -34,8 +34,8 @@
 </c:forEach>
 </table>
 <br><br>
-
-<h2>${status}</h2>
+<h3>${message}</h3>
+<h3>${status}</h3>
 </body>
 
 <style>

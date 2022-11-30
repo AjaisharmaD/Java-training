@@ -28,7 +28,7 @@ import com.ideas2it.service.AccountService;
  * @version 1.0
  * @since   03-10-2022
  */
-public class AccountController extends HttpServlet{
+public class AccountController extends HttpServlet {
     private AccountService accountService;
     private CustomLogger logger;
 
@@ -42,11 +42,11 @@ public class AccountController extends HttpServlet{
         String choice = request.getServletPath();
  
         switch (choice) {
-        case "/CreateAccount":
+        case "/create-account":
             create(request, response);
             break;
 
-        case "/UpdateAccount":
+        case "/update-account":
             updateById(request, response);
             break;
         }
@@ -57,19 +57,19 @@ public class AccountController extends HttpServlet{
         String choice = request.getServletPath();
         
         switch (choice) {
-        case "/UserDashboard":
+        case "/get-accounts":
             getAll(request, response);
             break;
  
-        case "/Search":
+        case "/search":
             getById(request, response);
             break;
 
-        case "/SearchToUpdate":
+        case "/search-to-update":
             getByIdToUpdate(request, response);
             break;
 
-        case "/Delete":
+        case "/delete":
             deleteById(request, response);
             break;
         }

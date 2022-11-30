@@ -163,7 +163,7 @@ public class UserController extends HttpServlet {
         } catch (NotFoundException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
-            request.setAttribute("users", Messages.USER_NOT_FOUND);
+            request.setAttribute("message", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
                                    .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
@@ -199,9 +199,9 @@ public class UserController extends HttpServlet {
                                       .getRequestDispatcher("searchUser.jsp");
             requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
-            logger.info("Messages.USER_NOT_FOUND");
+            logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
-            request.setAttribute("user", Messages.USER_NOT_FOUND);
+            request.setAttribute("message", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
             requestDispatcher.include(request, response);

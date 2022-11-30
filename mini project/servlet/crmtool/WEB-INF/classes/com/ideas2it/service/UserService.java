@@ -94,7 +94,7 @@ public class UserService {
         User user = userDao.fetchById(id);
        
         if (null != user) {
-            if(!user.getIsDeleted()) {
+            if (!user.getIsDeleted()) {
                 return user;
             } else {
                 throw new NotFoundException(Messages.USER_NOT_FOUND);
