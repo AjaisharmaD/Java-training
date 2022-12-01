@@ -79,9 +79,33 @@ td {
 </head>
 <body>
 <h1> Welcome ${name} </h1>
-<a class="nav" href="get-leads">Lead</a>
+<a href="get-leads"><button class="nav">Lead</button></a>
 <a class="nav" href="get-contacts">Contact</a>
 <a class="nav" href="get-accounts">Account</a>
 <a class="nav" href="get-opportunities">Opportunity</a>
+
+<div class="Lead">
+        <h3>Details of the Leads</h3>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email Id</th>
+        <th>Phone Number</th>
+        <th>Company name</th>
+        <th>Status</th>
+    </tr>
+<c:forEach var="lead" items="${leads}">
+    <tr>
+        <td>${lead.getId()}</td>
+        <td>${lead.getName()}</td>
+        <td>${lead.getEmailId()}</td>
+        <td>${lead.getPhoneNumber()}</td>
+        <td>${lead.getCompanyName()}</td>
+        <td>${lead.getStatus()}</td>
+    </tr>
+</c:forEach>
+</table>
+</div>
 </body>
 </html>

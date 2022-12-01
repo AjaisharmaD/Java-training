@@ -4,12 +4,22 @@
 <head>
 <style>
 * {
-    margin: 0;
-    padding: 0 0;
+   margin : 0px;
+   padding:0px 0px;
 }
 
 body {
     background-color: #FBEAEB;
+}
+
+.nav {
+    background-color: #FFD132;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    padding: 1%;
+    font-size: 25px;;
+    width: 100%;
 }
 
 table {
@@ -29,8 +39,10 @@ td {
 </style>
 </head>
 <body>
-<div id="Lead" class="content">
+<div class="nav">
     <h3>Details of the Leads</h3>
+</div>
+<div id="Lead" class="content">
 <table>
     <tr>
         <th>Id</th>

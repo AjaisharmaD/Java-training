@@ -57,7 +57,7 @@ public class  ContactService {
      *
      * @return List - Details of Contact
      */
-    public List<Contact> getAll() throws NotFoundException {  
+    public List<Contact> getAll(int userId) throws NotFoundException {  
         List<Contact> contacts = contactDao.fetchAll();
 
         if (!contacts.isEmpty()) {
@@ -77,7 +77,7 @@ public class  ContactService {
      *
      * @return contact - Details of contact
      */
-    public Contact getById(int id) throws NotFoundException {
+    public Contact getById(int id, int userId) throws NotFoundException {
         Contact contact = contactDao.fetchById(id);
 
         if (null != contact) {
@@ -98,8 +98,8 @@ public class  ContactService {
      *  
      * @return boolean - status of contact
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return (contactDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
+    public boolean updateById(Contact contact) {
+        return (contactDao.updateById(contact) <= 0) ? false : true;
     }
 
     /**

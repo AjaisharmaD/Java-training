@@ -137,15 +137,19 @@ public class ContactDaoImpl implements ContactDao {
      * {@inheritDoc}
      */
     @Override
-    public int updateById(int id, String columnName, String columnValue) {
+    public int updateById(Contact contact) {
         int rowCount = 0; 
-        String query = "UPDATE contact SET "+columnName+" = ? WHERE id = ?";
+        String query = "UPDATE contact SET name = ?, email = ?, phone = ?,  role = ?, account_id = ? WHERE id = ?";
 
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
-            statement.setString(1,columnValue);
-            statement.setInt(2,id);
+            statement.setString(1, contact.getName());
+            statement.setString(2, contact.getEmailId());
+            statement.setString(3, contact.getPhoneNumber());
+            statement.setString(5, contact.getRole());
+            statement.setInt(6, contact.getAccountId());
+            statement.setInt(7, contact.getId());
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {

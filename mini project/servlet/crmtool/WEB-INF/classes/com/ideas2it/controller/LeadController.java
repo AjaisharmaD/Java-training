@@ -65,7 +65,7 @@ public class LeadController extends HttpServlet {
         logger.info("do get is running");
         
         switch (choice) {
-        case "/leads":
+        case "/get-leads":
         logger.info("calling get all leads");
             getAll(request, response);
             break;
@@ -134,19 +134,19 @@ public class LeadController extends HttpServlet {
             String name = request.getParameter("name");
             List<Lead> leads = leadService.getAll(userId);
             request.setAttribute("leads", leads);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("leadDashboard.jsp");
             requestDispatcher.forward(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("message", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("moduleDashboard.jsp");
+                                   .getRequestDispatcher("leadDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
             request.setAttribute("leads", "Exception");
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("moduledashboard.jsp");
+                                   .getRequestDispatcher("leads.jsp");
             requestDispatcher.include(request, response);
         }
     }    

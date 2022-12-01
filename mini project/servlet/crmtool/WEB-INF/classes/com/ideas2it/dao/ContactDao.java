@@ -65,7 +65,7 @@ public interface ContactDao {
      *
      * @return int        - count of rows affected
      */
-     public int updateById(int id, String columnName, String columnValue);
+     public int updateById(Contact contact);
 
     /**
      * <h1> Delete Details of Contact </h1>
