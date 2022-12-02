@@ -1,42 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<body>
-<div class="navbar">
-    <div class="nav-left">    
-        <a href="index.jsp">HOME</a>
-        <a href="createUser.jsp">Create</a>
-        <a href="assignUser.jsp">Assign</a>
-    </div>
-    <div class="nav-center">
-        <h2> User Details </h2>
-    </div>
-    <div class="nav-right">
-        <form action="search" class="searchform">
-            <input class="search-input" type="text" name="id" placeholder="Enter Id" />
-            <input type="submit" value="Search" class="search">
-        </form>
-    </div>
-</div>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Email Id</th>
-        <th>Phone Number</th>
-    </tr>
-<c:forEach var="user" items="${users}">
-    <tr>
-        <td>${user.getId()}</td>
-        <td>${user.getName()}</td>
-        <td>${user.getEmailId()}</td>
-        <td>${user.getPhoneNumber()}</td>
-    </tr>
-</c:forEach>
-</table>
-<br><br>
-<h3>${message}</h3>
-<h3>${status}</h3>
-</body>
+<head>
 
 <style>
 * {
@@ -154,4 +118,42 @@ td {
 }
 
 </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="nav-left">    
+        <a href="index.jsp">HOME</a>
+        <a href="createUser.jsp">Create</a>
+        <a href="assignUser.jsp">Assign</a>
+    </div>
+    <div class="nav-center">
+        <h2> User Details </h2>
+    </div>
+    <div class="nav-right">
+        <form action="search" class="searchform">
+            <input class="search-input" type="text" name="id" placeholder="Enter Id" />
+            <input type="submit" value="Search" class="search">
+        </form>
+    </div>
+</div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email Id</th>
+        <th>Phone Number</th>
+    </tr>
+<c:forEach var="user" items="${users}">
+    <tr>
+        <td>${user.getId()}</td>
+        <td>${user.getName()}</td>
+        <td>${user.getEmailId()}</td>
+        <td>${user.getPhoneNumber()}</td>
+    </tr>
+</c:forEach>
+</table>
+<br><br>
+<h3>${message}</h3>
+<h3>${status}</h3>
+</body>
 </html> 

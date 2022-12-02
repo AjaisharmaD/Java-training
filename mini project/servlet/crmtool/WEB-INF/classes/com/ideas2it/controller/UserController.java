@@ -59,6 +59,13 @@ public class UserController extends HttpServlet {
             logger.info("calling update user");
             updateById(request, response);
             break;
+        case "/user-dashboard":
+            logger.info("role of the user is" + request.getParameter("role"));
+            if (request.getParameter("role").equals("manager")) {
+                doGet(request, response);
+            } else {
+                
+            }
         }
     }
 
