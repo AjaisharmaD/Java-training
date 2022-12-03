@@ -117,7 +117,7 @@ a {
     color: white;
 }
 
-/* ----------- login form---------- */
+/* ----------- Form Styles ---------- */
 .parent {
     display: none;
     background-color: rgba(0,0,0,0.5);
@@ -273,7 +273,7 @@ What is CRM (customer relationship management) and what can it do for you?</h4>
 <!-- Admin login form -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
 <div id="admin-login" class="form">
-    <form class="form-content animate" action="admin-dashboard" method="post">
+    <form class="form-content animate" action="adminDashboard.jsp" method="post">
     <h3 class="heading"> Admin Login Form </h3>
     <div class="container">
         <label for="email">Email ID: </label>
