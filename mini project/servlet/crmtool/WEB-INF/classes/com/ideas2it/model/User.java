@@ -19,7 +19,7 @@ public class User {
     private String phoneNumber;
     private String emailId;
     private String password;
-    private boolean isDeleted;
+    private int roleId;
 
     private List<Lead> leads = new ArrayList<>();
 
@@ -49,12 +49,12 @@ public class User {
         this.password = password;
     }
 
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
     public void setLead(Lead lead) {
         leads.add(lead);
-    }
-   
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     public int getId() {
@@ -77,8 +77,8 @@ public class User {
         return password;
     }
  
-    public boolean getIsDeleted() {
-        return isDeleted;
+    public boolean getRoleId() {
+        return roleId;
     }
 
     public List<Lead> getLead() {

@@ -27,6 +27,10 @@ body {
     disply: inline;
 }
 
+.nav-right {
+    float: right;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -34,10 +38,6 @@ a {
 
 .title {
     margin: auto
-}
-
-.nav-right {
-    float: right;
 }
 
 /* --------- Buttons --------- */
@@ -90,7 +90,7 @@ a {
     box-sizing: border-box;
 }
 
-.form-input {
+.form-input, select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -98,6 +98,11 @@ a {
     border: 1px solid #ccc;
     box-sizing: border-box;
     border-radius: 8px;
+}
+
+.select-role {
+    background-color: white;
+    font-weight: bold;
 }
 
 /* --------- Table -----------*/
@@ -155,14 +160,8 @@ label {
     float: left;
 }
 
-.chechbox {
-    margin-bottom: 2%;
-    width: 100%;
-}
-
 .form .heading {
     text-align: center;
-    margin-top: 5%;
 }
 
 .container {
@@ -188,12 +187,14 @@ label {
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     .cancelbtn {
-       width: 100%;
+        width: 100%;
     }
 }
 </style>
 </head>
+
 <body>
+
 <!-- Navigation bar -->
 <div class="nav">
     <div class="nav-left">    
@@ -201,12 +202,12 @@ label {
         <button class="btn" onclick="popUp('parent','create-form')">CREATE USER</button>
     </div>
     <div class="title">
-    <h1> Admin Dashboard </h1>
+        <h1> Admin Dashboard </h1>
     </div>
     <div class="nav-right">    
-        <form>
+        <form action="search">
             <input class="search-box" type="text" name="id" placeholder="Enter Id">
-            <button class="btn search-btn" type="submit">Search</button>
+            <button class="btn search-btn" type="submit" onclick="popUp('parent','search-popup')">Search</button>
         </form>
     </div>
 </div>
@@ -232,7 +233,7 @@ label {
 <div class="parent" id="parent" onclick="closeParent('parent')">
 <div id="create-form" class="form">
     <form class="form-content animate" action="" method="post">
-    <h3 class="heading"> Admin Login Form </h3>
+    <h3 class="heading"> Create User Form </h3>
     <div class="container">
         <label for="name">Name: </label>
         <input class="form-input" type="text" placeholder="Enter Email Id" name="name" required>
@@ -243,6 +244,12 @@ label {
         <label for="password">Password: </label>
         <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
         <input type="hidden" value="admin" name="role">
+        <label for="roles">Role:</label>
+        <select class="select-role" id="roles">
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="employee">Employee</option>
+        </select>
         <div class="btndiv">
         <button class="form-btn create-btn" type="submit">Create</button>
         <input class="form-btn reset-btn" type="reset" value="Reset">

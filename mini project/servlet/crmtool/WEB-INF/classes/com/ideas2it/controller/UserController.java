@@ -7,9 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.logger.CustomLogger;
@@ -22,7 +24,7 @@ import com.ideas2it.utils.ValidationUtils;
 /**
  * <h1> User Controller </h1>
  * <p>
- * This class will get request and return the responces
+ * This class will get request and return the responses
  * like Adding, Updating, Viewing, Searching, Deleting
  * the Details of User
  * </p> 
@@ -44,8 +46,19 @@ public class UserController extends HttpServlet {
         this.logger = new CustomLogger(UserController.class);
     }
 
+    /**
+     * <h1> Do Post </h1>
+     * <p>
+     * A Http Servlet's Do post is used to handle a POST request
+     * This allows the Client to send data.
+     * </p>
+     *
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
+     */
     protected void doPost(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                          HttpServletResponse response) throws IOException,
+                                                         ServletException {
         logger.info("user controller do post is running");
         String choice = request.getServletPath();
  
@@ -59,28 +72,47 @@ public class UserController extends HttpServlet {
             logger.info("calling update user");
             updateById(request, response);
             break;
-        case "/user-dashboard":
-            logger.info("role of the user is" + request.getParameter("role"));
-            if (request.getParameter("role").equals("manager")) {
-                doGet(request, response);
-            } else {
-                
-            }
+
+        case "/get-users":
+            logger.info("calling get all user");
+            getAll(request, response);
+            break;
+
+        case "/get-employees":
+            logger.info("getting all the employees");
+            getAll(request, response);
+            break;
         }
     }
 
+    /**
+     * <h1> Do Post </h1>
+     * <p>
+     * A HTTP Servlet Do Get is used to handle GET request
+     * This allows to get the information from the Server
+     * </p>
+     *
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
+     */
     protected void doGet(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException, 
+                                                        ServletException {
         logger.info("User Controller do get is running");
         String choice = request.getServletPath();
         
         switch (choice) {
-        case "/user-dashboard":
+        case "/get-users":
             logger.info("calling get all user");
+            getAllUsers(request, response);
+            break;
+
+        case "/get-employees":
+            logger.info("getting all the employees");
             getAll(request, response);
             break;
  
-        case "/search":
+        case "/search-user":
             logger.info("calling get user by id");
             getById(request, response);
             break;
@@ -100,30 +132,36 @@ public class UserController extends HttpServlet {
     /**
      * <h1> Create User </h1>
      * <p>
-     * Adds the Details of Users 
+     * Adds the user by getting their name, email, phone etc
+     * from the Admin or The Manager,
+     * First validates the inputs,
+     * Checks whether the user role is Employee or Manager the creates 
+     * the User account and sends the Message as Status to the Display
      * </p>
      *
-     * @param user     - Details of User to add 
-     * @param password - password to login
-     *
-     * @return User - Details of a Single User
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private void create(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException, 
+                                                       ServletException {
         logger.info("creting the user");
+        int roleId;
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
+        String role = request.getParameter("role");
+
+        if (role.equals(Constants.MANAGER_ROLE)) {
+            roleId = Constants.MANAGER_ROLE_ID;
+        } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+            roleId = Constants.EMPLOYEE_ROLE_ID;
+        }
 
         User user = new User(name, email, phone);
         user.setPassword(password);
-
-        if (null != user) {
-            logger.info("user is ot null");
-        } else {
-            logger.info("user is null"); 
-        }
+        user.setRoleId(roleId);
 
         boolean isCreated = userService.create(user);
 
@@ -143,30 +181,40 @@ public class UserController extends HttpServlet {
     }
 
     /**
-     * <h1> Get Details of Users </h1>
+     * <h1> Get All Users </h1>
      * <p>
-     * Gets the User Details 
+     * If the user is Admin then it will gets all the Users Details
+     * Who are Managers and Employees or else 
+     * If the user is Manager then Gets all the Employees Details
+     * If users Not Found then Displays the Users Not Found Message
      * </p>
      *
-     * @return List - Details of Users
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer
      */
     private void getAll(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException, 
+                                                       ServletException {
         logger.info("getting all users");
+        HttpSAession session = request.getSession();
+        int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
+
+        List<User> users;
 
         try {
-            List<User> users = userService.getAll();
-
-            if (users.isEmpty()) {
-                logger.info("user list is empty");
-            } else {
-                logger.info("user list is not empty");
+            if (roleId == Constants.ADMIN_ROLE_ID) { 
+                users = userService.getAll(roleId);
+                request.setAttribute("users", users);
+                RequestDispatcher requestDispatcher = request
+                                       .getRequestDispatcher("adminDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } else if (roleId == Constants.MANAGER_ROLE_ID) {
+                users = userService.getAll(roleId);
+                request.setAttribute("users", users);
+                RequestDispatcher requestDispatcher = request
+                                       .getRequestDispatcher("managerDashboard.jsp");
+                requestDispatcher.include(request, response);
             }
-
-            request.setAttribute("users", users);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
         } catch (NotFoundException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
@@ -180,27 +228,25 @@ public class UserController extends HttpServlet {
     }
 
     /**
-     * <h1> Get Details of Users by Id </h1>
+     * <h1> Get User By Id </h1>
      * <p>
-     * Gets the Details of a Single User by Id
+     * Gets the Details of the User By their Id 
+     * Admin can search Managers and Employees By the Id of the Manager or Employee
+     * But a Manager can Search only the Employees By the Id od Employee
+     * If manager or Employee not found then 
+     * Displays the User Not Found Message
      * </p>
      *
-     * @param id    - User's Id to search the User
-     *
-     * @return User - Details of a Single User
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private void getById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException, 
+                                                        ServletException {
         logger.info("gettin user by Id");
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
-
-            if (null != user) {
-                logger.info("user is not null");
-            } else {
-                logger.info("user is null");
-            }
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("searchUser.jsp");
@@ -218,17 +264,17 @@ public class UserController extends HttpServlet {
     }
 
     /**
-     * <h1> Get Details of Users by Id To Update </h1>
+     * <h1> Updates the User by their </h1>
      * <p>
      * Gets the Details of a User by Id
      * </p>
      *
-     * @param id    - User's Id to search the User
-     *
-     * @return User - Details of a Single User
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private void getByIdToUpdate(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                                 HttpServletResponse response) throws IOException,
+                                                                ServletException {
         logger.info("Getting user by id to update");
         try {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -261,9 +307,8 @@ public class UserController extends HttpServlet {
      * Gets the Details of a Single Lead by Id
      * </p>
      *
-     * @param id    - Lead's Id to search the Lead
-     *
-     * @return Lead - Details of a Single Lead
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private Lead getLeadById(int id,int userId) {
         try {
@@ -283,14 +328,12 @@ public class UserController extends HttpServlet {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param id          - User id to update the Detail
-     * @param columnName  - name of the Column to update the Value
-     * @param columnValue - value to be updated in Column
-     *
-     * @return boolean - updated status of given id
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private void updateById(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                            HttpServletResponse response) throws IOException, 
+                                                           ServletException {
         logger.info("update user by id");
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
@@ -299,24 +342,17 @@ public class UserController extends HttpServlet {
 
         User user = new User(name, email, phone);
         user.setId(id);
-
-        if (null != user) {
-            logger.info("user is nor null");
-        } else {
-            logger.info("user is null");
-        }
-
         boolean isUpdated = userService.updateById(user);
 
         if (isUpdated) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("userDashboard.jsp");
+                                    .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("userDashboard.jsp");
+                                    .getRequestDispatcher("userDashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -327,12 +363,12 @@ public class UserController extends HttpServlet {
      * Removes the Details of a Single User
      * </p>
      *
-     * @param id       - key to remove the User
-     *
-     * @return boolean - true if the Details of User are Removed otherwise false
+     * @param request - A HTTP Servlet request is used to pass parameter
+     * @param response - A HTTP Servlet response provides the stream and writer 
      */
     private  void deleteById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+         		     HttpServletResponse response) throws IOException, 
+							    ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             boolean isDeleted = userService.isDeletedById(id);

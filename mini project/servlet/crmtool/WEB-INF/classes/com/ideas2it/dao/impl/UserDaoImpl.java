@@ -3,13 +3,14 @@ package com.ideas2it.dao.impl;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.dao.UserDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.logger.CustomLogger;
@@ -44,7 +45,7 @@ public class UserDaoImpl implements UserDao {
         int count = 0;
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO user (name, email, phone_number,")
-             .append("password) VALUES (?, ?, ?, ?)");
+             .append("password, role_id) VALUES (?, ?, ?, ?, ?)");
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -53,6 +54,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, user.getEmailId());
             statement.setString(3, user.getPhoneNumber());
             statement.setString(4, user.getPassword());
+            statement.setInt(5, user.getRoleId())
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
@@ -67,27 +69,34 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public List<User> fetchAll() {
+    public List<User> fetchAll(int roleId) {
         ResultSet resultSet = null;
         User user;
         List<User> userList = new ArrayList<>();
    
         StringBuilder query = new StringBuilder();
-        query.append("SELECT id, name, email, phone_number,")
-             .append("password, is_deleted FROM user");
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement(query.toString());
+
+            if (roleId == Constants.ADMIN_ROLE_ID) {
+                query.append("SELECT id, name, email, phone_number,")
+                     .append("password FROM user WHERE role_id != ? AND is_deleted = 0");
+                statement = connection.prepareStatement(query.toString());
+                statement.setInt(1, roleId);
+            } else id(roleId == Constants.MANAGER_ROLE_ID){
+                query.append("SELECT id, name, email, phone_number,")
+                     .append("password FROM user WHERE role_id = ? AND is_deleted = 0");
+                statement = connection.prepareStatement(query.toString());
+                statement.setInt(1, Constants.EMPLOYEE_ROLE_ID);
+            }
             resultSet = statement.executeQuery();
        
             while (resultSet.next()) {
                 user = new User(resultSet.getString("name"),
                                 resultSet.getString("email"),
                                 resultSet.getString("phone_number"));
-                user.setIsDeleted(resultSet.getBoolean("is_deleted"));
                 user.setId(resultSet.getInt("id"));
-                user.setPassword(resultSet.getString("password"));
                 userList.add(user);
             }
             statement.close();
@@ -121,7 +130,6 @@ public class UserDaoImpl implements UserDao {
                 user = new User(resultSet.getString("name"),
                                 resultSet.getString("email"),
                                 resultSet.getString("phone_number"));
-                user.setIsDeleted(resultSet.getBoolean("is_deleted"));
                 user.setId(resultSet.getInt("id"));
             } 
             statement.close();

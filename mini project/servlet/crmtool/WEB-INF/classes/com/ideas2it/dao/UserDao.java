@@ -37,9 +37,10 @@ public interface UserDao {
      * Fetchs the Details of users  
      * </p>
      *
+     * @param roleId - Role Id of the User
      * @return List - list of User details
      */
-    public List<User> fetchAll();
+    public List<User> fetchAllUsers(int roleId);
 
     /**
      * <h1> Get Details of User by Id </h1>

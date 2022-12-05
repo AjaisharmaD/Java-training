@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
+import com.ideas2it.constants.Constants;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.service.CRMService;
 import com.ideas2it.logger.CustomLogger;
@@ -38,28 +39,36 @@ public class CRMController extends HttpServlet {
         this.validationUtils = new ValidationUtils();
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        logger.info("inside crm controller");
+    public void doPost(HttpServletRequest request, 
+                       HttpServletResponse response) throws IOException, 
+                                                      ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         User user = validUser(email, password);
-            logger.info("user is not null and the user is"+user.toString());
-        if (null != user) {
-            request.setAttribute("name", user.getName());
-            logger.info("user is not null and name of the user is"+user.getName());
-            logger.info("user is not null and Id of the user is"+user.getId());
-            HttpSession session = request.getSession();
-            session.setAttribute("userId", user.getId());
-            logger.info("session Userid is"+ session.getAttribute("userId").toString());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("moduleDashboard.jsp");
-            requestDispatcher.forward(request, response);
+
+        if (user != null) {
+            if (user.roleId() == Constants.ADMIN_ROLE_ID) {
+                HttpSession session = request.getSession();
+                session.setAttribute(userId, user.getId());
+                session.setAttribute(roleId, user.getRollId());
+                response.sendRedirect("get-users");
+            } else if (user.getRoleId() == constants.MANAGER_ROLE_ID) {
+                HttpSession session = request.getSession();
+                session.setAttribute(userId, user.getId());
+                session.setAttribute(roleId, user.getRollId());
+                response.sendRedirect("get-employees");
+            } else if (user.getRoleId() == Constants.EMPLOYEE_ROLE_ID) {
+                HttpSession session = request.getSession();
+                session.setAttribute(userId, user.getId());
+                session.setAttribute(roleId, user.getRollId());
+                response.sendRedirect("get-leads");
+            }
         } else {
-            request.setAttribute("status", "Wrong Credintials");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("userLogin.jsp");
-            requestDispatcher.include(request, response);
-        }
+                request.setAttribute("message", "Email or Password is Incorrect");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("userLogin.jsp");
+                requestDispatcher.include(request, response);
+        } 
     }
 
     /**
@@ -81,7 +90,8 @@ public class CRMController extends HttpServlet {
     /**
      * <h1> Valid Email </h1>
      * <p>
-     * This method will get the Email and checks whether the given Email is valid or not
+     * Gets the Email and checks whether 
+     * the given Email is valid or not
      * </p>
      *
      * @param email    - Email of User 
@@ -97,7 +107,8 @@ public class CRMController extends HttpServlet {
     /**
      * <h1> Valid Password </h1>
      * <p>
-     * This method will get the Password and checks whether the given Password is valid or not
+     * gets the Password and checks whether 
+     * the given Password is valid or not
      * </p>
      *
      * @param password - Company Name of User  

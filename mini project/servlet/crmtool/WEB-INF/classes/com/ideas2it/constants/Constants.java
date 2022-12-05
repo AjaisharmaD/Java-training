@@ -11,70 +11,13 @@ package com.ideas2it.constants;
  * @since   19-09-2022
  */
 public class Constants {
-    public final static String EMPLOYEE_ID = "Employee_0";
-    public final static String LEAD_ID = "Lead_0";
-    public final static String ACCOUNT_ID = "ACCOUNT_0";
+    public final static String EMPLOYEE_ROLE = "employee";
+    public final static String MANAGER_ROLE = "manager";
+    public final static String ADMIN_ROLE = "admin";
 
-    public final static String LOGOUT = "1";
-
-    public final static String EMPLOYEE = "1";
-    public final static String MANAGER = "2";
-    public final static String CRM_EXIT = "3";
-
-    public final static String LEAD = "1";
-    public final static String ACCOUNT = "2";
-    public final static String CONTACT = "3";
-    public final static String OPPORTUNITY = "4";
-    public final static String EXIT = "5";
-
-    public final static String ADDER = "1";
-    public final static String PROJECTOR = "2";
-    public final static String FINDER = "3";
-    public final static String UPDATER = "4";
-    public final static String REMOVER = "5";
-    public final static String ASSIGN_LEAD = "6";
-    public final static String EXIT_OPERATION = "7";
-
-    public final static String NAME = "1";
-    public final static String EMAIL = "2";
-    public final static String PHONE_NUMBER = "3";
-    public final static String COMPANY_NAME = "4";
-    public final static String STATUS = "5";
-    public final static String EXIT_LEAD = "6";
-
-    public final static String PASSWORD = "4";
-
-    public final static String TYPE = "3";
-    public final static String WEBSITE = "2";
-    public final static String EXIT_ACCOUNT_UPDATER = "4";
-
-    public final static String ROLE = "4";
-    public final static String ACCOUNT_NAME = "5";
-
-    public final static String NEW = "1";
-    public final static String CONTACTED = "2";
-    public final static String WORKING = "3";
-    public final static String QUALIFIED = "4";
-    public final static String UNQUALIFIED = "5";
-    public final static String CONVERTED = "6";
-
-    public final static String CUSTOMER = "1";
-    public final static String RESELLER = "2";
-    public final static String INVESTOR = "3";
-    public final static String PARTNER = "4";
-
-    public final static String CEO = "1";
-    public final static String FOUNDER = "2";
-    public final static String PRESIDENT = "3";
-    public final static String VICE_PRESIDENT = "4";
-    public final static String DIRECTOR = "5";
-
-    public final static String MEETING_SCHEDULED = "1";
-    public final static String CLOSED_WON = "2";
-    public final static String CLOSED_LOST = "3";
-
-    public final static String STAGE = "3";
-    public final static String AMOUNT = "2";
+    public final static int ADMIN_ROLE_ID = 1;
+    public final static int MANAGER_ROLE_ID = 2;
+    public final static int EMPLOYEE_ROLE_ID = 3;
 
     public final static String NAME_PATTERN = "^([\\D]{0,20}[\s.]?){2}[\\D]{0,20}$";
     public final static String EMAIL_ID_PATTERN = "^([a-z0-9]([._-]?){1}){1,20}[@]{1}[a-z0-9]{1,20}([.]([a-z]{2,3})){1,2}$";

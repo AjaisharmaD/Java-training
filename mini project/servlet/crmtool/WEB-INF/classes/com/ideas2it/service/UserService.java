@@ -62,21 +62,16 @@ public class UserService {
      *
      * @return List - Details of users
      */
-    public List<User> getAll() throws NotFoundException {
+    public List<User> getAll(int roleId) throws NotFoundException {
         logger.info("user service get all user....");
-        List<User> userList = userDao.fetchAll();
-        List<User> users = new ArrayList<>();
+        List<User> userList = userDao.fetchAll(roleId);
 
-        if(!userList.isEmpty()) { 
-            for (User user : userList) {
-                if (!user.getIsDeleted()) {
-                     users.add(user);
-                }
-            }
+        if(!userList.isEmpty()) {
+            return userList;
         } else {
             throw new NotFoundException(Messages.USER_NOT_FOUND);
         }
-        return users;
+        return userList;
     }
 
     /**

@@ -14,7 +14,11 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>
-        <url-pattern>/user-dashboard</url-pattern>
+        <url-pattern>/get-users</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDashboard</servlet-name>
+        <url-pattern>/get-employees</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserDashboard</servlet-name>

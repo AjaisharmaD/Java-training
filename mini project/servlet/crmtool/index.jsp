@@ -16,10 +16,14 @@ body {
 /* ---------navigation bar-------------- */
 .nav {
     background-color: #FFD132;
-    text-align: center;
     font-weight: bold;
-    font-size: 20px;;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1%;
+}
+
+.right-nav {
+    float: right;
 }
 
 a {
@@ -27,7 +31,70 @@ a {
     text-decoration: none;
 }
 
-/* -----------description bar------------ */
+.title {
+    margin: auto;
+}
+
+/* --------- Buttons --------- */
+.btn {
+    border: none;
+    background-color: #FFD132;
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #2F3C7E;
+    color: white;
+}
+
+.search-btn {
+    border: 2px solid #2F3C7E;
+}
+
+.btndiv {
+    padding: 10px;
+}
+
+.form-btn {
+    border: none;
+    background-color: #FFD132;
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 49.5%;
+}
+
+.login-btn:hover {
+    background-color: green;
+    color: white;
+}
+
+.close-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+/* ----------- Input Box -----------*/
+.form-input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.select-role {
+    background-color: white;
+    font-weight: bold;
+}
+
+/* ----------- Description Bar ------------ */
 .heading {
     text-align: center;
     color: #032d60;
@@ -42,10 +109,17 @@ a {
     margin: auto;
 }
 
+.sub-para {
+    font-size: 16px;
+    text-align: center;
+    line-height: 25px;
+}
+
 .para {
     font-size: 16px;
     text-align: center;
     line-height: 25px;
+    padding:0 20%;
 }
 
 .benifit-component {
@@ -62,59 +136,6 @@ a {
 .head-component {
     text-align: left;
     line-height: 18px;
-}
-
-/* -----------button division------------ */
-.btndiv {
-    margin-bottom: 3%;
-    margin: auto;
-    text-align: center;
-    width: 100%;
-}
-
-/* ----------style of a admin and user login button------- */
-.formbtn {
-    margin: 10px 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 80%;
-    background-color: #FFD132;
-    color: #000000;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 20px 20px;  
-}
-
-.formbtn:hover {
-    opacity: 0.8;
-    background-color: green;
-    color: white;
-}
-
-.btn {
-    margin: 20px 40px;
-    padding: 20px 50px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 80%;
-    background-color: #FFD132;
-    color: #000000;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.btn:hover {
-    opacity: 0.8;
-    background-color: #2F3C7E;
-    color: white;
-}
-
-.btnclose:hover {
-    opacity: 0.8;
-    background-color: red;
-    color: white;
 }
 
 /* ----------- Form Styles ---------- */
@@ -153,34 +174,12 @@ label {
     float: left;
 }
 
-.chechbox {
-    margin-bottom: 2%;
-    width: 100%;
-}
-
 .form .heading {
     text-align: center;
-    margin-top: 5%;
-}
-
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 8px;
 }
 
 .container {
-    padding: 50px;
-}
-
-.cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color:  #FFD132;
+    padding: 40px;
 }
 
 /* -------animating the form to zoom----- */
@@ -211,101 +210,96 @@ input[type=text], input[type=password] {
 
 <!-- Navigation bar -->
 <div class ="nav">
-<a href="index.jsp"><h1>IdeaCRM</h1></a>
+    <div class="title">
+         <a href="index.jsp"><h1>IdeaCRM</h1></a>
+    </div>
+    <div class="right-nav">
+    <button class="btn" onclick="popUp('parent','login-form')" style="width:auto;">LOGIN</button>
+    </div>
 </div>
 
 <!-- Description bar -->
 <h3 class="heading"> Win more Deals with the world's Emerging CRM Platform</h3>
 
-<!-- Admin and User login buttons -->
-<div class="btndiv">
-<h3> Please Click to Login </h3>
-<button class="btn" onclick="popUp('parent','admin-login')" style="width:auto;">Admin</button>
-<button class="btn" onclick="popUp('parentt','user-login')" style="width:auto;">User</button>
-</div>
 
 <!-- Content to show -->
 <div class="crm-content">
-<h3 class="heading">Everything you need to know about CRM</h3>
-<h4 class="title">
-What is CRM (customer relationship management) and what can it do for you?</h4>
+    <h3 class="heading">Everything you need to know about CRM</h3>
+    <h4 class="title">What is CRM (customer relationship management) and what can it do for you?</h4>
 
-<p class="para">CRM software allows businesses to manage customer and prospect relationships with data. You can store, track, and analyse customer and prospect information in one central location, including contact and account information, sales opportunities, service cases, and marketing campaigns. With data in one central location, organisations have a complete picture of customers and prospects that can be shared and analysed by teams across the company in real-time.</p>
+    <p class="para">CRM software allows businesses to manage customer and prospect relationships with data. You can store, track, and analyse customer and prospect information in one central location, including contact and account information, sales opportunities, service cases, and marketing campaigns. With data in one central location, organisations have a complete picture of customers and prospects that can be shared and analysed by teams across the company in real-time.</p>
 
-<h3 class="heading"> Here's how Salesforce can benifit your business</h3>
-<div class="benifit-component">
-    <div class="head-component">
-        <span class="title"> World's Emergin CRM</span>
-    </div>
-    <div class="content-component">
-        <span class="para">Integrated platform, AI, app development, best in class apps</span>
-    </div>
+    <h3 class="heading"> Here's how Salesforce can benifit your business</h3>
+        <div class="benifit-component">
+            <div class="head-component">
+                <span class="title"> World's Emergin CRM</span>
+            </div>
+            <div class="content-component">
+                <span class="sub-para">Integrated platform, AI, app development, best in class apps</span>
+            </div>
    
-    <div class="head-component">
-        <span class="title">Single Source of Truth</span>
-    </div>
-    <div class="content-component">
-        <span class="para">Connect sales, service, marketing, commerce, and IT, personalise experiences</span>
-    </div>
+            <div class="head-component">
+                 <span class="title">Single Source of Truth</span>
+            </div>
+            <div class="content-component">
+                 <span class="sub-para">Connect sales, service, marketing, commerce, and IT, personalise experiences</span>
+            </div>
 
-    <div class="head-component">
-        <span class="title">Fast Time to Value</span>
-    </div>
-    <div class="content-component">
-        <span class="para">Ease of design and implementation at speed with high ROI</span>
-    </div>
+            <div class="head-component">
+                <span class="title">Fast Time to Value</span>
+            </div>
+            <div class="content-component">
+                <span class="sub-para">Ease of design and implementation at speed with high ROI</span>
+            </div>
     
-    <div class="head-component">
-        <span class="title">Scalable and Flexible</span>
-    </div>
-    <div class="content-component">
-        <span class="para">Solutions for any size company or industry</span>
-    </div>
+            <div class="head-component">
+                <span class="title">Scalable and Flexible</span>
+            </div>
+            <div class="content-component">
+                <span class="sub-para">Solutions for any size company or industry</span>
+            </div>
 
-    <div class="head-component">
-        <span class="title">Trailblazer Success and Community</span>
-    </div>
-    <div class="content-component">
-        <span class="para">96% of customers say they met or exceeded ROI expectations</span>
-    </div>
+            <div class="head-component">
+                <span class="title">Trailblazer Success and Community</span>
+            </div>
+            <div class="content-component">
+                <span class="sub-para">96% of customers say they met or exceeded ROI expectations</span>
+            </div>
+        </div>
 </div>
 
-<!-- Admin login form -->
+<!-- User Login Form -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
-<div id="admin-login" class="form">
-    <form class="form-content animate" action="adminDashboard.jsp" method="post">
-    <h3 class="heading"> Admin Login Form </h3>
+<div id="login-form" class="form">
+    <form class="form-content animate" action="user-login" method="post">
+    <h3 class="heading"> User Login Form </h3>
     <div class="container">
-        <label for="email">Email ID: </label>
-        <input type="text" placeholder="Enter Email Id" name="email" required>
-        <label for="password">Password: </label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-        <input type="hidden" value="admin" name="role">
+        <label for="email">Email ID:</label>
+        <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
+        <label for="password">Password:</label>
+        <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
         <div class="btndiv">
-        <button class="formbtn" type="submit">Login</button>
-        <button class="formbtn btnclose" type="button" onclick="closePopUp('admin-login','parent')">Cancel</button>
+        <button class="form-btn login-btn" type="submit">Login</button>
+        <button class="form-btn close-btn" type="button" onclick="closePopUp('login-form','parent')">Cancel</button>
         </div>
     </div>
     </form>
 </div>
 </div>
 
-<!-- User Login Form -->
-<div class="parentt" id="parentt" onclick="closeParent('parentt')">
-<div id="user-login" class="form">
-    <form class="form-content animate" action="user-dashboard" method="post">
-    <h3 class="heading"> User Login Form </h3>
+<c:if test="${wrong ne null}">
+    popUp('parent','error-form')
+</c:if>
+
+<!-- Login Error Form -->
+<div class="parent" id="parent" onclick="closeParent('parent')">
+<div id="login-form" class="form">
+    <form class="form-content animate" action="user-login" method="post">
+    <h3 class="heading"> Message </h3>
     <div class="container">
-        <label for="email">Email ID: </label>
-        <input type="text" placeholder="Enter Email Id" name="email" required>
-        <label for="password">Password: </label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-        <label class="checkbox">
-            <input type="checkbox" name="role" value="manager">Manager
-        </label>
+        <h1 class="message">${message}</h1>
         <div class="btndiv">
-        <br><br><button class="formbtn" type="submit">Login</button>
-        <button class="formbtn btnclose" type="button" onclick="closePopUp('user-login','parentt')">Cancel</button>
+        <button class="form-btn close-btn" type="button" onclick="closePopUp('error-form','parent')">Cancel</button>
         </div>
     </div>
     </form>
@@ -320,30 +314,23 @@ What is CRM (customer relationship management) and what can it do for you?</h4>
 	}
     }
 
-    function popUp(elem,prelem) {
+    function popUp(elem, prelem) {
         document.getElementById(elem).style.display='block';
         document.getElementById(prelem).style.display='block';    
     }
 	
-    function closePopUp(elem,prelem) {
+    function closePopUp(elem, prelem) {
 	document.getElementById(elem).style.display='none'; 
         document.getElementById(prelem).style.display='none';
     }
 
-   
-    var user = document.getElementById('user-login');
-    var parr = document.getElementById('parentt');
-
-    var admin = document.getElementById('admin-login');
+    var login = document.getElementById('login-form');
     var par = document.getElementById('parent');
     window.onclick = function(event) {
-        if (event.target == admin) {
-            admin.style.display = "none";
+        if (event.target == login) {
+            login.style.display = "none";
             par.style.display = "none";
-        } else if (event.target == user) {
-           user.style.display = "none";
-           parr.style.display = "none";
-       }
+        } 
     }
 </script>
 </body>
