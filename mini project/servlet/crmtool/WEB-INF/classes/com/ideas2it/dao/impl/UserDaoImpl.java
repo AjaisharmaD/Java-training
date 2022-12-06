@@ -42,9 +42,10 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public int insert(User user) {
+        logger.info("inside the insert User in Dao");
         int count = 0;
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO user (name, email, phone_number,")
+        query.append("INSERT INTO user (name, email, phone,")
              .append("password, role_id) VALUES (?, ?, ?, ?, ?)");
 
         try {
@@ -54,7 +55,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, user.getEmailId());
             statement.setString(3, user.getPhoneNumber());
             statement.setString(4, user.getPassword());
-            statement.setInt(5, user.getRoleId())
+            statement.setInt(5, user.getRoleId());
+            logger.info("role Id" + user.getRoleId());
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
@@ -63,6 +65,46 @@ public class UserDaoImpl implements UserDao {
             DatabaseConnection.closeConnection();
         }
         return count;
+    }
+
+    @Override
+    public User fetchByEmailAndPassword(String email, String password) {
+        logger.info("inside the user dao fetch by email and password");
+        logger.info("email " + email);
+        logger.info("password " + password);
+        ResultSet resultSet = null;
+        User user = null;
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT id, name, email, phone,")
+             .append("role_id FROM user WHERE email = ? AND password = ?");
+
+        try {
+            logger.info("getting user in dao");
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement(query.toString()); 
+            statement.setString(1, email);
+            statement.setString(2, password);
+            resultSet = statement.executeQuery();
+        logger.info("result set " + resultSet.toString());
+            
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("name"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone"));
+                user.setRoleId(resultSet.getInt("role_id"));
+                user.setId(resultSet.getInt("id")); 
+        logger.info(user.getName());
+            } 
+            statement.close();
+            resultSet.close();
+        } catch (SQLException sqlException) {
+        logger.info("sql exception");
+            logger.error(sqlException.toString());
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return user;
     }
 
     /**
@@ -80,12 +122,12 @@ public class UserDaoImpl implements UserDao {
             connection = DatabaseConnection.getConnection();
 
             if (roleId == Constants.ADMIN_ROLE_ID) {
-                query.append("SELECT id, name, email, phone_number,")
+                query.append("SELECT id, name, email, phone,")
                      .append("password FROM user WHERE role_id != ? AND is_deleted = 0");
                 statement = connection.prepareStatement(query.toString());
                 statement.setInt(1, roleId);
-            } else id(roleId == Constants.MANAGER_ROLE_ID){
-                query.append("SELECT id, name, email, phone_number,")
+            } else if (roleId == Constants.MANAGER_ROLE_ID) {
+                query.append("SELECT id, name, email, phone,")
                      .append("password FROM user WHERE role_id = ? AND is_deleted = 0");
                 statement = connection.prepareStatement(query.toString());
                 statement.setInt(1, Constants.EMPLOYEE_ROLE_ID);
@@ -95,7 +137,7 @@ public class UserDaoImpl implements UserDao {
             while (resultSet.next()) {
                 user = new User(resultSet.getString("name"),
                                 resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
+                                resultSet.getString("phone"));
                 user.setId(resultSet.getInt("id"));
                 userList.add(user);
             }
@@ -118,8 +160,8 @@ public class UserDaoImpl implements UserDao {
         User user = null;
 
         StringBuilder query = new StringBuilder();
-        query.append("SELECT id, name, email, phone_number,")
-             .append("is_deleted FROM user WHERE id = ?");
+        query.append("SELECT id, name, email, phone,")
+             .append("role_id FROM user WHERE id = ?");
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query.toString());
@@ -129,8 +171,9 @@ public class UserDaoImpl implements UserDao {
             if (resultSet.next()) {
                 user = new User(resultSet.getString("name"),
                                 resultSet.getString("email"),
-                                resultSet.getString("phone_number"));
+                                resultSet.getString("phone"));
                 user.setId(resultSet.getInt("id"));
+                user.setRoleId(resultSet.getInt("role_id"));
             } 
             statement.close();
             resultSet.close();
@@ -149,8 +192,8 @@ public class UserDaoImpl implements UserDao {
     public int updateById(User user) {
         int rowCount = 0; 
         StringBuilder query = new StringBuilder();
-        query.append("UPDATE user SET name=?, email=?,")
-             .append("phone_number=? WHERE id = ?");
+        query.append("UPDATE user SET name = ?, email = ?,")
+             .append("phone = ? WHERE id = ?");
 
         try {
             connection = DatabaseConnection.getConnection();

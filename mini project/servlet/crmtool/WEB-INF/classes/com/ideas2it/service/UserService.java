@@ -67,11 +67,29 @@ public class UserService {
         List<User> userList = userDao.fetchAll(roleId);
 
         if(!userList.isEmpty()) {
+            logger.info("got the user from dao in service");
             return userList;
         } else {
+            logger.info("user list is empty in user service");
             throw new NotFoundException(Messages.USER_NOT_FOUND);
         }
-        return userList;
+    }
+
+    /**
+     * <h1> Get the user by Email and password </h1>
+     * <p> 
+     * Gets the user Details by Email and Password 
+     * and passes it to Validate the User is valid or not
+     * </p>
+     * 
+     * @param email - email Id of the User
+     * @param password - password of the User
+     *
+     * @return User - Details of the User
+     */
+    public User getByEmailAndPassword(String email, String password) {
+        logger.info("inside user service get by email and password");
+        return userDao.fetchByEmailAndPassword(email, password);
     }
 
     /**
@@ -89,11 +107,7 @@ public class UserService {
         User user = userDao.fetchById(id);
        
         if (null != user) {
-            if (!user.getIsDeleted()) {
-                return user;
-            } else {
-                throw new NotFoundException(Messages.USER_NOT_FOUND);
-            }
+            return user;
         } else {
             throw new NotFoundException(Messages.USER_NOT_FOUND);
         } 

@@ -40,7 +40,20 @@ public interface UserDao {
      * @param roleId - Role Id of the User
      * @return List - list of User details
      */
-    public List<User> fetchAllUsers(int roleId);
+    public List<User> fetchAll(int roleId);
+
+    /**
+     * <h1> Get Details of User by Id </h1>
+     * <p>
+     * Fetchs the Details of Users by Id
+     * </p>
+     * 
+     * @param email - Email Id of the User
+     * @param password - Password of the User
+     * 
+     * @return User - Details of a Single User
+     */
+    public User fetchByEmailAndPassword(String email, String password);
 
     /**
      * <h1> Get Details of User by Id </h1>

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
 import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.NotFoundException;
 import com.ideas2it.service.CRMService;
 import com.ideas2it.logger.CustomLogger;
@@ -44,29 +45,28 @@ public class CRMController extends HttpServlet {
                                                       ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        User user = validUser(email, password);
+        logger.info(email);
+        logger.info(password);
+        User user = getValidUser(email, password);
+        HttpSession session = request.getSession();
 
         if (user != null) {
-            if (user.roleId() == Constants.ADMIN_ROLE_ID) {
-                HttpSession session = request.getSession();
-                session.setAttribute(userId, user.getId());
-                session.setAttribute(roleId, user.getRollId());
+            if (user.getRoleId() == Constants.ADMIN_ROLE_ID) {
+                session.setAttribute("userId", user.getId());
+                session.setAttribute("roleId", user.getRoleId());
                 response.sendRedirect("get-users");
-            } else if (user.getRoleId() == constants.MANAGER_ROLE_ID) {
-                HttpSession session = request.getSession();
-                session.setAttribute(userId, user.getId());
-                session.setAttribute(roleId, user.getRollId());
+            } else if (user.getRoleId() == Constants.MANAGER_ROLE_ID) {
+                session.setAttribute("userId", user.getId());
+                session.setAttribute("roleId", user.getRoleId());
                 response.sendRedirect("get-employees");
             } else if (user.getRoleId() == Constants.EMPLOYEE_ROLE_ID) {
-                HttpSession session = request.getSession();
-                session.setAttribute(userId, user.getId());
-                session.setAttribute(roleId, user.getRollId());
+                session.setAttribute("userId", user.getId());
+                session.setAttribute("roleId", user.getRoleId());
                 response.sendRedirect("get-leads");
             }
         } else {
-                request.setAttribute("message", "Email or Password is Incorrect");
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("userLogin.jsp");
+                request.setAttribute("message", Messages.USER_NOT_FOUND);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
                 requestDispatcher.include(request, response);
         } 
     }
@@ -74,11 +74,11 @@ public class CRMController extends HttpServlet {
     /**
      * Validates the login Details
      */
-    public User validUser(String email, String password) {
+    public User getValidUser(String email, String password) {
         User user = null;
 
         try {
-            user = crmService.validUser(email, password);
+            user = crmService.getByEmailAndPassword(email, password);
         } catch(NotFoundException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
         } catch (Exception exception) {

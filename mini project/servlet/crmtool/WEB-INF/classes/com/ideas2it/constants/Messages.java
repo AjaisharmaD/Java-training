@@ -13,11 +13,6 @@ import com.ideas2it.constants.Constants;
  * @since   29-09-2022
  */
 public class Messages {
-    public final static String EXIT_MENU = "\n>>>>> Are you sure want to Exit? <<<<<\n" 
-                                               + "Press \" " + Constants.LOGOUT 
-                                               + " \" for Yes\n" 
-                                               + "Press \" Any Number \" for No";
-
     public final static String CREATED_SUCCESSFULLY = "\n>>>>> CREATED SUCCESSFULLY <<<<<";
     public final static String FAILED_TO_CREATE = "\n>>>>> FAILED TO CREATE! <<<<<";
 

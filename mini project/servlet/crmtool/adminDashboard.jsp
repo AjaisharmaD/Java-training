@@ -220,6 +220,7 @@ label {
             <th>Email Id</th>
             <th>Phone Number</th>
         </tr>
+
         <tr>
             <td></td>
             <td></td>
@@ -229,23 +230,27 @@ label {
     </table>
 </div>
 
+<p> ${users} </p>
+
+<h2 style="color:red; text-align: center;">${status}</h2>
+
 <!-- Create From -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
 <div id="create-form" class="form">
-    <form class="form-content animate" action="" method="post">
+    <form class="form-content animate" action="create-user" method="post">
     <h3 class="heading"> Create User Form </h3>
     <div class="container">
         <label for="name">Name: </label>
-        <input class="form-input" type="text" placeholder="Enter Email Id" name="name" required>
+        <input class="form-input" type="text" placeholder="Enter Name" name="name" required>
         <label for="email">Email ID: </label>
         <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
         <label for="phone">Phone Number: </label>
-        <input class="form-input" type="text" placeholder="Enter Email Id" name="phone" required>
+        <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
         <label for="password">Password: </label>
         <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
         <input type="hidden" value="admin" name="role">
         <label for="roles">Role:</label>
-        <select class="select-role" id="roles">
+        <select class="select-role" id="roles" name="role">
             <option value="admin">Admin</option>
             <option value="manager">Manager</option>
             <option value="employee">Employee</option>

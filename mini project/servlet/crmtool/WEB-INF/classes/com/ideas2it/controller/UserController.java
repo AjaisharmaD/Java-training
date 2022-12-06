@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
@@ -53,8 +53,8 @@ public class UserController extends HttpServlet {
      * This allows the Client to send data.
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     protected void doPost(HttpServletRequest request, 
                           HttpServletResponse response) throws IOException,
@@ -92,8 +92,8 @@ public class UserController extends HttpServlet {
      * This allows to get the information from the Server
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     protected void doGet(HttpServletRequest request, 
                          HttpServletResponse response) throws IOException, 
@@ -104,7 +104,7 @@ public class UserController extends HttpServlet {
         switch (choice) {
         case "/get-users":
             logger.info("calling get all user");
-            getAllUsers(request, response);
+            getAll(request, response);
             break;
 
         case "/get-employees":
@@ -139,43 +139,50 @@ public class UserController extends HttpServlet {
      * the User account and sends the Message as Status to the Display
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void create(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
-        logger.info("creting the user");
-        int roleId;
+        logger.info("creating the user");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
+        int roleId = 0;
+        logger.info("role:- " + role);
 
-        if (role.equals(Constants.MANAGER_ROLE)) {
-            roleId = Constants.MANAGER_ROLE_ID;
-        } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
-            roleId = Constants.EMPLOYEE_ROLE_ID;
+        try {
+            roleId = Integer.valueOf(role) + 1;
+        } catch (NumberFormatException numberFormatException) {
+            logger.error(numberFormatException.toString());
         }
-
+ 
+        logger.info("role ID" + roleId);
         User user = new User(name, email, phone);
         user.setPassword(password);
-        user.setRoleId(roleId);
 
+        //if (role.equals(Constants.MANAGER_ROLE)) {
+            user.setRoleId(roleId);
+        //} else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+          //  user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
+        //}
+        logger.info("role id -" + user.getRoleId());
         boolean isCreated = userService.create(user);
 
         if (isCreated) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createUser.jsp");
+                                      .getRequestDispatcher("adminDashboard.jsp");
             requestDispatcher.include(request, response);
         } else {
             logger.info(Messages.FAILED_TO_CREATE);
             request.setAttribute("status", Messages.FAILED_TO_CREATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createUser.jsp");
+                                      .getRequestDispatcher("adminDashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -189,42 +196,55 @@ public class UserController extends HttpServlet {
      * If users Not Found then Displays the Users Not Found Message
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getAll(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
         logger.info("getting all users");
-        HttpSAession session = request.getSession();
+        HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
 
         List<User> users;
 
-        try {
-            if (roleId == Constants.ADMIN_ROLE_ID) { 
+        if (roleId == Constants.ADMIN_ROLE_ID) { 
+            try {
+                logger.info("logged in as admin...");
                 users = userService.getAll(roleId);
                 request.setAttribute("users", users);
                 RequestDispatcher requestDispatcher = request
                                        .getRequestDispatcher("adminDashboard.jsp");
                 requestDispatcher.include(request, response);
-            } else if (roleId == Constants.MANAGER_ROLE_ID) {
+            } catch (NotFoundException userNotFoundException) {
+                logger.info(Messages.USER_NOT_FOUND);
+                logger.error(userNotFoundException.getMessage());
+                request.setAttribute("status", Messages.USER_NOT_FOUND);
+                RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("adminDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+            }
+        } else if (roleId == Constants.MANAGER_ROLE_ID) {
+            try {
+                logger.info("logged in as manager....");
                 users = userService.getAll(roleId);
                 request.setAttribute("users", users);
                 RequestDispatcher requestDispatcher = request
                                        .getRequestDispatcher("managerDashboard.jsp");
                 requestDispatcher.include(request, response);
+            } catch (NotFoundException userNotFoundException) {
+                logger.info(Messages.USER_NOT_FOUND);
+                logger.error(userNotFoundException.getMessage());
+                request.setAttribute("status", Messages.USER_NOT_FOUND);
+                RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("managerDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
             }
-        } catch (NotFoundException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("message", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
+        } 
     }
 
     /**
@@ -237,8 +257,8 @@ public class UserController extends HttpServlet {
      * Displays the User Not Found Message
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getById(HttpServletRequest request,
                          HttpServletResponse response) throws IOException, 
@@ -269,8 +289,8 @@ public class UserController extends HttpServlet {
      * Gets the Details of a User by Id
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getByIdToUpdate(HttpServletRequest request,
                                  HttpServletResponse response) throws IOException,
@@ -280,11 +300,6 @@ public class UserController extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
 
-            if (null != user) {
-                logger.info("user is not null");
-            } else {
-                logger.info("user is null");
-            }
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request
                                       .getRequestDispatcher("updateUser.jsp");
@@ -307,8 +322,8 @@ public class UserController extends HttpServlet {
      * Gets the Details of a Single Lead by Id
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private Lead getLeadById(int id,int userId) {
         try {
@@ -328,8 +343,8 @@ public class UserController extends HttpServlet {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void updateById(HttpServletRequest request, 
                             HttpServletResponse response) throws IOException, 
@@ -363,8 +378,8 @@ public class UserController extends HttpServlet {
      * Removes the Details of a Single User
      * </p>
      *
-     * @param request - A HTTP Servlet request is used to pass parameter
-     * @param response - A HTTP Servlet response provides the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private  void deleteById(HttpServletRequest request,
          		     HttpServletResponse response) throws IOException, 

@@ -221,6 +221,7 @@ label {
 <!-- Description bar -->
 <h3 class="heading"> Win more Deals with the world's Emerging CRM Platform</h3>
 
+<h3 style="color:red; text-align: center;">${message}</h3>
 
 <!-- Content to show -->
 <div class="crm-content">

@@ -29,7 +29,7 @@ public class Constants {
     public final static String PASSWORD_PATTERN = "^[A-Za-z0-9@#$*]{8,15}$";
     public final static String ID_PATTERN = "^(Lead_0|Employee_0|Contact_0){1}[\\d]{1,5}$";
 
-    public final static String URL = "jdbc:mysql://localhost:3306/samplecrm";
+    public final static String URL = "jdbc:mysql://localhost:3306/crmtool";
     public final static String USERNAME = "root";
     public final static String SQL_PASSWORD = "8940134223";
 }

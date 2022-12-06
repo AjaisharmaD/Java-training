@@ -77,7 +77,7 @@ public class User {
         return password;
     }
  
-    public boolean getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
