@@ -1,6 +1,5 @@
 package com.ideas2it.controller;
 
-import java.io.PrintWriter;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServlet;
@@ -10,13 +9,13 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
+import com.ideas2it.model.User;
+import com.ideas2it.service.CRMService;
+import com.ideas2it.utils.ValidationUtils;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.service.CRMService;
+import com.ideas2it.exception.CustomException;
 import com.ideas2it.logger.CustomLogger;
-import com.ideas2it.model.User;
-import com.ideas2it.utils.ValidationUtils;
 
 /**
  * <h1> CRM Controller </h1>
@@ -40,17 +39,27 @@ public class CRMController extends HttpServlet {
         this.validationUtils = new ValidationUtils();
     }
 
+    /**
+     * <h1> Do Post </h1>
+     * <p>
+     * A Http Servlet's Do post is used to handle a POST request
+     * This allows the Client to send data by hidding them from the url.
+     * </p>
+     *
+     * @param request - the request from the JSP which holds the data likes
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer  
+     */
     public void doPost(HttpServletRequest request, 
                        HttpServletResponse response) throws IOException, 
                                                       ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        logger.info(email);
-        logger.info(password);
+        logger.info("email = " + email + "password = " + password);
         User user = getValidUser(email, password);
         HttpSession session = request.getSession();
 
-        if (user != null) {
+        if ( null != user ) {
             if (user.getRoleId() == Constants.ADMIN_ROLE_ID) {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("roleId", user.getRoleId());
@@ -66,20 +75,31 @@ public class CRMController extends HttpServlet {
             }
         } else {
                 request.setAttribute("message", Messages.USER_NOT_FOUND);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+                RequestDispatcher requestDispatcher = request
+                                       .getRequestDispatcher("index.jsp");
                 requestDispatcher.include(request, response);
         } 
     }
 
     /**
-     * Validates the login Details
+     * <h1> Get valid user </h1>
+     * <p>
+     * The getValidUser passes the email and password to the service 
+     * to check whether the User is present or not
+     * If the user is present then returns the object of the user else null 
+     *
+     *
+     * @param email - Email Id of the User to login
+     * @param password - Password of the User to login
+     *
+     * @return User - Object of the user or null object
      */
     public User getValidUser(String email, String password) {
         User user = null;
 
         try {
             user = crmService.getByEmailAndPassword(email, password);
-        } catch(NotFoundException userNotFoundException) {
+        } catch(CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -98,10 +118,7 @@ public class CRMController extends HttpServlet {
      * @return boolean - Status of the Email Id
      */
     public boolean isValidEmailId(String emailId) {
-        if (validationUtils.isValidEmailId(emailId)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidEmailId(emailId);
     }
 
     /**
@@ -115,9 +132,6 @@ public class CRMController extends HttpServlet {
      * @return boolean - Status of the Company Name
      */
     public boolean isValidPassword(String password) {
-        if (validationUtils.isValidPassword(password)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidPassword(password);
     }
 }

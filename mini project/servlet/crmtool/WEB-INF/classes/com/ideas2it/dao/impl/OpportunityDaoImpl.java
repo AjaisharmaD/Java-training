@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.model.Opportunity;
 import com.ideas2it.dao.OpportunityDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.logger.CustomLogger;
-import com.ideas2it.model.Opportunity;
 
 /**
  * <h1> Opportunity DAO Impl </h1>
@@ -43,8 +43,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
     public int insert(Opportunity opportunity) {
         int count = 0;
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO opportunity (name,")
-             .append("amount, stage, account_id) VALUES (?, ?, ?, ?)");
+        query.append("INSERT INTO opportunity (name, ")
+             .append("amount, stage, account_id) VALUES (?, ?, ?, ?);");
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -56,7 +56,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -72,7 +72,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
         Opportunity opportunity;
         List<Opportunity> opportunityList = new ArrayList<>();
         StringBuilder query = new StringBuilder();
-        query.append("SELECT id, name, amount, statge FROM opportunity");
+        query.append("SELECT id, name, amount, statge FROM opportunity;");
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -87,9 +87,8 @@ public class OpportunityDaoImpl implements OpportunityDao {
                 opportunityList.add(opportunity);
             } 
             statement.close();
-            resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -105,7 +104,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
         Opportunity opportunity = null;
         StringBuilder query = new StringBuilder();
         query.append("SELECT id, name, amount, statge")
-             .append("FROM opportunity WHERE id = ?");
+             .append("FROM opportunity WHERE id = ?;");
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -122,7 +121,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -135,7 +134,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
     @Override
     public int updateById(int id, String columnName, String columnValue) {
         int rowCount = 0; 
-        String query = "UPDATE opportunity SET "+columnName+" = ? WHERE id = ?";
+        String query = "UPDATE opportunity SET "+columnName+" = ? WHERE id = ?;";
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -145,7 +144,7 @@ public class OpportunityDaoImpl implements OpportunityDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -158,10 +157,11 @@ public class OpportunityDaoImpl implements OpportunityDao {
     @Override
     public int deleteById(int id) {
         int rowCount = 0;
+        String query = "DELETE FROM opportunity WHERE id = ?;";
 
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement("DELETE FROM opportunity WHERE id = ?");
+            statement = connection.prepareStatement(query);
             statement.setInt(1,id);
             rowCount = statement.executeUpdate();
             statement.close();

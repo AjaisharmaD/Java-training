@@ -47,6 +47,16 @@ public interface UserDao {
      * <p>
      * Fetchs the Details of Users by Id
      * </p>
+     *
+     * @return List<String> - a List of User Role 
+     */
+    public List<String> fetchRoles();
+
+    /**
+     * <h1> Get Details of User by Id </h1>
+     * <p>
+     * Fetchs the Details of Users by Id
+     * </p>
      * 
      * @param email - Email Id of the User
      * @param password - Password of the User

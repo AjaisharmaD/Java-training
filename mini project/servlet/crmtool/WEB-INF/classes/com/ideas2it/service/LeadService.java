@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
+import com.ideas2it.model.Lead;
 import com.ideas2it.dao.LeadDao;
 import com.ideas2it.dao.impl.LeadDaoImpl;
-import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
 import com.ideas2it.logger.CustomLogger;
-import com.ideas2it.model.Lead;
 
 /**
  * <h1> Lead Service </h1>
@@ -60,10 +60,9 @@ public class LeadService {
      * 
      * @return List - Details of Leads 
      */
-    public List<Lead> getAll(int id) throws NotFoundException {   
+    public List<Lead> getAll(int id) throws CustomException {   
          List<Lead> listOfLead = leadDao.fetchAll(id);
          List<Lead> leads = new ArrayList<>();
-         logger.info("service is running");
 
          if (!listOfLead.isEmpty()) {
             for (Lead lead : listOfLead) {
@@ -73,7 +72,7 @@ public class LeadService {
             }
             
         } else {
-            throw new NotFoundException(Messages.LEAD_NOT_FOUND);
+            throw new CustomException(Messages.LEAD_NOT_FOUND);
         }
         return leads;    
     }
@@ -88,7 +87,7 @@ public class LeadService {
      *
      * @return Lead - Details of Single lead 
      */
-    public Lead getById(int id, int userId) throws NotFoundException {
+    public Lead getById(int id, int userId) throws CustomException {
         Lead lead = leadDao.fetchById(id);
 
         if (null != lead) {
@@ -96,7 +95,7 @@ public class LeadService {
                 return lead;
             }
         } else {
-            throw new NotFoundException(Messages.LEAD_NOT_FOUND);
+            throw new CustomException(Messages.LEAD_NOT_FOUND);
         }
         return null;
     }

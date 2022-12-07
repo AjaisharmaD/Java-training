@@ -1,7 +1,6 @@
 package com.ideas2it.controller;
 
 import java.time.DateTimeException;
-import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,12 +11,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
-import com.ideas2it.constants.Messages;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Lead;
 import com.ideas2it.service.LeadService;
 import com.ideas2it.utils.ValidationUtils;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
+import com.ideas2it.logger.CustomLogger;
 
 /**
  * <h1> Lead Controller </h1>
@@ -43,7 +42,8 @@ public class LeadController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                          HttpServletResponse response) throws IOException,
+                                                         ServletException {
         String choice = request.getServletPath();
 
         switch (choice) {
@@ -58,11 +58,10 @@ public class LeadController extends HttpServlet {
     }
        
     protected void doGet(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         String choice = request.getServletPath();
         logger.info(choice);
-
-        logger.info("do get is running");
         
         switch (choice) {
         case "/get-leads":
@@ -95,24 +94,27 @@ public class LeadController extends HttpServlet {
      * @return boolean - status of the lead
      */
     private void create(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String companyName = request.getParameter("companyName");
         String status = request.getParameter("status");
         int userId = Integer.parseInt(request.getParameter("userId"));
-        boolean isCreated = leadService.create(new Lead(name, email, phone, companyName, status, userId));
+        boolean isCreated = leadService.create(new Lead(name, email, phone,
+                                                        companyName, status,
+                                                        userId));
 
         if (isCreated) {
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createLead.jsp");
+                                .getRequestDispatcher("createLead.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_CREATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createLead.jsp");
+                                .getRequestDispatcher("createLead.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -126,7 +128,8 @@ public class LeadController extends HttpServlet {
      * @return List - Details of Leads
      */
     private void getAll(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         try {
             HttpSession session = request.getSession();
             String id = session.getAttribute("userId").toString();
@@ -134,19 +137,20 @@ public class LeadController extends HttpServlet {
             String name = request.getParameter("name");
             List<Lead> leads = leadService.getAll(userId);
             request.setAttribute("leads", leads);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("leadDashboard.jsp");
+            RequestDispatcher requestDispatcher = request
+                                .getRequestDispatcher("leadDashboard.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("message", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("leadDashboard.jsp");
+                                .getRequestDispatcher("leadDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
             request.setAttribute("leads", "Exception");
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("leads.jsp");
+                                .getRequestDispatcher("leads.jsp");
             requestDispatcher.include(request, response);
         }
     }    
@@ -162,20 +166,21 @@ public class LeadController extends HttpServlet {
      * @return Lead - Details of a Single Lead
      */
     private void getById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("userId"));
             Lead lead = leadService.getById(id, userId);
             request.setAttribute("lead", lead);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchLead.jsp");
+                                .getRequestDispatcher("searchLead.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException leadNotFoundException) {
+        } catch (CustomException leadNotFoundException) {
             logger.error(leadNotFoundException.getMessage());
             request.setAttribute("message", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchLead.jsp");
+                                .getRequestDispatcher("searchLead.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -193,20 +198,21 @@ public class LeadController extends HttpServlet {
      * @return Lead - Details of a Single Lead
      */
     private void getByIdToUpdate(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                                 HttpServletResponse response) throws IOException,
+                                                                ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("userId"));
             Lead lead = leadService.getById(id, userId);
             request.setAttribute("lead", lead);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -226,7 +232,8 @@ public class LeadController extends HttpServlet {
      * @return lead - the Update details of lead
      */
     private void updateById(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                            HttpServletResponse response) throws IOException,
+                                                           ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -236,18 +243,17 @@ public class LeadController extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         Lead lead = new Lead(name, email, phone, companyName, status, userId);
         lead.setId(id);
-
         boolean isUpdated = leadService.updateById(lead);
 
         if (isUpdated) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -263,7 +269,8 @@ public class LeadController extends HttpServlet {
      * @return boolean - Status of the Delated Lead
      */
     private  void deleteById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                             HttpServletResponse response) throws IOException,
+                                                            ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             boolean isDeleted = leadService.isDeletedById(id);
@@ -271,12 +278,12 @@ public class LeadController extends HttpServlet {
             if(isDeleted) {
                 request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
+                                    .getRequestDispatcher("deleteLead.jsp");
                 requestDispatcher.include(request, response);            
             } else {
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
+                                    .getRequestDispatcher("deleteLead.jsp");
                 requestDispatcher.include(request, response);    
             }
         } catch (Exception exception) {
@@ -294,10 +301,7 @@ public class LeadController extends HttpServlet {
      * @return boolean - Status of Name
      */
     public boolean isValidName(String name) {
-        if (validationUtils.isValidName(name)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidName(name);
     }
 
     /**
@@ -310,10 +314,7 @@ public class LeadController extends HttpServlet {
      * @return boolean - Status of Email Id
      */
     public boolean isValidEmailId(String emailId) {
-        if (validationUtils.isValidEmailId(emailId)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidEmailId(emailId);
     }
 
     /**
@@ -326,10 +327,7 @@ public class LeadController extends HttpServlet {
      * @return boolean    - Status of Phone Number
      */
     public boolean isValidPhoneNumber(String phoneNumber) {
-        if (validationUtils.isValidPhoneNumber(phoneNumber)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidPhoneNumber(phoneNumber);
     }
 
     /**
@@ -342,10 +340,7 @@ public class LeadController extends HttpServlet {
      * @return boolean    - Status of Company Name
      */
     public boolean isValidCompanyName(String companyName) {
-        if (validationUtils.isValidCompanyName(companyName)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidCompanyName(companyName);
     }
 
     /**
@@ -358,10 +353,7 @@ public class LeadController extends HttpServlet {
      * @return boolean - Status of Amount
      */
     public boolean isValidAmount(String amount) {
-        if (validationUtils.isValidAmount(amount)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidAmount(amount);
     }
 
     /**
@@ -374,26 +366,6 @@ public class LeadController extends HttpServlet {
      * @return boolean - Status of Website
      */
     public boolean isValidWebsite(String website) {
-        if (validationUtils.isValidWebsite(website)) {
-            return true;
-        }
-        return false;
+        return validationUtils.isValidWebsite(website);
     }
-
-    /**
-     * <h1> Valid ID </h1>
-     * <p>
-     * This method will get the Id and checks whether the given Id is valid or not
-     * </p>
-     *
-     * @param id       - id to be Validated  
-     * @return boolean  - Status of the Id
-
-    public boolean isValidId(String id) {
-        if (validationUtils.isValidId(id)) {
-            return true;
-        }
-        return false;
-    }
-     */
 }

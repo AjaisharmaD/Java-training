@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
+import com.ideas2it.model.Opportunity;
 import com.ideas2it.dao.OpportunityDao;
 import com.ideas2it.dao.impl.OpportunityDaoImpl;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.model.Opportunity;
+import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
 
 /**
  * <h1> Opportunity Service </h1>
@@ -57,13 +57,13 @@ public class  OpportunityService {
      *
      * @return List - Details of Opportunity
      */
-    public List<Opportunity> getAll() throws NotFoundException {
+    public List<Opportunity> getAll() throws CustomException {
         List<Opportunity> opportunities = opportunityDao.fetchAll();  
 
         if (null != opportunities) {
             return opportunities;
         } else {
-            throw new NotFoundException(Messages.OPPORTUNITY_NOT_FOUND);
+            throw new CustomException(Messages.OPPORTUNITY_NOT_FOUND);
         }
     }
 
@@ -77,15 +77,14 @@ public class  OpportunityService {
      *
      * @return Opportunity - Details of Opportunity
      */
-    public Opportunity getById(int id) throws NotFoundException {
+    public Opportunity getById(int id) throws CustomException {
         Opportunity opportunity = opportunityDao.fetchById(id);
 
         if (null != opportunity) {
             return opportunity;
         } else {
-            throw new NotFoundException(Messages.OPPORTUNITY_NOT_FOUND);
+            throw new CustomException(Messages.OPPORTUNITY_NOT_FOUND);
         }
-        //return null;
     }
 
     /**

@@ -12,6 +12,7 @@ import com.ideas2it.logger.CustomLogger;
 
 public class DatabaseConnection {
     private static Connection connection = null;
+    private static CustomLogger logger = new CustomLogger(DatabaseConnection.class);    
 
     private DatabaseConnection(){}
 
@@ -24,10 +25,10 @@ public class DatabaseConnection {
                                                          Constants.USERNAME, 
                                                          Constants.SQL_PASSWORD);
             }
-        } catch (SQLException e) {
-            System.out.println(e);
-        } catch (ClassNotFoundException e) {
-            System.out.println(e);
+        } catch (SQLException sqlException) {
+              logger.error(sqlException.getMessage());
+        } catch (ClassNotFoundException classNotFoundException) {
+            logger.error(classNotFoundException.getMessage());
         }
         return connection;
     }
@@ -35,8 +36,8 @@ public class DatabaseConnection {
     public static void closeConnection() {
         try {
             connection.close();
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (SQLException sqlException) {
+            logger.error(sqlException.getMessage());
         }
     }
 }

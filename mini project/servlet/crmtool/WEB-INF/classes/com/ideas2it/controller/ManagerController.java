@@ -25,17 +25,17 @@ import com.ideas2it.logger.CustomLogger;
  * <p>
  * Gets request from the valid user then gets all the users details
  * and redirected to admin dashboard or manager dashboard. 
- * From those dashboards gets the request from the Admin and manager
+ * From those dashboards gets the request from the manager
  * and return the responses like Adding, Updating, Viewing, Searching,
  * Deleting the Details of User.
- * Additionally The manager can Assign a lead to a specific Employee
+ * Assigns a lead to a specific Employee.
  * </p> 
  *
  * @author  AJAISHARMA
  * @version 1.0
- * @since   16-09-2022
+ * @since   07-12-2022
  */
-public class UserController extends HttpServlet {
+public class ManagerController extends HttpServlet {
     private UserService userService;
     private LeadService leadService;
     private ValidationUtils validationUtils;
@@ -66,19 +66,15 @@ public class UserController extends HttpServlet {
         String choice = request.getServletPath();
  
         switch (choice) {
-        case "/create-user":
+        case "/create-manager":
             create(request, response);
             break;
 
-        case "/update-user":
+        case "/update-manager":
             updateById(request, response);
             break;
 
-        case "/get-users":
-            getAll(request, response);
-            break;
-
-        case "/get-employees":
+        case "/get-managers":
             getAll(request, response);
             break;
         }
@@ -91,9 +87,8 @@ public class UserController extends HttpServlet {
      * This allows to get the information from the Server
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     protected void doGet(HttpServletRequest request, 
                          HttpServletResponse response) throws IOException, 
@@ -101,11 +96,7 @@ public class UserController extends HttpServlet {
         String choice = request.getServletPath();
         
         switch (choice) {
-        case "/get-users":
-            getAll(request, response);
-            break;
-
-        case "/get-employees":
+        case "/get-managers":
             getAll(request, response);
             break;
  
@@ -133,9 +124,8 @@ public class UserController extends HttpServlet {
      * the User account and sends the Message as Status to the Display
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void create(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
@@ -146,6 +136,7 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
         String role = request.getParameter("role");
         int roleId = 0;
+        logger.info("role:- " + role);
 
         try {
             roleId = Integer.valueOf(role) + 1;
@@ -153,9 +144,16 @@ public class UserController extends HttpServlet {
             logger.error(numberFormatException.toString());
         }
  
+        logger.info("role ID" + roleId);
         User user = new User(name, email, phone);
         user.setPassword(password);
 
+        //if (role.equals(Constants.MANAGER_ROLE)) {
+            user.setRoleId(roleId);
+        //} else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+          //  user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
+        //}
+        logger.info("role id -" + user.getRoleId());
         boolean isCreated = userService.create(user);
 
         if (isCreated) {
@@ -182,94 +180,55 @@ public class UserController extends HttpServlet {
      * If users Not Found then Displays the Users Not Found Message
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getAll(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
+        logger.info("getting all users");
         HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
 
-        if (roleId == Constants.ADMIN_ROLE_ID) { 
-            getAllUsers(request, response);
-        } else if (roleId == Constants.MANAGER_ROLE_ID) {
-            getAllEmployees(request, response);
-        } else {
-            response.sendRedirect(errorPage);
-        }
-    }
-
-    /**
-     * <h1> Get All Users </h1>
-     * <p>
-     * If the user is Admin then it will gets all the Users Details
-     * Who are Managers 
-     * If users Not Found then Displays the Users Not Found Message
-     * </p>
-     *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
-     */
-    public void getAllUsers(HttpServletRequest request,
-                            HttpServletResponse response) throws IOException, 
-                                                           ServletException {
         List<User> users;
-        List<String> roles;
 
-        try {
-            logger.info("logged in as admin...");        
-            users = userService.getAll(roleId);
-            roles = userService.getRoles();
-            request.setAttribute("users", users);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("status", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-    }
-
-    /**
-     * <h1> Get All Employees </h1>
-     * <p> 
-     * If the user is Manager then Gets all the details of Employees
-     * If users Not Found then Displays the Users Not Found Message
-     * </p>
-     *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
-     */
-    public void getAllEmployees(HttpServletRequest request,
-                                HttpServletResponse response) throws IOException, 
-                                                               ServletException {
-        try {
-            logger.info("logged in as manager....");
-            users = userService.getAll(roleId);
-            request.setAttribute("users", users);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("managerDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("status", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                               .getRequestDispatcher("managerDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
+        if (roleId == Constants.ADMIN_ROLE_ID) { 
+            try {
+                logger.info("logged in as admin...");         //Covert to method
+                users = userService.getAll(roleId);
+                request.setAttribute("users", users);
+                RequestDispatcher requestDispatcher = request
+                                       .getRequestDispatcher("adminDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (CustomException userNotFoundException) {
+                logger.info(Messages.USER_NOT_FOUND);
+                logger.error(userNotFoundException.getMessage());
+                request.setAttribute("status", Messages.USER_NOT_FOUND);
+                RequestDispatcher requestDispatcher = request
+                                    .getRequestDispatcher("adminDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+            }
+        } else if (roleId == Constants.MANAGER_ROLE_ID) {
+            try {
+                logger.info("logged in as manager....");
+                users = userService.getAll(roleId);
+                request.setAttribute("users", users);
+                RequestDispatcher requestDispatcher = request
+                                    .getRequestDispatcher("managerDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (CustomException userNotFoundException) {
+                logger.info(Messages.USER_NOT_FOUND);
+                logger.error(userNotFoundException.getMessage());
+                request.setAttribute("status", Messages.USER_NOT_FOUND);
+                RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("managerDashboard.jsp");
+                requestDispatcher.include(request, response);
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+            }
+        } 
     }
 
     /**
@@ -282,9 +241,8 @@ public class UserController extends HttpServlet {
      * Displays the User Not Found Message
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getById(HttpServletRequest request,
                          HttpServletResponse response) throws IOException, 
@@ -314,9 +272,8 @@ public class UserController extends HttpServlet {
      * Gets the Details of a User by Id
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void getByIdToUpdate(HttpServletRequest request,
                                  HttpServletResponse response) throws IOException,
@@ -347,9 +304,8 @@ public class UserController extends HttpServlet {
      * Gets the Details of a Single Lead by Id
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private Lead getLeadById(int id,int userId) {
         try {
@@ -368,9 +324,8 @@ public class UserController extends HttpServlet {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private void updateById(HttpServletRequest request, 
                             HttpServletResponse response) throws IOException, 
@@ -403,9 +358,8 @@ public class UserController extends HttpServlet {
      * Removes the Details of a Single User
      * </p>
      *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
+     * @param request - Used to pass parameter
+     * @param response - Used to provides the stream and writer 
      */
     private  void deleteById(HttpServletRequest request,
          		     HttpServletResponse response) throws IOException, 

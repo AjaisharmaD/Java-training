@@ -1,6 +1,5 @@
 package com.ideas2it.controller;
 
-import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.List; 
 
@@ -11,11 +10,11 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
-import com.ideas2it.constants.Messages;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Contact;
 import com.ideas2it.service.ContactService;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
+import com.ideas2it.logger.CustomLogger;
 
 /**
  * <h1> Contact Controller </h1>
@@ -39,7 +38,8 @@ public class ContactController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                          HttpServletResponse response) throws IOException,
+                                                         ServletException {
         String choice = request.getServletPath();
  
         switch (choice) {
@@ -54,7 +54,8 @@ public class ContactController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         String choice = request.getServletPath();
         
         switch (choice) {
@@ -87,13 +88,13 @@ public class ContactController extends HttpServlet {
      * @return boolean - status of contact
      */
     private void create(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String accountName = request.getParameter("accountName");
-        String role = request.getParameter("role");
- 
+        String role = request.getParameter("role"); 
         Contact contact = new Contact(name, email, phone, accountName, role);
         boolean isCreated = contactService.create(contact);
 
@@ -119,7 +120,8 @@ public class ContactController extends HttpServlet {
      * @return List - Details of contacts
      */
     private void getAll(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         try {
             HttpSession session = request.getSession();
             String id = session.getAttribute("userId").toString();
@@ -127,19 +129,20 @@ public class ContactController extends HttpServlet {
             String name = request.getParameter("name");
             List<Contact> contacts = contactService.getAll(userId);
             request.setAttribute("contacts", contacts);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("contactDashboard.jsp");
+            RequestDispatcher requestDispatcher = request
+                                .getRequestDispatcher("contactDashboard.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("message", Messages.CONTACT_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("contactDashboard.jsp");
+                                .getRequestDispatcher("contactDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
             request.setAttribute("message", "Exception");
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("conatactDashboard.jsp");
+                                .getRequestDispatcher("conatactDashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }    
@@ -155,20 +158,21 @@ public class ContactController extends HttpServlet {
      * @return contact - Details of a Single contact
      */
     private void getById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("userId"));
             Contact contact = contactService.getById(id, userId);
             request.setAttribute("contact", contact);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchContact.jsp");
+                                .getRequestDispatcher("searchContact.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException leadNotFoundException) {
+        } catch (CustomException leadNotFoundException) {
             logger.error(leadNotFoundException.getMessage());
             request.setAttribute("message", Messages.CONTACT_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchContact.jsp");
+                                .getRequestDispatcher("searchContact.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -180,20 +184,21 @@ public class ContactController extends HttpServlet {
     * 
     */
     private void getByIdToUpdate(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                                 HttpServletResponse response) throws IOException,
+                                                                ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("userId"));
             Contact contact = contactService.getById(id, userId);
             request.setAttribute("contact", contact);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateContact.jsp");
+                                .getRequestDispatcher("updateContact.jsp");
             requestDispatcher.include(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("lead", Messages.LEAD_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateConatct.jsp");
+                                .getRequestDispatcher("updateConatct.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -213,7 +218,8 @@ public class ContactController extends HttpServlet {
      * @return boolean - updated status of contact
      */
     private void updateById(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                            HttpServletResponse response) throws IOException,
+                                                           ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -223,23 +229,20 @@ public class ContactController extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         Contact contact = new Contact(name, email, phone, companyName, role);
         contact.setId(id);
-
         boolean isUpdated = contactService.updateById(contact);
 
         if (isUpdated) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateLead.jsp");
+                                .getRequestDispatcher("updateLead.jsp");
             requestDispatcher.include(request, response);
         }
     }
-
-
 
     /**
      * <h1> Detele Details of contact by Id</h1>
@@ -252,7 +255,8 @@ public class ContactController extends HttpServlet {
      * @return boolean - Status of the Delated contact
      */
     private  void deleteById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                             HttpServletResponse response) throws IOException,
+                                                            ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             boolean isDeleted = contactService.isDeletedById(id);
@@ -260,12 +264,12 @@ public class ContactController extends HttpServlet {
             if(isDeleted) {
                 request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
+                                    .getRequestDispatcher("deleteLead.jsp");
                 requestDispatcher.include(request, response);            
             } else {
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("deleteLead.jsp");
+                                    .getRequestDispatcher("deleteLead.jsp");
                 requestDispatcher.include(request, response);    
             }
         } catch (Exception exception) {

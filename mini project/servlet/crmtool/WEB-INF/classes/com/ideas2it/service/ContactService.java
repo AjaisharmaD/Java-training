@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
+import com.ideas2it.model.Contact;
 import com.ideas2it.dao.ContactDao;
 import com.ideas2it.dao.impl.ContactDaoImpl;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.model.Contact;
+import com.ideas2it.constants.Constants;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
 
 /**
  * <h1> Contact Service </h1>
@@ -57,13 +57,13 @@ public class  ContactService {
      *
      * @return List - Details of Contact
      */
-    public List<Contact> getAll(int userId) throws NotFoundException {  
+    public List<Contact> getAll(int userId) throws CustomException {  
         List<Contact> contacts = contactDao.fetchAll();
 
         if (!contacts.isEmpty()) {
             return contacts;  
         } else {
-            throw new NotFoundException(Messages.CONTACT_NOT_FOUND); 
+            throw new CustomException(Messages.CONTACT_NOT_FOUND); 
         }
     }
 
@@ -77,13 +77,13 @@ public class  ContactService {
      *
      * @return contact - Details of contact
      */
-    public Contact getById(int id, int userId) throws NotFoundException {
+    public Contact getById(int id, int userId) throws CustomException {
         Contact contact = contactDao.fetchById(id);
 
         if (null != contact) {
             return contact;
         } else {
-            throw new NotFoundException(Messages.CONTACT_NOT_FOUND); 
+            throw new CustomException(Messages.CONTACT_NOT_FOUND); 
         }
     }
 

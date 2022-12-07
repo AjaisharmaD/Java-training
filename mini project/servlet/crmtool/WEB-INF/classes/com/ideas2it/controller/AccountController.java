@@ -1,6 +1,5 @@
 package com.ideas2it.controller;
 
-import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.List; 
 
@@ -10,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 
-import com.ideas2it.constants.Messages;
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Account;
 import com.ideas2it.service.AccountService;
+import com.ideas2it.constants.Messages;
+import com.ideas2it.exception.CustomException;
+import com.ideas2it.logger.CustomLogger;
 
 /**
  * <h1> Account Controller </h1>
@@ -38,7 +37,8 @@ public class AccountController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                          HttpServletResponse response) throws IOException,
+                                                         ServletException {
         String choice = request.getServletPath();
  
         switch (choice) {
@@ -53,7 +53,8 @@ public class AccountController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         String choice = request.getServletPath();
         
         switch (choice) {
@@ -86,27 +87,26 @@ public class AccountController extends HttpServlet {
      * @return int    - id of the account
      */
     private void create(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
         String type = request.getParameter("type");
-
         Account account = new Account(name, website, type);
         boolean isCreated = accountService.create(account);
 
         if (isCreated) {
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createAccount.jsp");
+                                .getRequestDispatcher("createAccount.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_CREATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("createAccount.jsp");
+                                .getRequestDispatcher("createAccount.jsp");
             requestDispatcher.include(request, response);
         }
     }
-
 
     /**   
      * <h1> Get Details of Accounts </h1>
@@ -117,18 +117,19 @@ public class AccountController extends HttpServlet {
      * @return List - Details of Accounts
      */
     private void getAll(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                        HttpServletResponse response) throws IOException,
+                                                       ServletException {
         try {
             List<Account> accounts = accountService.getAll();
             request.setAttribute("accounts", accounts);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("accountDashboard.jsp");
+                                .getRequestDispatcher("accountDashboard.jsp");
             requestDispatcher.include(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("accounts", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("accountDashboard.jsp");
+                                .getRequestDispatcher("accountDashboard.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -146,19 +147,20 @@ public class AccountController extends HttpServlet {
      * @return Account - Details of a Single Account
      */
     private void getById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response) throws IOException,
+                                                        ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             Account account = accountService.getById(id);
             request.setAttribute("account", account);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchAccount.jsp");
+                                .getRequestDispatcher("searchAccount.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("account", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchAccount.jsp");
+                                .getRequestDispatcher("searchAccount.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -176,19 +178,20 @@ public class AccountController extends HttpServlet {
      * @return Account - Details of a Single Account
      */
     private void getByIdToUpdate(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                                 HttpServletResponse response) throws IOException,
+                                                                ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             Account account = accountService.getById(id);
             request.setAttribute("account", account);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchAccount.jsp");
+                                .getRequestDispatcher("searchAccount.jsp");
             requestDispatcher.forward(request, response);
-        } catch (NotFoundException userNotFoundException) {
+        } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("account", Messages.USER_NOT_FOUND);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchAccount.jsp");
+                                .getRequestDispatcher("searchAccount.jsp");
             requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -207,7 +210,8 @@ public class AccountController extends HttpServlet {
      * @return boolean - status of the account
      */
     private void updateById(HttpServletRequest request, 
-          HttpServletResponse response) throws IOException, ServletException {
+                            HttpServletResponse response) throws IOException,
+                                                           ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String website = request.getParameter("website");
@@ -220,12 +224,12 @@ public class AccountController extends HttpServlet {
         if (isUpdated) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("accountDashboard.jsp");
+                                .getRequestDispatcher("accountDashboard.jsp");
             requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
             RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("accountDashboard.jsp");
+                                .getRequestDispatcher("accountDashboard.jsp");
             requestDispatcher.include(request, response);
         }
     }
@@ -241,7 +245,8 @@ public class AccountController extends HttpServlet {
      * @return boolean - Status of the Delated Account
      */
     private  void deleteById(HttpServletRequest request,
-          HttpServletResponse response) throws IOException, ServletException {
+                             HttpServletResponse response) throws IOException,
+                                                            ServletException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             boolean isDeleted = accountService.isDeletedById(id);
@@ -249,12 +254,12 @@ public class AccountController extends HttpServlet {
             if(isDeleted) {
                 request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
+                                    .getRequestDispatcher("searchUser.jsp");
                 requestDispatcher.include(request, response);            
             } else {
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
                 RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
+                                    .getRequestDispatcher("searchUser.jsp");
                 requestDispatcher.include(request, response);    
             }
         } catch (Exception exception) {

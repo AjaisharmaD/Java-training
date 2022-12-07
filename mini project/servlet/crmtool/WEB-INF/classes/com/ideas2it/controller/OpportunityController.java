@@ -2,10 +2,11 @@ package com.ideas2it.controller;
 
 import java.util.List;
 
-import com.ideas2it.exception.NotFoundException;
-import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.Opportunity;
 import com.ideas2it.service.OpportunityService;
+import com.ideas2it.exception.CustomException;
+import com.ideas2it.logger.CustomLogger;
+
 
 /**
  * <h1> Opportunity Controller </h1>
@@ -42,7 +43,6 @@ public class OpportunityController {
         return opportunityService.create(opportunity);
     }
 
-
     /**   
      * <h1> Get Details of Opportunitys </h1>
      * <p>
@@ -54,7 +54,7 @@ public class OpportunityController {
     public List<Opportunity> getAll() {
         try {
             return opportunityService.getAll();
-        } catch(NotFoundException opportunityNotFoundException) {
+        } catch(CustomException opportunityNotFoundException) {
             logger.error(opportunityNotFoundException.getMessage());
         } catch (Exception exception) {
             logger.error(exception.getMessage());
@@ -75,7 +75,7 @@ public class OpportunityController {
     public Opportunity getById(int id) {
         try {
             return opportunityService.getById(id);
-        } catch(NotFoundException opportunityNotFoundException) {
+        } catch(CustomException opportunityNotFoundException) {
             logger.error(opportunityNotFoundException.getMessage());
         } catch (Exception exception) {
             logger.error(exception.getMessage());

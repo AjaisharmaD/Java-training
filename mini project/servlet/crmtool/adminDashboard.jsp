@@ -220,13 +220,14 @@ label {
             <th>Email Id</th>
             <th>Phone Number</th>
         </tr>
-
+        <c:forEach items="$users" var="user">
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>${user.getId()}</td>
+            <td>${user.getName()}</td>
+            <td>${user.getEmailId()}</td>
+            <td>${user.getPhoneNumber()}</td>
         </tr>
+        </c:forEach>
     </table>
 </div>
 
@@ -240,23 +241,23 @@ label {
     <form class="form-content animate" action="create-user" method="post">
     <h3 class="heading"> Create User Form </h3>
     <div class="container">
-        <label for="name">Name: </label>
+        <label for="name">Name:</label>
         <input class="form-input" type="text" placeholder="Enter Name" name="name" required>
-        <label for="email">Email ID: </label>
+        <label for="email">Email ID:</label>
         <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
-        <label for="phone">Phone Number: </label>
+        <label for="phone">Phone Number:</label>
         <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
-        <label for="password">Password: </label>
+        <label for="password">Password:</label>
         <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
         <input type="hidden" value="admin" name="role">
         <label for="roles">Role:</label>
         <select class="select-role" id="roles" name="role">
-            <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
-            <option value="employee">Employee</option>
+            <c:forEach items="${roles}" var="role">
+                <option value="${role}">${role}</option>
+            </c:forEach>
         </select>
         <div class="btndiv">
-        <button class="form-btn create-btn" type="submit">Create</button>
+        <input class="form-btn create-btn" type="submit" value="Create">
         <input class="form-btn reset-btn" type="reset" value="Reset">
         <button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button>
         </div>

@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.model.Contact;
 import com.ideas2it.dao.ContactDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.logger.CustomLogger;
-import com.ideas2it.model.Contact;
 
 /**
  * <h1> Contact DAO Impl </h1>
@@ -59,7 +59,7 @@ public class ContactDaoImpl implements ContactDao {
             count = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -91,9 +91,8 @@ public class ContactDaoImpl implements ContactDao {
                 contactList.add(contact);
             }
             statement.close();
-            resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -126,7 +125,7 @@ public class ContactDaoImpl implements ContactDao {
             statement.close();
             resultSet.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -140,7 +139,6 @@ public class ContactDaoImpl implements ContactDao {
     public int updateById(Contact contact) {
         int rowCount = 0; 
         String query = "UPDATE contact SET name = ?, email = ?, phone = ?,  role = ?, account_id = ? WHERE id = ?";
-
         try {
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
@@ -153,7 +151,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -175,7 +173,7 @@ public class ContactDaoImpl implements ContactDao {
             rowCount = statement.executeUpdate();
             statement.close();
         } catch (SQLException sqlException) {
-            logger.error(sqlException.toString());
+            logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }

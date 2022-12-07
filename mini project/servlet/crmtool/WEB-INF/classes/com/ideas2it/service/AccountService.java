@@ -8,7 +8,7 @@ import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.dao.AccountDao;
 import com.ideas2it.dao.impl.AccountDaoImpl;
-import com.ideas2it.exception.NotFoundException;
+import com.ideas2it.exception.CustomException;
 import com.ideas2it.model.Account;
 import com.ideas2it.model.User;
 
@@ -53,13 +53,13 @@ public class  AccountService {
      *
      * @return List - Details of Account
      */
-    public List<Account> getAll() throws NotFoundException {   
+    public List<Account> getAll() throws CustomException {   
         List<Account> accounts = accountDao.fetchAll();
 
         if (!accounts.isEmpty()) {
             return accounts;
         } else {
-            throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
+            throw new CustomException(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -73,13 +73,13 @@ public class  AccountService {
      *
      * @return Account - Details of Account
      */
-    public Account getById(int id) throws NotFoundException {
+    public Account getById(int id) throws CustomException {
         Account account = accountDao.fetchById(id);
         
         if (null != account) {
             return account;
         } else {
-            throw new NotFoundException(Messages.ACCOUNT_NOT_FOUND);
+            throw new CustomException(Messages.ACCOUNT_NOT_FOUND);
         }
     }
 
