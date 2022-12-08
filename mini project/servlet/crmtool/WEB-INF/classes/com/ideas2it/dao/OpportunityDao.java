@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.model.Opportunity;
-import com.ideas2it.exception.NotFoundException;
 
 /**
  * <h1> Opportunity DAO </h1>

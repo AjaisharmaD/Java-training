@@ -41,7 +41,7 @@ public class ManagerController extends HttpServlet {
     private ValidationUtils validationUtils;
     private CustomLogger logger;
     
-    public UserController() {
+    public ManagerController() {
         this.userService = new UserService();
         this.leadService = new LeadService();
         this.validationUtils = new ValidationUtils();

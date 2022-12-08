@@ -65,6 +65,7 @@ public class UserService {
         List<User> userList = userDao.fetchAll(roleId);
 
         if(!userList.isEmpty()) {
+            logger.info(userList.toString());
             return userList;
         } else {
             throw new CustomException(Messages.USER_NOT_FOUND);
@@ -80,7 +81,13 @@ public class UserService {
      * @return List<String> - a List of Role String
      */
     public List<String> getRoles() {
-        return userDao.fetchRoles();
+        List<String> roles = userDao.fetchRoles();
+
+        if (!roles.isEmpty()) {
+        logger.info("user service " + roles.toString());
+            return roles;
+        }
+        return null;
     }
 
     /**

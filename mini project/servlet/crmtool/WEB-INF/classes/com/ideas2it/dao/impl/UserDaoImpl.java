@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
         int id = 0;
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO user (name, email, phone,")
-             .append("password, role_id) VALUES (?, ?, ?, ?, ?);");
+             .append(" password, role_id) VALUES (?, ?, ?, ?, ?);");
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -60,7 +60,13 @@ public class UserDaoImpl implements UserDao {
             int count = statement.executeUpdate();
           
             if (0 != count) {
-                id = "SELECT LAST_INSERT_ID();"
+                String queri = "SELECT LAST_INSERT_ID();";
+                statement = connection.prepareStatement(queri);
+                ResultSet resultSet = statement.executeQuery();
+                
+                if (resultSet.next()) {
+                    id = resultSet.getInt("id");
+                } 
             }
             statement.close();
         } catch (SQLException sqlException) {
@@ -80,6 +86,7 @@ public class UserDaoImpl implements UserDao {
         StringBuilder query = new StringBuilder();
         query.append("SELECT id, name, email, phone,")
              .append("role_id FROM user WHERE email = ? AND password = ?;");
+        User user = null;
 
         try {
             logger.info("getting user in dao");
@@ -90,7 +97,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                User user = new User(resultSet.getString("name"),
+                user = new User(resultSet.getString("name"),
                                      resultSet.getString("email"),
                                      resultSet.getString("phone"));
                 user.setRoleId(resultSet.getInt("role_id"));
@@ -151,17 +158,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<String> fetchRoles() {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT id, name FROM user_role;");
+        query.append("SELECT id, name FROM user_role;");  
+        List<String> roles = new ArrayList();                
  
         try {
             connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStament(query.toString());
+            statement = connection.prepareStatement(query.toString());
             ResultSet resultSet = statement.executeQuery();
             String role;
-            List<String> roles = null;
+            int id;
 
             while (resultSet.next()) {
-                role = resultSet.getString('name');
+                logger.info("getting the roles");
+                role = resultSet.getString("name");
+                id = resultSet.getInt("id");
+                logger.info("id: " + id);
+                logger.info("role: " + role);
                 roles.add(role);
             }
         } catch (SQLException sqlException) {
@@ -169,6 +181,8 @@ public class UserDaoImpl implements UserDao {
         } finally {
             DatabaseConnection.closeConnection();
         }
+
+            logger.info("user dao" + roles.toString());
         return roles;
     }
 

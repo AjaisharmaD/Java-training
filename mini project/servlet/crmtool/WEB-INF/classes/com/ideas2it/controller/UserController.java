@@ -60,8 +60,9 @@ public class UserController extends HttpServlet {
      * @param response - the response is used to hold the stream and writer  
      */
     protected void doPost(HttpServletRequest request, 
-                          HttpServletResponse response) throws IOException,
+                          HttpServletResponse response) throws IOException, 
                                                          ServletException {
+        logger.info("===== Inside User Controller =====");
         String path = request.getParameter("path");
         String choice = request.getServletPath();
  
@@ -81,6 +82,9 @@ public class UserController extends HttpServlet {
         case "/get-employees":
             getAll(request, response);
             break;
+
+        default:
+            response.sendRedirect("errorPage.jsp");
         }
     }
 
@@ -98,6 +102,7 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, 
                          HttpServletResponse response) throws IOException, 
                                                         ServletException {
+        logger.info("===== Inside User Controller =====");
         String choice = request.getServletPath();
         
         switch (choice) {
@@ -120,6 +125,9 @@ public class UserController extends HttpServlet {
         case "/delete":
             deleteById(request, response);
             break;
+
+        default:
+            response.sendRedirect("errorPage.jsp");
         }
     }
 
@@ -140,37 +148,37 @@ public class UserController extends HttpServlet {
     private void create(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
+        logger.info("===== Inside Create User Method =====");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
-        int roleId = 0;
-
-        try {
-            roleId = Integer.valueOf(role) + 1;
-        } catch (NumberFormatException numberFormatException) {
-            logger.error(numberFormatException.toString());
-        }
- 
+        logger.info("user controller role " + role);
+        
         User user = new User(name, email, phone);
         user.setPassword(password);
 
-        boolean isCreated = userService.create(user);
+        if (role.equals(Constants.ADMIN_ROLE)) {
+            logger.info("assing role" + Constants.ADMIN_ROLE);
+        } else if (role.equals(Constants.MANAGER_ROLE)) {
+            logger.info("assing role" + Constants.MANAGER_ROLE);
+        } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+            logger.info("assing role" + Constants.EMPLOYEE_ROLE);
+        }
+ 
+        logger.info("===== Creating the User =====");
 
-        if (isCreated) {
+        if (userService.create(user)) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
         } else {
             logger.info(Messages.FAILED_TO_CREATE);
             request.setAttribute("status", Messages.FAILED_TO_CREATE);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
         }
+        RequestDispatcher requestDispatcher = request
+                                   .getRequestDispatcher("get-users");
+        requestDispatcher.forward(request, response);
     }
 
     /**
@@ -189,15 +197,16 @@ public class UserController extends HttpServlet {
     private void getAll(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
+        logger.info("===== Inside Get All =====");
         HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
 
         if (roleId == Constants.ADMIN_ROLE_ID) { 
-            getAllUsers(request, response);
+            getAllUsers(request, response, roleId);
         } else if (roleId == Constants.MANAGER_ROLE_ID) {
-            getAllEmployees(request, response);
+            getAllEmployees(request, response, roleId);
         } else {
-            response.sendRedirect(errorPage);
+            response.sendRedirect("errorPage.jsp");
         }
     }
 
@@ -214,8 +223,9 @@ public class UserController extends HttpServlet {
      * @param response - the response is used to hold the stream and writer 
      */
     public void getAllUsers(HttpServletRequest request,
-                            HttpServletResponse response) throws IOException, 
+                            HttpServletResponse response, int roleId) throws IOException, 
                                                            ServletException {
+        logger.info("===== Inside Get All Users =====");
         List<User> users;
         List<String> roles;
 
@@ -224,16 +234,17 @@ public class UserController extends HttpServlet {
             users = userService.getAll(roleId);
             roles = userService.getRoles();
             request.setAttribute("users", users);
+            request.setAttribute("roles", roles);
             RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
+                                      .getRequestDispatcher("adminDashboard.jsp");
+            requestDispatcher.forward(request, response);
         } catch (CustomException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("status", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("adminDashboard.jsp");
+        requestDispatcher.forward(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
@@ -251,25 +262,24 @@ public class UserController extends HttpServlet {
      * @param response - the response is used to hold the stream and writer 
      */
     public void getAllEmployees(HttpServletRequest request,
-                                HttpServletResponse response) throws IOException, 
+                                HttpServletResponse response, int roleId) throws IOException, 
                                                                ServletException {
+        logger.info("===== Inside Get All Employees =====");
+
         try {
             logger.info("logged in as manager....");
-            users = userService.getAll(roleId);
+            List<User> users = userService.getAll(roleId);
             request.setAttribute("users", users);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("managerDashboard.jsp");
-            requestDispatcher.include(request, response);
         } catch (CustomException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("status", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                               .getRequestDispatcher("managerDashboard.jsp");
-            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("managerDashboard.jsp");
+        requestDispatcher.include(request, response);
     }
 
     /**
@@ -289,23 +299,22 @@ public class UserController extends HttpServlet {
     private void getById(HttpServletRequest request,
                          HttpServletResponse response) throws IOException, 
                                                         ServletException {
+        logger.info("===== Inside Get User By Id =====");
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
             request.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("searchUser.jsp");
-            requestDispatcher.forward(request, response);
         } catch (CustomException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("message", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("searchUser.jsp");
-            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     /**
@@ -324,21 +333,17 @@ public class UserController extends HttpServlet {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);
-
             request.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
-            requestDispatcher.include(request, response);
         } catch (CustomException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("user", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
-            requestDispatcher.include(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("updateUser.jsp");
+        requestDispatcher.include(request, response);
     }
 
     /**
@@ -375,6 +380,7 @@ public class UserController extends HttpServlet {
     private void updateById(HttpServletRequest request, 
                             HttpServletResponse response) throws IOException, 
                                                            ServletException {
+        logger.info("===== Inside Update User Id =====");
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -410,16 +416,15 @@ public class UserController extends HttpServlet {
     private  void deleteById(HttpServletRequest request,
          		     HttpServletResponse response) throws IOException, 
 							    ServletException {
+        logger.info("===== Inside Delete User By Id =====");
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             boolean isDeleted = userService.isDeletedById(id);
 
-            if(isDeleted) {
+            if (isDeleted) {
                 logger.info(Messages.DELETED_SUCCESSFULLY);
-                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
-                RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
-                requestDispatcher.include(request, response);            
+                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);          
             } else {
                 logger.info(Messages.FAILED_TO_DELETE);
                 request.setAttribute("status", Messages.FAILED_TO_DELETE);
@@ -430,6 +435,9 @@ public class UserController extends HttpServlet {
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.include(request, response);  
     }
 
     /**

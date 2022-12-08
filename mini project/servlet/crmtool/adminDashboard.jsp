@@ -1,5 +1,5 @@
 <!-- Admin page of the CRM Tool where admin can do CRUD on USERS -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -220,7 +220,9 @@ label {
             <th>Email Id</th>
             <th>Phone Number</th>
         </tr>
-        <c:forEach items="$users" var="user">
+     <c:choose>
+     <c:when test = "${not empty users}">
+        <c:forEach items="${users}" var="user">
         <tr>
             <td>${user.getId()}</td>
             <td>${user.getName()}</td>
@@ -228,12 +230,13 @@ label {
             <td>${user.getPhoneNumber()}</td>
         </tr>
         </c:forEach>
+     </c:when>
+     <c:otherwise>
+           <h2 style="color:red; text-align: center;">${status}</h2>
+     </c:otherwise>
+     </c:choose>
     </table>
 </div>
-
-<p> ${users} </p>
-
-<h2 style="color:red; text-align: center;">${status}</h2>
 
 <!-- Create From -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
@@ -242,24 +245,24 @@ label {
     <h3 class="heading"> Create User Form </h3>
     <div class="container">
         <label for="name">Name:</label>
-        <input class="form-input" type="text" placeholder="Enter Name" name="name" required>
+            <input class="form-input" type="text" placeholder="Enter Name" name="name" required>
         <label for="email">Email ID:</label>
-        <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
+            <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
         <label for="phone">Phone Number:</label>
-        <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
+            <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
         <label for="password">Password:</label>
-        <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
+            <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
         <input type="hidden" value="admin" name="role">
-        <label for="roles">Role:</label>
-        <select class="select-role" id="roles" name="role">
+            <label for="roles">Role:</label>
+        <select class="select-role" id="roles" name ="role" onchange="onSelectChange()">
             <c:forEach items="${roles}" var="role">
                 <option value="${role}">${role}</option>
             </c:forEach>
         </select>
         <div class="btndiv">
-        <input class="form-btn create-btn" type="submit" value="Create">
+        <button class="form-btn create-btn" type="submit">Create</button>
         <input class="form-btn reset-btn" type="reset" value="Reset">
-        <button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button>
+        <a href="get-users"><button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button></a>
         </div>
     </div>
     </form>
@@ -274,14 +277,18 @@ label {
 	}
     }
 
-    function popUp(elem,prelem) {
+    function popUp(elem, prelem) {
         document.getElementById(elem).style.display='block';
         document.getElementById(prelem).style.display='block';    
     }
 	
-    function closePopUp(elem,prelem) {
+    function closePopUp(elem, prelem) {
 	document.getElementById(elem).style.display='none'; 
         document.getElementById(prelem).style.display='none';
+    }
+
+    function onSelectChange(event) {
+	console.log(document.getElementById('roles').value)
     }
 
     var admin = document.getElementById('create-form');
