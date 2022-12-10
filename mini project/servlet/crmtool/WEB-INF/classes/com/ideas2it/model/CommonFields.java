@@ -13,7 +13,7 @@ package com.ideas2it.model;
 public class CommonFields {
     private int id;
     private String name;
-    private boolean isDeleted;
+    private String createdDate;
 
     public void setId(int id) {
         this.id = id;
@@ -23,8 +23,8 @@ public class CommonFields {
         this.name = name;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setcreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Int getId() {
@@ -35,14 +35,14 @@ public class CommonFields {
         return name;
     }
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
     @override
     public String toString() {
         StringBuilder common = new StringBuilder();
-        common.append(id).append(name).append(isDeleted);
+        common.append(id).append(name).append(createdDate);
         return common.toString();
     }
 }

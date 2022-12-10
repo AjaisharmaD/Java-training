@@ -13,7 +13,9 @@ import javax.servlet.ServletException;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
 import com.ideas2it.service.LeadService;
+import com.ideas2it.service.impl.LeadServiceImpl;
 import com.ideas2it.service.UserService;
+import com.ideas2it.service.impl.UserServiceImpl;
 import com.ideas2it.utils.ValidationUtils;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
@@ -42,8 +44,8 @@ public class UserController extends HttpServlet {
     private CustomLogger logger;
     
     public UserController() {
-        this.userService = new UserService();
-        this.leadService = new LeadService();
+        this.userService = new UserServiceImpl();
+        this.leadService = new LeadServiceImpl();
         this.validationUtils = new ValidationUtils();
         this.logger = new CustomLogger(UserController.class);
     }
@@ -154,17 +156,17 @@ public class UserController extends HttpServlet {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
-        logger.info("user controller role " + role);
+        logger.info("Role Selected ******** " + role + " ********");
         
         User user = new User(name, email, phone);
         user.setPassword(password);
 
         if (role.equals(Constants.ADMIN_ROLE)) {
-            logger.info("assing role" + Constants.ADMIN_ROLE);
+            user.setRoleId(Constants.ADMIN_ROLE_ID);
         } else if (role.equals(Constants.MANAGER_ROLE)) {
-            logger.info("assing role" + Constants.MANAGER_ROLE);
+            user.setRoleId(Constants.MANAGER_ROLE_ID);
         } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
-            logger.info("assing role" + Constants.EMPLOYEE_ROLE);
+            user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
         }
  
         logger.info("===== Creating the User =====");
@@ -239,7 +241,6 @@ public class UserController extends HttpServlet {
                                       .getRequestDispatcher("adminDashboard.jsp");
             requestDispatcher.forward(request, response);
         } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("status", Messages.USER_NOT_FOUND);
         RequestDispatcher requestDispatcher = request

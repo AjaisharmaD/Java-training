@@ -12,6 +12,7 @@ import javax.servlet.RequestDispatcher;
 
 import com.ideas2it.model.Contact;
 import com.ideas2it.service.ContactService;
+import com.ideas2it.service.impl.ContactServiceImpl;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
 import com.ideas2it.logger.CustomLogger;
@@ -33,7 +34,7 @@ public class ContactController extends HttpServlet {
     private CustomLogger logger;
 
     public ContactController() {
-        this.contactService = new ContactService();
+        this.contactService = new ContactServiceImpl();
         this.logger = new CustomLogger(ContactController.class);
     }
 

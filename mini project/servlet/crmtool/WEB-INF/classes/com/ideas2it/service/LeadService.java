@@ -1,16 +1,9 @@
 package com.ideas2it.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.model.Lead;
-import com.ideas2it.dao.LeadDao;
-import com.ideas2it.dao.impl.LeadDaoImpl;
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
-import com.ideas2it.logger.CustomLogger;
 
 /**
  * <h1> Lead Service </h1>
@@ -24,14 +17,7 @@ import com.ideas2it.logger.CustomLogger;
  * @version 1.0
  * @since   16-09-2022
  */
-public class LeadService {
-    private LeadDao leadDao;
-    private CustomLogger logger;
-    
-    public LeadService() {
-        this.leadDao = new LeadDaoImpl(); 
-        this.logger = new CustomLogger(LeadService.class);
-    }
+public interface LeadService {
     
     /**
      * <h1> Create Leads </h1>
@@ -43,14 +29,7 @@ public class LeadService {
      *
      * @return boolean - status of the lead
      */
-    public boolean create(Lead lead) {
-       boolean status = true;       
-
-       if (leadDao.insert(lead) <= 0) {
-           status = false;
-       } 
-       return status;
-    } 
+    public boolean create(Lead lead);
 
     /**   
      * <h1> Get Details of Leads </h1>
@@ -60,22 +39,7 @@ public class LeadService {
      * 
      * @return List - Details of Leads 
      */
-    public List<Lead> getAll(int id) throws CustomException {   
-         List<Lead> listOfLead = leadDao.fetchAll(id);
-         List<Lead> leads = new ArrayList<>();
-
-         if (!listOfLead.isEmpty()) {
-            for (Lead lead : listOfLead) {
-                if (lead.getUserId() == id) {
-                    leads.add(lead);
-                }
-            }
-            
-        } else {
-            throw new CustomException(Messages.LEAD_NOT_FOUND);
-        }
-        return leads;    
-    }
+    public List<Lead> getAll(int id) throws CustomException;
 
     /**
      * <h1> Get Details of Lead by Id </h1>
@@ -87,18 +51,7 @@ public class LeadService {
      *
      * @return Lead - Details of Single lead 
      */
-    public Lead getById(int id, int userId) throws CustomException {
-        Lead lead = leadDao.fetchById(id);
-
-        if (null != lead) {
-            if (lead.getUserId() == userId) {
-                return lead;
-            }
-        } else {
-            throw new CustomException(Messages.LEAD_NOT_FOUND);
-        }
-        return null;
-    }
+    public Lead getById(int id, int userId) throws CustomException;
 
     /**
      * <h1> Update Details of Lead </h1>
@@ -112,9 +65,7 @@ public class LeadService {
      *  
      * @return Lead    - Status of the Updated lead
      */
-    public boolean updateById(Lead lead) {
-        return (leadDao.updateById(lead) <=0) ? false : true;
-    }
+    public boolean updateById(Lead lead);
 
     /**
      * <h1> Delete Details of Lead </h1>
@@ -126,7 +77,5 @@ public class LeadService {
      *
      * @return boolean - Status of the Deleted Lead
      */
-    public boolean isDeletedById(int id) {
-        return (leadDao.deleteById(id) <= 0) ? false : true;
-    }
+    public boolean isDeletedById(int id);
 }

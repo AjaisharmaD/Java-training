@@ -1,16 +1,9 @@
 package com.ideas2it.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.model.User;
-import com.ideas2it.dao.UserDao;
-import com.ideas2it.dao.impl.UserDaoImpl;
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
-import com.ideas2it.logger.CustomLogger;
 
 /**
  * <h1> User Service </h1>
@@ -24,15 +17,8 @@ import com.ideas2it.logger.CustomLogger;
  * @version 1.0  
  * @since   19-09-2022
  */
-public class UserService {
-    private UserDao userDao;
-    private CustomLogger logger;
-
-    public UserService() {
-        this.userDao = new UserDaoImpl();
-        this.logger = new CustomLogger(UserService.class);
-    }
-
+public interface UserService {
+    
     /**
      * <h1> Add User </h1>
      * <p>
@@ -44,14 +30,7 @@ public class UserService {
      *
      * @return boolean - status of the user 
      */
-    public boolean create(User user) {
-        boolean status = true;
-
-        if (userDao.insert(user) <= 0) {
-            status = false;
-        }
-        return status;
-    }
+    public boolean create(User user);
 
     /**
      * <h1> Get Details of Users </h1>
@@ -61,16 +40,7 @@ public class UserService {
      *
      * @return List - Details of users
      */
-    public List<User> getAll(int roleId) throws CustomException {
-        List<User> userList = userDao.fetchAll(roleId);
-
-        if(!userList.isEmpty()) {
-            logger.info(userList.toString());
-            return userList;
-        } else {
-            throw new CustomException(Messages.USER_NOT_FOUND);
-        }
-    }
+    public List<User> getAll(int roleId) throws CustomException;
 
     /**
      * <h1> Get the User Roles </h1>
@@ -80,15 +50,7 @@ public class UserService {
      * 
      * @return List<String> - a List of Role String
      */
-    public List<String> getRoles() {
-        List<String> roles = userDao.fetchRoles();
-
-        if (!roles.isEmpty()) {
-        logger.info("user service " + roles.toString());
-            return roles;
-        }
-        return null;
-    }
+    public List<String> getRoles();
 
     /**
      * <h1> Get the user by Email and password </h1>
@@ -102,9 +64,7 @@ public class UserService {
      *
      * @return User - Details of the User
      */
-    public User getByEmailAndPassword(String email, String password) {
-        return userDao.fetchByEmailAndPassword(email, password);
-    }
+    public User getByEmailAndPassword(String email, String password);
 
     /**
      * <h1> Get Details of User by Id </h1>
@@ -116,15 +76,7 @@ public class UserService {
      *
      * @return user - Details of a Single User
      */
-    public User getById(int id) throws CustomException {
-        User user = userDao.fetchById(id);
-       
-        if (null != user) {
-            return user;
-        } else {
-            throw new CustomException(Messages.USER_NOT_FOUND);
-        } 
-    }
+    public User getById(int id) throws CustomException;
 
     /**
      * <h1> Update Details of User </h1>
@@ -138,9 +90,7 @@ public class UserService {
      *
      * @return boolean - status of the id
      */
-    public boolean updateById(User user) {
-        return (userDao.updateById(user) <= 0) ? false : true;
-    }
+    public boolean updateById(User user);
 
     /**
      * <h1> Delete Details of User </h1>
@@ -152,7 +102,5 @@ public class UserService {
      *
      * @return boolean - true if the Details of User are Deleted otherwise false
      */
-    public boolean isDeletedById(int id) {
-        return (userDao.deleteById(id) <= 0) ? false : true;
-    }
+    public boolean isDeletedById(int id);
 }

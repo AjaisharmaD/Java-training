@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.ideas2it.model.Opportunity;
 import com.ideas2it.service.OpportunityService;
+import com.ideas2it.service.impl.OpportunityServiceImpl;
 import com.ideas2it.exception.CustomException;
 import com.ideas2it.logger.CustomLogger;
-
 
 /**
  * <h1> Opportunity Controller </h1>
@@ -25,7 +25,7 @@ public class OpportunityController {
     private CustomLogger logger;
 
     public OpportunityController() {
-        this.opportunityService = new OpportunityService();
+        this.opportunityService = new OpportunityServiceImpl();
         this.logger = new CustomLogger(OpportunityController.class);
     }
 

@@ -56,12 +56,11 @@ public class UserDaoImpl implements UserDao {
             statement.setString(3, user.getPhoneNumber());
             statement.setString(4, user.getPassword());
             statement.setInt(5, user.getRoleId());
-            logger.info("role Id" + user.getRoleId());
             int count = statement.executeUpdate();
           
             if (0 != count) {
-                String queri = "SELECT LAST_INSERT_ID();";
-                statement = connection.prepareStatement(queri);
+                String query1 = "SELECT LAST_INSERT_ID();";
+                statement = connection.prepareStatement(query1);
                 ResultSet resultSet = statement.executeQuery();
                 
                 if (resultSet.next()) {
@@ -125,12 +124,14 @@ public class UserDaoImpl implements UserDao {
 
             if (roleId == Constants.ADMIN_ROLE_ID) {
                 query.append("SELECT id, name, email, phone,")
-                     .append("password FROM user WHERE role_id != ? AND is_deleted = 0;");
+                     .append("password, created_on, role_id FROM user")
+                     .append(" WHERE role_id != ? AND is_deleted = 0;");
                 statement = connection.prepareStatement(query.toString());
                 statement.setInt(1, roleId);
             } else if (roleId == Constants.MANAGER_ROLE_ID) {
                 query.append("SELECT id, name, email, phone,")
-                     .append("password FROM user WHERE role_id = ? AND is_deleted = 0;");
+                     .append("password, created_on, role_id FROM user")
+                     .append(" WHERE role_id = ? AND is_deleted = 0;");
                 statement = connection.prepareStatement(query.toString());
                 statement.setInt(1, Constants.EMPLOYEE_ROLE_ID);
             }
@@ -141,6 +142,8 @@ public class UserDaoImpl implements UserDao {
                                 resultSet.getString("email"),
                                 resultSet.getString("phone"));
                 user.setId(resultSet.getInt("id"));
+                user.setRoleId(resultSet.getInt("role_id"));
+                user.setCreatedDate(resultSet.getTimestamp("created_on").toString());
                 userList.add(user);
             }
             statement.close();
@@ -194,7 +197,7 @@ public class UserDaoImpl implements UserDao {
         User user = null;
         StringBuilder query = new StringBuilder();
         query.append("SELECT id, name, email, phone,")
-             .append("role_id FROM user WHERE id = ?;");
+             .append("role_id, created_on FROM user WHERE id = ?;");
 
         try {
             connection = DatabaseConnection.getConnection();

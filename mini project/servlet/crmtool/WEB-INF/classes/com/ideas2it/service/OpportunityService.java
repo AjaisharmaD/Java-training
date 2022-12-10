@@ -1,14 +1,8 @@
 package com.ideas2it.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.model.Opportunity;
-import com.ideas2it.dao.OpportunityDao;
-import com.ideas2it.dao.impl.OpportunityDaoImpl;
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
 
 /**
@@ -23,12 +17,7 @@ import com.ideas2it.exception.CustomException;
  * @version 1.0
  * @since   03-10-2022
  */
-public class  OpportunityService {
-    private OpportunityDao opportunityDao;
-
-    public OpportunityService() {
-        this.opportunityDao = new OpportunityDaoImpl();   
-    }
+public interface OpportunityService {
 
     /**
      * <h1> Create Opportunity </h1>
@@ -40,14 +29,7 @@ public class  OpportunityService {
      *
      * @return boolean -  status of opportunity
      */
-    public boolean create(Opportunity opportunity) {
-       boolean status = true; 
-
-       if (opportunityDao.insert(opportunity) <= 0) {
-           status = false;
-       }
-       return status;
-    } 
+    public boolean create(Opportunity opportunity);
 
     /**   
      * <h1> Get Details of Leads </h1>
@@ -57,15 +39,7 @@ public class  OpportunityService {
      *
      * @return List - Details of Opportunity
      */
-    public List<Opportunity> getAll() throws CustomException {
-        List<Opportunity> opportunities = opportunityDao.fetchAll();  
-
-        if (null != opportunities) {
-            return opportunities;
-        } else {
-            throw new CustomException(Messages.OPPORTUNITY_NOT_FOUND);
-        }
-    }
+    public List<Opportunity> getAll() throws CustomException;
 
     /**
      * <h1> Get Details of Opportunity by Id </h1>
@@ -77,15 +51,7 @@ public class  OpportunityService {
      *
      * @return Opportunity - Details of Opportunity
      */
-    public Opportunity getById(int id) throws CustomException {
-        Opportunity opportunity = opportunityDao.fetchById(id);
-
-        if (null != opportunity) {
-            return opportunity;
-        } else {
-            throw new CustomException(Messages.OPPORTUNITY_NOT_FOUND);
-        }
-    }
+    public Opportunity getById(int id) throws CustomException;
 
     /**
      * <h1> Update Details of Opportunity </h1>
@@ -98,9 +64,7 @@ public class  OpportunityService {
      *  
      * @return boolean - status of the id
      */
-    public boolean updateById(int id, String columnName, String columnValue) {
-        return (opportunityDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
-    }
+    public boolean updateById(int id, String columnName, String columnValue);
 
     /**
      * <h1> Detele Details of Opportunity </h1>
@@ -112,7 +76,5 @@ public class  OpportunityService {
      *
      * @return boolean - Status of the Deleted Opportunity
      */
-    public boolean isDeletedById(int id) {
-        return (opportunityDao.deleteById(id) <= 0) ? false : true;
-    }
+    public boolean isDeletedById(int id);
 }

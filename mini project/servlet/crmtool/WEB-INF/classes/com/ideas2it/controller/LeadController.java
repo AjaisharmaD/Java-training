@@ -13,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 
 import com.ideas2it.model.Lead;
 import com.ideas2it.service.LeadService;
+import com.ideas2it.service.impl.LeadServiceImpl;
 import com.ideas2it.utils.ValidationUtils;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
@@ -36,7 +37,7 @@ public class LeadController extends HttpServlet {
     private CustomLogger logger;
 
     public LeadController() {
-        this.leadService = new LeadService();
+        this.leadService = new LeadServiceImpl();
         this.validationUtils = new ValidationUtils();
         this.logger = new CustomLogger(LeadController.class);
     }

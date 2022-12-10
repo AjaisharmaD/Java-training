@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 
 import com.ideas2it.model.User;
 import com.ideas2it.service.CRMService;
+import com.ideas2it.service.impl.CRMServiceImpl;
 import com.ideas2it.utils.ValidationUtils;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
@@ -34,7 +35,7 @@ public class CRMController extends HttpServlet {
     private ValidationUtils validationUtils;
     
     public CRMController() {
-        this.crmService = new CRMService();
+        this.crmService = new CRMServiceImpl();
         this.logger = new CustomLogger(CRMController.class);
         this.validationUtils = new ValidationUtils();
     }
@@ -98,7 +99,7 @@ public class CRMController extends HttpServlet {
         User user = null;
 
         try {
-            user = crmService.getByEmailAndPassword(email, password);
+            user = crmService.getUserByEmailAndPassword(email, password);
         } catch(CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
         } catch (Exception exception) {

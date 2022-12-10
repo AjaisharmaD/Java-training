@@ -1,29 +1,33 @@
 package com.ideas2it.service;
-import java.util.List;
 
-import com.ideas2it.constants.Messages;
-import com.ideas2it.exception.CustomException;
-import com.ideas2it.logger.CustomLogger;
 import com.ideas2it.model.User;
-import com.ideas2it.service.UserService;
+import com.ideas2it.exception.CustomException;
 
-public class CRMService {
-    private UserService userService;
-    private CustomLogger logger;
-
-    public CRMService() {
-        this.userService = new UserService();
-        this.logger = new CustomLogger(CRMService.class);
-    }
-
-    public User getByEmailAndPassword(String email,
-                                      String password) throws CustomException {
-        logger.info("inside crm service");
-        User user = userService.getByEmailAndPassword(email, password);
-
-        if (null != user) {
-            return user;
-        } 
-        return null;
-    }
+/**
+ * <h1> CRM Service </h1>
+ * <p> 
+ * CRM Service is used to check the credentials of the user
+ * which are email and password. 
+ * </p>
+ *
+ * @author AJAISHARMA
+ * @version 1.0
+ * @since 16-09-2022
+ */
+public interface CRMService {
+    
+    /**
+     * <h1> CRM Service </h1>
+     * <p> 
+     * CRM Service is used to check the credentials of the user
+     * which are email and password. 
+     * </p>
+     *
+     * @param email    - Email Id to Loign
+     * @param password - Password to Login
+     *
+     * @return User    - user object which hold the details of the user
+     */
+    public User getUserByEmailAndPassword(String email, String password) 
+                                                 throws CustomException;
 }

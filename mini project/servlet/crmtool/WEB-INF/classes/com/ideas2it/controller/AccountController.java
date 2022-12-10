@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 
 import com.ideas2it.model.Account;
 import com.ideas2it.service.AccountService;
+import com.ideas2it.service.impl.AccountServiceImpl;
 import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
 import com.ideas2it.logger.CustomLogger;
@@ -32,7 +33,7 @@ public class AccountController extends HttpServlet {
     private CustomLogger logger;
 
     public AccountController() {
-        this.accountService = new AccountService();
+        this.accountService = new AccountServiceImpl();
         this.logger = new CustomLogger(AccountController.class);
     }
 

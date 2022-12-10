@@ -13,7 +13,9 @@ import javax.servlet.ServletException;
 import com.ideas2it.model.Lead;
 import com.ideas2it.model.User;
 import com.ideas2it.service.LeadService;
+import com.ideas2it.service.impl.LeadServiceImpl;
 import com.ideas2it.service.UserService;
+import com.ideas2it.service.impl.UserServiceImpl;
 import com.ideas2it.utils.ValidationUtils;
 import com.ideas2it.constants.Constants;
 import com.ideas2it.constants.Messages;
@@ -42,8 +44,8 @@ public class ManagerController extends HttpServlet {
     private CustomLogger logger;
     
     public ManagerController() {
-        this.userService = new UserService();
-        this.leadService = new LeadService();
+        this.userService = new UserServiceImpl();
+        this.leadService = new LeadServiceImpl();
         this.validationUtils = new ValidationUtils();
         this.logger = new CustomLogger(UserController.class);
     }

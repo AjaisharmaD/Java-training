@@ -212,6 +212,8 @@ label {
     </div>
 </div>
 
+<h3 style="color:red; text-align:center;">${status}</h3>
+
 <div class="table">
     <table>
         <tr>
@@ -219,6 +221,7 @@ label {
             <th>Name</th>
             <th>Email Id</th>
             <th>Phone Number</th>
+            <th>Created Date</th>
         </tr>
      <c:choose>
      <c:when test = "${not empty users}">
@@ -228,12 +231,10 @@ label {
             <td>${user.getName()}</td>
             <td>${user.getEmailId()}</td>
             <td>${user.getPhoneNumber()}</td>
+            <td>${user.getCreatedDate()}</td>
         </tr>
         </c:forEach>
      </c:when>
-     <c:otherwise>
-           <h2 style="color:red; text-align: center;">${status}</h2>
-     </c:otherwise>
      </c:choose>
     </table>
 </div>
@@ -252,9 +253,8 @@ label {
             <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
         <label for="password">Password:</label>
             <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
-        <input type="hidden" value="admin" name="role">
             <label for="roles">Role:</label>
-        <select class="select-role" id="roles" name ="role" onchange="onSelectChange()">
+        <select class="select-role" id="roles" name ="role">
             <c:forEach items="${roles}" var="role">
                 <option value="${role}">${role}</option>
             </c:forEach>
@@ -285,10 +285,6 @@ label {
     function closePopUp(elem, prelem) {
 	document.getElementById(elem).style.display='none'; 
         document.getElementById(prelem).style.display='none';
-    }
-
-    function onSelectChange(event) {
-	console.log(document.getElementById('roles').value)
     }
 
     var admin = document.getElementById('create-form');

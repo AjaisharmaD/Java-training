@@ -20,6 +20,7 @@ public class User {
     private String emailId;
     private String password;
     private int roleId;
+    private String createdDate;
 
     private List<Lead> leads = new ArrayList<>();
 
@@ -52,6 +53,10 @@ public class User {
     public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
+ 
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public void setLead(Lead lead) {
         leads.add(lead);
@@ -81,6 +86,10 @@ public class User {
         return roleId;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
     public List<Lead> getLead() {
         return leads;
     }
@@ -88,10 +97,8 @@ public class User {
     @Override
     public String toString() {
          StringBuilder user = new StringBuilder();
-         user.append("ID            : ").append(id)
-             .append("\nName          : ").append(name)
-             .append("\nEmail ID      : ").append(emailId) 
-             .append("\nPhone Number  : ").append(phoneNumber);
+         user.append(id).append(name).append(emailId)
+             .append(phoneNumber).append(createdDate);
          return user.toString();
     }
 }

@@ -1,14 +1,8 @@
 package com.ideas2it.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.ideas2it.model.Contact;
-import com.ideas2it.dao.ContactDao;
-import com.ideas2it.dao.impl.ContactDaoImpl;
-import com.ideas2it.constants.Constants;
-import com.ideas2it.constants.Messages;
 import com.ideas2it.exception.CustomException;
 
 /**
@@ -23,12 +17,7 @@ import com.ideas2it.exception.CustomException;
  * @version 1.0
  * @since   03-10-2022
  */
-public class  ContactService {
-    private ContactDao contactDao;
-
-    public ContactService() {
-        this.contactDao = new ContactDaoImpl();
-    }
+public interface ContactService {
 
     /**
      * <h1> Create Contact </h1>
@@ -40,14 +29,7 @@ public class  ContactService {
      *
      * @return boolean - status of contact
      */
-    public boolean create(Contact contact) {
-       boolean status = true;
-
-       if (contactDao.insert(contact) <= 0) {
-           status = false;
-       } 
-       return status;
-    } 
+    public boolean create(Contact contact);
 
     /**   
      * <h1> Get Details of Leads </h1>
@@ -57,15 +39,7 @@ public class  ContactService {
      *
      * @return List - Details of Contact
      */
-    public List<Contact> getAll(int userId) throws CustomException {  
-        List<Contact> contacts = contactDao.fetchAll();
-
-        if (!contacts.isEmpty()) {
-            return contacts;  
-        } else {
-            throw new CustomException(Messages.CONTACT_NOT_FOUND); 
-        }
-    }
+    public List<Contact> getAll(int userId) throws CustomException;
 
     /**
      * <h1> Get Details of contact by Id </h1>
@@ -77,15 +51,7 @@ public class  ContactService {
      *
      * @return contact - Details of contact
      */
-    public Contact getById(int id, int userId) throws CustomException {
-        Contact contact = contactDao.fetchById(id);
-
-        if (null != contact) {
-            return contact;
-        } else {
-            throw new CustomException(Messages.CONTACT_NOT_FOUND); 
-        }
-    }
+    public Contact getById(int id, int userId) throws CustomException;
 
     /**
      * <h1> Update Details of contact </h1>
@@ -98,9 +64,7 @@ public class  ContactService {
      *  
      * @return boolean - status of contact
      */
-    public boolean updateById(Contact contact) {
-        return (contactDao.updateById(contact) <= 0) ? false : true;
-    }
+    public boolean updateById(Contact contact);
 
     /**
      * <h1> Detele Details of contact </h1>
@@ -112,7 +76,5 @@ public class  ContactService {
      *
      * @return boolean - Status of the Deleted contact
      */
-    public boolean isDeletedById(int id) {
-        return (contactDao.deleteById(id) <= 0) ? false : true;
-    }
+    public boolean isDeletedById(int id);
 }
