@@ -55,16 +55,15 @@ public interface UserService {
     /**
      * <h1> Get the user by Email and password </h1>
      * <p> 
-     * Gets the user Details by Email and Password 
+     * Gets the user Details by Email
      * and passes it to Validate the User is valid or not
      * </p>
      * 
      * @param email - email Id of the User
-     * @param password - password of the User
      *
      * @return User - Details of the User
      */
-    public User getByEmailAndPassword(String email, String password);
+    public User getUserByEmail(String email);
 
     /**
      * <h1> Get Details of User by Id </h1>

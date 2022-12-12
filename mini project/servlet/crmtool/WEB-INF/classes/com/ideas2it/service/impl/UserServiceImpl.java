@@ -34,70 +34,79 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean create(User user) {
-        return (userDao.insert(user) > 0);
+        logger.info("===== Inside the User Service Create =====");
+        return (userDao.insert(user).getId() != 0); 
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public List<User> getAll(int roleId) throws CustomException {
+        logger.info("===== Inside the User Service Get All =====");
         List<User> userList = userDao.fetchAll(roleId);
 
-        if(!userList.isEmpty()) {
-            logger.info(userList.toString());
-            return userList;
-        } else {
+        if (userList.isEmpty()) {
             throw new CustomException(Messages.USER_NOT_FOUND);
-        }
+        } 
+        return userList;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public List<String> getRoles() {
+        logger.info("===== Inside the user service Get Role =====");
         List<String> roles = userDao.fetchRoles();
 
         if (!roles.isEmpty()) {
-        logger.info("user service " + roles.toString());
             return roles;
         }
         return null;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
-    public User getByEmailAndPassword(String email, String password) {
-        return userDao.fetchByEmailAndPassword(email, password);
+    @Override
+    public User getUserByEmail(String email) {
+        logger.info("===== Inside get user by Email =====");
+        return userDao.fetchByEmail(email);
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
-    public User getById(int id) throws CustomException {
+    @Override
+    public User getById(int id) {
         User user = userDao.fetchById(id);
        
-        if (null != user) {
-            return user;
-        } else {
-            throw new CustomException(Messages.USER_NOT_FOUND);
-        } 
+        if (null == user) {
+            return null;
+        }
+        return user;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean updateById(User user) {
-        return (userDao.updateById(user) <= 0) ? false : true;
+        logger.info("===== Inside User Service Update by Id =====");
+        return userDao.updateById(user) > 0;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean isDeletedById(int id) {
-        return (userDao.deleteById(id) <= 0) ? false : true;
+        logger.info("===== Inside User Service Delete By Id =====");
+        return userDao.deleteById(id) > 0;
     }
 }

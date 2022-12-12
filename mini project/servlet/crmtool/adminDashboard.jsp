@@ -205,7 +205,7 @@ label {
         <h1> Admin Dashboard </h1>
     </div>
     <div class="nav-right">    
-        <form action="search">
+        <form action="search-user">
             <input class="search-box" type="text" name="id" placeholder="Enter Id">
             <button class="btn search-btn" type="submit" onclick="popUp('parent','search-popup')">Search</button>
         </form>

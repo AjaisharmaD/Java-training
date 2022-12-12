@@ -40,4 +40,7 @@ public class Messages {
     public final static String WRONG_COMPANY_NAME_FORMAT = "\n>>>>> WRONG COMPANY NAME FORMAT <<<<<";     
     public final static String WRONG_PASSWORD_FORMAT = "\n>>>>> WRONG PASSWORD FORMAT <<<<<";    
     public final static String WRONG_AMOUNT_FORMAT = "\n>>>>> WRONG AMOUNT FORMAT <<<<<";  
+
+    public final static String WRONG_PASSWORD = ">>>>> WRONG PASSWORD <<<<<";
+    public final static String PLEASE_FILL_CREDENTIALS = ">>>>> PLEASE FILL CREDENTIALS <<<<<";
 }

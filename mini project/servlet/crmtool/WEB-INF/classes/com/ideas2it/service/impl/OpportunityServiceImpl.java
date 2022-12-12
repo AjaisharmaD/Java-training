@@ -32,8 +32,9 @@ public class  OpportunityServiceImpl implements OpportunityService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean create(Opportunity opportunity) {
        boolean status = true; 
 
@@ -44,8 +45,9 @@ public class  OpportunityServiceImpl implements OpportunityService {
     } 
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public List<Opportunity> getAll() throws CustomException {
         List<Opportunity> opportunities = opportunityDao.fetchAll();  
 
@@ -57,8 +59,9 @@ public class  OpportunityServiceImpl implements OpportunityService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public Opportunity getById(int id) throws CustomException {
         Opportunity opportunity = opportunityDao.fetchById(id);
 
@@ -70,15 +73,17 @@ public class  OpportunityServiceImpl implements OpportunityService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean updateById(int id, String columnName, String columnValue) {
         return (opportunityDao.updateById(id, columnName, columnValue) <= 0) ? false : true;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean isDeletedById(int id) {
         return (opportunityDao.deleteById(id) <= 0) ? false : true;
     }

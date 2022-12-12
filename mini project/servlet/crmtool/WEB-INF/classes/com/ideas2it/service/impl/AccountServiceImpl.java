@@ -33,15 +33,17 @@ public class  AccountServiceImpl implements AccountService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean create(Account account) {
        return (accountDao.insert(account) <= 0) ? false : true;
     } 
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public List<Account> getAll() throws CustomException {   
         List<Account> accounts = accountDao.fetchAll();
 
@@ -53,8 +55,9 @@ public class  AccountServiceImpl implements AccountService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public Account getById(int id) throws CustomException {
         Account account = accountDao.fetchById(id);
         
@@ -66,15 +69,17 @@ public class  AccountServiceImpl implements AccountService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean updateById(Account account) {
         return (accountDao.updateById(account) <= 0) ? false : true;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean isDeletedById(int id) {
         return (accountDao.deleteById(id) <= 0) ? false : true;
     }

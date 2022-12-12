@@ -25,11 +25,11 @@ public interface UserDao {
      * Inserts the Details of Users 
      * <p>
      *
-     * @param user     - user object to update
+     * @param User   - user object to update
      *
-     * @return int - count of row/s affected
+     * @return User  - User object which is Last Inserted
      */
-    public int insert(User user);
+    public User insert(User user);
 
     /**
      * <h1> Get Details of users </h1>
@@ -38,6 +38,7 @@ public interface UserDao {
      * </p>
      *
      * @param roleId - Role Id of the User
+     *
      * @return List - list of User details
      */
     public List<User> fetchAll(int roleId);
@@ -59,11 +60,10 @@ public interface UserDao {
      * </p>
      * 
      * @param email - Email Id of the User
-     * @param password - Password of the User
      * 
      * @return User - Details of a Single User
      */
-    public User fetchByEmailAndPassword(String email, String password);
+    public User fetchByEmail(String email);
 
     /**
      * <h1> Get Details of User by Id </h1>
@@ -87,7 +87,7 @@ public interface UserDao {
      * @param columnName  - name of the Column to update the Value
      * @param columnValue - value to be updated in Column
      *
-     * @return int  - count of rows affected
+     * @return User       - Updated User object  
      */
     public int updateById(User user);
 

@@ -272,9 +272,10 @@ label {
 <!-- User Login Form -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
 <div id="login-form" class="form">
-    <form class="form-content animate" action="user-login" method="post">
+    <form class="form-content animate" action="login" method="post">
     <h3 class="heading"> User Login Form </h3>
     <div class="container">
+        <input type="hidden" name = "path" value = "login">
         <label for="email">Email ID:</label>
         <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
         <label for="password">Password:</label>

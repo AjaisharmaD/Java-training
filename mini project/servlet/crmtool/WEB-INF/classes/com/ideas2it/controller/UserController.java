@@ -70,22 +70,22 @@ public class UserController extends HttpServlet {
  
         switch (choice) {
         case "/create-user":
+            logger.info("===== Calling Create User =====");
             create(request, response);
             break;
 
         case "/update-user":
+            logger.info("===== Calling Update User =====");
             updateById(request, response);
             break;
 
         case "/get-users":
-            getAll(request, response);
-            break;
-
-        case "/get-employees":
+            logger.info("===== Calling Get All User =====");
             getAll(request, response);
             break;
 
         default:
+            logger.info("===== Redirecting to Error Page =====");
             response.sendRedirect("errorPage.jsp");
         }
     }
@@ -109,26 +109,27 @@ public class UserController extends HttpServlet {
         
         switch (choice) {
         case "/get-users":
+            logger.info("===== Calling Get All User =====");
             getAll(request, response);
             break;
 
-        case "/get-employees":
-            getAll(request, response);
-            break;
- 
         case "/search-user":
+            logger.info("===== Calling Get User By Id =====");
             getById(request, response);
             break;
 
         case "/search-to-update":
+            logger.info("===== Calling get By id to update =====");
             getByIdToUpdate(request, response);
             break;
 
-        case "/delete":
+        case "/delete-user":
+            logger.info("===== Calling Delete User =====");
             deleteById(request, response);
             break;
 
         default:
+            logger.info("===== Redirecting to Error Page =====");
             response.sendRedirect("errorPage.jsp");
         }
     }
@@ -208,6 +209,7 @@ public class UserController extends HttpServlet {
         } else if (roleId == Constants.MANAGER_ROLE_ID) {
             getAllEmployees(request, response, roleId);
         } else {
+            logger.info("===== Redirecting to Error Page =====");
             response.sendRedirect("errorPage.jsp");
         }
     }
@@ -225,14 +227,15 @@ public class UserController extends HttpServlet {
      * @param response - the response is used to hold the stream and writer 
      */
     public void getAllUsers(HttpServletRequest request,
-                            HttpServletResponse response, int roleId) throws IOException, 
-                                                           ServletException {
+                            HttpServletResponse response, 
+                            int roleId) throws IOException, 
+                                         ServletException {
         logger.info("===== Inside Get All Users =====");
         List<User> users;
         List<String> roles;
 
         try {
-            logger.info("logged in as admin...");        
+            logger.info("===== Logging in As Admin =====");      
             users = userService.getAll(roleId);
             roles = userService.getRoles();
             request.setAttribute("users", users);
@@ -243,9 +246,9 @@ public class UserController extends HttpServlet {
         } catch (CustomException userNotFoundException) {
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("status", Messages.USER_NOT_FOUND);
-        RequestDispatcher requestDispatcher = request
-                                  .getRequestDispatcher("adminDashboard.jsp");
-        requestDispatcher.forward(request, response);
+            RequestDispatcher requestDispatcher = request
+                                      .getRequestDispatcher("adminDashboard.jsp");
+            requestDispatcher.forward(request, response);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
@@ -263,12 +266,13 @@ public class UserController extends HttpServlet {
      * @param response - the response is used to hold the stream and writer 
      */
     public void getAllEmployees(HttpServletRequest request,
-                                HttpServletResponse response, int roleId) throws IOException, 
-                                                               ServletException {
+                                HttpServletResponse response, 
+                                int roleId) throws IOException, 
+                                             ServletException {
         logger.info("===== Inside Get All Employees =====");
 
         try {
-            logger.info("logged in as manager....");
+            logger.info("===== Logging in As Manager =====");
             List<User> users = userService.getAll(roleId);
             request.setAttribute("users", users);
         } catch (CustomException userNotFoundException) {
@@ -331,6 +335,8 @@ public class UserController extends HttpServlet {
     private void getByIdToUpdate(HttpServletRequest request,
                                  HttpServletResponse response) throws IOException,
                                                                 ServletException {
+        logger.info("===== Inside Get user to Update by id =====");
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getById(id);

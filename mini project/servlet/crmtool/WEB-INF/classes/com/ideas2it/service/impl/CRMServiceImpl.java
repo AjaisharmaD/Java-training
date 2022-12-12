@@ -31,16 +31,20 @@ public class CRMServiceImpl implements CRMService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
-    public User getUserByEmailAndPassword(String email,
-                                      String password) throws CustomException {
-        logger.info("inside crm service");
-        User user = userService.getByEmailAndPassword(email, password);
+    @Override
+    public User getUserByEmailAndPassword(String email, String password) 
+                                                throws CustomException {
+        logger.info("===== Inside the CRM Service =====");
+        User user = userService.getUserByEmail(email);
 
-        if (null != user) {
-            return user;
-        } 
-        return null;
+        if (null == user) {
+	    throw new CustomException(Messages.USER_NOT_FOUND);
+	}            
+        if (!user.getPassword().equals(password)) {
+	    throw new CustomException(Messages.WRONG_PASSWORD);
+        }
+	return user;
     }
 }

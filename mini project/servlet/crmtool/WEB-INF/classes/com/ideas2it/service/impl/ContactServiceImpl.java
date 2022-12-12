@@ -32,8 +32,9 @@ public class  ContactServiceImpl implements ContactService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean create(Contact contact) {
        boolean status = true;
 
@@ -44,8 +45,9 @@ public class  ContactServiceImpl implements ContactService {
     } 
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public List<Contact> getAll(int userId) throws CustomException { 
         List<Contact> contacts = contactDao.fetchAll();
 
@@ -57,8 +59,9 @@ public class  ContactServiceImpl implements ContactService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public Contact getById(int id, int userId) throws CustomException {
         Contact contact = contactDao.fetchById(id);
 
@@ -70,15 +73,17 @@ public class  ContactServiceImpl implements ContactService {
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean updateById(Contact contact) {
         return (contactDao.updateById(contact) <= 0) ? false : true;
     }
 
     /**
-     * {@inherit}
+     * {@inheritDoc}
      */
+    @Override
     public boolean isDeletedById(int id) {
         return (contactDao.deleteById(id) <= 0) ? false : true;
     }

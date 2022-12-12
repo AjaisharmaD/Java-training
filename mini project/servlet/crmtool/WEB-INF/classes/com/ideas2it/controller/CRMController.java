@@ -21,8 +21,7 @@ import com.ideas2it.logger.CustomLogger;
 /**
  * <h1> CRM Controller </h1>
  * <p>
- * Controls the operation of the CRM Tool
- * Like validate user, exit
+ * Helps the User to login by validating their credentials
  * </p>
  *
  * @author  AJAISHARMA
@@ -54,13 +53,45 @@ public class CRMController extends HttpServlet {
     public void doPost(HttpServletRequest request, 
                        HttpServletResponse response) throws IOException, 
                                                       ServletException {
+        logger.info("===== Inside CRM Controller DoPost =====");
+        String path = request.getParameter("path");
+
+        switch(path) {
+        case Constants.LOGIN_PATH:
+            logger.info("===== Calling the Login Method =====");
+            login(request, response);
+            break;
+        default:
+            logger.info("===== Redirecting to Error Page =====");
+            response.sendRedirect("errorPage.jsp");
+        }
+    }
+
+    /**
+     * <h1> Login </h1>
+     * <p>
+     * Gets the EmailId and password parameter from the Request
+     * Sends them to CRM Service to validate the User is valid or not
+     * If the User is valid then gets the User Role and redirect them 
+     * to the Corresponding pages, Else Prints the Corresponding Messages
+     * </p>
+     *
+     * @param request - the request from the JSP which holds the data likes
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
+     */
+    public void login(HttpServletRequest request, 
+                      HttpServletResponse response) throws IOException, 
+                                                     ServletException {
+        logger.info("===== Inside the Login Method =====");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         logger.info("email = " + email + "password = " + password);
-        User user = getValidUser(email, password);
         HttpSession session = request.getSession();
 
-        if ( null != user ) {
+	try {
+            User user = crmService.getUserByEmailAndPassword(email, password);
+
             if (user.getRoleId() == Constants.ADMIN_ROLE_ID) {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("roleId", user.getRoleId());
@@ -74,38 +105,12 @@ public class CRMController extends HttpServlet {
                 session.setAttribute("roleId", user.getRoleId());
                 response.sendRedirect("get-leads");
             }
-        } else {
-                request.setAttribute("message", Messages.USER_NOT_FOUND);
-                RequestDispatcher requestDispatcher = request
+	} catch (CustomException customException) {
+            request.setAttribute("message", customException.getMessage());
+            RequestDispatcher requestDispatcher = request
                                        .getRequestDispatcher("index.jsp");
-                requestDispatcher.include(request, response);
+            requestDispatcher.include(request, response);
         } 
-    }
-
-    /**
-     * <h1> Get valid user </h1>
-     * <p>
-     * The getValidUser passes the email and password to the service 
-     * to check whether the User is present or not
-     * If the user is present then returns the object of the user else null 
-     *
-     *
-     * @param email - Email Id of the User to login
-     * @param password - Password of the User to login
-     *
-     * @return User - Object of the user or null object
-     */
-    public User getValidUser(String email, String password) {
-        User user = null;
-
-        try {
-            user = crmService.getUserByEmailAndPassword(email, password);
-        } catch(CustomException userNotFoundException) {
-            logger.error(userNotFoundException.getMessage());
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-        return user;
     }
 
     /**
