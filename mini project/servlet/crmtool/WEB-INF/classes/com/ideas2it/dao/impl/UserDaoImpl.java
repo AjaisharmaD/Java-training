@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
         logger.info("inside the insert User in Dao");
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO user (name, email, phone,")
-             .append(" password, role_id) VALUES (?, ?, ?, ?, ?);");
+             .append(" password, role_id) VALUES (?, ?, ?, MD5(?), ?);");
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -77,10 +77,10 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public User fetchByEmail(String email) {
+    public User fetchByEmailAndPassword(String email) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT id, name, email, phone,")
-             .append(" password, role_id FROM user WHERE email = ?;");
+             .append(" role_id FROM user WHERE email = ? AND password = MD5(?);");
         User user = null;
 
         try {
@@ -95,7 +95,6 @@ public class UserDaoImpl implements UserDao {
                                      resultSet.getString("phone"));
                 user.setRoleId(resultSet.getInt("role_id"));
                 user.setId(resultSet.getInt("id"));
-                user.setPassword(resultSet.getString("password"));
             } 
             statement.close();
         } catch (SQLException sqlException) {

@@ -74,9 +74,9 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User getUserByEmail(String email) {
+    public User getUserByEmailAndPassword(String email, String password) {
         logger.info("===== Inside get user by Email =====");
-        return userDao.fetchByEmail(email);
+        return userDao.fetchByEmailAndPassword(email, password);
     }
 
     /**

@@ -37,14 +37,11 @@ public class CRMServiceImpl implements CRMService {
     public User getUserByEmailAndPassword(String email, String password) 
                                                 throws CustomException {
         logger.info("===== Inside the CRM Service =====");
-        User user = userService.getUserByEmail(email);
+        User user = userService.getUserByEmailAndPassword(email, password);
 
         if (null == user) {
 	    throw new CustomException(Messages.USER_NOT_FOUND);
-	}            
-        if (!user.getPassword().equals(password)) {
-	    throw new CustomException(Messages.WRONG_PASSWORD);
-        }
+	} 
 	return user;
     }
 }

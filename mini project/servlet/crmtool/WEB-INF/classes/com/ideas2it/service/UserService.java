@@ -63,7 +63,7 @@ public interface UserService {
      *
      * @return User - Details of the User
      */
-    public User getUserByEmail(String email);
+    public User getUserByEmailAndPassword(String email, String password);
 
     /**
      * <h1> Get Details of User by Id </h1>

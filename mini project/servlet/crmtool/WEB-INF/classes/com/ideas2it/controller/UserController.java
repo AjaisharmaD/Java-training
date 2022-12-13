@@ -84,6 +84,11 @@ public class UserController extends HttpServlet {
             getAll(request, response);
             break;
 
+        case "/search-user":
+            logger.info("===== Calling Get User By Id =====");
+            getById(request, response);
+            break;
+
         default:
             logger.info("===== Redirecting to Error Page =====");
             response.sendRedirect("errorPage.jsp");
@@ -105,6 +110,7 @@ public class UserController extends HttpServlet {
                          HttpServletResponse response) throws IOException, 
                                                         ServletException {
         logger.info("===== Inside User Controller =====");
+        String path = request.getParameter("path");
         String choice = request.getServletPath();
         
         switch (choice) {
@@ -171,8 +177,9 @@ public class UserController extends HttpServlet {
         }
  
         logger.info("===== Creating the User =====");
+        boolean isCreated = userService.create(user);
 
-        if (userService.create(user)) {
+        if (isCreated) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
         } else {
@@ -305,10 +312,18 @@ public class UserController extends HttpServlet {
                          HttpServletResponse response) throws IOException, 
                                                         ServletException {
         logger.info("===== Inside Get User By Id =====");
+        HttpSession session = request.getSession();
+        int roleId = Integer.parseInt(session.getAttribute("roleId")
+                                                       .toString());
+
+        List<String> roles;
+        List<User> users;
 
         try {
             int id = Integer.parseInt(request.getParameter("id"));
+            logger.info("id to search = " + id);
             User user = userService.getById(id);
+            logger.info("user got = " + user.toString());
             request.setAttribute("user", user);
         } catch (CustomException userNotFoundException) {
             logger.info(Messages.USER_NOT_FOUND);
@@ -318,7 +333,7 @@ public class UserController extends HttpServlet {
             logger.error(exception.getMessage());
         }
         RequestDispatcher requestDispatcher = request
-                                  .getRequestDispatcher("searchUser.jsp");
+                                  .getRequestDispatcher("search-user");
         requestDispatcher.forward(request, response);
     }
 
