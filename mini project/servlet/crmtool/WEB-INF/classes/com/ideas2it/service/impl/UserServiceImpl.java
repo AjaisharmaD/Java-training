@@ -37,9 +37,9 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public boolean create(User user) {
+    public User create(User user) {
         logger.info("===== Inside the User Service Create =====");
-        return (userDao.insert(user).getId() != 0); 
+        return userDao.insert(user); 
     }
 
     /**
@@ -96,9 +96,9 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public boolean updateById(User user) {
+    public User updateById(User user) {
         logger.info("===== Inside User Service Update by Id =====");
-        return userDao.updateById(user) > 0;
+        return userDao.updateById(user);
     }
 
     /**

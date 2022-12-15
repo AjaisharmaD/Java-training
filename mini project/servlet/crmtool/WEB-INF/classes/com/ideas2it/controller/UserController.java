@@ -124,11 +124,6 @@ public class UserController extends HttpServlet {
             getById(request, response);
             break;
 
-        case "/search-to-update":
-            logger.info("===== Calling get By id to update =====");
-            getByIdToUpdate(request, response);
-            break;
-
         case "/delete-user":
             logger.info("===== Calling Delete User =====");
             deleteById(request, response);
@@ -177,9 +172,8 @@ public class UserController extends HttpServlet {
         }
  
         logger.info("===== Creating the User =====");
-        boolean isCreated = userService.create(user);
 
-        if (isCreated) {
+        if (null != userService.create(user)) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
         } else {
@@ -209,35 +203,8 @@ public class UserController extends HttpServlet {
                                                        ServletException {
         logger.info("===== Inside Get All =====");
         HttpSession session = request.getSession();
-        int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
-
-        if (roleId == Constants.ADMIN_ROLE_ID) { 
-            getAllUsers(request, response, roleId);
-        } else if (roleId == Constants.MANAGER_ROLE_ID) {
-            getAllEmployees(request, response, roleId);
-        } else {
-            logger.info("===== Redirecting to Error Page =====");
-            response.sendRedirect("errorPage.jsp");
-        }
-    }
-
-    /**
-     * <h1> Get All Users </h1>
-     * <p>
-     * If the user is Admin then it will gets all the Users Details
-     * Who are Managers 
-     * If users Not Found then Displays the Users Not Found Message
-     * </p>
-     *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
-     */
-    public void getAllUsers(HttpServletRequest request,
-                            HttpServletResponse response, 
-                            int roleId) throws IOException, 
-                                         ServletException {
-        logger.info("===== Inside Get All Users =====");
+        int roleId = Integer.parseInt(session.getAttribute("roleId")
+                                                       .toString());
         List<User> users;
         List<String> roles;
 
@@ -247,51 +214,15 @@ public class UserController extends HttpServlet {
             roles = userService.getRoles();
             request.setAttribute("users", users);
             request.setAttribute("roles", roles);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.forward(request, response);
         } catch (CustomException userNotFoundException) {
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("status", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.forward(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-    }
-
-    /**
-     * <h1> Get All Employees </h1>
-     * <p> 
-     * If the user is Manager then Gets all the details of Employees
-     * If users Not Found then Displays the Users Not Found Message
-     * </p>
-     *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer 
-     */
-    public void getAllEmployees(HttpServletRequest request,
-                                HttpServletResponse response, 
-                                int roleId) throws IOException, 
-                                             ServletException {
-        logger.info("===== Inside Get All Employees =====");
-
-        try {
-            logger.info("===== Logging in As Manager =====");
-            List<User> users = userService.getAll(roleId);
-            request.setAttribute("users", users);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
             logger.error(userNotFoundException.getMessage());
             request.setAttribute("status", Messages.USER_NOT_FOUND);
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
         RequestDispatcher requestDispatcher = request
-                                  .getRequestDispatcher("managerDashboard.jsp");
-        requestDispatcher.include(request, response);
+                                  .getRequestDispatcher("adminDashboard.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     /**
@@ -315,57 +246,32 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId")
                                                        .toString());
-
-        List<String> roles;
-        List<User> users;
+        int id;
+        User user = null;
 
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            logger.info("id to search = " + id);
-            User user = userService.getById(id);
-            logger.info("user got = " + user.toString());
+            id = Integer.parseInt(request.getParameter("id"));
+            user = userService.getById(id);
+        } catch (NumberFormatException numberFormatException) {
+            logger.error(numberFormatException.getMessage());
+            request.setAttribute("message", "Not a number");
+        } catch (CustomException customException) {
+            logger.error(customException.getMessage());
+            response.sendRedirect("errorPage.jsp");
+        }
+        
+        List<String> roles = userService.getRoles();
+
+        if (null != user) {
             request.setAttribute("user", user);
-        } catch (CustomException userNotFoundException) {
+            request.setAttribute("roles", roles);
+        } else {
             logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
             request.setAttribute("message", Messages.USER_NOT_FOUND);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
+        } 
         RequestDispatcher requestDispatcher = request
-                                  .getRequestDispatcher("search-user");
+                                  .getRequestDispatcher("searchUser.jsp");
         requestDispatcher.forward(request, response);
-    }
-
-    /**
-     * <h1> Updates the User by their </h1>
-     * <p>
-     * Gets the Details of a User by Id
-     * </p>
-     *
-     * @param request - the request from the JSP which holds the data like 
-                        parameters, servlet path, context path, etc,.
-     * @param response - the response is used to hold the stream and writer
-     */
-    private void getByIdToUpdate(HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException,
-                                                                ServletException {
-        logger.info("===== Inside Get user to Update by id =====");
-
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            User user = userService.getById(id);
-            request.setAttribute("user", user);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("user", Messages.USER_NOT_FOUND);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-        RequestDispatcher requestDispatcher = request
-                                  .getRequestDispatcher("updateUser.jsp");
-        requestDispatcher.include(request, response);
     }
 
     /**
@@ -407,22 +313,29 @@ public class UserController extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String role = request.getParameter("role");
 
         User user = new User(name, email, phone);
         user.setId(id);
-        boolean isUpdated = userService.updateById(user);
 
-        if (isUpdated) {
+        if (role.equals(Constants.ADMIN_ROLE)) {
+            user.setRoleId(Constants.ADMIN_ROLE_ID);
+        } else if (role.equals(Constants.MANAGER_ROLE)) {
+            user.setRoleId(Constants.MANAGER_ROLE_ID);
+        } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+            user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
+        }
+
+        if (null != userService.updateById(user)) {
+            request.setAttribute("user", user);
+            request.setAttribute("roles", userService.getRoles());
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
-            RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
         } else {
             request.setAttribute("status", Messages.FAILED_TO_UPDATE);
-            RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.include(request, response);
     }
 
     /**
@@ -439,23 +352,15 @@ public class UserController extends HttpServlet {
          		     HttpServletResponse response) throws IOException, 
 							    ServletException {
         logger.info("===== Inside Delete User By Id =====");
+        int id = Integer.parseInt(request.getParameter("id"));
+        boolean isDeleted = userService.isDeletedById(id);
 
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            boolean isDeleted = userService.isDeletedById(id);
-
-            if (isDeleted) {
-                logger.info(Messages.DELETED_SUCCESSFULLY);
-                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);          
-            } else {
-                logger.info(Messages.FAILED_TO_DELETE);
-                request.setAttribute("status", Messages.FAILED_TO_DELETE);
-                RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
-                requestDispatcher.include(request, response);    
-            }
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
+        if (isDeleted) {
+            logger.info(Messages.DELETED_SUCCESSFULLY);
+            request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);          
+        } else {
+            logger.info(Messages.FAILED_TO_DELETE);
+            request.setAttribute("status", Messages.FAILED_TO_DELETE);
         }
         RequestDispatcher requestDispatcher = request
                                   .getRequestDispatcher("searchUser.jsp");

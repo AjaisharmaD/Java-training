@@ -106,10 +106,6 @@ public class EmployeeController extends HttpServlet {
             getById(request, response);
             break;
 
-        case "/search-to-update":
-            getByIdToUpdate(request, response);
-            break;
-
         case "/delete":
             deleteById(request, response);
             break;
@@ -155,10 +151,8 @@ public class EmployeeController extends HttpServlet {
         //} else if (role.equals(Constants.EMPLOYEE_ROLE)) {
           //  user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
         //}
-        logger.info("role id -" + user.getRoleId());
-        boolean isCreated = userService.create(user);
 
-        if (isCreated) {
+        if (null != userService.create(user)) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
             request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
@@ -269,38 +263,6 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * <h1> Updates the User by their </h1>
-     * <p>
-     * Gets the Details of a User by Id
-     * </p>
-     *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
-     */
-    private void getByIdToUpdate(HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException,
-                                                                ServletException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            User user = userService.getById(id);
-
-            request.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
-            requestDispatcher.include(request, response);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("user", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("updateUser.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-    }
-
-    /**
      * <h1> Get Details of Lead by Id </h1>
      * <p>
      * Gets the Details of a Single Lead by Id
@@ -339,9 +301,8 @@ public class EmployeeController extends HttpServlet {
 
         User user = new User(name, email, phone);
         user.setId(id);
-        boolean isUpdated = userService.updateById(user);
 
-        if (isUpdated) {
+        if (null != userService.updateById(user)) {
             request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
             RequestDispatcher requestDispatcher = request
                                     .getRequestDispatcher("userDashboard.jsp");

@@ -28,9 +28,9 @@ public interface UserService {
      * @param user     - Details of User to add 
      * @param password - password to login
      *
-     * @return boolean - status of the user 
+     * @return User    - user object which is inserted
      */
-    public boolean create(User user);
+    public User create(User user);
 
     /**
      * <h1> Get Details of Users </h1>
@@ -87,9 +87,9 @@ public interface UserService {
      * @param columnName  - name of the Column to update the Value
      * @param columnValue - value to be updated in Column
      *
-     * @return boolean - status of the id
+     * @return User    - user object which is updated
      */
-    public boolean updateById(User user);
+    public User updateById(User user);
 
     /**
      * <h1> Delete Details of User </h1>

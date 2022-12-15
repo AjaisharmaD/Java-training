@@ -51,8 +51,28 @@ a {
     border-radius: 8px;
 }
 
+.form-btn {
+    border: none;
+    background-color: #FFD132;
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 8px;
+    width:49.5%;
+}
+
 .btn:hover {
     background-color: #2F3C7E;
+    color: white;
+}
+
+.form-btn:hover {
+    background-color: #2F3C7E;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: red;
     color: white;
 }
 
@@ -117,11 +137,8 @@ td {
     left: 0;
 }
 
-.form {
-    display: none;
-}
-
 .form-content {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #fefefe;
     margin: 5% auto 10% auto;
     border: 1px solid #888;
@@ -134,10 +151,12 @@ label {
 
 .form .heading {
     text-align: center;
+    padding-top: 20px;
 }
 
 .container {
     padding: 50px;
+    padding-top: 20px;
 }
 
 /* -------animating the form to zoom----- */
@@ -174,68 +193,39 @@ label {
     </div>
 </div>
 
-<div class="table">
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email Id</th>
-            <th>Phone Number</th>
-            <th>Created Date</th>
-        </tr>
+<div id="update-form" class="form">
+    <form class="form-content animate" action="update-user" method="post">
+    <h3 class="heading"> Update User Form </h3>
 
-        <tr>
-            <td>${user.getId()}</td>
-            <td>${user.getName()}</td>
-            <td>${user.getEmailId()}</td>
-            <td>${user.getPhoneNumber()}</td>
-            <td>${user.getCreatedDate()}</td>
-        </tr>
-    </table>
-</div>
-
-<div class="btndiv">
-    <form action="search-to-update">
-        <input type="hidden" value=${user} name="user" />
-        <input class="btn update-btn" type="submit" value="Update" />
-    </form>
-    <form action="delete">
-        <input type="hidden" value=${user.getId()} name="id" />
-        <input class="btn delete-btn" type="submit" value="Delete" />
-    </form>
-</div>
-
-<!-- Action From -->
-<div class="parent" id="parent" onclick="closeParent('parent')">
-<div id="create-form" class="form">
-    <form class="form-content animate" action="create-user" method="post">
-    <h3 class="heading"> Create User Form </h3>
     <div class="container">
+        <input type="hidden" value="update-user" name = "path">
+        <label for="id">Id:</label>
+            <input class="form-input" type="text" value="${user.getId()}" name="id" readonly>
         <label for="name">Name:</label>
-            <input class="form-input" type="text" placeholder="Enter Name" name="name" required>
+            <input class="form-input" type="text" value="${user.getName()}" name="name" required>
         <label for="email">Email ID:</label>
-            <input class="form-input" type="text" placeholder="Enter Email Id" name="email" required>
+            <input class="form-input" type="text" value="${user.getEmailId()}" name="email" required>
         <label for="phone">Phone Number:</label>
-            <input class="form-input" type="text" placeholder="Enter Phone Number" name="phone" required>
-        <label for="password">Password:</label>
-            <input class="form-input" type="password" placeholder="Enter Password" name="password" required>
-            <label for="roles">Role:</label>
+            <input class="form-input" type="text" value="${user.getPhoneNumber()}" name="phone" required>
+        <label for="roles">Role:</label>
         <select class="select-role" id="roles" name ="role">
             <c:forEach items="${roles}" var="role">
                 <option value="${role}">${role}</option>
             </c:forEach>
         </select>
+
         <div class="btndiv">
-        <button class="form-btn create-btn" type="submit">Create</button>
-        <input class="form-btn reset-btn" type="reset" value="Reset">
-        <a href="get-users"><button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button></a>
+            <button class="form-btn update-btn" type="submit">Update</button>
+            <a href="delete-user">
+                <button class="form-btn delete-btn" type="button">Delete</button>
+            </a>
         </div>
+    <h3 style="color:red;">${message}</h3>
     </div>
     </form>
 </div>
-</div>
 
-<!-- A script to pop up the Form on to the Screen --!>
+<!-- A script to pop up the Form on to the Screen -->
 <script>
     function closeParent(prelem) {
 	if(event.target == document.getElementById(prelem)){
@@ -253,14 +243,6 @@ label {
         document.getElementById(prelem).style.display='none';
     }
 
-    var admin = document.getElementById('create-form');
-    var par = document.getElementById('parent');
-    window.onclick = function(event) {
-        if (event.target == admin) {
-            admin.style.display = "none";
-            par.style.display = "none";
-        }
-    }
 </script>
 </body>
 </html>

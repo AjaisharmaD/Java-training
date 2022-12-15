@@ -63,7 +63,7 @@ public interface UserDao {
      * 
      * @return User - Details of a Single User
      */
-    public User fetchByEmail(String email);
+    public User fetchByEmailAndPassword(String email, String password);
 
     /**
      * <h1> Get Details of User by Id </h1>
@@ -89,7 +89,7 @@ public interface UserDao {
      *
      * @return User       - Updated User object  
      */
-    public int updateById(User user);
+    public User updateById(User user);
 
     /**
      * <h1> Delete Details of User </h1>

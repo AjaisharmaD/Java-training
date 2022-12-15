@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public User fetchByEmailAndPassword(String email) {
+    public User fetchByEmailAndPassword(String email, String password) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT id, name, email, phone,")
              .append(" role_id FROM user WHERE email = ? AND password = MD5(?);");
@@ -86,7 +86,8 @@ public class UserDaoImpl implements UserDao {
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query.toString()); 
-            statement.setString(1, email);
+            statement.setString(1, email); 
+            statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -204,6 +205,8 @@ public class UserDaoImpl implements UserDao {
                                 resultSet.getString("phone"));
                 user.setId(resultSet.getInt("id"));
                 user.setRoleId(resultSet.getInt("role_id"));
+                user.setCreatedDate(resultSet.getTimestamp("created_on")
+                                                           .toString());
             } 
             statement.close();
         } catch (SQLException sqlException) {
@@ -218,11 +221,10 @@ public class UserDaoImpl implements UserDao {
      * {@inheritDoc}
      */
     @Override
-    public int updateById(User user) {
-        int rowCount = 0; 
+    public User updateById(User user) {
         StringBuilder query = new StringBuilder();
         query.append("UPDATE user SET name = ?, email = ?,")
-             .append(" phone = ? WHERE id = ?;");
+             .append(" phone = ?, role_id = ?, updated_on = now() WHERE id = ?;");
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -230,16 +232,20 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmailId());
             statement.setString(3, user.getPhoneNumber());
-            statement.setInt(4, user.getId());
-            rowCount = statement.executeUpdate();
-            String s1 = String.valueOf(rowCount);
+            statement.setInt(4, user.getRoleId());  
+            statement.setInt(5, user.getId());       
+            int rowCount = statement.executeUpdate();
+         
+            if (0 < rowCount) {
+                user.setId(user.getId());
+            } 
             statement.close();
         } catch (SQLException sqlException) {
             logger.error(sqlException.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
-        return rowCount;
+        return user;
     }	
 
     /**

@@ -206,10 +206,10 @@ label {
         <h1> Admin Dashboard </h1>
     </div>
     <div class="nav-right">   
-        <form name = "searchForm" id = "search_form"> 
+        <form action = "search-user" name = "searchForm" id = "search_form" method="GET"> 
             <input type="hidden" value="search-user" name = "path">
             <input class="search-box" type="text" name="id" id = "id" placeholder="Enter Id">
-            <button class="btn search-btn" type="button" onclick="popUp('search-form','parentt')">Search</button>
+            <input class="btn search-btn" type="submit" value= "Search">
         </form>
     </div>
 </div>
@@ -278,40 +278,6 @@ label {
 </div>
 </div>
 
-<!-- Action From -->
-<div class="parentt" id="parentt" onclick="closeParent('parentt')">
-<div id="search-form" class="form">
-    <form class="form-content animate" action="" method="post">
-    <h3 class="heading"> Update User Form </h3>
-
-    <div class="container">
-        <input type="hidden" value="update-user" name = "path">
-        <label for="id">Id:</label>
-            <input class="form-input" type="text" value="${user.getId()}" name="id" disabled>
-        <label for="name">Name:</label>
-            <input class="form-input" type="text" value="${user.getName()}" name="name" required>
-        <label for="email">Email ID:</label>
-            <input class="form-input" type="text" value="${user.getEmailId()}" name="email" required>
-        <label for="phone">Phone Number:</label>
-            <input class="form-input" type="text" value="${user.getPhoneNumber()}" name="phone" required>
-        <label for="roles">Role:</label>
-        <select class="select-role" id="roles" name ="role">
-            <c:forEach items="${roles}" var="role">
-                <option value="${role}">${role}</option>
-            </c:forEach>
-        </select>
-
-        <div class="btndiv">
-            <button class="form-btn create-btn" type="submit">Update</button>
-            <a href="get-users">
-                <button class="form-btn close-btn" type="button" onclick="closePopUp('search-form','parentt')">Cancel</button>
-            </a>
-        </div>
-    </div>
-    </form>
-</div>
-</div>
-
 <!-- A script to pop up the Form on to the Screen --!>
 <script>
     function closeParent(prelem) {
@@ -321,7 +287,6 @@ label {
     }
 
     function popUp(elem, prelem) {      
-
         document.getElementById(elem).style.display='block';
         document.getElementById(prelem).style.display='block';
     }
@@ -333,17 +298,11 @@ label {
 
     var admin = document.getElementById('create-form');
     var par = document.getElementById('parent');
-
-    var search = document.getElementById('search-form');
-    var parr = document.getElementById('parentt');
     window.onclick = function(event) {
         if (event.target == admin) {
             admin.style.display = "none";
             par.style.display = "none";
-        } else if (event.target == search){
-            search.style.display = "none";
-            parr.style.display = "none";
-        }
+        } 
     }
 </script>
 </body>
