@@ -55,12 +55,20 @@ public class CRMController extends HttpServlet {
                                                       ServletException {
         logger.info("===== Inside CRM Controller DoPost =====");
         String path = request.getParameter("path");
+        String cp = request.getContextPath();
+        //String c = request.getContext();
+        logger.info("get param path = " + path);
+        logger.info("get context path " + cp);
+        //logger.info("get context " + c);
+        logger.info("get servlet path " + request.getServletPath());
+        logger.info("get path Info " + request.getPathInfo());
 
         switch(path) {
         case Constants.LOGIN_PATH:
             logger.info("===== Calling the Login Method =====");
             login(request, response);
             break;
+
         default:
             logger.info("===== Redirecting to Error Page =====");
             response.sendRedirect("errorPage.jsp");
@@ -91,6 +99,7 @@ public class CRMController extends HttpServlet {
 
 	try {
             User user = crmService.getUserByEmailAndPassword(email, password);
+            logger.info("User role Id " + user.getRoleId());
 
             if (user.getRoleId() == Constants.ADMIN_ROLE_ID) {
                 session.setAttribute("userId", user.getId());

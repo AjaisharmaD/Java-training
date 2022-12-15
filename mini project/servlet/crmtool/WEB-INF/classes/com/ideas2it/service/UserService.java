@@ -40,7 +40,7 @@ public interface UserService {
      *
      * @return List - Details of users
      */
-    public List<User> getAll(int roleId) throws CustomException;
+    public List<User> getAll(int roleId);
 
     /**
      * <h1> Get the User Roles </h1>
@@ -75,7 +75,7 @@ public interface UserService {
      *
      * @return user - Details of a Single User
      */
-    public User getById(int id) throws CustomException;
+    public User getById(int id);
 
     /**
      * <h1> Update Details of User </h1>

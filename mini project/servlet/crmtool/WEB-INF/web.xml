@@ -1,5 +1,5 @@
 <web-app>
-
+    <!-- Login Servlet -->
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.ideas2it.controller.CRMController</servlet-class>
@@ -9,7 +9,7 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-
+    <!-- Admin Dashboard Operations -->
     <servlet>
         <servlet-name>AdminDashboard</servlet-name>
         <servlet-class>com.ideas2it.controller.UserController</servlet-class>
@@ -35,10 +35,10 @@
         <url-pattern>/delete-user</url-pattern>
     </servlet-mapping>
 
-
+    <!-- Manager Dashboard Operations -->
     <servlet>
         <servlet-name>ManagerDashboard</servlet-name>
-        <servlet-class>com.ideas2it.controller.UserController</servlet-class>
+        <servlet-class>com.ideas2it.controller.EmployeeController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ManagerDashboard</servlet-name>
@@ -54,10 +54,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerDashboard</servlet-name>
-        <url-pattern>/search-to-update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ManagerDashboard</servlet-name>
         <url-pattern>/update-employee</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -65,7 +61,7 @@
         <url-pattern>/delete-employee</url-pattern>
     </servlet-mapping>
 
-
+    <!-- Employee Dashboard for Lead Operations -->
     <servlet>
         <servlet-name>LeadDashboard</servlet-name>
         <servlet-class>com.ideas2it.controller.LeadController</servlet-class>

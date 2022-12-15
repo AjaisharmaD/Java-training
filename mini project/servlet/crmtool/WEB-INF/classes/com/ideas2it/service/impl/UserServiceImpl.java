@@ -46,14 +46,9 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public List<User> getAll(int roleId) throws CustomException {
+    public List<User> getAll(int roleId) {
         logger.info("===== Inside the User Service Get All =====");
-        List<User> userList = userDao.fetchAll(roleId);
-
-        if (userList.isEmpty()) {
-            throw new CustomException(Messages.USER_NOT_FOUND);
-        } 
-        return userList;
+        return userDao.fetchAll(roleId);
     }
 
     /**

@@ -68,17 +68,20 @@ public class EmployeeController extends HttpServlet {
         String choice = request.getServletPath();
  
         switch (choice) {
-        case "/create-manager":
+        case "/create-employee":
             create(request, response);
             break;
 
-        case "/update-manager":
+        case "/get-employees":
+            getAll(request, response);
+            break;
+
+        case "/update-employee":
             updateById(request, response);
             break;
 
-        case "/get-managers":
-            getAll(request, response);
-            break;
+        case "/assign-lead":
+            
         }
     }
 
@@ -89,8 +92,9 @@ public class EmployeeController extends HttpServlet {
      * This allows to get the information from the Server
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
     protected void doGet(HttpServletRequest request, 
                          HttpServletResponse response) throws IOException, 
@@ -98,15 +102,15 @@ public class EmployeeController extends HttpServlet {
         String choice = request.getServletPath();
         
         switch (choice) {
-        case "/get-managers":
+        case "/get-employees":
             getAll(request, response);
             break;
  
-        case "/search-user":
+        case "/search-employee":
             getById(request, response);
             break;
 
-        case "/delete":
+        case "/delete-employee":
             deleteById(request, response);
             break;
         }
@@ -122,49 +126,31 @@ public class EmployeeController extends HttpServlet {
      * the User account and sends the Message as Status to the Display
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
     private void create(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
+        logger.info("===== Inside Employee Controller Create =====");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        int roleId = 0;
-        logger.info("role:- " + role);
 
-        try {
-            roleId = Integer.valueOf(role) + 1;
-        } catch (NumberFormatException numberFormatException) {
-            logger.error(numberFormatException.toString());
-        }
- 
-        logger.info("role ID" + roleId);
         User user = new User(name, email, phone);
         user.setPassword(password);
-
-        //if (role.equals(Constants.MANAGER_ROLE)) {
-            user.setRoleId(roleId);
-        //} else if (role.equals(Constants.EMPLOYEE_ROLE)) {
-          //  user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
-        //}
+        user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
 
         if (null != userService.create(user)) {
-            logger.info(Messages.CREATED_SUCCESSFULLY);
-            request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
+            request.setAttribute("message", Messages.CREATED_SUCCESSFULLY);
         } else {
-            logger.info(Messages.FAILED_TO_CREATE);
-            request.setAttribute("status", Messages.FAILED_TO_CREATE);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("adminDashboard.jsp");
-            requestDispatcher.include(request, response);
+            request.setAttribute("message", Messages.FAILED_TO_CREATE);
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("get-employees");
+        requestDispatcher.include(request, response);
     }
 
     /**
@@ -176,55 +162,27 @@ public class EmployeeController extends HttpServlet {
      * If users Not Found then Displays the Users Not Found Message
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
     private void getAll(HttpServletRequest request,
                         HttpServletResponse response) throws IOException, 
                                                        ServletException {
-        logger.info("getting all users");
+        logger.info("===== Inside Employee Controller Get All =====");
         HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
-
-        List<User> users;
-
-        if (roleId == Constants.ADMIN_ROLE_ID) { 
-            try {
-                logger.info("logged in as admin...");         //Covert to method
-                users = userService.getAll(roleId);
-                request.setAttribute("users", users);
-                RequestDispatcher requestDispatcher = request
-                                       .getRequestDispatcher("adminDashboard.jsp");
-                requestDispatcher.include(request, response);
-            } catch (CustomException userNotFoundException) {
-                logger.info(Messages.USER_NOT_FOUND);
-                logger.error(userNotFoundException.getMessage());
-                request.setAttribute("status", Messages.USER_NOT_FOUND);
-                RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("adminDashboard.jsp");
-                requestDispatcher.include(request, response);
-            } catch (Exception exception) {
-                logger.error(exception.getMessage());
-            }
-        } else if (roleId == Constants.MANAGER_ROLE_ID) {
-            try {
-                logger.info("logged in as manager....");
-                users = userService.getAll(roleId);
-                request.setAttribute("users", users);
-                RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("managerDashboard.jsp");
-                requestDispatcher.include(request, response);
-            } catch (CustomException userNotFoundException) {
-                logger.info(Messages.USER_NOT_FOUND);
-                logger.error(userNotFoundException.getMessage());
-                request.setAttribute("status", Messages.USER_NOT_FOUND);
-                RequestDispatcher requestDispatcher = request
-                                   .getRequestDispatcher("managerDashboard.jsp");
-                requestDispatcher.include(request, response);
-            } catch (Exception exception) {
-                logger.error(exception.getMessage());
-            }
-        } 
+        
+        List<User> users = userService.getAll(roleId);
+            
+        if (!users.isEmpty()) {
+            request.setAttribute("users", users);
+        } else {
+            request.setAttribute("message", Messages.USER_NOT_FOUND);
+        }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("managerDashboard.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     /**
@@ -237,49 +195,46 @@ public class EmployeeController extends HttpServlet {
      * Displays the User Not Found Message
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
     private void getById(HttpServletRequest request,
                          HttpServletResponse response) throws IOException, 
                                                         ServletException {
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            User user = userService.getById(id);
+        logger.info("===== Inside Employee Controller Get By Id =====");
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userService.getById(id);
+        
+        if (null != user) {
             request.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("searchUser.jsp");
-            requestDispatcher.forward(request, response);
-        } catch (CustomException userNotFoundException) {
-            logger.info(Messages.USER_NOT_FOUND);
-            logger.error(userNotFoundException.getMessage());
+            request.setAttribute("path", request.getServletPath());
+        } else {
             request.setAttribute("message", Messages.USER_NOT_FOUND);
-            RequestDispatcher requestDispatcher = request
-                                .getRequestDispatcher("searchUser.jsp");
-            requestDispatcher.include(request, response);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
+            request.setAttribute("path", request.getServletPath());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.include(request, response);
     }
 
     /**
-     * <h1> Get Details of Lead by Id </h1>
+     * <h1> Assign Lead To Employee </h1>
      * <p>
      * Gets the Details of a Single Lead by Id
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
-    private Lead getLeadById(int id,int userId) {
-        try {
-            return leadService.getById(id,userId);
-        } catch (CustomException leadNotFoundException) {
-            logger.error(leadNotFoundException.getMessage());
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-        }
-        return null;        
+    private void assignLeadToEmployee(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException, 
+                                                            ServletException {
+        int leadId = Integer.parseInt(request.getParameter("lead-id"));
+        int employeeId = Integer.parseInt(request.getParameter("employee-id"));
+
+        //if (leadService.assignToUser())      
     }
 
     /**
@@ -288,8 +243,9 @@ public class EmployeeController extends HttpServlet {
      * Updates the Details of a Single User
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer 
      */
     private void updateById(HttpServletRequest request, 
                             HttpServletResponse response) throws IOException, 
@@ -298,21 +254,29 @@ public class EmployeeController extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String role = request.getParameter("role");
 
         User user = new User(name, email, phone);
         user.setId(id);
 
-        if (null != userService.updateById(user)) {
-            request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
-            RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
-        } else {
-            request.setAttribute("status", Messages.FAILED_TO_UPDATE);
-            RequestDispatcher requestDispatcher = request
-                                    .getRequestDispatcher("userDashboard.jsp");
-            requestDispatcher.include(request, response);
+        if (role.equals(Constants.ADMIN_ROLE)) {
+            user.setRoleId(Constants.ADMIN_ROLE_ID);
+        } else if (role.equals(Constants.MANAGER_ROLE)) {
+            user.setRoleId(Constants.MANAGER_ROLE_ID);
+        } else if (role.equals(Constants.EMPLOYEE_ROLE)) {
+            user.setRoleId(Constants.EMPLOYEE_ROLE_ID);
         }
+
+        if (null != userService.updateById(user)) {
+            request.setAttribute("user", user);
+            request.setAttribute("roles", userService.getRoles());
+            request.setAttribute("message", Messages.UPDATED_SUCCESSFULLY);
+        } else {
+            request.setAttribute("message", Messages.FAILED_TO_UPDATE);
+        }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.include(request, response);
     }
 
     /**
@@ -321,8 +285,9 @@ public class EmployeeController extends HttpServlet {
      * Removes the Details of a Single User
      * </p>
      *
-     * @param request - Used to pass parameter
-     * @param response - Used to provides the stream and writer 
+     * @param request - the request from the JSP which holds the data like 
+                        parameters, servlet path, context path, etc,.
+     * @param response - the response is used to hold the stream and writer  
      */
     private  void deleteById(HttpServletRequest request,
          		     HttpServletResponse response) throws IOException, 
@@ -333,20 +298,17 @@ public class EmployeeController extends HttpServlet {
 
             if(isDeleted) {
                 logger.info(Messages.DELETED_SUCCESSFULLY);
-                request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);
-                RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
-                requestDispatcher.include(request, response);            
+                request.setAttribute("message", Messages.DELETED_SUCCESSFULLY);           
             } else {
                 logger.info(Messages.FAILED_TO_DELETE);
-                request.setAttribute("status", Messages.FAILED_TO_DELETE);
-                RequestDispatcher requestDispatcher = request
-                                      .getRequestDispatcher("searchUser.jsp");
-                requestDispatcher.include(request, response);    
+                request.setAttribute("message", Messages.FAILED_TO_DELETE); 
             }
         } catch (Exception exception) {
             logger.error(exception.getMessage());
         }
+        RequestDispatcher requestDispatcher = request
+                                  .getRequestDispatcher("searchUser.jsp");
+        requestDispatcher.include(request, response);   
     }
 
     /**

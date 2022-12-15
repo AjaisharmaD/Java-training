@@ -27,10 +27,8 @@ import com.ideas2it.logger.CustomLogger;
  * <p>
  * Gets request from the valid user then gets all the users details
  * and redirected to admin dashboard or manager dashboard. 
- * From those dashboards gets the request from the Admin and manager
- * and return the responses like Adding, Updating, Viewing, Searching,
- * Deleting the Details of User.
- * Additionally The manager can Assign a lead to a specific Employee
+ * From those dashboards gets the request from the Admin Dashboard
+ * like Adding, Updating, Viewing, Searching Deleting the User.
  * </p> 
  *
  * @author  AJAISHARMA
@@ -175,10 +173,10 @@ public class UserController extends HttpServlet {
 
         if (null != userService.create(user)) {
             logger.info(Messages.CREATED_SUCCESSFULLY);
-            request.setAttribute("status", Messages.CREATED_SUCCESSFULLY);
+            request.setAttribute("message", Messages.CREATED_SUCCESSFULLY);
         } else {
             logger.info(Messages.FAILED_TO_CREATE);
-            request.setAttribute("status", Messages.FAILED_TO_CREATE);
+            request.setAttribute("message", Messages.FAILED_TO_CREATE);
         }
         RequestDispatcher requestDispatcher = request
                                    .getRequestDispatcher("get-users");
@@ -205,20 +203,16 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession();
         int roleId = Integer.parseInt(session.getAttribute("roleId")
                                                        .toString());
-        List<User> users;
-        List<String> roles;
 
-        try {
-            logger.info("===== Logging in As Admin =====");      
-            users = userService.getAll(roleId);
-            roles = userService.getRoles();
+        List<User> users = userService.getAll(roleId);
+        List<String> roles = userService.getRoles();
+
+        if (!users.isEmpty()) {   
             request.setAttribute("users", users);
             request.setAttribute("roles", roles);
-        } catch (CustomException userNotFoundException) {
-            logger.error(userNotFoundException.getMessage());
-            request.setAttribute("status", Messages.USER_NOT_FOUND);
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
+        } else {
+            request.setAttribute("message", Messages.USER_NOT_FOUND);
+            request.setAttribute("roles", roles);
         }
         RequestDispatcher requestDispatcher = request
                                   .getRequestDispatcher("adminDashboard.jsp");
@@ -244,30 +238,19 @@ public class UserController extends HttpServlet {
                                                         ServletException {
         logger.info("===== Inside Get User By Id =====");
         HttpSession session = request.getSession();
-        int roleId = Integer.parseInt(session.getAttribute("roleId")
-                                                       .toString());
-        int id;
-        User user = null;
+        int roleId = Integer.parseInt(session.getAttribute("roleId").toString());
 
-        try {
-            id = Integer.parseInt(request.getParameter("id"));
-            user = userService.getById(id);
-        } catch (NumberFormatException numberFormatException) {
-            logger.error(numberFormatException.getMessage());
-            request.setAttribute("message", "Not a number");
-        } catch (CustomException customException) {
-            logger.error(customException.getMessage());
-            response.sendRedirect("errorPage.jsp");
-        }
-        
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userService.getById(id);
         List<String> roles = userService.getRoles();
 
         if (null != user) {
             request.setAttribute("user", user);
             request.setAttribute("roles", roles);
+            request.setAttribute("path", request.getServletPath());
         } else {
-            logger.info(Messages.USER_NOT_FOUND);
             request.setAttribute("message", Messages.USER_NOT_FOUND);
+            request.setAttribute("path", request.getServletPath());
         } 
         RequestDispatcher requestDispatcher = request
                                   .getRequestDispatcher("searchUser.jsp");
@@ -329,9 +312,9 @@ public class UserController extends HttpServlet {
         if (null != userService.updateById(user)) {
             request.setAttribute("user", user);
             request.setAttribute("roles", userService.getRoles());
-            request.setAttribute("status", Messages.UPDATED_SUCCESSFULLY);
+            request.setAttribute("message", Messages.UPDATED_SUCCESSFULLY);
         } else {
-            request.setAttribute("status", Messages.FAILED_TO_UPDATE);
+            request.setAttribute("message", Messages.FAILED_TO_UPDATE);
         }
         RequestDispatcher requestDispatcher = request
                                   .getRequestDispatcher("searchUser.jsp");
@@ -353,14 +336,11 @@ public class UserController extends HttpServlet {
 							    ServletException {
         logger.info("===== Inside Delete User By Id =====");
         int id = Integer.parseInt(request.getParameter("id"));
-        boolean isDeleted = userService.isDeletedById(id);
-
-        if (isDeleted) {
-            logger.info(Messages.DELETED_SUCCESSFULLY);
-            request.setAttribute("status", Messages.DELETED_SUCCESSFULLY);          
+        
+        if (userService.isDeletedById(id)) {
+            request.setAttribute("message", Messages.DELETED_SUCCESSFULLY);          
         } else {
-            logger.info(Messages.FAILED_TO_DELETE);
-            request.setAttribute("status", Messages.FAILED_TO_DELETE);
+            request.setAttribute("message", Messages.FAILED_TO_DELETE);
         }
         RequestDispatcher requestDispatcher = request
                                   .getRequestDispatcher("searchUser.jsp");

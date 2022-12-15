@@ -162,10 +162,12 @@ label {
 
 .form .heading {
     text-align: center;
+    padding-top: 20px;
 }
 
 .container {
-    padding: 50px;
+    padding: 30px;
+    padding-top: 20px;
 }
 
 /* -------animating the form to zoom----- */
@@ -199,15 +201,16 @@ label {
 <div class="nav">
     <div class="nav-left">    
         <a href="index.jsp"><buton class="btn">HOME</button></a>
-        <button class="btn" onclick="popUp('parent','create-form')">CREATE EMPLOYEE</button>
+        <button class="btn" onclick="popUp('create-form', 'parent')">CREATE EMPLOYEE</button>
+        <button class="btn" onclick="popUp('assign-form', 'parentt')">ASIGN LEAD</button> 
     </div>
     <div class="title">
         <h1> Manager Dashboard </h1>
     </div>
     <div class="nav-right">    
-        <form action="search">
+        <form action="search-employee">
             <input class="search-box" type="text" name="id" placeholder="Enter Id">
-            <button class="btn search-btn" type="submit" onclick="popUp('parent','search-popup')">Search</button>
+            <input class="btn search-btn" type="submit" value="Search">
         </form>
     </div>
 </div>
@@ -242,7 +245,7 @@ label {
 <!-- Create From -->
 <div class="parent" id="parent" onclick="closeParent('parent')">
 <div id="create-form" class="form">
-    <form class="form-content animate" action="create-user" method="post">
+    <form class="form-content animate" action="create-employee" method="post">
     <h3 class="heading"> Create User Form </h3>
     <div class="container">
         <label for="name">Name:</label>
@@ -257,7 +260,27 @@ label {
         <div class="btndiv">
         <button class="form-btn create-btn" type="submit">Create</button>
         <input class="form-btn reset-btn" type="reset" value="Reset">
-        <a href="get-users"><button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button></a>
+        <button class="form-btn close-btn" type="button" onclick="closePopUp('create-form','parent')">Cancel</button>
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+
+<!-- Assign From -->
+<div class="parentt" id="parentt" onclick="closeParent('parentt')">
+<div id="assign-form" class="form">
+    <form class="form-content animate" action="assign-lead" method="post">
+    <h3 class="heading"> Create User Form </h3>
+    <div class="container">
+        <label for="name">Lead ID:</label>
+            <input class="form-input" type="text" placeholder="Enter Lead Id" name="lead-id" required>
+        <label for="email">Employee ID:</label>
+            <input class="form-input" type="text" placeholder="Enter Employee Id" name="employee-id" required>      
+        <div class="btndiv">
+        <button class="form-btn create-btn" type="submit">Assign</button>
+        <input class="form-btn reset-btn" type="reset" value="Reset">
+        <button class="form-btn close-btn" type="button" onclick="closePopUp('assign-form','parentt')">Cancel</button>
         </div>
     </div>
     </form>
@@ -284,10 +307,16 @@ label {
 
     var admin = document.getElementById('create-form');
     var par = document.getElementById('parent');
+
+    var assign = document.getElementById('assign-form');
+    var pare = document.getElementById('parentt');
     window.onclick = function(event) {
         if (event.target == admin) {
             admin.style.display = "none";
             par.style.display = "none";
+        } else if (event.target == assign) {
+            assign.style.display = "none";
+            pare.style.display = "none";
         }
     }
 </script>

@@ -159,12 +159,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<String> fetchRoles() {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT id, name FROM user_role;");  
+        query.append("SELECT id, name FROM user_role WHERE id != ?;");  
         List<String> roles = new ArrayList();                
  
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query.toString());
+            statement.setInt(1, Constants.ADMIN_ROLE_ID);
             ResultSet resultSet = statement.executeQuery();
             String role;
             int id;

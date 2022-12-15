@@ -19,16 +19,13 @@ body {
     font-weight: bold;
     display: flex;
     align-items: center;
+    position: fixed;
+    width: 100%;
     padding: 1%;
 }
 
-.nav-left {
-    float: left;
-    disply: inline;
-}
-
 .nav-right {
-    float: right;
+    margin-right: 20px;
 }
 
 a {
@@ -107,9 +104,17 @@ a {
 }
 
 /* --------- Table -----------*/
+.table-title {
+    font-weight: bold;
+    text-align: center;
+    padding-top: 6%;
+    font-size: 25px;
+}
+
 table {
     width:100%;
-    padding: 5% 10%;
+    padding: 5%;
+    padding-top: 1%;
 }
 
 th {
@@ -163,10 +168,12 @@ label {
 
 .form .heading {
     text-align: center;
+    padding-top: 20px;
 }
 
 .container {
-    padding: 50px;
+    padding: 30px;
+    padding-top: 20px;
 }
 
 /* -------animating the form to zoom----- */
@@ -200,12 +207,14 @@ label {
 <div class="nav">
     <div class="nav-left">    
         <a href="index.jsp"><buton class="btn">HOME</button></a>
+        <a href="get-profile">
         <button class="btn" onclick="popUp('parent','create-form')">CREATE USER</button>
+        </a>
     </div>
     <div class="title">
         <h1> Admin Dashboard </h1>
     </div>
-    <div class="nav-right">   
+    <div class="nav-right">  
         <form action = "search-user" name = "searchForm" id = "search_form" method="GET"> 
             <input type="hidden" value="search-user" name = "path">
             <input class="search-box" type="text" name="id" id = "id" placeholder="Enter Id">
@@ -214,15 +223,17 @@ label {
     </div>
 </div>
 
-<h3 style="color:red; text-align:center;">${status}</h3>
+<h3 style="color:red; text-align:center;">${message}</h3>
 
 <div class="table">
     <table>
+        <caption class="table-title"> DETAILS OF USERS </caption>
         <tr>
             <th>Id</th>
             <th>Name</th>
             <th>Email Id</th>
             <th>Phone Number</th>
+            <th>Role</th>
             <th>Created Date</th>
         </tr>
      <c:choose>
@@ -233,6 +244,16 @@ label {
             <td>${user.getName()}</td>
             <td>${user.getEmailId()}</td>
             <td>${user.getPhoneNumber()}</td>
+            <td>
+                <c:choose>
+                <c:when test="${user.getRoleId() == 2}">
+                    <option>manager</option>
+                </c:when>
+                <c:when test="${user.getRoleId() == 3}">
+                    <option>employee</option>
+                </c:when>
+                </c:choose>
+            </td>
             <td>${user.getCreatedDate()}</td>
         </tr>
         </c:forEach>

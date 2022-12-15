@@ -176,10 +176,12 @@ label {
 
 .form .heading {
     text-align: center;
+    padding-top: 20px;
 }
 
 .container {
-    padding: 40px;
+    padding: 30px;
+    padding-top: 20px;
 }
 
 /* -------animating the form to zoom----- */

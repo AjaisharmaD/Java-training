@@ -56,9 +56,10 @@ a {
     background-color: #FFD132;
     color: black;
     padding: 10px;
+    margin-top: 20px;
     font-weight: bold;
     border-radius: 8px;
-    width:49.5%;
+    width:100%;
 }
 
 .btn:hover {
@@ -69,6 +70,15 @@ a {
 .form-btn:hover {
     background-color: #2F3C7E;
     color: white;
+}
+
+.delete-btn {
+    border: none;
+    background-color: #2F3C7E;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 8px;
 }
 
 .delete-btn:hover {
@@ -184,12 +194,21 @@ label {
 </style>
 </head>
 <body>
+
+<c:choose>
+<c:when test="${path == '/search-user'}">
 <div class="nav">
     <div class="nav-left">    
-        <a href="get-users"><buton class="btn">back</button></a>
+        <a href="get-users"><button class="btn">back</button></a>
     </div>
     <div class="title">
         <h1> Search Dashboard </h1>
+    </div>
+    <div class="nav-right">
+        <form action="delete-user">
+            <input type="hidden" value="${user.getId()}" name="id">
+            <button class="btn delete-btn" type="submit">Delete</button>
+        </form>
     </div>
 </div>
 
@@ -209,6 +228,14 @@ label {
             <input class="form-input" type="text" value="${user.getPhoneNumber()}" name="phone" required>
         <label for="roles">Role:</label>
         <select class="select-role" id="roles" name ="role">
+            <c:choose>
+            <c:when test="${user.getRoleId() == 2}">
+                <option selected>manager</option>
+            </c:when>
+            <c:when test="${user.getRoleId() == 3}">
+                <option selected>employee</option>
+            </c:when>
+            </c:choose>
             <c:forEach items="${roles}" var="role">
                 <option value="${role}">${role}</option>
             </c:forEach>
@@ -216,14 +243,66 @@ label {
 
         <div class="btndiv">
             <button class="form-btn update-btn" type="submit">Update</button>
-            <a href="delete-user">
-                <button class="form-btn delete-btn" type="button">Delete</button>
-            </a>
         </div>
-    <h3 style="color:red;">${message}</h3>
+    <h3 style="color:red; text-align:center; ">${message}</h3>
     </div>
     </form>
 </div>
+</c:when>
+<c:when test="${path == '/search-employee'}">
+<div class="nav">
+    <div class="nav-left">    
+        <a href="get-employees"><button class="btn">back</button></a>
+    </div>
+    <div class="title">
+        <h1> Search Dashboard </h1>
+    </div>
+    <div class="nav-right">
+        <form action="delete-employee">
+            <input type="hidden" value="${user.getId()}" name="id">
+            <button class="btn delete-btn" type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<div id="update-form" class="form">
+    <form class="form-content animate" action="update-user" method="post">
+    <h3 class="heading"> Update User Form </h3>
+
+    <div class="container">
+        <input type="hidden" value="update-employee" name = "path">
+        <label for="id">Id:</label>
+            <input class="form-input" type="text" value="${user.getId()}" name="id" readonly>
+        <label for="name">Name:</label>
+            <input class="form-input" type="text" value="${user.getName()}" name="name" required>
+        <label for="email">Email ID:</label>
+            <input class="form-input" type="text" value="${user.getEmailId()}" name="email" required>
+        <label for="phone">Phone Number:</label>
+            <input class="form-input" type="text" value="${user.getPhoneNumber()}" name="phone" required>
+        <label for="roles">Role:</label>
+        <select class="select-role" id="roles" name ="role">
+            <c:choose>
+            <c:when test="${user.getRoleId() == 2}">
+                <option>manager</option>
+            </c:when>
+            <c:when test="${user.getRoleId() == 3}">
+                <option>employee</option>
+            </c:when>
+            </c:choose>
+            <c:forEach items="${roles}" var="role">
+                <option value="${role}">${role}</option>
+            </c:forEach>
+        </select>
+
+        <div class="btndiv">
+            <button class="form-btn update-btn" type="submit">Update</button>
+        </div>
+    <h3 style="color:red; text-align:center; ">${message}</h3>
+    </div>
+    </form>
+</div>
+</c:when>
+</c:choose>
 
 <!-- A script to pop up the Form on to the Screen -->
 <script>
@@ -242,7 +321,6 @@ label {
 	document.getElementById(elem).style.display='none'; 
         document.getElementById(prelem).style.display='none';
     }
-
 </script>
 </body>
 </html>
