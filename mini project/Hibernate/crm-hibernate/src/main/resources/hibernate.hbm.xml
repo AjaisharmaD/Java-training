@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 5.3//EN" "http://hibernate.sourceforge.net/hibernate-mapping-5.3.dtd">
+
+<hibernate-mapping>
+<class name="com.ideas2it.model.User" table="user">
+<id name="id" column="id" type="int">
+<generator class="native"></generator>
+</id>
+
+<property name="name" column="name" type="string" />
+<property name="emailId" column="email" type="string" />
+<property name="phoneNumber" column="phone" type="string" />
+<property name="password" column="password" type="string" />
+<property name="roleId" column="role_id" type="int" />
+</class>
+</hibernate-mapping>
