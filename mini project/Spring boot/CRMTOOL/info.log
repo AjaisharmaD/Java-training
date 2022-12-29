@@ -1,0 +1,255 @@
+"2022-12-29 18:19:47 INFO Starting CrmtoolApplication using Java 18.0.2 with PID 15228 (C:\Users\LENOVO\IdeaProjects\CRMTOOL\target\classes started by LENOVO in C:\Users\LENOVO\IdeaProjects\CRMTOOL)
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:47 INFO No active profile set, falling back to 1 default profile: "default"
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:48 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:48 INFO Finished Spring Data repository scanning in 83 ms. Found 1 JPA repository interfaces.
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:49 INFO Tomcat initialized with port(s): 8080 (http)
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:49 INFO Starting service [Tomcat]
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:49 INFO Starting Servlet engine: [Apache Tomcat/10.1.4]
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:49 INFO Initializing Spring embedded WebApplicationContext
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:49 INFO Root WebApplicationContext: initialization completed in 1993 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:50 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:50 INFO HHH000412: Hibernate ORM core version 6.1.6.Final
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:50 WARN HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:50 INFO HikariPool-1 - Starting...
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:51 INFO HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3f3c8b60
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:51 INFO HikariPool-1 - Start completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:51 INFO HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:52 INFO HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:52 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:53 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:53 INFO Tomcat started on port(s): 8080 (http) with context path ''
+ %PARSER_ERROR[l]
+""2022-12-29 18:19:53 INFO Started CrmtoolApplication in 6.862 seconds (process running for 8.081)
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:42 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:42 INFO HikariPool-1 - Shutdown initiated...
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:42 INFO HikariPool-1 - Shutdown completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:47 INFO Starting CrmtoolApplication using Java 18.0.2 with PID 17272 (C:\Users\LENOVO\IdeaProjects\CRMTOOL\target\classes started by LENOVO in C:\Users\LENOVO\IdeaProjects\CRMTOOL)
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:47 INFO No active profile set, falling back to 1 default profile: "default"
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Finished Spring Data repository scanning in 88 ms. Found 1 JPA repository interfaces.
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Tomcat initialized with port(s): 8080 (http)
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Starting service [Tomcat]
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Starting Servlet engine: [Apache Tomcat/10.1.4]
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Initializing Spring embedded WebApplicationContext
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:49 INFO Root WebApplicationContext: initialization completed in 1932 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:50 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:50 INFO HHH000412: Hibernate ORM core version 6.1.6.Final
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:50 WARN HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:50 INFO HikariPool-1 - Starting...
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:51 INFO HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@743bb39a
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:51 INFO HikariPool-1 - Start completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:51 INFO HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:52 INFO HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:52 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:52 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:53 INFO Tomcat started on port(s): 8080 (http) with context path ''
+ %PARSER_ERROR[l]
+""2022-12-29 18:20:53 INFO Started CrmtoolApplication in 6.06 seconds (process running for 6.957)
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Initializing Servlet 'dispatcherServlet'
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Completed initialization in 1 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Inside the Get By Id
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Calling the User Service to Get User By Id
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 INFO Inside the User Service Get By Id Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:21:07 ERROR USER NOT FOUND
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:13 INFO Inside Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:13 INFO Inside the User Service Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:28 INFO Inside Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:28 INFO Inside the User Service Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:50 INFO Inside Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:22:50 INFO Inside the User Service Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:40 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:40 INFO HikariPool-1 - Shutdown initiated...
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:41 INFO HikariPool-1 - Shutdown completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:52 INFO Starting CrmtoolApplication using Java 18.0.2 with PID 12352 (C:\Users\LENOVO\IdeaProjects\CRMTOOL\target\classes started by LENOVO in C:\Users\LENOVO\IdeaProjects\CRMTOOL)
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:52 INFO No active profile set, falling back to 1 default profile: "default"
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:53 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:53 INFO Finished Spring Data repository scanning in 79 ms. Found 1 JPA repository interfaces.
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO Tomcat initialized with port(s): 8080 (http)
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO Starting service [Tomcat]
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO Starting Servlet engine: [Apache Tomcat/10.1.4]
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO Initializing Spring embedded WebApplicationContext
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO Root WebApplicationContext: initialization completed in 1912 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 INFO HHH000412: Hibernate ORM core version 6.1.6.Final
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:54 WARN HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:55 INFO HikariPool-1 - Starting...
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:55 INFO HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61a704d3
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:55 INFO HikariPool-1 - Start completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:55 INFO HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:57 INFO HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:57 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:57 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:57 INFO Tomcat started on port(s): 8080 (http) with context path ''
+ %PARSER_ERROR[l]
+""2022-12-29 18:47:57 INFO Started CrmtoolApplication in 6.33 seconds (process running for 7.323)
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:40 INFO Closing JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:40 INFO HikariPool-1 - Shutdown initiated...
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:40 INFO HikariPool-1 - Shutdown completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:47 INFO Starting CrmtoolApplication using Java 18.0.2 with PID 15192 (C:\Users\LENOVO\IdeaProjects\CRMTOOL\target\classes started by LENOVO in C:\Users\LENOVO\IdeaProjects\CRMTOOL)
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:47 INFO No active profile set, falling back to 1 default profile: "default"
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:48 INFO Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:48 INFO Finished Spring Data repository scanning in 99 ms. Found 1 JPA repository interfaces.
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO Tomcat initialized with port(s): 8080 (http)
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO Starting service [Tomcat]
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO Starting Servlet engine: [Apache Tomcat/10.1.4]
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO Initializing Spring embedded WebApplicationContext
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO Root WebApplicationContext: initialization completed in 1802 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO HHH000204: Processing PersistenceUnitInfo [name: default]
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:49 INFO HHH000412: Hibernate ORM core version 6.1.6.Final
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:50 WARN HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:50 INFO HikariPool-1 - Starting...
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:50 INFO HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2120bed
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:50 INFO HikariPool-1 - Start completed.
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:50 INFO HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:51 INFO HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:51 INFO Initialized JPA EntityManagerFactory for persistence unit 'default'
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:52 WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:52 INFO Tomcat started on port(s): 8080 (http) with context path ''
+ %PARSER_ERROR[l]
+""2022-12-29 18:48:52 INFO Started CrmtoolApplication in 5.751 seconds (process running for 6.657)
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:23 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:23 INFO Initializing Servlet 'dispatcherServlet'
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:23 INFO Completed initialization in 1 ms
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:23 WARN Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:44 WARN Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "getByName.ajai"]
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:47 INFO Inside the Get Users By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:47 INFO Calling the get User By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:49:47 INFO Inside the User Service GetUser By Name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:10 INFO Inside the Get Users By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:10 INFO Calling the get User By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:10 INFO Inside the User Service GetUser By Name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:10 ERROR USER NOT FOUND
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:15 INFO Inside the Get Users By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:15 INFO Calling the get User By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:15 INFO Inside the User Service GetUser By Name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:39 INFO Inside Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:39 INFO Inside the User Service Create Method
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:45 INFO Inside the Get Users By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:45 INFO Calling the get User By name
+ %PARSER_ERROR[l]
+""2022-12-29 18:50:45 INFO Inside the User Service GetUser By Name
+ %PARSER_ERROR[l]
+""2022-12-29 21:16:30 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h25m39s821ms566µs400ns).
+ %PARSER_ERROR[l]
+"

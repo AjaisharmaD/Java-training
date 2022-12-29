@@ -1,7 +1,7 @@
 package com.ideas2it.crmtool;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication;
 
 @SpringBootApplication
 public class CrmtoolApplication {

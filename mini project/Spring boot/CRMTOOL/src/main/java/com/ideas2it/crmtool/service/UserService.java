@@ -1,8 +1,9 @@
 package com.ideas2it.crmtool.service;
 
-import com.ideas2it.crmtool.entity.User;
-
 import java.util.List;
+
+import com.ideas2it.crmtool.entity.User;
+import com.ideas2it.crmtool.exception.CustomException;
 
 /**
  * <h1>
@@ -14,6 +15,10 @@ import java.util.List;
  *    to the Controller layer,
  *    So the Controller Layer will Returns the Responses to Client
  * </p>
+ *
+ * @author AJAISHARMA
+ * @version 1.0
+ * @since 28-12-2022
  */
 public interface UserService {
     /**
@@ -25,7 +30,9 @@ public interface UserService {
      *     which is present in JPA Repository
      *     and returns the inserted User Entity
      * </p>
+     *
      * @param user - User Entity Which is sent as parameter to the Save
+     *
      * @return User - Inserted User Entity
      */
     User create(User user);
@@ -40,11 +47,13 @@ public interface UserService {
      *     By the Id of the User and Updates the User values
      *     By passing the Updated User Entity to
      * </p>
+     *
      * @param user - Updated User Entity
-     * @param id - Id of the User to get User
+     * @param id - ID of the User to get User
+     *
      * @return User - User Entity which is Updated
      */
-    User update(User user, Long id);
+    User updateById(User user, Long id) throws CustomException;
 
     /**
      * <h1>
@@ -55,24 +64,26 @@ public interface UserService {
      *     to get the List of users
      *     and pass them to Controller to return response to the client
      * </p>
+     *
      * @return List<User> - List of User present in the CRM Tool
      */
-    List<User> getAll();
+    List<User> getAll() throws CustomException;
 
     /**
      * <h1>
-     *     Get By Id
+     * Get By Id
      * </h1>
      * <p>
-     *     Calls the FindById of the JPA Repository
-     *     to get the user by Passing the Id as Parameter
-     *     and passes the User Entity to Controller
-     *     to return response to the Client
+     * Calls the FindById of the JPA Repository
+     * to get the user by Passing the Id as Parameter
+     * and passes the User Entity to Controller
+     * to return response to the Client
      * </p>
-     * @param id - Id of the user to get the User Entity
+     *
+     * @param id - ID of the user to get the User Entity
      * @return User - User Entity
      */
-    User getById(Long id);
+    User getById(Long id) throws CustomException;
 
     /**
      * <h1>
@@ -83,7 +94,10 @@ public interface UserService {
      *     to delete the User Entity
      *     by passing the Id
      * </p>
-     * @param id - Id of the User to Delete
+     *
+     * @param id - ID of the User to Delete
      */
     boolean deleteById(Long id);
+
+    Object getUsersByName(String name) throws CustomException;
 }
